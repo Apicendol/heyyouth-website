@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HeyYouth - Empowering Communities</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      /* scroll-behavior: smooth; if you want global smooth scrolling */
+    }
+
+    .hero {
+      background: linear-gradient(to right, #045fd8, #ffc452);
+      height: 90vh;
+    }
+
+    .pulse-button {
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+
+      50% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 0.7;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">HeyYouth</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about us.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Activities</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Partners</a></li>
+          <li class="nav-item"><a class="nav-link" href="donation.html">Donation</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero d-flex align-items-center justify-content-center text-white">
+    <div class="container" data-aos="fade-down">
+      <div class="text-center">
+        <h1 class="display-4 fw-bold">Empowering Communities Through Education</h1>
+        <p class="lead">Together, we shape Indonesia's golden future by 2045</p>
+        <a href="#" class="btn btn-lg btn-light mt-4 pulse-button">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5" id="features">
+    <div class="container">
+      <div class="text-center mb-5" data-aos="fade-up">
+        <h2 class="fw-bold display-5">Why Join HeyYouth?</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-right">
+          <div class="card p-4 shadow-sm h-100">
+            <h5 class="fw-bold">Meaningful Impact</h5>
+            <p class="mb-0">Make real differences in children's lives through education.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up">
+          <div class="card p-4 shadow-sm h-100">
+            <h5 class="fw-bold">Global Network</h5>
+            <p class="mb-0">Connect with like-minded youth and mentors from around the world.</p>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-left">
+          <div class="card p-4 shadow-sm h-100">
+            <h5 class="fw-bold">Skill Development</h5>
+            <p class="mb-0">Grow personally and professionally through our structured programs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 bg-light" id="impact">
+    <div class="container">
+      <div class="text-center mb-4" data-aos="fade-up">
+        <h2 class="fw-bold display-5">Our Impact</h2>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-6 col-md-3" data-aos="zoom-in">
+          <div class="card bg-white p-3 shadow-sm text-center h-100">
+            <h3 class="fw-bold mb-0">10+</h3>
+            <p class="mb-0">Mentors</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
+          <div class="card bg-white p-3 shadow-sm text-center h-100">
+            <h3 class="fw-bold mb-0">20+</h3>
+            <p class="mb-0">Volunteers</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
+          <div class="card bg-white p-3 shadow-sm text-center h-100">
+            <h3 class="fw-bold mb-0">500+</h3>
+            <p class="mb-0">Children Reached</p>
+          </div>
+        </div>
+        <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="300">
+          <div class="card bg-white p-3 shadow-sm text-center h-100">
+            <h3 class="fw-bold mb-0">100+</h3>
+            <p class="mb-0">Donation</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5" id="testimonials">
+    <div class="container">
+      <div class="text-center mb-5" data-aos="fade-up">
+        <h2 class="fw-bold display-5">What Our Community Says</h2>
+        <p class="lead text-muted">Hear directly from those who've experienced the impact of our work.</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-right">
+          <div class="card h-100 shadow-lg border-0 rounded-3 text-center">
+            <div class="card-body p-4">
+              <img src="https://thispersondoesnotexist.com/"
+                class="rounded-circle mb-3 border border-3 border-light shadow-sm" alt="Aulia"
+                style="width: 90px; height: 90px; object-fit: cover;">
+              <p class="card-text fs-5 fst-italic text-dark mb-3">“HeyYouth inspired me to grow and help others,
+                fostering a sense of community and purpose.”</p>
+              <h5 class="fw-bold mb-0">Aulia</h5>
+              <p class="text-muted small">Student, Jakarta</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
+          <div class="card h-100 shadow-lg border-0 rounded-3 text-center">
+            <div class="card-body p-4">
+              <img src="https://thispersondoesnotexist.com/"
+                class="rounded-circle mb-3 border border-3 border-light shadow-sm" alt="Dika"
+                style="width: 90px; height: 90px; object-fit: cover;">
+              <p class="card-text fs-5 fst-italic text-dark mb-3">“An amazing community for meaningful work and
+                collaboration. Truly a game-changer.”</p>
+              <h5 class="fw-bold mb-0">Dika</h5>
+              <p class="text-muted small">Volunteer, Surabaya</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-left">
+          <div class="card h-100 shadow-lg border-0 rounded-3 text-center">
+            <div class="card-body p-4">
+              <img src="https://thispersondoesnotexist.com/"
+                class="rounded-circle mb-3 border border-3 border-light shadow-sm" alt="Sari"
+                style="width: 90px; height: 90px; object-fit: cover;">
+              <p class="card-text fs-5 fst-italic text-dark mb-3">“A great platform to develop skills, share ideas, and
+                connect with like-minded individuals.”</p>
+              <h5 class="fw-bold mb-0">Sari</h5>
+              <p class="text-muted small">Educator, Yogyakarta</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 bg-light" id="founder">
+    <div class="container">
+      <div class="text-center mb-4" data-aos="fade-up">
+        <h2 class="fw-bold display-5">A Word From Our Founder</h2>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-md-6" data-aos="fade-right">
+          <h3 class="fw-bold">Empowering Communities Through Education</h3>
+          <p class="lead">Together, we shape Indonesia's golden future by 2045</p>
+        </div>
+        <div class="col-md-6 text-center" data-aos="fade-left">
+          <img src="https://thispersondoesnotexist.com/" width="300" alt="Founder Image" class="img-fluid rounded shadow-sm">
+          <!-- <img src="https://thispersondoesnotexist.com/" alt="Hero Image" class="img-fluid"> -->
+          <p class="small text-muted mt-2 mb-0"><strong>[Nama Lengkap Founder]</strong></p>
+          <p class="small text-muted">Founder of HeyYouth</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="map" style="height: 500px;" data-aos="zoom-in" data-aos-duration="3000"></div>
+
+  <section class="text-center bg-primary text-white py-5">
+    <div class="container" data-aos="fade-up">
+      <h2 class="mb-4 fw-bold display-5">Ready to be part of the movement?</h2>
+      <div class="d-grid gap-2 d-md-block">
+        <a href="#" class="btn btn-light btn-lg">Join as Volunteer</a>
+        <a href="#" class="btn btn-outline-light btn-lg">Donate Now</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-dark text-white text-center py-4">
+    <div class="container">
+      <p class="mb-0">&copy; 2025 HeyYouth. All Rights Reserved.</p>
+      <small>Designed with ❤️ for a better future</small>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    const map = L.map('map').setView([-2.5489, 118.0149], 5);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    const locations = [
+      { name: "Jakarta", lat: -6.2088, lng: 106.8456, volunteers: 120 },
+      { name: "Yogyakarta", lat: -7.7956, lng: 110.3695, volunteers: 85 },
+      { name: "Surabaya", lat: -7.2504, lng: 112.7688, volunteers: 60 },
+      { name: "Makassar", lat: -5.1477, lng: 119.4327, volunteers: 40 },
+      { name: "Medan", lat: 3.5952, lng: 98.6722, volunteers: 70 }
+    ];
+
+    locations.forEach(loc => {
+      L.marker([loc.lat, loc.lng])
+        .addTo(map)
+        .bindPopup(`<strong>${loc.name}</strong><br>Volunteers: ${loc.volunteers}`);
+    });
+  </script>
+</body>
+
+</html>
