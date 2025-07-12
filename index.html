@@ -13,13 +13,20 @@
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      /* scroll-behavior: smooth; if you want global smooth scrolling */
+      /* if you want global smooth scrolling */
+      scroll-behavior: smooth;
+      background-image: url(assets/blue-bg.jpg);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      background-attachment: fixed;
     }
 
-    .hero {
+    /* .hero {
       background: linear-gradient(to right, #045fd8, #ffc452);
       height: 90vh;
-    }
+    } */
 
     .pulse-button {
       animation: pulse 1.5s infinite;
@@ -41,93 +48,132 @@
         opacity: 0.7;
       }
     }
+
+    .glass-card {
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 100px 0;
+    }
+
+    .glass-testimonial {
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      /* padding: 100px 0; */
+    }
+
+    .glass-nav {
+      backdrop-filter: blur(40px) saturate(180%);
+      -webkit-backdrop-filter: blur(40px) saturate(180%);
+      background-image: linear-gradient(101deg, rgba(245, 247, 250, .12), rgba(245, 247, 250, .06) 52%, rgba(245, 247, 250, 0));
+      border-radius: 0 0 16px 16px;
+    }
+
+    .clay {
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 1);
+      border-radius: 26px;
+      box-shadow: 35px 35px 68px 0px rgba(10, 48, 126, 0.5), inset -8px -8px 16px 0px rgba(10, 48, 126, 0.6), inset 0px 11px 28px 0px rgb(255, 255, 255);
+    }
   </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top shadow-sm">
+  <nav class="navbar navbar-expand-lg navbar-dark py-3 sticky-top shadow-sm glass-nav text-light">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#">HeyYouth</a>
+      <a class="navbar-brand" href="#">
+        <img src="assets/hy-newlogo.png" alt="" height="50">
+      </a>
+      <a class="navbar-brand fw-bold" href="index.html">HeyYouth</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
+          <li class="nav-item fw-bold"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="about us.html">About Us</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Activities</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Partners</a></li>
-          <li class="nav-item"><a class="nav-link" href="donation.html">Donation</a></li>
+          <li class="nav-item"><a class="nav-link" href="donation.html">Donation</a>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <section class="hero d-flex align-items-center justify-content-center text-white">
-    <div class="container" data-aos="fade-down">
-      <div class="text-center">
-        <h1 class="display-4 fw-bold">Empowering Communities Through Education</h1>
+  <section class="hero text-center" style="padding: 100px 0;">
+    <div class="container text-light">
+      <div class="glass-card" data-aos="fade-down">
+        <h1 class="display-2 fw-bold">Empowering Communities Through Education</h1>
         <p class="lead">Together, we shape Indonesia's golden future by 2045</p>
-        <a href="#" class="btn btn-lg btn-light mt-4 pulse-button">Learn More</a>
+        <a href="#features" class="btn btn-lg mt-4 clay pulse-button">Learn More</a>
       </div>
     </div>
   </section>
 
   <section class="py-5" id="features">
     <div class="container">
-      <div class="text-center mb-5" data-aos="fade-up">
-        <h2 class="fw-bold display-5">Why Join HeyYouth?</h2>
+      <div class="text-center mb-4" data-aos="fade-up">
+        <h2 class="text-light fw-bold display-5">Why Join HeyYouth?</h2>
       </div>
       <div class="row g-4">
-        <div class="col-md-4" data-aos="fade-right">
-          <div class="card p-4 shadow-sm h-100">
+        <div class="col-md-4">
+          <div class="card p-4 shadow-sm h-100 glass-card text-light" data-aos="fade-right">
             <h5 class="fw-bold">Meaningful Impact</h5>
-            <p class="mb-0">Make real differences in children's lives through education.</p>
+            <p class="mb-0">Make real differences in children's lives through education</p>
           </div>
         </div>
-        <div class="col-md-4" data-aos="fade-up">
-          <div class="card p-4 shadow-sm h-100">
+        <div class="col-md-4">
+          <div class="card p-4 shadow-sm h-100 glass-card text-light" data-aos="fade-up">
             <h5 class="fw-bold">Global Network</h5>
-            <p class="mb-0">Connect with like-minded youth and mentors from around the world.</p>
+            <p class="mb-0">Connect with like-minded youth and mentors from around the world</p>
           </div>
         </div>
-        <div class="col-md-4" data-aos="fade-left">
-          <div class="card p-4 shadow-sm h-100">
+        <div class="col-md-4">
+          <div class="card p-4 shadow-sm h-100 glass-card text-light" data-aos="fade-left">
             <h5 class="fw-bold">Skill Development</h5>
-            <p class="mb-0">Grow personally and professionally through our structured programs.</p>
+            <p class="mb-0">Grow personally and professionally through our structured programs</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="py-5 bg-light" id="impact">
+  <section class="py-5" id="impact">
     <div class="container">
       <div class="text-center mb-4" data-aos="fade-up">
-        <h2 class="fw-bold display-5">Our Impact</h2>
+        <h2 class="text-light fw-bold display-5">Our Impact</h2>
       </div>
       <div class="row g-4 justify-content-center">
-        <div class="col-6 col-md-3" data-aos="zoom-in">
-          <div class="card bg-white p-3 shadow-sm text-center h-100">
+        <div class="col-6 col-md-3">
+          <div class="card p-3 shadow-sm text-center h-100 glass-card text-light" data-aos="zoom-in">
             <h3 class="fw-bold mb-0">10+</h3>
             <p class="mb-0">Mentors</p>
           </div>
         </div>
-        <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
-          <div class="card bg-white p-3 shadow-sm text-center h-100">
+        <div class="col-6 col-md-3">
+          <div class="card p-3 shadow-sm text-center h-100 glass-card text-light" data-aos="zoom-in"
+            data-aos-delay="100">
             <h3 class="fw-bold mb-0">20+</h3>
             <p class="mb-0">Volunteers</p>
           </div>
         </div>
-        <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
-          <div class="card bg-white p-3 shadow-sm text-center h-100">
+        <div class="col-6 col-md-3">
+          <div class="card p-3 shadow-sm text-center h-100 glass-card text-light" data-aos="zoom-in"
+            data-aos-delay="200">
             <h3 class="fw-bold mb-0">500+</h3>
-            <p class="mb-0">Children Reached</p>
+            <p class="mb-0">Activities</p>
           </div>
         </div>
-        <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="300">
-          <div class="card bg-white p-3 shadow-sm text-center h-100">
+        <div class="col-6 col-md-3">
+          <div class="card p-3 shadow-sm text-center h-100 glass-card text-light" data-aos="zoom-in"
+            data-aos-delay="300">
             <h3 class="fw-bold mb-0">100+</h3>
             <p class="mb-0">Donation</p>
           </div>
@@ -138,47 +184,47 @@
 
   <section class="py-5" id="testimonials">
     <div class="container">
-      <div class="text-center mb-5" data-aos="fade-up">
+      <div class="text-center text-light mb-4" data-aos="fade-up">
         <h2 class="fw-bold display-5">What Our Community Says</h2>
-        <p class="lead text-muted">Hear directly from those who've experienced the impact of our work.</p>
+        <p class="lead">Hear directly from those who've experienced the impact of our work.</p>
       </div>
       <div class="row justify-content-center">
-        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-right">
-          <div class="card h-100 shadow-lg border-0 rounded-3 text-center">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card shadow-lg border-0 rounded-3 text-center glass-testimonial text-light" data-aos="fade-right">
             <div class="card-body p-4">
               <img src="https://thispersondoesnotexist.com/"
                 class="rounded-circle mb-3 border border-3 border-light shadow-sm" alt="Aulia"
                 style="width: 90px; height: 90px; object-fit: cover;">
-              <p class="card-text fs-5 fst-italic text-dark mb-3">“HeyYouth inspired me to grow and help others,
+              <p class="card-text fs-5 fst-italic mb-3">“HeyYouth inspired me to grow and help others,
                 fostering a sense of community and purpose.”</p>
               <h5 class="fw-bold mb-0">Aulia</h5>
-              <p class="text-muted small">Student, Jakarta</p>
+              <p class="small">Student, Jakarta</p>
             </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
-          <div class="card h-100 shadow-lg border-0 rounded-3 text-center">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card shadow-lg border-0 rounded-3 text-center glass-testimonial text-light" data-aos="fade-up">
             <div class="card-body p-4">
               <img src="https://thispersondoesnotexist.com/"
                 class="rounded-circle mb-3 border border-3 border-light shadow-sm" alt="Dika"
                 style="width: 90px; height: 90px; object-fit: cover;">
-              <p class="card-text fs-5 fst-italic text-dark mb-3">“An amazing community for meaningful work and
+              <p class="card-text fs-5 fst-italic mb-3">“An amazing community for meaningful work and
                 collaboration. Truly a game-changer.”</p>
               <h5 class="fw-bold mb-0">Dika</h5>
-              <p class="text-muted small">Volunteer, Surabaya</p>
+              <p class="small">Volunteer, Surabaya</p>
             </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-left">
-          <div class="card h-100 shadow-lg border-0 rounded-3 text-center">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card shadow-lg border-0 rounded-3 text-center glass-testimonial text-light" data-aos="fade-left">
             <div class="card-body p-4">
               <img src="https://thispersondoesnotexist.com/"
                 class="rounded-circle mb-3 border border-3 border-light shadow-sm" alt="Sari"
                 style="width: 90px; height: 90px; object-fit: cover;">
-              <p class="card-text fs-5 fst-italic text-dark mb-3">“A great platform to develop skills, share ideas, and
+              <p class="card-text fs-5 fst-italic mb-3">“A great platform to develop skills, share ideas, and
                 connect with like-minded individuals.”</p>
               <h5 class="fw-bold mb-0">Sari</h5>
-              <p class="text-muted small">Educator, Yogyakarta</p>
+              <p class="small">Educator, Yogyakarta</p>
             </div>
           </div>
         </div>
@@ -186,29 +232,48 @@
     </div>
   </section>
 
-  <section class="py-5 bg-light" id="founder">
+  <section class="py-5" id="founder">
     <div class="container">
-      <div class="text-center mb-4" data-aos="fade-up">
+      <div class="text-center text-light mb-4" data-aos="fade-up">
         <h2 class="fw-bold display-5">A Word From Our Founder</h2>
       </div>
-      <div class="row align-items-center">
-        <div class="col-md-6" data-aos="fade-right">
-          <h3 class="fw-bold">Empowering Communities Through Education</h3>
-          <p class="lead">Together, we shape Indonesia's golden future by 2045</p>
-        </div>
-        <div class="col-md-6 text-center" data-aos="fade-left">
-          <img src="https://thispersondoesnotexist.com/" width="300" alt="Founder Image" class="img-fluid rounded shadow-sm">
+      <div class="row align-items-center flex-md-row-reverse glass-card">
+        <div class="col-md-6 mb-4 mb-md-0 text-center text-light" data-aos="fade-right">
+          <img src="https://thispersondoesnotexist.com/" width="300" alt="Founder Image"
+            class="img-fluid rounded shadow-sm">
           <!-- <img src="https://thispersondoesnotexist.com/" alt="Hero Image" class="img-fluid"> -->
-          <p class="small text-muted mt-2 mb-0"><strong>[Nama Lengkap Founder]</strong></p>
-          <p class="small text-muted">Founder of HeyYouth</p>
+          <p class="small mt-2 mb-0"><strong>[Nama Lengkap Founder]</strong></p>
+          <p class="small">Founder of HeyYouth</p>
+        </div>
+        <div class="col-md-6 text-light" data-aos="fade-left">
+          <h3 class="fw-bold">Empowering Communities Through Education</h3>
+          <p class="lead">Lorem ipsum dolor sit amet consectetur, adipisicing elit</p>
         </div>
       </div>
     </div>
   </section>
 
-  <div id="map" style="height: 500px;" data-aos="zoom-in" data-aos-duration="3000"></div>
+  <section id="ina-map" class="py-5">
+    <div class="container">
+      <!-- <div class="glass-card"> -->
+      <div id="map" style="height: 500px; border-radius: 20px;" data-aos="zoom-in" data-aos-duration="1000"></div>
+      <!-- </div> -->
+    </div>
+  </section>
 
-  <section class="text-center bg-primary text-white py-5">
+  <section class="py-5">
+    <div class="container">
+      <div class="glass-card text-center mx-auto text-light" data-aos="fade-up" style="padding: 50px;">
+        <h2 class="fw-bold display-5 mb-4">Ready to be part of the movement?</h2>
+        <div class="d-grid gap-2 d-md-block">
+          <a href="#" class="btn btn-light btn-lg">Join as Volunteer</a>
+          <a href="#" class="btn btn-outline-light btn-lg">Donate Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- <section class="text-center bg-primary text-white py-5">
     <div class="container" data-aos="fade-up">
       <h2 class="mb-4 fw-bold display-5">Ready to be part of the movement?</h2>
       <div class="d-grid gap-2 d-md-block">
@@ -216,14 +281,43 @@
         <a href="#" class="btn btn-outline-light btn-lg">Donate Now</a>
       </div>
     </div>
-  </section>
+  </section> -->
 
-  <footer class="bg-dark text-white text-center py-4">
-    <div class="container">
-      <p class="mb-0">&copy; 2025 HeyYouth. All Rights Reserved.</p>
-      <small>Designed with ❤️ for a better future</small>
-    </div>
-  </footer>
+  <footer class="pt-5 pb-3 text-muted" style="background-color: #efefef;">
+      <div class="container">
+        <div class="row">
+	      <div class="col-md-6 mb-4">
+            <h3 class="mb-3 fw-semibold">HeyYouth</h3>
+            <p class="mb-2">Sarimulya village, South Tangerang,<br>Indonesia</p>
+            <p class="mb-1"><b>Phone:</b> Currently not available</p>
+            <p><b>Email:</b> <a href="mailto:hey.youth.id@gmail.com" class="text-muted text-decoration-none">hey.youth.id@gmail.com</a></p>
+          </div>
+	      <div class="col-md-6 mb-4">
+            <h4 class="mb-3 fw-semibold">Follow Us</h4>
+            <p>Follow us to keep you updated with our latest activities</p>
+            <a href="https://www.instagram.com/heyyouth_id/" class="btn btn-outline-secondary rounded-circle me-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/company/hey-youth1" class="btn btn-outline-secondary rounded-circle">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+                <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <hr>
+        <div class="text-center small">
+          <p class="mb-0">
+            &copy; HeyYouth. All right reserved 
+          </p>
+          <p class="mb-0 d-none">
+            Made by <a href="https://kredybel.gx1.org" target="_blank" class="text-muted">Kredybel</a>
+          </p>
+        </div>
+      </div>
+    </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
