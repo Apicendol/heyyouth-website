@@ -1,165 +1,605 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HeyYouth - About Us</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <style>
-    /* Custom CSS that cannot be directly replaced by Bootstrap */
-    body {
-      font-family: 'Poppins', sans-serif;
-      /* scroll-behavior: smooth; if you want global smooth scrolling */
-    }
-
-    .hero-about {
-      background: linear-gradient(to right, #045fd8, #ffc452);
-      height: 90vh;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeyYouth - About Us</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            color: white;
+            padding: 5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+        }
+        
+        .logo-text {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-title {
+            font-weight: 800;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .center-title .section-title::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
+        }
+        
+        .stats-card {
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .value-card {
+            border-radius: 15px;
+            padding: 2rem;
+            height: 100%;
+            border: none;
+        }
+        
+        .value-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        /* Creative Team Cards */
+        .team-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            height: 100%;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .avatar-gradient-1 {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+        }
+        
+        .avatar-gradient-2 {
+            background: linear-gradient(135deg, var(--secondary), #ec4899);
+            color: white;
+        }
+        
+        .avatar-gradient-3 {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: white;
+        }
+        
+        .avatar-gradient-4 {
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            color: white;
+        }
+        
+        .avatar-gradient-5 {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+        }
+        
+        .avatar-gradient-6 {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            color: white;
+        }
+        
+        .team-position {
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .team-social {
+            margin-top: 1rem;
+        }
+        
+        .team-social a {
+            color: var(--dark);
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .team-social a:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4rem 0;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .btn-cta {
+            background-color: white;
+            color: var(--primary);
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Animations */
+        @media (prefers-reduced-motion: no-preference) {
+            .fade-in {
+                animation: fadeIn 1s ease-out forwards;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            .delay-1 { animation-delay: 0.1s; }
+            .delay-2 { animation-delay: 0.2s; }
+            .delay-3 { animation-delay: 0.3s; }
+            .delay-4 { animation-delay: 0.4s; }
+            .delay-5 { animation-delay: 0.5s; }
+            .delay-6 { animation-delay: 0.6s; }
+        }
+        
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 2.5rem;
+            }
+            
+            .hero-section {
+                padding: 3rem 0;
+            }
+        }
+    </style>
 </head>
-
 <body>
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top shadow-sm">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="index.html">HeyYouth</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="about us.html">About Us</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Activities</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Partners</a></li>
-          <li class="nav-item"><a class="nav-link" href="donation.html">Donation</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <section class="hero-about d-flex align-items-center justify-content-center text-white">
-    <div class="container text-center" data-aos="fade-down">
-      <h1 class="display-4 fw-bold">About Us</h1>
-      <p class="lead">Discover our purpose, vision, and the people behind the movement.</p>
-    </div>
-  </section>
-
-  <section class="py-5" id="our-story">
-    <div class="container" data-aos="fade-up">
-      <h2 class="text-center fw-bold mb-4 display-5">Our Story</h2>
-      <p class="text-center mx-auto fs-5" style="max-width: 800px;">
-        Founded in 2018 by a group of passionate youth, HeyYouth started as a local initiative to teach underprivileged
-        children in South Tangerang. Since then, we have grown into a youth-led education movement with volunteers,
-        mentors, and diaspora collaborators across Indonesia and beyond. Even through the pandemic, we adapted by moving
-        our learning and seminars online, ensuring continued impact.
-      </p>
-    </div>
-  </section>
-
-  <section class="py-5 bg-light" id="vision">
-    <div class="container" data-aos="fade-right">
-      <h2 class="fw-bold text-center mb-4 display-5">Our Vision</h2>
-      <p class="text-center mx-auto fs-5" style="max-width: 700px;">
-        To become a global youth organization that drives equal access to quality education and empowers the young
-        generation for Indonesia's Golden Era in 2045.
-      </p>
-    </div>
-  </section>
-
-  <section class="py-5" id="mission">
-    <div class="container" data-aos="fade-left">
-      <h2 class="fw-bold text-center mb-4 display-5">Our Mission</h2>
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <ul class="list-group list-group-flush fs-5">
-            <li class="list-group-item d-flex align-items-center"><span class="me-2">📘</span> Providing weekend
-              classes in Math, Science, and English</li>
-            <li class="list-group-item d-flex align-items-center"><span class="me-2">🌐</span> Hosting international
-              seminars with experts and diaspora</li>
-            <li class="list-group-item d-flex align-items-center"><span class="me-2">📚</span> Creating a book club to
-              foster critical thinking and awareness</li>
-            <li class="list-group-item d-flex align-items-center"><span class="me-2">🎁</span> Running charity
-              programs to support children in need</li>
-          </ul>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center py-5">
+            <h1 class="logo-text mb-4">HeyYouth</h1>
+            <p class="lead fs-3 mb-3">Empowering Communities Through Education</p>
+            <p class="fs-5 mx-auto" style="max-width: 700px;">
+                Together, we shape Indonesia's golden future by 2045. Make real differences in children's lives through education.
+            </p>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="py-5 bg-light" id="core-values">
-    <div class="container" data-aos="zoom-in">
-      <h2 class="fw-bold text-center mb-4 display-5">Our Core Values</h2>
-      <div class="row text-center justify-content-center g-3">
-        <div class="col-6 col-md-3">
-          <p class="fs-4 mb-1">🌍</p>
-          <p class="fw-bold mb-0">Inclusivity</p>
+    <!-- Stats Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="stats-card fade-in">
+                        <div class="stat-number">500+</div>
+                        <p class="mb-0">Mentors</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-card fade-in delay-1">
+                        <div class="stat-number">1,200+</div>
+                        <p class="mb-0">Volunteers</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-card fade-in delay-2">
+                        <div class="stat-number">5,000+</div>
+                        <p class="mb-0">Children Reached</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stats-card fade-in delay-3">
+                        <div class="stat-number">₹2M+</div>
+                        <p class="mb-0">Donations</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-6 col-md-3">
-          <p class="fs-4 mb-1">💡</p>
-          <p class="fw-bold mb-0">Innovation</p>
-        </div>
-        <div class="col-6 col-md-3">
-          <p class="fs-4 mb-1">💪</p>
-          <p class="fw-bold mb-0">Empowerment</p>
-        </div>
-        <div class="col-6 col-md-3">
-          <p class="fs-4 mb-1">❤️</p>
-          <p class="fw-bold mb-0">Compassion</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="py-5" id="founder-message">
-    <div class="container">
-      <div class="text-center mb-4" data-aos="fade-up">
-        <h1 class="fw-bold display-5">Meet Our Founder</h1>
-      </div>
-      <div class="row align-items-center justify-content-center">
-        <div class="col-md-6 text-center mb-4 mb-md-0" data-aos="fade-right">
-          <img src="https://thispersondoesnotexist.com/" alt="Founder Image"
-            class="img-fluid rounded-circle shadow-sm" style="width: 200px; height: 200px; object-fit: cover;">
-          <p class="small text-muted mt-2 mb-0"><strong>[Nama Lengkap Founder]</strong></p>
-          <p class="small text-muted">Founder of HeyYouth</p>
+    <!-- About Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card card-hover h-100 fade-in">
+                        <div class="card-body p-4">
+                            <h2 class="section-title">About HeyYouth</h2>
+                            <p class="card-text">
+                                HeyYouth is a <span class="fw-bold text-primary">youth-driven community</span> dedicated to transforming education across Indonesia. We believe that every child deserves access to quality education and mentorship opportunities.
+                            </p>
+                            <p class="card-text">
+                                Our mission is to connect <span class="fw-bold text-primary">passionate young leaders</span> with communities that need educational support, creating a sustainable ecosystem of learning and growth that will help shape Indonesia's golden future by 2045.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card card-hover h-100 fade-in delay-1">
+                        <div class="card-body p-4">
+                            <h2 class="section-title">Our Impact</h2>
+                            <p class="card-text">
+                                Since our founding, we've made significant strides in <span class="fw-bold text-primary">educational empowerment</span>. Our programs have reached over 5,000 children across Indonesia, providing them with quality education, mentorship, and life skills.
+                            </p>
+                            <p class="card-text">
+                                We've built a network of <span class="fw-bold text-primary">1,200+ dedicated volunteers</span> and 500+ experienced mentors who work tirelessly to make education accessible to all, regardless of background or circumstances.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6" data-aos="fade-left">
-          <blockquote class="blockquote text-center text-md-start mb-0">
-            <p class="mb-0 fs-4 fst-italic">“We believe education is the strongest tool to shape a better future — and it starts with the youth.”</p>
-            <footer class="blockquote-footer mt-2">The philosophy guiding our mission.</footer>
-          </blockquote>
+    </section>
+
+    <!-- Vision & Mission -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card card-hover h-100 fade-in">
+                        <div class="card-body p-4 text-center">
+                            <div class="mb-4">
+                                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="url(#visionGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 8V12L15 15" stroke="url(#visionGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <defs>
+                                        <linearGradient id="visionGradient" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#3b82f6"/>
+                                            <stop offset="1" stop-color="#8b5cf6"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <h3 class="section-title text-center">Vision</h3>
+                            <p class="card-text">
+                                To create an Indonesia where every child has access to quality education and the opportunity to reach their full potential by 2045.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card card-hover h-100 fade-in delay-1">
+                        <div class="card-body p-4 text-center">
+                            <div class="mb-4">
+                                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="url(#missionGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 17L12 22L22 17" stroke="url(#missionGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2 12L12 17L22 12" stroke="url(#missionGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <defs>
+                                        <linearGradient id="missionGradient" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#8b5cf6"/>
+                                            <stop offset="1" stop-color="#ec4899"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            <h3 class="section-title text-center">Mission</h3>
+                            <p class="card-text">
+                                Empowering communities through education by connecting youth mentors with children in need, fostering growth and creating lasting impact.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- <section class="text-center bg-primary text-white py-5">
-    <div class="container" data-aos="fade-up">
-      <h3 class="mb-4 fw-bold">Ready to be part of the movement?</h3>
-      <div class="d-grid gap-2 d-md-block">
-        <a href="https://forms.gle/your-volunteer-form" class="btn btn-light btn-lg">Join as Volunteer</a>
-        <a href="donation.html" class="btn btn-outline-light btn-lg">Donate Now</a>
-      </div>
-    </div>
-  </section> -->
+    <!-- Values Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5 center-title">Our Values</h2>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="value-card text-center card-hover fade-in">
+                        <i class="fas fa-star value-icon"></i>
+                        <h4>Excellence</h4>
+                        <p class="mb-0">We strive for the highest standards in everything we do, ensuring quality education and meaningful impact.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="value-card text-center card-hover fade-in delay-1">
+                        <i class="fas fa-handshake value-icon"></i>
+                        <h4>Collaboration</h4>
+                        <p class="mb-0">We believe in the power of working together to create positive change in communities.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="value-card text-center card-hover fade-in delay-2">
+                        <i class="fas fa-lightbulb value-icon"></i>
+                        <h4>Innovation</h4>
+                        <p class="mb-0">We embrace creative solutions and new approaches to educational challenges.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="value-card text-center card-hover fade-in delay-3">
+                        <i class="fas fa-heart value-icon"></i>
+                        <h4>Compassion</h4>
+                        <p class="mb-0">We approach every interaction with empathy and genuine care for others.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <footer class="bg-dark text-white text-center py-4">
-    <div class="container">
-      <p class="mb-0">&copy; 2025 HeyYouth. All Rights Reserved.</p>
-      <small>Designed with ❤️ for a better future</small>
-    </div>
-  </footer>
+    <!-- Team Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-center mb-3 center-title">Our Leadership Team</h2>
+            <p class="text-center mb-5 mx-auto" style="max-width: 700px;">
+                Meet the passionate individuals driving our mission to transform education across Indonesia.
+            </p>
+            
+            <div class="row g-4">
+                <!-- Andini - Founder & CEO -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card fade-in">
+                        <div class="card-body p-4 text-center">
+                            <div class="team-avatar avatar-gradient-1">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <h5 class="card-title mb-1">Andini</h5>
+                            <p class="team-position mb-2">Founder & CEO</p>
+                            <p class="card-text">Passionate about educational equality and youth empowerment in Indonesia. Leads our strategic vision.</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sarah - Head of Marketing -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card fade-in delay-1">
+                        <div class="card-body p-4 text-center">
+                            <div class="team-avatar avatar-gradient-2">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <h5 class="card-title mb-1">Sarah</h5>
+                            <p class="team-position mb-2">Head of Marketing</p>
+                            <p class="card-text">Specialist in digital outreach and community engagement strategies.</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Budi - Head of Event Organizer -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card fade-in delay-2">
+                        <div class="card-body p-4 text-center">
+                            <div class="team-avatar avatar-gradient-3">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h5 class="card-title mb-1">Budi</h5>
+                            <p class="team-position mb-2">Head of Event Organizer</p>
+                            <p class="card-text">Expert in creating impactful educational events and workshops.</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Maya - Head of Social Media -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card fade-in delay-3">
+                        <div class="card-body p-4 text-center">
+                            <div class="team-avatar avatar-gradient-4">
+                                <i class="fas fa-hashtag"></i>
+                            </div>
+                            <h5 class="card-title mb-1">Maya</h5>
+                            <p class="team-position mb-2">Head of Social Media</p>
+                            <p class="card-text">Creative storyteller spreading our mission through digital platforms.</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fab fa-tiktok"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Andi - Head of Human Resources -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card fade-in delay-4">
+                        <div class="card-body p-4 text-center">
+                            <div class="team-avatar avatar-gradient-5">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h5 class="card-title mb-1">Andi</h5>
+                            <p class="team-position mb-2">Head of Human Resources</p>
+                            <p class="card-text">Building and nurturing our community of volunteers and mentors.</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Herza Avicena - Web Developer -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="team-card fade-in delay-5">
+                        <div class="card-body p-4 text-center">
+                            <div class="team-avatar avatar-gradient-6">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h5 class="card-title mb-1">Herza Avicena</h5>
+                            <p class="team-position mb-2">Web Developer</p>
+                            <p class="card-text">Building the digital platforms that connect our community and amplify our impact.</p>
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-github"></i></a>
+                                <a href="#"><i class="fab fa-linkedin"></i></a>
+                                <a href="#"><i class="fas fa-globe"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    AOS.init();
-  </script>
+    <!-- CTA Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="cta-section">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center position-relative">
+                        <h2 class="display-5 fw-bold mb-3">Join Our Mission</h2>
+                        <p class="fs-5 mb-4">
+                            Be part of Indonesia's educational transformation. Together, we can create a brighter future for the next generation.
+                        </p>
+                        <button class="btn btn-cta" onclick="showJoinMessage()">
+                            Get Involved Today
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        function showJoinMessage() {
+            alert('Thank you for your interest in joining HeyYouth! Visit our website at heyyouth-website.vercel.app to learn more about volunteer opportunities and how you can make a difference in children\'s education. Together, we shape Indonesia\'s golden future by 2045! 🌟');
+        }
+        
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
 </body>
-
 </html>
