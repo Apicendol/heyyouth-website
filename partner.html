@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function () {
+      var savedTheme = localStorage.getItem('heyyouth_theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partners - Hey Youth!</title>
+  <meta name="description"
+    content="Bergabunglah dengan mitra strategis Hey Youth untuk menciptakan program yang berdampak bagi pemuda di seluruh negeri.">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,700;1,400&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/Style/tailwind.css">
+  <link rel="stylesheet" href="assets/Style/Style.css">
+</head>
+
+<body class="lang-en bg-bg text-body font-sans antialiased selection:bg-primary selection:text-white">
+
+  <!-- Navigation Bar -->
+  <nav id="navbar"
+    class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="Landing-Page/index.html" class="flex-shrink-0 flex items-center gap-2 group">
+          <img src="assets/img/NEW HEY YOUTH Sep 2025.png" alt="Hey Youth Logo"
+            class="h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
+        </a>
+        <div class="hidden md:flex space-x-8 items-center">
+          <a href="Landing-Page/index.html" class="nav-link text-body hover:text-primary transition-colors">Home</a>
+          <a href="Landing-Page/about us.html" class="nav-link text-body hover:text-primary transition-colors">About us</a>
+          <a href="Landing-Page/activities.html" class="nav-link text-body hover:text-primary transition-colors">Activities</a>
+          <a href="partner.html"
+            class="nav-link text-primary font-bold hover:text-primaryDark transition-colors">Partners</a>
+          <a href="Landing-Page/donation.html" class="nav-link text-body hover:text-primary transition-colors">Donation</a>
+        </div>
+        <div class="hidden md:flex items-center gap-3">
+          <a href="CMS/Login.html"
+            class="text-body hover:text-primary px-3 py-2.5 rounded-lg font-medium transition-colors text-sm flex items-center gap-1.5"><i
+              class="fas fa-lock text-xs"></i> Dashboard</a>
+          <a href="https://bit.ly/HYOprec"
+            class="bg-primary hover:bg-primaryDark text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 focus:ring-2 focus:ring-offset-2 focus:ring-primary">Join
+            Us!</a>
+
+          <button type="button"
+            class="theme-toggle-btn ml-2 p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all focus:outline-none dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-yellow-400 w-9 h-9 flex items-center justify-center"
+            aria-label="Toggle Theme">
+            <i class="fas fa-sun theme-icon-sun text-sm hidden"></i>
+            <i class="fas fa-moon theme-icon-moon text-sm"></i>
+          </button>
+          <div
+            class="btn-group lang-toggle-group ml-2 bg-gray-200 rounded-full p-1 relative flex items-center w-[84px] h-9 dark:bg-slate-800"
+            role="group" aria-label="Language Switch">
+            <div
+              class="absolute left-1 bg-white h-7 w-9 rounded-full shadow-sm transition-transform duration-300 lang-slider-bg dark:bg-slate-900"
+              style="transform: translateX(0);"></div>
+            <button type="button"
+              class="btn btn-secondary flex-1 text-xs font-bold text-gray-800 relative z-10 lang-btn dark:text-slate-200"
+              data-lang="id">ID</button>
+            <button type="button"
+              class="btn btn-secondary flex-1 text-xs font-bold text-gray-800 relative z-10 lang-btn dark:text-slate-200"
+              data-lang="en">EN</button>
+          </div>
+        </div>
+        <div class="md:hidden flex items-center">
+          <button id="mobile-menu-btn" class="text-heading hover:text-primary focus:outline-none p-2"
+            aria-label="Toggle menu">
+            <svg id="icon-menu" class="h-6 w-6 transition-transform duration-300" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg id="icon-close" class="h-6 w-6 hidden transition-transform duration-300" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu"
+      class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl transform transition-all duration-300 origin-top">
+      <div class="px-4 pt-4 pb-6 space-y-2">
+        <a href="Landing-Page/index.html"
+          class="block px-4 py-3 rounded-xl text-base font-medium text-body hover:text-primary hover:bg-gray-50">Home</a>
+        <a href="Landing-Page/about us.html"
+          class="block px-4 py-3 rounded-xl text-base font-medium text-body hover:text-primary hover:bg-gray-50">About
+          us</a>
+        <a href="Landing-Page/activities.html"
+          class="block px-4 py-3 rounded-xl text-base font-medium text-body hover:text-primary hover:bg-gray-50">Activities</a>
+        <a href="partner.html"
+          class="block px-4 py-3 rounded-xl text-base font-medium text-primary font-bold bg-blue-50">Partners</a>
+        <a href="Landing-Page/donation.html"
+          class="block px-4 py-3 rounded-xl text-base font-medium text-body hover:text-primary hover:bg-gray-50">Donation</a>
+        <div class="pt-4 border-t border-gray-100 mt-4 space-y-2">
+          <a href="CMS/Login.html"
+            class="block w-full text-center border-2 border-gray-200 text-heading font-semibold px-4 py-3 rounded-xl hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2"><i
+              class="fas fa-lock text-sm"></i> Dashboard</a>
+          <a href="https://bit.ly/HYOprec"
+            class="block w-full text-center bg-accent text-white px-4 py-3 rounded-xl font-bold hover:bg-yellow-600 transition-colors shadow-md">Join
+            Us Now!</a>
+
+          <div class="flex justify-center mt-4 pt-2 gap-3 items-center">
+            <div
+              class="btn-group lang-toggle-group bg-gray-200 rounded-full p-1 relative flex items-center w-[84px] h-9 dark:bg-slate-800"
+              role="group" aria-label="Language Switch">
+              <div
+                class="absolute left-1 bg-white h-7 w-9 rounded-full shadow-sm transition-transform duration-300 lang-slider-bg dark:bg-slate-900"
+                style="transform: translateX(0);"></div>
+              <button type="button"
+                class="btn btn-secondary flex-1 text-xs font-bold text-gray-800 relative z-10 lang-btn dark:text-slate-200"
+                data-lang="id">ID</button>
+              <button type="button"
+                class="btn btn-secondary flex-1 text-xs font-bold text-gray-800 relative z-10 lang-btn dark:text-slate-200"
+                data-lang="en">EN</button>
+            </div>
+            <button type="button"
+              class="theme-toggle-btn p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all focus:outline-none dark:bg-slate-800 dark:text-yellow-400 w-9 h-9 flex items-center justify-center"
+              aria-label="Toggle Theme">
+              <i class="fas fa-sun theme-icon-sun text-sm hidden"></i>
+              <i class="fas fa-moon theme-icon-moon text-sm"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-20">
+
+    <!-- Hero Section Partners -->
+    <section class="py-24 lg:py-32 bg-surface relative overflow-hidden">
+      <div
+        class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5">
+      </div>
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        <div class="bg-white rounded-3xl shadow-2xl p-6 sm:p-10 md:p-16 border border-blue-50 animate-fade-in-up">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-heading mb-6 font-serif">Partners</h1>
+          <p class="text-lg md:text-xl text-body mb-10 max-w-2xl mx-auto leading-relaxed">
+            <span class="lang-id">Bersama, kami telah menciptakan program-program berdampak yang menginspirasi,
+              mendidik, dan mengangkat pemuda di seluruh negeri.</span>
+            <span class="lang-en">Together, we've created impactful programs that inspire, educate, and uplift youth
+              across the country.</span>
+          </p>
+          <a href="#our-partners"
+            class="inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 border border-transparent text-sm sm:text-base font-bold rounded-full text-white bg-accent hover:bg-yellow-600 transition-all shadow-lg hover:shadow-orange-200 hover:-translate-y-1"><span
+              class="lang-id">Pelajari Lebih Lanjut</span><span class="lang-en">Learn More</span> <i
+              class="fas fa-arrow-down ml-2"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Partners Grid Section -->
+    <section id="our-partners" class="py-20 bg-bg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-bold text-heading mb-4"><span class="lang-id">Kolaborator Kami</span><span
+              class="lang-en">Our Collaborators</span></h2>
+          <div class="h-1 w-20 bg-primary rounded mx-auto"></div>
+        </div>
+        <div id="partners-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-white border-t border-gray-100 text-center">
+      <div class="max-w-4xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-heading mb-6">
+          <span class="lang-id">Tertarik Berkolaborasi dengan Kami?</span>
+          <span class="lang-en">Interested in Partnering With Us?</span>
+        </h2>
+        <p class="text-lg text-gray-600 mb-10">
+          <span class="lang-id">Mari berkolaborasi untuk menciptakan dampak yang lebih besar bersama.</span>
+          <span class="lang-en">Let's collaborate to create a bigger impact together.</span>
+        </p>
+        <a href="Landing-Page/donation.html"
+          class="inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-3 bg-primary hover:bg-primaryDark text-white text-sm sm:text-base font-bold rounded-full transition-all shadow-md hover:shadow-lg"><span
+            class="lang-id">Hubungi Kami Sekarang</span><span class="lang-en">Contact Us Today</span></a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-heading text-gray-400 py-12 border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <span class="text-2xl font-bold text-white block mb-4">Hey Youth!</span>
+          <p class="mt-4 text-sm leading-relaxed text-gray-400">Helping youths grow through webinar, mentoring &
+            volunteering<br>Est. 2018 | 5K+ learners | 📩 Join our team to make a real impact 🌏</p>
+        </div>
+        <div>
+          <h4 class="text-white font-bold mb-4 uppercase text-xs tracking-wider">Contact</h4>
+          <ul class="space-y-2 text-sm">
+            <li class="flex items-center gap-2"><i class="fas fa-envelope text-accent"></i> hey.youth.id@gmail.com</li>
+            <li class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-accent"></i> Jakarta, Indonesia
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-bold mb-4 uppercase text-xs tracking-wider">Follow Us</h4>
+          <p class="text-xs mb-3 text-gray-500">Follow us to keep you updated with our latest activities</p>
+          <div class="flex space-x-3">
+            <a href="#"
+              class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><i
+                class="fab fa-instagram"></i></a>
+            <a href="#"
+              class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><i
+                class="fab fa-linkedin-in"></i></a>
+            <a href="#"
+              class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><i
+                class="fab fa-youtube"></i></a>
+            <a href="#"
+              class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><i
+                class="fab fa-tiktok"></i></a>
+            <a href="#"
+              class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><i
+                class="fa-brands fa-x-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-8 text-center text-xs">&copy; Hey Youth. Made with ❤ for Golden Future.
+        All right reserved.</div>
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="assets/Javascript/firebase-init.js"></script>
+  <script src="assets/Javascript/Script.js"></script>
+</body>
+
+</html>
