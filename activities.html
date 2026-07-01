@@ -312,6 +312,19 @@
           var episodeHtml = _bilEsc(item.episode_id, item.episode_en, item.episode);
           var titleHtml = _bilEsc(item.title_id, item.title_en, item.title);
 
+          var spotifyId = '';
+          var match = targetLink.match(/spotify\.com\/episode\/([a-zA-Z0-9]+)/);
+          if (match && match[1]) {
+            spotifyId = match[1];
+          }
+
+          var playBtnHtml = '';
+          if (spotifyId) {
+            playBtnHtml = '<button onclick="playPodcast(event, \'' + spotifyId + '\')" class="w-full inline-flex items-center justify-center text-sm font-bold text-white bg-green-500 hover:bg-green-600 px-4 py-3 rounded-full transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"><i class="fas fa-play mr-2"></i> <span class="lang-id">Mainkan Episode</span><span class="lang-en">Play Episode</span></button>';
+          } else {
+            playBtnHtml = '<a href="' + _escA(targetLink) + '" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center text-sm font-bold text-white bg-green-500 hover:bg-green-600 px-4 py-3 rounded-full transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"><i class="fab fa-spotify mr-2"></i> <span class="lang-id">Dengarkan di Spotify</span><span class="lang-en">Listen on Spotify</span></a>';
+          }
+
           return '<div class="flex flex-col bg-bg border border-gray-100 rounded-2xl p-8 hover:shadow-xl transition-all duration-300">' +
             '<div class="flex justify-center mb-6 relative group">' +
             '<div class="w-32 h-32 rounded-xl flex-shrink-0 flex items-center justify-center shadow-lg overflow-hidden bg-gray-200">' +
@@ -323,7 +336,7 @@
             '<h3 class="text-xl font-bold text-heading mt-1 mb-3 leading-snug">' + titleHtml + '</h3>' +
             '</div>' +
             '<div class="mt-auto">' +
-            '<a href="' + _escA(targetLink) + '" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center text-sm font-bold text-white bg-green-500 hover:bg-green-600 px-4 py-3 rounded-full transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"><i class="fab fa-spotify mr-2"></i> <span class="lang-id">Dengarkan di Spotify</span><span class="lang-en">Listen on Spotify</span></a>' +
+            playBtnHtml +
             '</div>' +
             '</div>';
         }).join('');

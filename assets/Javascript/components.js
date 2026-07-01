@@ -160,3 +160,46 @@
     inject();
   }
 })();
+
+/* =============================================
+   SPOTIFY MODAL PLAYER (GLOBAL)
+   ============================================= */
+window.playPodcast = function(event, spotifyId) {
+    if (event) event.preventDefault();
+    
+    var modal = document.getElementById('spotify-player-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'spotify-player-modal';
+        modal.className = 'fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm';
+        modal.innerHTML = 
+            '<div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden border border-gray-100 dark:border-slate-800 transform scale-100 transition-all duration-300">' +
+                '<div class="p-4 border-b border-gray-150 dark:border-slate-800 flex justify-between items-center bg-gray-50 dark:bg-slate-950">' +
+                    '<span class="text-xs font-bold text-green-500 uppercase tracking-widest flex items-center gap-1.5"><i class="fab fa-spotify text-base"></i> Spotify Player</span>' +
+                    '<button onclick="closeSpotifyPlayer()" class="text-gray-400 hover:text-red-500 transition-colors p-1.5 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-full w-8 h-8 flex items-center justify-center"><i class="fas fa-times"></i></button>' +
+                '</div>' +
+                '<div class="p-6 bg-white dark:bg-slate-900">' +
+                    '<div id="spotify-iframe-container" class="w-full h-[152px] bg-gray-100 dark:bg-slate-800 rounded-xl flex items-center justify-center text-gray-400 text-xs font-medium">Memuat player...</div>' +
+                '</div>' +
+            '</div>';
+        document.body.appendChild(modal);
+    }
+    
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+    
+    var iframeContainer = document.getElementById('spotify-iframe-container');
+    if (iframeContainer) {
+        iframeContainer.innerHTML = '<iframe src="https://open.spotify.com/embed/episode/' + spotifyId + '?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" class="rounded-xl border-none"></iframe>';
+    }
+};
+
+window.closeSpotifyPlayer = function() {
+    var modal = document.getElementById('spotify-player-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        var iframeContainer = document.getElementById('spotify-iframe-container');
+        if (iframeContainer) iframeContainer.innerHTML = '';
+    }
+    document.body.classList.remove('overflow-hidden');
+};
