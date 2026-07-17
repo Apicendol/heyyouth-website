@@ -152,6 +152,93 @@
       </div>
     </section>
 
+    <!-- Events & Certificate Combined Section -->
+    <section id="events-certificates" class="py-20 bg-white relative overflow-hidden">
+      <!-- absolute decorative circles -->
+      <div class="absolute top-0 left-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -translate-x-1/2 -translate-y-1/2"></div>
+      <div class="absolute bottom-0 right-0 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20 translate-x-1/2 translate-y-1/2"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-stretch">
+          
+           <!-- Left Column: Upcoming Events -->
+          <div class="flex flex-col gap-8">
+            <div class="lg:min-h-[130px]">
+              <span class="inline-block py-1 px-3 rounded-full bg-yellow-100 text-accent text-xs font-bold tracking-wider uppercase mb-2">
+                <span class="lang-id">Event Terdekat</span><span class="lang-en">Upcoming Events</span>
+              </span>
+              <h2 class="text-3xl font-bold text-heading mb-4" id="event-title-el"><span class="lang-id">Ikuti Event Kami</span><span class="lang-en">Join Our Events</span></h2>
+              <p class="text-sm text-gray-500 max-w-lg" id="event-subtitle-el">
+                <span class="lang-id">Daftar untuk mengikuti webinar dan kelas bimbingan yang akan berlangsung.</span>
+                <span class="lang-en">Register to join our upcoming webinars and mentorship sessions.</span>
+              </p>
+            </div>
+
+            <!-- Upcoming Events Container -->
+            <div id="events-container" class="space-y-4">
+              <div class="text-center py-10 text-gray-400">
+                <i class="fas fa-circle-notch fa-spin text-2xl mb-2 text-primary block"></i>
+                <span class="lang-id text-sm">Memuat event...</span>
+                <span class="lang-en text-sm">Loading events...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Digital Certificates -->
+          <div class="flex flex-col gap-8">
+            <div class="lg:min-h-[130px]">
+              <span class="inline-block py-1 px-3 rounded-full bg-blue-100 text-primary text-xs font-bold tracking-wider uppercase mb-2">
+                <span class="lang-id">Sertifikat Digital</span><span class="lang-en">Digital Certificate</span>
+              </span>
+              <h2 class="text-3xl font-bold text-heading mb-4" id="cert-title-el"><span class="lang-id">Unduh E-Sertifikat Anda</span><span class="lang-en">Download Your E-Certificate</span></h2>
+              <p class="text-sm text-gray-500 max-w-lg" id="cert-subtitle-el">
+                <span class="lang-id">Masukkan email yang Anda gunakan saat mendaftar acara untuk mengklaim sertifikat partisipasi Anda.</span>
+                <span class="lang-en">Enter the email address you used during event registration to claim your certificate.</span>
+              </p>
+            </div>
+
+            <!-- Search Card -->
+            <div class="bg-bg p-6 sm:p-8 rounded-3xl border border-gray-150 dark:border-slate-800 max-w-xl shadow-sm">
+              <form id="certificate-search-form" class="space-y-4">
+                <div>
+                  <label for="c-email" class="block text-sm font-semibold text-heading mb-1.5">Email</label>
+                  <div class="relative">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"><i class="fas fa-envelope text-sm"></i></span>
+                    <input type="email" id="c-email" required placeholder="johndoe@email.com" class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
+                  </div>
+                </div>
+                
+                <div id="c-error-msg" class="hidden bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 text-sm font-medium flex items-center gap-3">
+                  <i class="fas fa-exclamation-circle text-lg"></i>
+                  <span id="c-error-text">Email tidak terdaftar sebagai peserta webinar.</span>
+                </div>
+
+                <button type="submit" id="c-submit-btn" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                  <span id="c-btn-text"><span class="lang-id">Cari Sertifikat</span><span class="lang-en">Search Certificate</span></span>
+                  <i id="c-btn-spinner" class="fas fa-circle-notch fa-spin hidden"></i>
+                </button>
+              </form>
+            </div>
+
+            <!-- Preview & Download Section -->
+            <div id="certificate-preview-section" class="hidden flex flex-col items-center space-y-6">
+              <h3 class="text-lg font-bold text-heading">
+                <span class="lang-id">Pratinjau Sertifikat</span><span class="lang-en">Certificate Preview</span>
+              </h3>
+              <div class="w-full flex justify-center overflow-x-auto p-2">
+                <canvas id="cert-canvas" width="800" height="565" class="w-full max-w-2xl border border-gray-200 rounded-2xl shadow-lg bg-white"></canvas>
+              </div>
+              <button onclick="downloadCertificatePDF()" class="bg-green-500 hover:bg-green-600 text-white font-bold px-8 py-3.5 rounded-full transition-all shadow-lg hover:shadow-green-150 flex items-center justify-center gap-2">
+                <i class="fas fa-download"></i>
+                <span><span class="lang-id">Unduh PDF</span><span class="lang-en">Download PDF</span></span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
     <!-- Secondary CTA Section -->
     <section class="py-20 bg-bg text-center">
       <div class="max-w-4xl mx-auto px-4">
@@ -176,6 +263,79 @@
     </section>
 
   </main>
+
+  <!-- Event Registration Modal -->
+  <div id="event-register-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-all duration-300">
+    <div class="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto z-10 border border-gray-100 dark:border-slate-800 transform scale-95 opacity-0 transition-all duration-300" id="event-register-modal-content">
+      
+      <!-- Modal Header -->
+      <div class="sticky top-0 bg-white dark:bg-slate-900 px-6 py-4 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between z-10">
+        <div class="min-w-0">
+          <h3 class="font-bold text-heading text-lg leading-snug truncate">
+            <span class="lang-id">Registrasi Event</span><span class="lang-en">Event Registration</span>
+          </h3>
+          <p class="text-xs text-primary font-semibold mt-0.5 truncate" id="reg-event-title-el">Global Career Preparation Webinar</p>
+        </div>
+        <button onclick="closeRegistrationModal()" class="text-gray-400 hover:text-heading dark:hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <form id="event-registration-form" class="px-6 py-5 space-y-4">
+        <input type="hidden" id="reg-event-id">
+        
+        <div>
+          <label for="reg-name" class="block text-xs font-bold text-heading uppercase tracking-wider mb-1.5">
+            <span class="lang-id">Nama Lengkap</span><span class="lang-en">Full Name</span>
+          </label>
+          <input type="text" id="reg-name" required placeholder="John Doe" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-slate-800 dark:text-slate-200">
+        </div>
+
+        <div>
+          <label for="reg-instansi" class="block text-xs font-bold text-heading uppercase tracking-wider mb-1.5">
+            <span class="lang-id">Asal Instansi / Universitas / Sekolah</span><span class="lang-en">Institution / University / School</span>
+          </label>
+          <input type="text" id="reg-instansi" required placeholder="Universitas Indonesia" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-slate-800 dark:text-slate-200">
+        </div>
+
+        <div>
+          <label for="reg-email" class="block text-xs font-bold text-heading uppercase tracking-wider mb-1.5">
+            <span class="lang-id">Email</span><span class="lang-en">Email</span>
+          </label>
+          <input type="email" id="reg-email" required placeholder="johndoe@email.com" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-slate-800 dark:text-slate-200">
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="reg-phone" class="block text-xs font-bold text-heading uppercase tracking-wider mb-1.5">
+              <span class="lang-id">Nomor HP</span><span class="lang-en">Phone Number</span>
+            </label>
+            <input type="tel" id="reg-phone" required placeholder="081234567890" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-slate-800 dark:text-slate-200">
+          </div>
+
+          <div>
+            <label for="reg-domisili" class="block text-xs font-bold text-heading uppercase tracking-wider mb-1.5">
+              <span class="lang-id">Domisili</span><span class="lang-en">Residence</span>
+            </label>
+            <input type="text" id="reg-domisili" required placeholder="Jakarta" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-slate-800 dark:text-slate-200">
+          </div>
+        </div>
+
+        <!-- Success/Error alert inside form -->
+        <div id="reg-alert" class="hidden rounded-xl p-4 text-sm font-medium flex items-center gap-3 border">
+          <i class="fas fa-check-circle text-lg flex-shrink-0" id="reg-alert-icon"></i>
+          <span id="reg-alert-text"></span>
+        </div>
+
+        <!-- Action Button -->
+        <button type="submit" id="reg-submit-btn" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 mt-6">
+          <span><span class="lang-id">Kirim Pendaftaran</span><span class="lang-en">Submit Registration</span></span>
+          <i id="reg-btn-spinner" class="fas fa-circle-notch fa-spin hidden"></i>
+        </button>
+      </form>
+    </div>
+  </div>
 
   <!-- Footer (Global Component) -->
   <div id="global-footer"></div>
@@ -493,6 +653,331 @@
       }
 
 
+      // Certificate Search & PDF Download logic (Local Storage Only)
+      var currentCertificate = null;
+      function initCertificateSearch() {
+        const searchForm = document.getElementById('certificate-search-form');
+        const previewSection = document.getElementById('certificate-preview-section');
+        const errorMsg = document.getElementById('c-error-msg');
+        const errorText = document.getElementById('c-error-text');
+        const submitBtn = document.getElementById('c-submit-btn');
+        const btnText = document.getElementById('c-btn-text');
+        const spinner = document.getElementById('c-btn-spinner');
+        const canvas = document.getElementById('cert-canvas');
+
+        if (!searchForm) return;
+
+        searchForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          const email = document.getElementById('c-email').value.trim();
+          errorMsg.classList.add('hidden');
+          previewSection.classList.add('hidden');
+          if (!email) return;
+
+          submitBtn.disabled = true;
+          spinner.classList.remove('hidden');
+          btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Mencari...' : 'Searching...';
+
+          try {
+            var listKey = 'mock_fb_list_certificates';
+            var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
+            var found = list.find(function(itemObj) {
+              return itemObj.data && itemObj.data.email.toLowerCase() === email.toLowerCase();
+            });
+
+            submitBtn.disabled = false;
+            spinner.classList.add('hidden');
+            btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Cari Sertifikat' : 'Search Certificate';
+
+            if (!found) {
+              errorText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 
+                'Maaf, email Anda tidak terdaftar untuk e-sertifikat mana pun.' : 
+                'Sorry, your email is not registered for any e-certificate.';
+              errorMsg.classList.remove('hidden');
+              return;
+            }
+
+            const certDoc = found.data;
+            currentCertificate = certDoc;
+            drawCertificate(canvas, certDoc);
+            previewSection.classList.remove('hidden');
+          } catch (err) {
+            console.error("Search certificate error:", err);
+            submitBtn.disabled = false;
+            spinner.classList.add('hidden');
+            btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Cari Sertifikat' : 'Search Certificate';
+            errorText.textContent = 'Gagal melakukan pencarian. Silakan coba kembali.';
+            errorMsg.classList.remove('hidden');
+          }
+        });
+      }
+
+      function drawCertificate(canvas, cert) {
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, 800, 565);
+
+        ctx.strokeStyle = '#1D4ED8';
+        ctx.lineWidth = 12;
+        ctx.strokeRect(20, 20, 760, 525);
+
+        ctx.strokeStyle = '#F59E0B';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(32, 32, 736, 501);
+
+        ctx.fillStyle = '#1D4ED8';
+        ctx.beginPath();
+        ctx.moveTo(32, 32);
+        ctx.lineTo(150, 32);
+        ctx.lineTo(32, 150);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#F59E0B';
+        ctx.beginPath();
+        ctx.moveTo(32, 32);
+        ctx.lineTo(80, 32);
+        ctx.lineTo(32, 80);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#1D4ED8';
+        ctx.beginPath();
+        ctx.moveTo(768, 533);
+        ctx.lineTo(650, 533);
+        ctx.lineTo(768, 415);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#F59E0B';
+        ctx.beginPath();
+        ctx.moveTo(768, 533);
+        ctx.lineTo(720, 533);
+        ctx.lineTo(768, 485);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#1E293B';
+        ctx.textAlign = 'center';
+        ctx.font = 'bold 36px Georgia, Playfair Display, serif';
+        ctx.fillText('CERTIFICATE OF APPRECIATION', 400, 110);
+
+        ctx.fillStyle = '#F59E0B';
+        ctx.fillRect(300, 130, 200, 3);
+
+        ctx.fillStyle = '#64748B';
+        ctx.font = 'italic 16px "Inter", sans-serif';
+        ctx.fillText('This certificate is proudly presented to', 400, 190);
+
+        ctx.fillStyle = '#1D4ED8';
+        ctx.font = 'bold 32px "Playfair Display", Georgia, serif';
+        ctx.fillText(cert.name.toUpperCase(), 400, 245);
+
+        ctx.strokeStyle = '#E2E8F0';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(200, 260);
+        ctx.lineTo(600, 260);
+        ctx.stroke();
+
+        ctx.fillStyle = '#64748B';
+        ctx.font = '15px "Inter", sans-serif';
+        ctx.fillText('for participating as a webinar attendee in the event', 400, 300);
+
+        ctx.fillStyle = '#1E293B';
+        ctx.font = 'bold 20px "Inter", sans-serif';
+        ctx.fillText('"' + cert.eventName + '"', 400, 335);
+
+        ctx.fillStyle = '#64748B';
+        ctx.font = '14px "Inter", sans-serif';
+        ctx.fillText('Organized by Hey Youth! on ' + cert.issueDate, 400, 365);
+
+        ctx.strokeStyle = '#CBD5E1';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(300, 450);
+        ctx.lineTo(500, 450);
+        ctx.stroke();
+
+        ctx.fillStyle = '#1E293B';
+        ctx.font = 'bold 15px "Inter", sans-serif';
+        ctx.fillText('YUNI TRIANDINI', 400, 470);
+        
+        ctx.fillStyle = '#64748B';
+        ctx.font = '13px "Inter", sans-serif';
+        ctx.fillText('Founder of Hey Youth!', 400, 490);
+
+        ctx.fillStyle = '#94A3B8';
+        ctx.font = '10px monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText('ID: ' + (cert.certificateNumber || 'HY-N/A'), 45, 520);
+      }
+
+      window.downloadCertificatePDF = function() {
+        if (!currentCertificate) return;
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({
+          orientation: 'landscape',
+          unit: 'px',
+          format: [800, 565]
+        });
+        const canvas = document.getElementById('cert-canvas');
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+        pdf.addImage(imgData, 'JPEG', 0, 0, 800, 565);
+        pdf.save('Certificate-' + currentCertificate.name.replace(/\s+/g, '_') + '.pdf');
+      };
+
+      /* =========================================
+         RENDER UPCOMING EVENTS (Local Storage Only)
+         ========================================= */
+      function renderUpcomingEvents(events) {
+        var container = document.getElementById('events-container');
+        if (!container) return;
+        
+        var list = events || [];
+        var upcoming = list.filter(function(e) { return e.status === 'upcoming'; });
+        
+        if (upcoming.length === 0) {
+          container.innerHTML = '<div class="text-center py-10 text-gray-400">' +
+            '<i class="far fa-calendar-times text-4xl mb-3 block text-gray-300"></i>' +
+            '<span class="lang-id text-sm">Belum ada event terdekat saat ini.</span>' +
+            '<span class="lang-en text-sm">No upcoming events at the moment.</span>' +
+            '</div>';
+        } else {
+          container.innerHTML = upcoming.map(function(item) {
+            var imgSrc = item.image || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=300&auto=format&fit=crop';
+            var escTitleId = _escA(item.title_id || item.title || '').replace(/'/g, "\\'");
+            var escTitleEn = _escA(item.title_en || item.title || '').replace(/'/g, "\\'");
+            var linkHtml = '<button onclick="openRegistrationModal(' + item.id + ', \'' + escTitleId + '\', \'' + escTitleEn + '\')" class="inline-flex items-center px-4 py-2 bg-primary hover:bg-primaryDark text-white text-xs font-bold rounded-xl transition-all shadow-md gap-1.5 self-start">' +
+              '<span class="lang-id">Daftar Sekarang</span><span class="lang-en">Register Now</span>' +
+              '<i class="fas fa-edit text-[10px]"></i>' +
+              '</button>';
+            return '<div class="bg-surface dark:bg-slate-900 p-5 rounded-2xl border border-gray-150 dark:border-slate-800 shadow-sm flex gap-4 hover:shadow-md transition-all duration-300">' +
+              '<img src="' + _escA(imgSrc) + '" class="w-20 h-20 rounded-2xl object-cover flex-shrink-0 border border-gray-100" alt="Event Cover" onerror="this.src=\'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=300&auto=format&fit=crop\'">' +
+              '<div class="flex-grow flex flex-col justify-between min-w-0">' +
+                '<div>' +
+                  '<h4 class="font-bold text-heading text-base leading-snug line-clamp-1 mb-1">' +
+                    '<span class="lang-id">' + _esc(item.title_id || item.title) + '</span>' +
+                    '<span class="lang-en">' + _esc(item.title_en || item.title) + '</span>' +
+                  '</h4>' +
+                  '<div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500">' +
+                    '<span class="flex items-center"><i class="far fa-calendar-alt text-primary" style="margin-right: 8px;"></i>' + _esc(item.date) + '</span>' +
+                    '<span class="flex items-center" style="margin-left: 12px;"><i class="far fa-clock text-primary" style="margin-right: 8px;"></i>' + _esc(item.time) + '</span>' +
+                  '</div>' +
+                  '<div class="text-xs text-gray-500 mt-1 flex items-center"><i class="fas fa-map-marker-alt text-primary" style="margin-right: 8px;"></i>' + _esc(item.location) + '</div>' +
+                '</div>' +
+                '<div class="mt-4 flex items-center justify-between gap-4">' +
+                  '<span class="inline-block px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-blue-50 text-primary dark:bg-blue-950 dark:text-blue-300 uppercase tracking-wider">Upcoming</span>' +
+                  linkHtml +
+                '</div>' +
+              '</div>' +
+            '</div>';
+          }).join('');
+        }
+      }
+
+      /* =========================================
+         EVENT REGISTRATION MODAL
+         ========================================= */
+      window.openRegistrationModal = function(id, titleId, titleEn) {
+        var modal = document.getElementById('event-register-modal');
+        var content = document.getElementById('event-register-modal-content');
+        var titleEl = document.getElementById('reg-event-title-el');
+        var idInput = document.getElementById('reg-event-id');
+        var form = document.getElementById('event-registration-form');
+        var alertEl = document.getElementById('reg-alert');
+
+        if (!modal || !content) return;
+
+        idInput.value = id;
+        
+        // Check active lang
+        var isEn = document.documentElement.lang === 'en' || document.body.classList.contains('lang-en');
+        titleEl.textContent = isEn ? titleEn : titleId;
+
+        form.reset();
+        if (alertEl) alertEl.classList.add('hidden');
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(function() {
+          content.classList.remove('scale-95', 'opacity-0');
+          content.classList.add('scale-100', 'opacity-100');
+        }, 10);
+      };
+
+      window.closeRegistrationModal = function() {
+        var modal = document.getElementById('event-register-modal');
+        var content = document.getElementById('event-register-modal-content');
+
+        if (!modal || !content) return;
+
+        content.classList.remove('scale-100', 'opacity-100');
+        content.classList.add('scale-95', 'opacity-0');
+        setTimeout(function() {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        }, 300);
+      };
+
+      // Form submission handler
+      document.getElementById('event-registration-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        var id = document.getElementById('reg-event-id').value;
+        var name = document.getElementById('reg-name').value.trim();
+        var instansi = document.getElementById('reg-instansi').value.trim();
+        var email = document.getElementById('reg-email').value.trim();
+        var phone = document.getElementById('reg-phone').value.trim();
+        var domisili = document.getElementById('reg-domisili').value.trim();
+
+        var spinner = document.getElementById('reg-btn-spinner');
+        var submitBtn = document.getElementById('reg-submit-btn');
+        var alertEl = document.getElementById('reg-alert');
+        var alertIcon = document.getElementById('reg-alert-icon');
+        var alertText = document.getElementById('reg-alert-text');
+
+        if (spinner) spinner.classList.remove('hidden');
+        if (submitBtn) submitBtn.disabled = true;
+
+        var registrations = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+        var regData = {
+          id: Date.now(),
+          eventId: id,
+          eventName: document.getElementById('reg-event-title-el').textContent,
+          name: name,
+          instansi: instansi,
+          email: email,
+          phone: phone,
+          domisili: domisili,
+          registeredAt: new Date().toISOString()
+        };
+        registrations.push(regData);
+        localStorage.setItem('event_registrations', JSON.stringify(registrations));
+
+        setTimeout(function() {
+          if (spinner) spinner.classList.add('hidden');
+          if (submitBtn) submitBtn.disabled = false;
+
+          if (alertEl) {
+            alertEl.className = 'rounded-xl p-4 text-sm font-medium flex items-center gap-3 border bg-green-50 border-green-200 text-green-700 dark:bg-green-950 dark:border-green-900 dark:text-green-300';
+            if (alertIcon) alertIcon.className = 'fas fa-check-circle text-lg flex-shrink-0 text-green-600';
+            
+            var isEn = document.documentElement.lang === 'en' || document.body.classList.contains('lang-en');
+            if (alertText) {
+              alertText.textContent = isEn 
+                ? 'Registration submitted successfully!' 
+                : 'Pendaftaran berhasil dikirim!';
+            }
+            alertEl.classList.remove('hidden');
+          }
+
+          setTimeout(function() {
+            closeRegistrationModal();
+          }, 2000);
+        }, 800);
+      });
+
       async function initActivities() {
         var data = await window.getFirebaseData(DEFAULT_DATA);
         allActivities = data.activityCards || DEFAULT_DATA.activityCards;
@@ -500,6 +985,28 @@
 
         filterAndRenderActivities();
         filterAndRenderPodcasts();
+        initCertificateSearch();
+        renderUpcomingEvents(data.events || DEFAULT_DATA.events || []);
+
+        // Render dynamic header settings
+        var s = data.eventsSettings || {
+            eventTitle_id: 'Ikuti Event Kami',
+            eventTitle_en: 'Join Our Events',
+            eventSubtitle_id: 'Daftar untuk mengikuti webinar dan kelas bimbingan yang akan berlangsung.',
+            eventSubtitle_en: 'Register to join our upcoming webinars and mentorship sessions.',
+            certTitle_id: 'Unduh E-Sertifikat Anda',
+            certTitle_en: 'Download Your E-Certificate',
+            certSubtitle_id: 'Masukkan email yang Anda gunakan saat mendaftar acara untuk mengklaim sertifikat partisipasi Anda.',
+            certSubtitle_en: 'Enter the email address you used during event registration to claim your certificate.'
+        };
+        var et = document.getElementById('event-title-el');
+        var es = document.getElementById('event-subtitle-el');
+        var ct = document.getElementById('cert-title-el');
+        var cs = document.getElementById('cert-subtitle-el');
+        if (et) et.innerHTML = '<span class="lang-id">' + _esc(s.eventTitle_id) + '</span><span class="lang-en">' + _esc(s.eventTitle_en) + '</span>';
+        if (es) es.innerHTML = '<span class="lang-id">' + _esc(s.eventSubtitle_id) + '</span><span class="lang-en">' + _esc(s.eventSubtitle_en) + '</span>';
+        if (ct) ct.innerHTML = '<span class="lang-id">' + _esc(s.certTitle_id) + '</span><span class="lang-en">' + _esc(s.certTitle_en) + '</span>';
+        if (cs) cs.innerHTML = '<span class="lang-id">' + _esc(s.certSubtitle_id) + '</span><span class="lang-en">' + _esc(s.certSubtitle_en) + '</span>';
 
         var filterButtons = document.querySelectorAll('.filter-btn');
         filterButtons.forEach(function(btn) {

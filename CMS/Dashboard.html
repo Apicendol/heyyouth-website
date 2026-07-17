@@ -365,90 +365,8 @@
 
             <!-- VIEW: HOMEPAGE -->
             <div id="view-homepage" class="space-y-10">
-                <div class="space-y-8">
-                    <div class="border-b border-gray-200 pb-4">
-                        <h2 class="text-lg font-bold text-heading flex items-center gap-2">
-                            <i class="fas fa-chart-line text-primary"></i> Statistik Pengunjung
-                        </h2>
-                        <p class="text-xs text-gray-500 mt-1">Analisis jumlah kunjungan halaman dan tren pengunjung
-                            secara real-time</p>
-                    </div>
+                
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Total Visitors Card -->
-                        <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-4">
-                            <div
-                                class="w-12 h-12 bg-blue-100 text-primary rounded-xl flex items-center justify-center text-xl">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold text-gray-400">Total Pengunjung</p>
-                                <h3 id="stat-total-visitors" class="text-2xl font-bold text-heading mt-0.5">-</h3>
-                            </div>
-                        </div>
-                        <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-4">
-                            <div
-                                class="w-12 h-12 bg-amber-100 text-accent rounded-xl flex items-center justify-center text-xl">
-                                <i class="fas fa-fire"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold text-gray-400">Halaman Terpopuler</p>
-                                <h3 id="stat-top-page"
-                                    class="text-xl font-bold text-heading mt-0.5 truncate max-w-[180px]">-</h3>
-                            </div>
-                        </div>
-                        <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex items-center gap-4">
-                            <div
-                                class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl">
-                                <i class="fas fa-eye"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold text-gray-400">Kunjungan Hari Ini</p>
-                                <h3 id="stat-today-visitors" class="text-2xl font-bold text-heading mt-0.5">-</h3>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <!-- Graph Card (Col span 2) -->
-                        <div
-                            class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm lg:col-span-2 flex flex-col">
-                            <h3 class="font-bold text-heading text-lg mb-4 flex items-center gap-2">
-                                <i class="fas fa-chart-area text-primary text-sm"></i> Grafik Kunjungan (7 Hari
-                                Terakhir)
-                            </h3>
-                            <div class="relative flex-grow min-h-[300px]">
-                                <canvas id="visitorChart"></canvas>
-                            </div>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col">
-                            <h3 class="font-bold text-heading text-lg mb-4 flex items-center gap-2">
-                                <i class="fas fa-list-ol text-accent text-sm"></i> Detail Kunjungan Halaman
-                            </h3>
-                            <div class="overflow-x-auto flex-grow">
-                                <table class="w-full text-sm">
-                                    <thead class="bg-gray-50 border-b border-gray-200">
-                                        <tr>
-                                            <th class="text-left px-3 py-2.5 font-semibold text-heading text-xs">Halaman
-                                            </th>
-                                            <th class="text-center px-3 py-2.5 font-semibold text-heading text-xs">
-                                                Status</th>
-                                            <th class="text-right px-3 py-2.5 font-semibold text-heading text-xs">Jumlah
-                                                View</th>
-                                            <th class="text-right px-3 py-2.5 font-semibold text-heading text-xs">
-                                                Persentase</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="stat-page-views-tbody">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="border-gray-200">
 
                 <div>
                     <div class="flex items-center justify-between mb-4">
@@ -540,11 +458,11 @@
                             </table>
                         </div>
                     </div>
-                </div>
             </div>
+        </div>
 
-            <!-- VIEW: ABOUT US -->
-            <div id="view-about" class="hidden space-y-10">
+        <!-- VIEW: ABOUT US -->
+        <div id="view-about" class="hidden space-y-10">
                 <div>
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-3">
@@ -626,6 +544,99 @@
                         </button>
                     </div>
                     <div id="list-podcasts" class="grid md:grid-cols-2 gap-4"></div>
+                </div>
+
+                <hr class="border-gray-200">
+
+                <!-- Events Section -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center text-accent text-sm">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h2 class="text-lg font-bold text-heading">Upcoming Events</h2>
+                            <span id="count-events" class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-medium">0</span>
+                        </div>
+                        <button onclick="openAddModal('event')" class="bg-primary hover:bg-primaryDark text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+                            <i class="fas fa-plus text-[10px]"></i> Tambah Event
+                        </button>
+                    </div>
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                        <div class="p-6 overflow-x-auto">
+                            <table class="w-full text-sm text-left animate-fade-in">
+                                <thead class="bg-gray-50 border-b border-gray-200 text-heading">
+                                    <tr>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Poster/Banner</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Nama Event</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Tanggal & Waktu</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Lokasi</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Status</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase text-right">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-events" class="divide-y divide-gray-100">
+                                    <tr>
+                                        <td colspan="6" class="text-center py-8 text-gray-400">Memuat data event...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Event Registrations List (Menempel) -->
+                        <div class="border-t border-gray-200 bg-gray-50/50 dark:bg-slate-900/50 p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-primary text-sm">
+                                        <i class="fas fa-id-card"></i>
+                                    </div>
+                                    <h3 class="font-bold text-heading text-base">Daftar Registrasi Peserta Event</h3>
+                                    <span id="count-registrations" class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-medium">0</span>
+                                </div>
+                                <button onclick="clearAllRegistrations()" class="text-red-500 hover:text-red-700 text-xs font-semibold"><i class="fas fa-trash-alt mr-1"></i> Bersihkan Semua</button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="bg-gray-100 dark:bg-slate-800 border-b border-gray-200 text-heading">
+                                        <tr>
+                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">Nama</th>
+                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">Instansi</th>
+                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">Email / No HP</th>
+                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">Domisili</th>
+                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">Event</th>
+                                            <th class="px-4 py-2.5 text-xs font-bold uppercase text-right">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="list-registrations" class="divide-y divide-gray-150">
+                                        <tr>
+                                            <td colspan="6" class="text-center py-6 text-gray-400">Belum ada pendaftaran event.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-gray-200">
+
+                <!-- Events & Certificates Settings Section -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 text-sm">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <h2 class="text-lg font-bold text-heading">Pengaturan Header Event & Sertifikat</h2>
+                        </div>
+                        <button onclick="openEditModal('events-settings', null)" class="bg-primary hover:bg-primaryDark text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+                            <i class="fas fa-pen text-[10px]"></i> Edit Teks Header
+                        </button>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                        <p class="text-sm text-gray-500 mb-4">Kelola judul dan deskripsi section event & sertifikat di halaman Activities:</p>
+                        <div id="preview-events-settings" class="border border-gray-100 rounded-lg p-4 bg-gray-50"></div>
+                    </div>
                 </div>
             </div>
 
@@ -1079,7 +1090,17 @@
                         image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=256&auto=format&fit=crop',
                         status: 'active'
                     }
-                ]
+                ],
+                eventsSettings: {
+                    eventTitle_id: 'Ikuti Event Kami',
+                    eventTitle_en: 'Join Our Events',
+                    eventSubtitle_id: 'Daftar untuk mengikuti webinar dan kelas bimbingan yang akan berlangsung.',
+                    eventSubtitle_en: 'Register to join our upcoming webinars and mentorship sessions.',
+                    certTitle_id: 'Unduh E-Sertifikat Anda',
+                    certTitle_en: 'Download Your E-Certificate',
+                    certSubtitle_id: 'Masukkan email yang Anda gunakan saat mendaftar acara untuk mengklaim sertifikat partisipasi Anda.',
+                    certSubtitle_en: 'Enter the email address you used during event registration to claim your certificate.'
+                }
             };
 
             /* =========================================
@@ -1107,8 +1128,15 @@
             }
 
             function getData() {
-                if (memoryData) return JSON.parse(JSON.stringify(memoryData));
-                return JSON.parse(JSON.stringify(DEFAULT_DATA));
+                var merged = JSON.parse(JSON.stringify(DEFAULT_DATA));
+                if (memoryData) {
+                    for (var key in memoryData) {
+                        if (memoryData.hasOwnProperty(key)) {
+                            merged[key] = memoryData[key];
+                        }
+                    }
+                }
+                return merged;
             }
 
             async function saveData(data) {
@@ -1152,10 +1180,7 @@
                 if (tab === 'homepage') {
                     document.getElementById('view-homepage').classList.remove('hidden');
                     document.getElementById('page-title').textContent = 'Homepage';
-                    document.getElementById('page-desc').textContent = 'Kelola seluruh konten yang tampil di beranda dan analisis kunjungan';
-                    if (lastStatsData) {
-                        updateStatisticsUI(lastStatsData);
-                    }
+                    document.getElementById('page-desc').textContent = 'Kelola seluruh konten yang tampil di beranda';
                 } else if (tab === 'about') {
                     document.getElementById('view-about').classList.remove('hidden');
                     document.getElementById('page-title').textContent = 'About Us';
@@ -1190,7 +1215,10 @@
                 renderActivityCards(data.activityCards);
                 renderPodcasts(data.podcasts);
                 renderPartners(data.partners);
+                renderEventsTable(data.events || []);
+                renderEventsSettingsPreview(data.eventsSettings || DEFAULT_DATA.eventsSettings);
                 updateCounts(data);
+                renderRegistrationsList();
 
                 // Render mentors list locally
                 var mentorsTbody = document.getElementById('list-mentors');
@@ -1204,7 +1232,7 @@
                                 ? '<span class="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Active</span>'
                                 : '<span class="bg-gray-100 text-gray-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Inactive</span>';
 
-                            var imgSrc = item.image ? window._resolveImgPath(item.image) : '';
+                            var imgSrc = item.image ? _resolveImgPath(item.image) : '';
                             var imgHtml = imgSrc ? '<img src="' + escapeAttr(imgSrc) + '" class="w-10 h-10 rounded-full object-cover border">' : '<div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-xs text-gray-500 font-bold">' + escapeHtml(item.name.charAt(0)) + '</div>';
 
                             return '<tr class="border-b border-gray-150 hover:bg-gray-50 transition-colors">' +
@@ -1221,7 +1249,111 @@
                         }).join('');
                     }
                 }
-                if (window.loadAndRenderEvents) loadAndRenderEvents();
+            }
+
+            function renderEventsTable(events) {
+                var tbody = document.getElementById('list-events');
+                if (!tbody) return;
+                
+                if (events.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-gray-400">Belum ada event terdekat.</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = events.map(function (item) {
+                    var statusBadge = item.status === 'upcoming'
+                        ? '<span class="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Upcoming</span>'
+                        : '<span class="bg-gray-100 text-gray-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Past</span>';
+
+                    var imgSrc = item.image ? _resolveImgPath(item.image) : '';
+                    var imgHtml = imgSrc 
+                        ? '<img src="' + escapeAttr(imgSrc) + '" class="w-12 h-12 rounded object-cover border">' 
+                        : '<div class="w-12 h-12 bg-gray-200 flex items-center justify-center text-xs text-gray-500 font-bold">No Image</div>';
+
+                    return '<tr class="border-b border-gray-100 hover:bg-gray-55 transition-colors">' +
+                        '<td class="px-4 py-2.5">' + imgHtml + '</td>' +
+                        '<td class="px-4 py-2.5 font-bold text-xs text-heading">' +
+                        '  <div>' + escapeHtml(item.title_id || item.title || '') + '</div>' +
+                        '  <div class="text-[10px] text-gray-400">EN: ' + escapeHtml(item.title_en || item.title || '') + '</div>' +
+                        '</td>' +
+                        '<td class="px-4 py-2.5 text-xs">' + escapeHtml(item.date) + ' ' + escapeHtml(item.time || '') + '</td>' +
+                        '<td class="px-4 py-2.5 text-xs text-gray-500 max-w-xs truncate">' + escapeHtml(item.location) + '</td>' +
+                        '<td class="px-4 py-2.5">' + statusBadge + '</td>' +
+                        '<td class="px-4 py-2.5 text-right space-x-2">' +
+                        '  <button onclick="openEditModal(\'event\',' + item.id + ')" class="text-primary hover:text-primaryDark text-xs font-semibold"><i class="fas fa-edit"></i> Edit</button>' +
+                        '  <button onclick="confirmDelete(\'event\',' + item.id + ')" class="text-red-500 hover:text-red-700 text-xs font-semibold"><i class="fas fa-trash-alt"></i> Hapus</button>' +
+                        '</td>' +
+                        '</tr>';
+                }).join('');
+            }
+
+            function renderRegistrationsList() {
+                var tbody = document.getElementById('list-registrations');
+                var countEl = document.getElementById('count-registrations');
+                if (!tbody) return;
+
+                var list = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+                if (countEl) countEl.textContent = list.length;
+
+                if (list.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-gray-400">Belum ada pendaftaran event.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = list.map(function (item) {
+                    return '<tr class="border-b border-gray-100 hover:bg-gray-55 dark:hover:bg-slate-800/50 transition-colors">' +
+                        '<td class="px-4 py-3 text-xs font-semibold text-heading">' + escapeHtml(item.name) + '</td>' +
+                        '<td class="px-4 py-3 text-xs text-gray-600 dark:text-slate-300">' + escapeHtml(item.instansi) + '</td>' +
+                        '<td class="px-4 py-3 text-xs">' +
+                        '  <div class="font-medium text-heading">' + escapeHtml(item.email) + '</div>' +
+                        '  <div class="text-[10px] text-gray-400">' + escapeHtml(item.phone) + '</div>' +
+                        '</td>' +
+                        '<td class="px-4 py-3 text-xs text-gray-500">' + escapeHtml(item.domisili) + '</td>' +
+                        '<td class="px-4 py-3 text-xs text-gray-500 max-w-[150px] truncate">' + escapeHtml(item.eventName) + '</td>' +
+                        '<td class="px-4 py-3 text-right">' +
+                        '  <button onclick="deleteRegistration(' + item.id + ')" class="text-red-500 hover:text-red-700 text-xs font-semibold"><i class="fas fa-trash-alt"></i> Hapus</button>' +
+                        '</td>' +
+                        '</tr>';
+                }).join('');
+            }
+
+            window.deleteRegistration = function (id) {
+                if (!confirm('Hapus pendaftaran ini?')) return;
+                var list = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+                list = list.filter(function (item) { return item.id !== id; });
+                localStorage.setItem('event_registrations', JSON.stringify(list));
+                renderRegistrationsList();
+                showToast('Pendaftaran berhasil dihapus.', 'success');
+            };
+
+            window.clearAllRegistrations = function () {
+                if (!confirm('Hapus semua pendaftaran event? Tindakan ini tidak dapat dibatalkan.')) return;
+                localStorage.removeItem('event_registrations');
+                renderRegistrationsList();
+                showToast('Semua pendaftaran berhasil dibersihkan.', 'success');
+            };
+
+            function renderEventsSettingsPreview(s) {
+                var el = document.getElementById('preview-events-settings');
+                if (!el || !s) return;
+                
+                el.innerHTML =
+                    '<div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">' +
+                    '  <div class="space-y-1">' +
+                    '    <h4 class="font-bold text-heading text-xs uppercase text-primary mb-1 border-b pb-1">Upcoming Events Header</h4>' +
+                    '    <div><strong>Title (ID):</strong> ' + escapeHtml(s.eventTitle_id) + '</div>' +
+                    '    <div><strong>Title (EN):</strong> ' + escapeHtml(s.eventTitle_en) + '</div>' +
+                    '    <div><strong>Subtitle (ID):</strong> ' + escapeHtml(s.eventSubtitle_id) + '</div>' +
+                    '    <div><strong>Subtitle (EN):</strong> ' + escapeHtml(s.eventSubtitle_en) + '</div>' +
+                    '  </div>' +
+                    '  <div class="space-y-1">' +
+                    '    <h4 class="font-bold text-heading text-xs uppercase text-accent mb-1 border-b pb-1">Digital Certificate Header</h4>' +
+                    '    <div><strong>Title (ID):</strong> ' + escapeHtml(s.certTitle_id) + '</div>' +
+                    '    <div><strong>Title (EN):</strong> ' + escapeHtml(s.certTitle_en) + '</div>' +
+                    '    <div><strong>Subtitle (ID):</strong> ' + escapeHtml(s.certSubtitle_id) + '</div>' +
+                    '    <div><strong>Subtitle (EN):</strong> ' + escapeHtml(s.certSubtitle_en) + '</div>' +
+                    '  </div>' +
+                    '</div>';
             }
 
             window.closeSidebar = function () {
@@ -1246,6 +1378,7 @@
                 var actCards = (data.activityCards || []).length;
                 var pods = (data.podcasts || []).length;
                 var partners = (data.partners || []).length;
+                var eventsCount = (data.events || []).length;
 
                 document.getElementById('count-external').textContent = ext;
                 document.getElementById('count-internal').textContent = int;
@@ -1257,10 +1390,13 @@
                 document.getElementById('count-podcasts').textContent = pods;
                 document.getElementById('count-partners').textContent = partners;
                 document.getElementById('count-partners-list').textContent = partners;
+                if (document.getElementById('count-events')) {
+                    document.getElementById('count-events').textContent = eventsCount;
+                }
 
                 document.getElementById('count-homepage').textContent = ext + int + faq + loc;
                 document.getElementById('count-about').textContent = team + 1;
-                document.getElementById('count-activities').textContent = actCards + pods;
+                document.getElementById('count-activities').textContent = actCards + pods + eventsCount;
             }
 
             /* =========================================
@@ -1758,6 +1894,8 @@
                     item = data.aboutHero;
                 } else if (section === 'donation-settings') {
                     item = data.donationSettings;
+                } else if (section === 'events-settings') {
+                    item = data.eventsSettings || DEFAULT_DATA.eventsSettings;
                 } else {
                     switch (section) {
                         case 'external': list = data.externalTestimonials; break;
@@ -1768,6 +1906,7 @@
                         case 'activity-card': list = data.activityCards; break;
                         case 'podcast': list = data.podcasts; break;
                         case 'partner': list = data.partners; break;
+                        case 'event': list = data.events; break;
                     }
                     list = list || [];
                     item = list.find(function (i) { return i.id === id; });
@@ -1806,11 +1945,49 @@
                 else if (section === 'podcast') label = 'Podcast Episode';
                 else if (section === 'partner') label = 'Partner';
                 else if (section === 'donation-settings') label = 'Pengaturan Donation';
+                else if (section === 'event') label = 'Event';
+                else if (section === 'events-settings') label = 'Pengaturan Header Event & Sertifikat';
 
                 document.getElementById('modal-title').textContent = (isEdit ? 'Edit ' : 'Tambah ') + label;
                 var html = '';
 
-                if (section === 'donation-settings') {
+                if (section === 'events-settings') {
+                    html += '<h3 class="font-bold text-heading text-xs uppercase text-primary mb-2 border-b pb-1">Upcoming Events Header</h3>';
+                    html += formField('Title (ID)', 'f-event-title-id', item ? item.eventTitle_id : '', 'text', 'Contoh: Ikuti Event Kami');
+                    html += formField('Title (EN)', 'f-event-title-en', item ? item.eventTitle_en : '', 'text', 'Contoh: Join Our Events');
+                    html += formTextarea('Subtitle (ID)', 'f-event-sub-id', item ? item.eventSubtitle_id : '', 'Deskripsi...');
+                    html += formTextarea('Subtitle (EN)', 'f-event-sub-en', item ? item.eventSubtitle_en : '', 'Description...');
+
+                    html += '<h3 class="font-bold text-heading text-xs uppercase text-accent mb-2 mt-4 border-b pb-1">Digital Certificate Header</h3>';
+                    html += formField('Title (ID)', 'f-cert-title-id', item ? item.certTitle_id : '', 'text', 'Contoh: Unduh E-Sertifikat Anda');
+                    html += formField('Title (EN)', 'f-cert-title-en', item ? item.certTitle_en : '', 'text', 'Contoh: Download Your E-Certificate');
+                    html += formTextarea('Subtitle (ID)', 'f-cert-sub-id', item ? item.certSubtitle_id : '', 'Deskripsi...');
+                    html += formTextarea('Subtitle (EN)', 'f-cert-sub-en', item ? item.certSubtitle_en : '', 'Description...');
+                }
+                else if (section === 'event') {
+                    html += formField('Nama Event (ID)', 'f-title-id', item ? item.title_id : '', 'text', 'Webinar Persiapan Karir');
+                    html += formField('Nama Event (EN)', 'f-title-en', item ? item.title_en : '', 'text', 'Career Prep Webinar');
+                    html += formField('Tanggal', 'f-date', item ? item.date : '', 'text', '25 Juli 2026');
+                    html += formField('Waktu', 'f-time', item ? item.time : '', 'text', '15:00 WIB');
+                    html += formField('Lokasi', 'f-location', item ? item.location : '', 'text', 'Zoom Meeting / Alamat');
+                    html += formField('Link Registrasi', 'f-link', item ? item.link : '', 'text', 'https://...');
+                    
+                    html += '<div class="mb-4">' +
+                            '<label class="block text-sm font-semibold text-heading mb-1.5">Status</label>' +
+                            '<select id="f-status" class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-heading focus:outline-none focus:border-primary">' +
+                            '<option value="upcoming" ' + (item && item.status === 'upcoming' ? 'selected' : '') + '>Upcoming (Akan Datang)</option>' +
+                            '<option value="past" ' + (item && item.status === 'past' ? 'selected' : '') + '>Past (Selesai)</option>' +
+                            '</select>' +
+                            '</div>';
+
+                    var existingSrc = '';
+                    if (item && item.image) existingSrc = _resolveImgPath(item.image);
+                    html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Gambar Cover/Banner</label><div id="upload-zone" class="upload-zone rounded-xl p-4 text-center border border-dashed border-gray-300">';
+                    if (existingSrc) html += '<div class="relative"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Gambar tersedia</p>';
+                    else html += '<div class="py-6 text-center"><i class="fas fa-image text-3xl text-gray-300 mb-2"></i><p class="text-sm text-gray-500">Upload Gambar</p></div>';
+                    html += '</div></div>';
+                }
+                else if (section === 'donation-settings') {
                     html += formField('Judul Hero', 'f-hero-title', item ? item.heroTitle : '', 'text', 'Contoh: Support Our Mission');
                     html += formTextarea('Sub Hero', 'f-hero-sub', item ? item.heroSubtitle : '', 'Deskripsi...');
                     html += formField('Teks di Gambar Strip', 'f-strip-text', item ? item.stripText : '', 'text', 'Together We Can');
@@ -2279,12 +2456,54 @@
                         }
                     }
                 }
+                else if (section === 'event') {
+                    var titleId = document.getElementById('f-title-id').value.trim();
+                    var titleEn = document.getElementById('f-title-en').value.trim();
+                    if (!titleId) { showToast('Nama event wajib diisi.', 'error'); return; }
+
+                    var image = '';
+                    if (uploadedImage) image = uploadedImage;
+                    else if (isEdit && editingItem.image && !editingItem.image.startsWith('data:')) image = editingItem.image;
+
+                    var obj = {
+                        id: isEdit ? editingItem.id : Date.now(),
+                        title_id: titleId,
+                        title_en: titleEn || titleId,
+                        date: document.getElementById('f-date').value.trim(),
+                        time: document.getElementById('f-time').value.trim(),
+                        location: document.getElementById('f-location').value.trim(),
+                        link: document.getElementById('f-link').value.trim() || '#',
+                        status: document.getElementById('f-status').value,
+                        image: image
+                    };
+
+                    if (!data.events) data.events = [];
+                    var list = data.events;
+                    if (isEdit) {
+                        var idx = list.findIndex(function (i) { return i.id === editingItem.id; });
+                        if (idx !== -1) list[idx] = obj;
+                    } else {
+                        list.push(obj);
+                    }
+                }
+                else if (section === 'events-settings') {
+                    if (!data.eventsSettings) data.eventsSettings = {};
+                    data.eventsSettings.eventTitle_id = document.getElementById('f-event-title-id').value.trim();
+                    data.eventsSettings.eventTitle_en = document.getElementById('f-event-title-en').value.trim();
+                    data.eventsSettings.eventSubtitle_id = document.getElementById('f-event-sub-id').value.trim();
+                    data.eventsSettings.eventSubtitle_en = document.getElementById('f-event-sub-en').value.trim();
+                    data.eventsSettings.certTitle_id = document.getElementById('f-cert-title-id').value.trim();
+                    data.eventsSettings.certTitle_en = document.getElementById('f-cert-title-en').value.trim();
+                    data.eventsSettings.certSubtitle_id = document.getElementById('f-cert-sub-id').value.trim();
+                    data.eventsSettings.certSubtitle_en = document.getElementById('f-cert-sub-en').value.trim();
+                }
 
                 if (!saveData(data)) return;
                 closeModal();
                 renderAllLists();
                 if (section === 'about-hero') renderAboutPreview();
                 if (section === 'donation-settings') renderDonationPreview();
+                if (section === 'events-settings') renderEventsSettingsPreview(data.eventsSettings);
                 showToast(isEdit ? 'Data berhasil diperbarui.' : 'Data berhasil ditambahkan.', 'success');
             };
 
@@ -2319,6 +2538,7 @@
                     case 'activity-card': data.activityCards = (data.activityCards || []).filter(function (i) { return i.id !== id; }); break;
                     case 'podcast': data.podcasts = (data.podcasts || []).filter(function (i) { return i.id !== id; }); break;
                     case 'partner': data.partners = (data.partners || []).filter(function (i) { return i.id !== id; }); break;
+                    case 'event': data.events = (data.events || []).filter(function (i) { return i.id !== id; }); break;
                 }
                 if (!saveData(data)) return;
                 closeConfirm();
@@ -2333,6 +2553,7 @@
                 renderAllLists();
                 renderAboutPreview();
                 renderDonationPreview();
+                renderEventsSettingsPreview(memoryData.eventsSettings);
                 showToast('Data berhasil direset.', 'success');
             };
 
@@ -3143,7 +3364,6 @@
                 var data = await window.getFirebaseData(DEFAULT_DATA);
                 memoryData = data;
                 renderAllLists();
-                initStatisticsListener();
                 initThemeToggle();
             }
         })();
