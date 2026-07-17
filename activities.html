@@ -714,103 +714,37 @@
 
       function drawCertificate(canvas, cert) {
         const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, 800, 565);
+        const img = new Image();
+        img.onload = function() {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, 800, 565);
+          ctx.drawImage(img, 0, 0, 800, 565);
+          
+          ctx.fillStyle = '#002060';
+          ctx.textAlign = 'center';
+          ctx.font = 'bold italic 28px "Inter", sans-serif';
+          ctx.fillText(cert.name, 400, 260);
 
-        ctx.strokeStyle = '#1D4ED8';
-        ctx.lineWidth = 12;
-        ctx.strokeRect(20, 20, 760, 525);
+          ctx.fillStyle = '#2E75B6';
+          ctx.font = 'bold 15px "Inter", sans-serif';
+          ctx.fillText((cert.role || 'Participant').toUpperCase(), 400, 305);
 
-        ctx.strokeStyle = '#F59E0B';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(32, 32, 736, 501);
+          ctx.fillStyle = '#595959';
+          ctx.font = '14px "Inter", sans-serif';
+          ctx.fillText('In appreciation of your valuable time and insightful contribution at the', 400, 345);
+          ctx.font = 'bold 16px "Inter", sans-serif';
+          ctx.fillText('"' + cert.eventName + '"', 400, 370);
 
-        ctx.fillStyle = '#1D4ED8';
-        ctx.beginPath();
-        ctx.moveTo(32, 32);
-        ctx.lineTo(150, 32);
-        ctx.lineTo(32, 150);
-        ctx.closePath();
-        ctx.fill();
+          ctx.fillStyle = '#595959';
+          ctx.font = '13px "Inter", sans-serif';
+          ctx.fillText('Indonesia, ' + cert.issueDate, 400, 420);
 
-        ctx.fillStyle = '#F59E0B';
-        ctx.beginPath();
-        ctx.moveTo(32, 32);
-        ctx.lineTo(80, 32);
-        ctx.lineTo(32, 80);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.fillStyle = '#1D4ED8';
-        ctx.beginPath();
-        ctx.moveTo(768, 533);
-        ctx.lineTo(650, 533);
-        ctx.lineTo(768, 415);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.fillStyle = '#F59E0B';
-        ctx.beginPath();
-        ctx.moveTo(768, 533);
-        ctx.lineTo(720, 533);
-        ctx.lineTo(768, 485);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.fillStyle = '#1E293B';
-        ctx.textAlign = 'center';
-        ctx.font = 'bold 36px Georgia, Playfair Display, serif';
-        ctx.fillText('CERTIFICATE OF APPRECIATION', 400, 110);
-
-        ctx.fillStyle = '#F59E0B';
-        ctx.fillRect(300, 130, 200, 3);
-
-        ctx.fillStyle = '#64748B';
-        ctx.font = 'italic 16px "Inter", sans-serif';
-        ctx.fillText('This certificate is proudly presented to', 400, 190);
-
-        ctx.fillStyle = '#1D4ED8';
-        ctx.font = 'bold 32px "Playfair Display", Georgia, serif';
-        ctx.fillText(cert.name.toUpperCase(), 400, 245);
-
-        ctx.strokeStyle = '#E2E8F0';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(200, 260);
-        ctx.lineTo(600, 260);
-        ctx.stroke();
-
-        ctx.fillStyle = '#64748B';
-        ctx.font = '15px "Inter", sans-serif';
-        ctx.fillText('for participating as a webinar attendee in the event', 400, 300);
-
-        ctx.fillStyle = '#1E293B';
-        ctx.font = 'bold 20px "Inter", sans-serif';
-        ctx.fillText('"' + cert.eventName + '"', 400, 335);
-
-        ctx.fillStyle = '#64748B';
-        ctx.font = '14px "Inter", sans-serif';
-        ctx.fillText('Organized by Hey Youth! on ' + cert.issueDate, 400, 365);
-
-        ctx.strokeStyle = '#CBD5E1';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(300, 450);
-        ctx.lineTo(500, 450);
-        ctx.stroke();
-
-        ctx.fillStyle = '#1E293B';
-        ctx.font = 'bold 15px "Inter", sans-serif';
-        ctx.fillText('YUNI TRIANDINI', 400, 470);
-        
-        ctx.fillStyle = '#64748B';
-        ctx.font = '13px "Inter", sans-serif';
-        ctx.fillText('Founder of Hey Youth!', 400, 490);
-
-        ctx.fillStyle = '#94A3B8';
-        ctx.font = '10px monospace';
-        ctx.textAlign = 'left';
-        ctx.fillText('ID: ' + (cert.certificateNumber || 'HY-N/A'), 45, 520);
+          ctx.fillStyle = '#94A3B8';
+          ctx.font = '10px monospace';
+          ctx.textAlign = 'left';
+          ctx.fillText('ID: ' + (cert.certificateNumber || 'HY-N/A'), 45, 520);
+        };
+        img.src = 'assets/img/Certificate-Template.png';
       }
 
       window.downloadCertificatePDF = function() {
