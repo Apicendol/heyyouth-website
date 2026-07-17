@@ -14,21 +14,31 @@ const db = firebase.firestore();
 
 // Global utility to get data
 window.getFirebaseData = async function(defaultData) {
+    var fallback = null;
+    try {
+        var raw = localStorage.getItem('hey_youth_cms');
+        if (raw) fallback = JSON.parse(raw);
+    } catch(e) {}
+    if (!fallback) fallback = JSON.parse(JSON.stringify(defaultData || {}));
+
     try {
         const docRef = db.collection('heyyouth').doc('cms_data');
-        const docSnap = await docRef.get();
-        if (docSnap.exists) {
-            return docSnap.data();
-        } else {
-            // Seed default data if it doesn't exist
-            if (defaultData) {
-                await window.saveFirebaseData(defaultData);
+        const getPromise = docRef.get().then(docSnap => {
+            if (docSnap.exists) {
+                var fetched = docSnap.data();
+                try {
+                    localStorage.setItem('hey_youth_cms', JSON.stringify(fetched));
+                } catch(e) {}
+                return fetched;
+            } else {
+                return JSON.parse(JSON.stringify(defaultData));
             }
-            return JSON.parse(JSON.stringify(defaultData));
-        }
+        });
+        const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve(fallback), 1500));
+        return await Promise.race([getPromise, timeoutPromise]);
     } catch (e) {
         console.error("Error reading from Firebase:", e);
-        return JSON.parse(JSON.stringify(defaultData)); // Fallback
+        return fallback;
     }
 };
 

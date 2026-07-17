@@ -15,6 +15,7 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activity Detail - Hey Youth!</title>
+    <link rel="icon" type="image/png" href="assets/img/NEW HEY YOUTH Sep 2025.png">
     <meta name="robots" content="noindex, follow">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -91,6 +92,48 @@
                 <div class="prose prose-lg prose-blue max-w-none text-gray-600 leading-relaxed space-y-6">
                     <div id="detail-full-content">
                     </div>
+                </div>
+
+                <!-- Event Registration Form (Point 2) -->
+                <div id="event-registration-section" class="hidden mt-16 p-8 bg-surface border border-gray-150 dark:border-slate-800 rounded-3xl shadow-sm">
+                    <h3 class="text-2xl font-bold text-heading mb-2">
+                        <span class="lang-id">Daftar Acara Ini</span><span class="lang-en">Register for This Event</span>
+                    </h3>
+                    <p class="text-sm text-gray-500 mb-6">
+                        <span class="lang-id">Silakan isi formulir untuk mendaftar sebagai peserta acara.</span>
+                        <span class="lang-en">Please fill out the form to register as an event participant.</span>
+                    </p>
+                    <form id="event-registration-form" class="space-y-4">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="reg-name" class="block text-sm font-semibold text-heading mb-1.5">
+                                    <span class="lang-id">Nama Lengkap</span><span class="lang-en">Full Name</span>
+                                </label>
+                                <input type="text" id="reg-name" required placeholder="John Doe" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
+                            </div>
+                            <div>
+                                <label for="reg-email" class="block text-sm font-semibold text-heading mb-1.5">Email</label>
+                                <input type="email" id="reg-email" required placeholder="johndoe@email.com" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
+                            </div>
+                        </div>
+                        
+                        <div id="reg-success-msg" class="hidden bg-green-50 border border-green-200 text-green-700 rounded-xl p-4 text-sm font-medium flex items-center gap-3">
+                            <i class="fas fa-check-circle text-lg"></i>
+                            <span>
+                                <span class="lang-id">Pendaftaran berhasil! Konfirmasi pendaftaran telah dikirim ke email Anda.</span>
+                                <span class="lang-en">Registration successful! A confirmation email has been sent.</span>
+                            </span>
+                        </div>
+                        <div id="reg-error-msg" class="hidden bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 text-sm font-medium flex items-center gap-3">
+                            <i class="fas fa-exclamation-circle text-lg"></i>
+                            <span id="reg-error-text">Gagal mendaftar.</span>
+                        </div>
+                        
+                        <button type="submit" id="reg-submit-btn" class="w-full sm:w-auto px-6 py-3 bg-primary hover:bg-primaryDark text-white font-bold rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                            <span id="reg-btn-text"><span class="lang-id">Daftar Sekarang</span><span class="lang-en">Register Now</span></span>
+                            <i id="reg-btn-spinner" class="fas fa-circle-notch fa-spin hidden"></i>
+                        </button>
+                    </form>
                 </div>
 
                 <div
@@ -220,6 +263,16 @@
                         });
                     });
 
+                    // Check if it is an event we can register for (Pendidikan/Education/Webinar/Event)
+                    const category = (activity.category || '').toLowerCase();
+                    const categoryId = (activity.category_id || '').toLowerCase();
+                    const categoryEn = (activity.category_en || '').toLowerCase();
+                    if (category.includes('education') || category.includes('pendidikan') || category.includes('webinar') ||
+                        categoryId.includes('pendidikan') || categoryEn.includes('education')) {
+                        document.getElementById('event-registration-section').classList.remove('hidden');
+                        initRegistrationForm(activity.id, activity.title);
+                    }
+
                     loadingState.classList.add('hidden');
                     articleContainer.classList.remove('hidden');
                 } else {
@@ -231,6 +284,63 @@
                 document.getElementById('loading-state').classList.add('hidden');
                 document.getElementById('error-state').classList.remove('hidden');
             }
+        }
+
+        function initRegistrationForm(eventId, eventTitle) {
+            const form = document.getElementById('event-registration-form');
+            if (!form) return;
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('reg-name').value.trim();
+                const email = document.getElementById('reg-email').value.trim();
+                
+                const successMsg = document.getElementById('reg-success-msg');
+                const errorMsg = document.getElementById('reg-error-msg');
+                const errorText = document.getElementById('reg-error-text');
+                const submitBtn = document.getElementById('reg-submit-btn');
+                const btnText = document.getElementById('reg-btn-text');
+                const spinner = document.getElementById('reg-btn-spinner');
+                
+                successMsg.classList.add('hidden');
+                errorMsg.classList.add('hidden');
+                
+                submitBtn.disabled = true;
+                spinner.classList.remove('hidden');
+                btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Mendaftar...' : 'Registering...';
+                
+                try {
+                    var listKey = 'mock_fb_list_registrations';
+                    var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
+                    list.push({
+                        id: 'reg_' + Date.now(),
+                        data: {
+                            eventId: String(eventId),
+                            eventTitle: eventTitle,
+                            name: name,
+                            email: email,
+                            registeredAt: new Date().toISOString()
+                        }
+                    });
+                    localStorage.setItem(listKey, JSON.stringify(list));
+                    
+                    submitBtn.disabled = false;
+                    spinner.classList.add('hidden');
+                    btnText.innerHTML = localStorage.getItem('heyyouth_lang') === 'id' ? 'Daftar Sekarang' : 'Register Now';
+                    
+                    form.reset();
+                    successMsg.classList.remove('hidden');
+                } catch (err) {
+                    console.error('Registration error:', err);
+                    submitBtn.disabled = false;
+                    spinner.classList.add('hidden');
+                    btnText.innerHTML = localStorage.getItem('heyyouth_lang') === 'id' ? 'Daftar Sekarang' : 'Register Now';
+                    
+                    errorText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Gagal mendaftar. Silakan coba lagi.' : 'Registration failed. Try again.';
+                    errorMsg.classList.remove('hidden');
+                }
+            });
         }
 
         if (document.readyState === 'loading') {

@@ -23,7 +23,7 @@
           <a href="CMS/Login.html" class="text-body hover:text-primary px-3 py-2.5 rounded-lg font-medium transition-colors text-sm flex items-center gap-1.5">
             <i class="fas fa-lock text-xs"></i> Dashboard
           </a>
-          <a href="https://bit.ly/HYOprec" class="bg-primary hover:bg-primaryDark text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXvkYsaiPvhNHGPcUGUQ1tFoWGv5XxLuAQ32B_om95DRAEPg/viewform" target="_blank" class="bg-primary hover:bg-primaryDark text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 focus:ring-2 focus:ring-offset-2 focus:ring-primary">
             Join Us!
           </a>
           <button type="button" class="theme-toggle-btn ml-2 p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all focus:outline-none dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-yellow-400 w-9 h-9 flex items-center justify-center" aria-label="Toggle Theme">
@@ -59,7 +59,7 @@
           <a href="CMS/Login.html" class="block w-full text-center border-2 border-gray-200 text-heading font-semibold px-4 py-3 rounded-xl hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
             <i class="fas fa-lock text-sm"></i> Dashboard
           </a>
-          <a href="https://bit.ly/HYOprec" class="block w-full text-center bg-accent text-white px-4 py-3 rounded-xl font-bold hover:bg-yellow-600 transition-colors shadow-md">Join Us Now!</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXvkYsaiPvhNHGPcUGUQ1tFoWGv5XxLuAQ32B_om95DRAEPg/viewform" target="_blank" class="block w-full text-center bg-accent text-white px-4 py-3 rounded-xl font-bold hover:bg-yellow-600 transition-colors shadow-md">Join Us Now!</a>
           <div class="flex justify-center mt-4 pt-2 gap-3 items-center">
             <div class="btn-group lang-toggle-group bg-gray-200 rounded-full p-1 relative flex items-center w-[84px] h-9 dark:bg-slate-800" role="group" aria-label="Language Switch">
               <div class="absolute left-1 bg-white h-7 w-9 rounded-full shadow-sm transition-transform duration-300 lang-slider-bg dark:bg-slate-900" style="transform: translateX(0);"></div>
@@ -172,6 +172,10 @@ window.playPodcast = function(event, spotifyId) {
         modal = document.createElement('div');
         modal.id = 'spotify-player-modal';
         modal.className = 'fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm';
+        modal.style.zIndex = '99999';
+        modal.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
+        modal.style.backdropFilter = 'blur(4px)';
+        modal.style.webkitBackdropFilter = 'blur(4px)';
         modal.innerHTML = 
             '<div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden border border-gray-100 dark:border-slate-800 transform scale-100 transition-all duration-300">' +
                 '<div class="p-4 border-b border-gray-150 dark:border-slate-800 flex justify-between items-center bg-gray-50 dark:bg-slate-950">' +

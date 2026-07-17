@@ -255,3 +255,23 @@ html.dark #map {
     filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
 }
 
+/* =========================================
+   SPOTIFY PLAYER MODAL (GLOBAL OVERLAY)
+   ========================================= */
+#spotify-player-modal {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    z-index: 99999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 1rem !important;
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+}
+
+

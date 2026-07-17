@@ -15,6 +15,7 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery - Hey Youth!</title>
+    <link rel="icon" type="image/png" href="assets/img/NEW HEY YOUTH Sep 2025.png">
     <meta name="description" content="Kumpulan semua kegiatan dan podcast dari Hey Youth!">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -49,8 +50,23 @@
         <!-- All Activities -->
         <section id="activities" class="py-20 bg-bg">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl font-bold text-heading mb-12 border-b-2 border-primary/20 pb-4 inline-block">All
+                <h2 class="text-3xl font-bold text-heading mb-8 border-b-2 border-primary/20 pb-4 inline-block">All
                     Activities</h2>
+
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+                    <!-- Category Filters -->
+                    <div class="flex flex-wrap gap-2" id="activity-filters">
+                        <button class="filter-btn active px-4 py-2 rounded-full text-sm font-semibold transition-all bg-primary text-white" data-category="all">
+                            <span class="lang-id">Semua</span><span class="lang-en">All</span>
+                        </button>
+                        <button class="filter-btn px-4 py-2 rounded-full text-sm font-semibold transition-all bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" data-category="education">
+                            <span class="lang-id">Pendidikan</span><span class="lang-en">Education</span>
+                        </button>
+                        <button class="filter-btn px-4 py-2 rounded-full text-sm font-semibold transition-all bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" data-category="community">
+                            <span class="lang-id">Komunitas</span><span class="lang-en">Community</span>
+                        </button>
+                    </div>
+                </div>
 
                 <div id="activity-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 </div>
@@ -60,8 +76,10 @@
         <!-- All Podcasts -->
         <section id="podcasts" class="py-20 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl font-bold text-heading mb-12 border-b-2 border-accent/20 pb-4 inline-block">All
+                <h2 class="text-3xl font-bold text-heading mb-8 border-b-2 border-accent/20 pb-4 inline-block">All
                     Podcasts</h2>
+
+
 
                 <div id="podcast-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 </div>
@@ -199,7 +217,7 @@
 
                     var playBtnHtml = '';
                     if (spotifyId) {
-                        playBtnHtml = '<button onclick="playPodcast(event, \'' + spotifyId + '\')" class="w-full inline-flex items-center justify-center text-sm font-bold text-white bg-green-500 hover:bg-green-600 px-4 py-3 rounded-full transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"><i class="fas fa-play mr-2"></i> <span class="lang-id">Mainkan Episode</span><span class="lang-en">Play Episode</span></button>';
+                        playBtnHtml = '<iframe src="https://open.spotify.com/embed/episode/' + spotifyId + '?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" class="rounded-xl border-none"></iframe>';
                     } else {
                         playBtnHtml = '<a href="' + _escA(targetLink) + '" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center text-sm font-bold text-white bg-green-500 hover:bg-green-600 px-4 py-3 rounded-full transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"><i class="fab fa-spotify mr-2"></i> <span class="lang-id">Dengarkan di Spotify</span><span class="lang-en">Listen on Spotify</span></a>';
                     }
@@ -221,10 +239,100 @@
                 }).join('');
             }
 
+            var allActivities = [];
+            var allPodcasts = [];
+            var activeCategory = 'all';
+            var activitySearchQuery = '';
+            var podcastSearchQuery = '';
+
+            function filterAndRenderActivities() {
+                var filtered = allActivities.filter(function(item) {
+                    var matchesCategory = true;
+                    if (activeCategory !== 'all') {
+                        var cat = (item.category || '').toLowerCase();
+                        var catId = (item.category_id || '').toLowerCase();
+                        var catEn = (item.category_en || '').toLowerCase();
+                        if (activeCategory === 'education') {
+                            matchesCategory = cat.includes('education') || cat.includes('pendidikan') || catId.includes('pendidikan') || catEn.includes('education');
+                        } else if (activeCategory === 'community') {
+                            matchesCategory = cat.includes('community') || cat.includes('komunitas') || catId.includes('komunitas') || catEn.includes('community');
+                        }
+                    }
+                    
+                    var matchesSearch = true;
+                    if (activitySearchQuery) {
+                        var q = activitySearchQuery.toLowerCase();
+                        var title = (item.title || '').toLowerCase();
+                        var titleId = (item.title_id || '').toLowerCase();
+                        var titleEn = (item.title_en || '').toLowerCase();
+                        var desc = (item.description || '').toLowerCase();
+                        var descId = (item.description_id || '').toLowerCase();
+                        var descEn = (item.description_en || '').toLowerCase();
+                        
+                        matchesSearch = title.includes(q) || titleId.includes(q) || titleEn.includes(q) ||
+                                        desc.includes(q) || descId.includes(q) || descEn.includes(q);
+                    }
+                    
+                    return matchesCategory && matchesSearch;
+                });
+                renderActivityCards(filtered);
+            }
+
+            function filterAndRenderPodcasts() {
+                var filtered = allPodcasts.filter(function(item) {
+                    var matchesSearch = true;
+                    if (podcastSearchQuery) {
+                        var q = podcastSearchQuery.toLowerCase();
+                        var title = (item.title || '').toLowerCase();
+                        var titleId = (item.title_id || '').toLowerCase();
+                        var titleEn = (item.title_en || '').toLowerCase();
+                        var episode = (item.episode || '').toLowerCase();
+                        
+                        matchesSearch = title.includes(q) || titleId.includes(q) || titleEn.includes(q) ||
+                                        episode.includes(q);
+                    }
+                    return matchesSearch;
+                });
+                renderPodcasts(filtered);
+            }
+
             async function initGallery() {
                 var data = await window.getFirebaseData(DEFAULT_DATA);
-                renderActivityCards(data.activityCards || DEFAULT_DATA.activityCards);
-                renderPodcasts(data.podcasts || DEFAULT_DATA.podcasts);
+                allActivities = data.activityCards || DEFAULT_DATA.activityCards;
+                allPodcasts = data.podcasts || DEFAULT_DATA.podcasts;
+                
+                filterAndRenderActivities();
+                filterAndRenderPodcasts();
+
+                var filterButtons = document.querySelectorAll('.filter-btn');
+                filterButtons.forEach(function(btn) {
+                    btn.addEventListener('click', function(e) {
+                        filterButtons.forEach(function(b) { 
+                            b.classList.remove('active', 'bg-primary', 'text-white'); 
+                            b.classList.add('bg-gray-100', 'text-gray-700', 'dark:bg-slate-800', 'dark:text-slate-200'); 
+                        });
+                        e.currentTarget.classList.add('active', 'bg-primary', 'text-white');
+                        e.currentTarget.classList.remove('bg-gray-100', 'text-gray-700', 'dark:bg-slate-800', 'dark:text-slate-200');
+                        activeCategory = e.currentTarget.getAttribute('data-category');
+                        filterAndRenderActivities();
+                    });
+                });
+
+                var searchInput = document.getElementById('activity-search');
+                if (searchInput) {
+                    searchInput.addEventListener('input', function(e) {
+                        activitySearchQuery = e.target.value.trim();
+                        filterAndRenderActivities();
+                    });
+                }
+
+                var podcastSearchInput = document.getElementById('podcast-search');
+                if (podcastSearchInput) {
+                    podcastSearchInput.addEventListener('input', function(e) {
+                        podcastSearchQuery = e.target.value.trim();
+                        filterAndRenderPodcasts();
+                    });
+                }
             }
 
             if (document.readyState === 'loading') {
