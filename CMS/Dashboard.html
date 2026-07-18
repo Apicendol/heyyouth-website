@@ -615,6 +615,41 @@
                                 </table>
                             </div>
                         </div>
+
+                        <!-- Certificates List (Menempel di Bawah Registrasi) -->
+                        <div class="border-t border-gray-200 bg-white dark:bg-slate-900 p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-purple-100 dark:bg-purple-950/50 rounded-lg flex items-center justify-center text-purple-600 dark:text-purple-400 text-sm">
+                                        <i class="fas fa-certificate"></i>
+                                    </div>
+                                    <h3 class="font-bold text-heading text-base">Daftar Sertifikat Terbit</h3>
+                                    <span id="count-certificates" class="text-xs bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 px-2 py-0.5 rounded-full font-medium">0</span>
+                                </div>
+                                <button onclick="openAddCertificateModal()" class="bg-primary hover:bg-primaryDark text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+                                    <i class="fas fa-plus text-[10px]"></i> Terbitkan Sertifikat Baru
+                                </button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="bg-gray-100 dark:bg-slate-800 border-b border-gray-200 text-heading">
+                                        <tr>
+                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">No. Sertifikat</th>
+                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">Nama</th>
+                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">Email</th>
+                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">Event</th>
+                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">Tanggal Rilis</th>
+                                            <th class="px-4 py-2.5 text-xs font-bold uppercase text-right">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="list-certificates" class="divide-y divide-gray-150">
+                                        <tr>
+                                            <td colspan="6" class="text-center py-6 text-gray-400">Belum ada sertifikat yang diterbitkan.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1219,6 +1254,7 @@
                 renderEventsSettingsPreview(data.eventsSettings || DEFAULT_DATA.eventsSettings);
                 updateCounts(data);
                 renderRegistrationsList();
+                loadAndRenderCertificates();
 
                 // Render mentors list locally
                 var mentorsTbody = document.getElementById('list-mentors');
@@ -1301,6 +1337,9 @@
                 }
 
                 tbody.innerHTML = list.map(function (item) {
+                    var escName = escapeHtml(item.name).replace(/'/g, "\\'");
+                    var escEmail = escapeHtml(item.email).replace(/'/g, "\\'");
+                    var escEvent = escapeHtml(item.eventName).replace(/'/g, "\\'");
                     return '<tr class="border-b border-gray-100 hover:bg-gray-55 dark:hover:bg-slate-800/50 transition-colors">' +
                         '<td class="px-4 py-3 text-xs font-semibold text-heading">' + escapeHtml(item.name) + '</td>' +
                         '<td class="px-4 py-3 text-xs text-gray-600 dark:text-slate-300">' + escapeHtml(item.instansi) + '</td>' +
@@ -1310,12 +1349,69 @@
                         '</td>' +
                         '<td class="px-4 py-3 text-xs text-gray-500">' + escapeHtml(item.domisili) + '</td>' +
                         '<td class="px-4 py-3 text-xs text-gray-500 max-w-[150px] truncate">' + escapeHtml(item.eventName) + '</td>' +
-                        '<td class="px-4 py-3 text-right">' +
+                        '<td class="px-4 py-3 text-right space-x-2">' +
+                        '  <button onclick="publishCertificateFromReg(\'' + escName + '\', \'' + escEmail + '\', \'' + escEvent + '\')" class="text-purple-600 hover:text-purple-800 text-xs font-semibold"><i class="fas fa-certificate"></i> Terbitkan Sertifikat</button>' +
                         '  <button onclick="deleteRegistration(' + item.id + ')" class="text-red-500 hover:text-red-700 text-xs font-semibold"><i class="fas fa-trash-alt"></i> Hapus</button>' +
                         '</td>' +
                         '</tr>';
                 }).join('');
             }
+
+            window.publishCertificateFromReg = function (name, email, eventName) {
+                var modalTitle = document.getElementById('modal-title');
+                var modalBody = document.getElementById('modal-body');
+                if (!modalTitle || !modalBody) return;
+
+                // Hitung nomor sertifikat acak/urut berdasarkan timestamp
+                var certNum = 'HY-REG-' + Date.now().toString().slice(-6);
+                
+                // Format tanggal rilis hari ini
+                var dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+                var todayStr = new Date().toLocaleDateString('id-ID', dateOptions);
+
+                modalTitle.textContent = 'Terbitkan Sertifikat dari Registrasi';
+                modalBody.innerHTML = '<form id="form-add-certificate" class="space-y-4">' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Nomor Sertifikat</label><input type="text" id="c-number" required value="' + certNum + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Nama Penerima</label><input type="text" id="c-name" required value="' + name + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Email Penerima</label><input type="email" id="c-email" required value="' + email + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Nama Acara / Webinar</label><input type="text" id="c-event" required value="' + eventName + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Tanggal Rilis</label><input type="text" id="c-date" required value="' + todayStr + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Terbitkan</button>' +
+                    '</form>';
+
+                document.getElementById('modal').classList.remove('hidden');
+                document.getElementById('form-add-certificate').addEventListener('submit', async function (e) {
+                    e.preventDefault();
+                    var num = document.getElementById('c-number').value.trim();
+                    var nameVal = document.getElementById('c-name').value.trim();
+                    var emailVal = document.getElementById('c-email').value.trim();
+                    var eventVal = document.getElementById('c-event').value.trim();
+                    var dateVal = document.getElementById('c-date').value.trim();
+
+                    try {
+                        var listKey = 'mock_fb_list_certificates';
+                        var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
+                        var newId = 'cert_' + Date.now();
+                        list.push({
+                            id: newId,
+                            data: {
+                                certificateNumber: num,
+                                name: nameVal,
+                                email: emailVal,
+                                eventName: eventVal,
+                                issueDate: dateVal
+                            }
+                        });
+                        localStorage.setItem(listKey, JSON.stringify(list));
+                        showToast('Sertifikat berhasil diterbitkan.', 'success');
+                        closeModal();
+                        loadAndRenderCertificates();
+                    } catch (err) {
+                        console.error(err);
+                        showToast('Gagal menerbitkan sertifikat.', 'error');
+                    }
+                });
+            };
 
             window.deleteRegistration = function (id) {
                 if (!confirm('Hapus pendaftaran ini?')) return;
@@ -2940,6 +3036,8 @@
                 try {
                     var listKey = 'mock_fb_list_certificates';
                     var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
+                    var countCertEl = document.getElementById('count-certificates');
+                    if (countCertEl) countCertEl.textContent = list.length;
                     if (list.length === 0) {
                         tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-gray-400">Belum ada sertifikat yang diterbitkan.</td></tr>';
                         return;
