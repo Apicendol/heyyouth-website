@@ -679,17 +679,15 @@
           btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Mencari...' : 'Searching...';
 
           try {
-            var listKey = 'mock_fb_list_certificates';
-            var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
-            var found = list.find(function(itemObj) {
-              return itemObj.data && itemObj.data.email.toLowerCase() === email.toLowerCase();
-            });
+            // Ganti URL ini dengan URL backend production Anda jika sudah dideploy (misal Render/Vercel)
+            const backendUrl = 'http://localhost:5000';
+            const response = await fetch(`${backendUrl}/api/certificates?email=${encodeURIComponent(email)}`);
 
             submitBtn.disabled = false;
             spinner.classList.add('hidden');
             btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Cari Sertifikat' : 'Search Certificate';
 
-            if (!found) {
+            if (response.status === 404) {
               errorText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 
                 'Maaf, email Anda tidak terdaftar untuk e-sertifikat mana pun.' : 
                 'Sorry, your email is not registered for any e-certificate.';
@@ -697,7 +695,11 @@
               return;
             }
 
-            const certDoc = found.data;
+            if (!response.ok) {
+              throw new Error('API response error');
+            }
+
+            const certDoc = await response.json();
             currentCertificate = certDoc;
             drawCertificate(canvas, certDoc);
             previewSection.classList.remove('hidden');
@@ -706,7 +708,9 @@
             submitBtn.disabled = false;
             spinner.classList.add('hidden');
             btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Cari Sertifikat' : 'Search Certificate';
-            errorText.textContent = 'Gagal melakukan pencarian. Silakan coba kembali.';
+            errorText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ?
+              'Gagal menghubungi server. Silakan coba kembali nanti.' :
+              'Failed to connect to the server. Please try again later.';
             errorMsg.classList.remove('hidden');
           }
         });
