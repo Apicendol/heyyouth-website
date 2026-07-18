@@ -1354,17 +1354,39 @@
                         '<td class="px-4 py-3 text-xs text-gray-500">' + escapeHtml(item.domisili) + '</td>' +
                         '<td class="px-4 py-3 text-xs text-gray-500 max-w-[150px] truncate">' + escapeHtml(item.eventName) + '</td>' +
                         '<td class="px-4 py-3 text-right space-x-2">' +
-                        '  <button onclick="publishCertificateFromReg(\'' + escName + '\', \'' + escEmail + '\', \'' + escEvent + '\')" class="text-purple-600 hover:text-purple-800 text-xs font-semibold"><i class="fas fa-certificate"></i> Terbitkan Sertifikat</button>' +
+                        '  <button onclick="publishCertificateFromReg(' + item.id + ')" class="text-purple-600 hover:text-purple-800 text-xs font-semibold"><i class="fas fa-certificate"></i> Terbitkan Sertifikat</button>' +
                         '  <button onclick="deleteRegistration(' + item.id + ')" class="text-red-500 hover:text-red-700 text-xs font-semibold"><i class="fas fa-trash-alt"></i> Hapus</button>' +
                         '</td>' +
                         '</tr>';
                 }).join('');
             }
 
-            window.publishCertificateFromReg = function (name, email, eventName) {
+
+            window.publishCertificateFromReg = function (regId) {
                 var modalTitle = document.getElementById('modal-title');
                 var modalBody = document.getElementById('modal-body');
                 if (!modalTitle || !modalBody) return;
+
+                var regList = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+                var reg = regList.find(function (r) { return r.id === regId; });
+                if (!reg) {
+                    showToast('Data registrasi tidak ditemukan.', 'error');
+                    return;
+                }
+
+                var name = reg.name;
+                var email = reg.email;
+                var eventName = reg.eventName;
+
+                // Cari data event kustom untuk mengambil certDescription kustom dan tanggal event
+                var data = getData();
+                var events = data.events || [];
+                var eventObj = events.find(function(e) {
+                    return (e.title_id === eventName || e.title_en === eventName || e.title === eventName);
+                });
+
+                var defaultCertDesc = 'In recognition of your active participation in the Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era." Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
+                var description = eventObj ? (eventObj.certDescription || defaultCertDesc) : defaultCertDesc;
 
                 // Hitung nomor sertifikat acak/urut berdasarkan timestamp
                 var certNum = 'HY-REG-' + Date.now().toString().slice(-6);
@@ -1372,6 +1394,7 @@
                 // Format tanggal rilis hari ini
                 var dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
                 var todayStr = new Date().toLocaleDateString('id-ID', dateOptions);
+                var issueDateStr = eventObj ? eventObj.date : todayStr;
 
                 modalTitle.textContent = 'Terbitkan Sertifikat dari Registrasi';
                 modalBody.innerHTML = '<form id="form-add-certificate" class="space-y-4">' +
@@ -1379,7 +1402,8 @@
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Penerima</label><input type="text" id="c-name" required value="' + name + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Email Penerima</label><input type="email" id="c-email" required value="' + email + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Acara / Webinar</label><input type="text" id="c-event" required value="' + eventName + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
-                    '<div><label class="block text-sm font-medium text-gray-700">Tanggal Rilis</label><input type="text" id="c-date" required value="' + todayStr + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Teks Deskripsi Sertifikat</label><textarea id="c-description" rows="3" required class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' + escapeHtml(description) + '</textarea></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Tanggal Rilis</label><input type="text" id="c-date" required value="' + issueDateStr + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Terbitkan</button>' +
                     '</form>';
 
@@ -1390,6 +1414,7 @@
                     var nameVal = document.getElementById('c-name').value.trim();
                     var emailVal = document.getElementById('c-email').value.trim();
                     var eventVal = document.getElementById('c-event').value.trim();
+                    var descVal = document.getElementById('c-description').value.trim();
                     var dateVal = document.getElementById('c-date').value.trim();
 
                     try {
@@ -1403,6 +1428,7 @@
                                 name: nameVal,
                                 email: emailVal,
                                 eventName: eventVal,
+                                description: descVal,
                                 issueDate: dateVal
                             }
                         });
@@ -2100,13 +2126,27 @@
                 else if (section === 'event') {
                     html += formField('Nama Event (ID)', 'f-title-id', item ? item.title_id : '', 'text', 'Webinar Persiapan Karir');
                     html += formField('Nama Event (EN)', 'f-title-en', item ? item.title_en : '', 'text', 'Career Prep Webinar');
-                    html += formField('Tanggal', 'f-date', item ? item.date : '', 'text', '25 Juli 2026');
+                    var startDateVal = item ? (item.startDate || '') : '';
+                    var endDateVal = item ? (item.endDate || '') : '';
+                    html += '<div class="grid grid-cols-2 gap-4 mb-4 items-end">' +
+                            '  <div>' +
+                            '    <label class="block text-sm font-semibold text-heading mb-1.5">Tanggal Mulai</label>' +
+                            '    <input type="date" id="f-start-date" value="' + escapeAttr(startDateVal) + '" onclick="this.showPicker()" class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-heading focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">' +
+                            '  </div>' +
+                            '  <div>' +
+                            '    <label class="block text-sm font-semibold text-heading mb-1.5">Tanggal Selesai (Opsional)</label>' +
+                            '    <input type="date" id="f-end-date" value="' + escapeAttr(endDateVal) + '" onclick="this.showPicker()" class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-heading focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">' +
+                            '  </div>' +
+                            '</div>';
                     html += formField('Waktu', 'f-time', item ? item.time : '', 'text', '15:00 WIB');
                     html += formField('Lokasi', 'f-location', item ? item.location : '', 'text', 'Zoom Meeting / Alamat');
                     html += formField('Link Registrasi', 'f-link', item ? item.link : '', 'text', 'https://...');
                     html += formField('Pembicara / Speaker', 'f-speaker', item ? item.speaker : '', 'text', 'Yuni Triandini');
                     html += formField('Peran Pembicara / Speaker Role', 'f-speaker-role', item ? item.speakerRole : '', 'text', 'Founder of Hey Youth');
                     
+                    var defaultCertDesc = 'In recognition of your active participation in the Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era." Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
+                    html += formTextarea('Teks Deskripsi Sertifikat (Akan di-render di tengah sertifikat)', 'f-cert-description', item ? (item.certDescription || item.description) : defaultCertDesc, 'Contoh: In recognition of your active participation in...');
+
                     html += '<div class="mb-4">' +
                             '<label class="block text-sm font-semibold text-heading mb-1.5">Status</label>' +
                             '<select id="f-status" class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-heading focus:outline-none focus:border-primary">' +
@@ -2614,17 +2654,64 @@
                     if (uploadedSpeakerImage) speakerImage = uploadedSpeakerImage;
                     else if (isEdit && editingItem.speakerImage && !editingItem.speakerImage.startsWith('data:')) speakerImage = editingItem.speakerImage;
 
+                    var startDateVal = document.getElementById('f-start-date').value;
+                    var endDateVal = document.getElementById('f-end-date').value;
+
+                    function formatDateRange(startDateStr, endDateStr) {
+                        if (!startDateStr) return '';
+                        var start = new Date(startDateStr);
+                        var monthsEN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                        
+                        function getOrdinal(d) {
+                            if (d >= 11 && d <= 13) return d + 'th';
+                            switch (d % 10) {
+                                case 1: return d + 'st';
+                                case 2: return d + 'nd';
+                                case 3: return d + 'rd';
+                                default: return d + 'th';
+                            }
+                        }
+
+                        var startDay = getOrdinal(start.getDate());
+                        var startMonth = monthsEN[start.getMonth()];
+                        var startYear = start.getFullYear();
+                        
+                        if (!endDateStr || startDateStr === endDateStr) {
+                            return startMonth + ' ' + startDay + ', ' + startYear;
+                        }
+                        
+                        var end = new Date(endDateStr);
+                        var endDay = getOrdinal(end.getDate());
+                        var endMonth = monthsEN[end.getMonth()];
+                        var endYear = end.getFullYear();
+                        
+                        if (startYear !== endYear) {
+                            return startMonth + ' ' + startDay + ', ' + startYear + ' - ' + endMonth + ' ' + endDay + ', ' + endYear;
+                        }
+                        
+                        if (startMonth !== endMonth) {
+                            return startMonth + ' ' + startDay + ' - ' + endMonth + ' ' + endDay + ', ' + startYear;
+                        }
+                        
+                        return startMonth + ' ' + startDay + ' - ' + endDay + ', ' + startYear;
+                    }
+
+                    var formattedDate = formatDateRange(startDateVal, endDateVal) || (isEdit ? editingItem.date : '');
+
                     var obj = {
                         id: isEdit ? editingItem.id : Date.now(),
                         title_id: titleId,
                         title_en: titleEn || titleId,
-                        date: document.getElementById('f-date').value.trim(),
+                        startDate: startDateVal,
+                        endDate: endDateVal,
+                        date: formattedDate,
                         time: document.getElementById('f-time').value.trim(),
                         location: document.getElementById('f-location').value.trim(),
                         link: document.getElementById('f-link').value.trim() || '#',
                         speaker: document.getElementById('f-speaker').value.trim(),
                         speakerRole: document.getElementById('f-speaker-role').value.trim(),
                         speakerImage: speakerImage,
+                        certDescription: document.getElementById('f-cert-description').value.trim(),
                         status: document.getElementById('f-status').value,
                         image: image
                     };
@@ -3140,12 +3227,15 @@
                 var modalBody = document.getElementById('modal-body');
                 if (!modalTitle || !modalBody) return;
 
+                var defaultCertDesc = 'In recognition of your active participation in the Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era." Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
+
                 modalTitle.textContent = 'Terbitkan Sertifikat Baru';
                 modalBody.innerHTML = '<form id="form-add-certificate" class="space-y-4">' +
                     '<div><label class="block text-sm font-medium text-gray-700">Nomor Sertifikat</label><input type="text" id="c-number" required placeholder="HY-WEBINAR-001" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Penerima</label><input type="text" id="c-name" required placeholder="John Doe" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Email Penerima</label><input type="email" id="c-email" required placeholder="johndoe@email.com" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Acara / Webinar</label><input type="text" id="c-event" required placeholder="Webinar Pendidikan Kreatif" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Teks Deskripsi Sertifikat</label><textarea id="c-description" rows="3" required class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' + defaultCertDesc + '</textarea></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Tanggal Rilis</label><input type="text" id="c-date" required placeholder="17 Juli 2026" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Terbitkan</button>' +
                     '</form>';
@@ -3157,6 +3247,7 @@
                     var name = document.getElementById('c-name').value.trim();
                     var email = document.getElementById('c-email').value.trim();
                     var event = document.getElementById('c-event').value.trim();
+                    var desc = document.getElementById('c-description').value.trim();
                     var date = document.getElementById('c-date').value.trim();
 
                     try {
@@ -3170,6 +3261,7 @@
                                 name: name,
                                 email: email,
                                 eventName: event,
+                                description: desc,
                                 issueDate: date
                             }
                         });

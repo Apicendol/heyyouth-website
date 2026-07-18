@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap"
     rel="stylesheet">
 
   <link rel="stylesheet" href="assets/Style/tailwind.css">
@@ -717,44 +717,80 @@
         });
       }
 
-      function drawCertificate(canvas, cert) {
+      async function drawCertificate(canvas, cert) {
         // Set resolusi canvas ke HD (3x dari 800x565) agar tidak pecah/blur
         const scale = 3;
         canvas.width = 800 * scale;
         canvas.height = 565 * scale;
 
         const ctx = canvas.getContext('2d');
+
+        // Pastikan font "Great Vibes" dan "Inter" sudah terunduh sebelum menggambar
+        if (document.fonts) {
+          try {
+            await document.fonts.load('30px "Great Vibes"');
+            await document.fonts.load('12px "Inter"');
+          } catch (e) {
+            console.warn("Gagal memuat font secara dinamis:", e);
+          }
+        }
+
         const img = new Image();
         img.onload = function() {
           ctx.fillStyle = '#ffffff';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           
-          ctx.fillStyle = '#002060';
+          // 1. Nama Penerima (Kaligrafi Latin Emas/Gold)
+          ctx.fillStyle = '#b5892c'; // Warna emas elegan
           ctx.textAlign = 'center';
-          ctx.font = 'bold italic ' + (28 * scale) + 'px "Inter", sans-serif';
-          ctx.fillText(cert.name, 400 * scale, 260 * scale);
+          ctx.font = (42 * scale) + 'px "Great Vibes", cursive';
+          ctx.fillText(cert.name, 400 * scale, 290 * scale);
 
-          ctx.fillStyle = '#2E75B6';
-          ctx.font = 'bold ' + (15 * scale) + 'px "Inter", sans-serif';
-          ctx.fillText((cert.role || 'Participant').toUpperCase(), 400 * scale, 305 * scale);
+          // Helper untuk membungkus teks deskripsi panjang menjadi beberapa baris
+          function wrapText(context, text, x, y, maxWidth, lineHeight) {
+            var words = text.split(' ');
+            var line = '';
+            var currentY = y;
 
-          ctx.fillStyle = '#595959';
-          ctx.font = (14 * scale) + 'px "Inter", sans-serif';
-          ctx.fillText('In appreciation of your valuable time and insightful contribution at the', 400 * scale, 345 * scale);
-          ctx.font = 'bold ' + (16 * scale) + 'px "Inter", sans-serif';
-          ctx.fillText('"' + cert.eventName + '"', 400 * scale, 370 * scale);
+            for (var n = 0; n < words.length; n++) {
+              var testLine = line + words[n] + ' ';
+              var metrics = context.measureText(testLine);
+              var testWidth = metrics.width;
+              if (testWidth > maxWidth && n > 0) {
+                context.fillText(line, x, currentY);
+                line = words[n] + ' ';
+                currentY += lineHeight;
+              } else {
+                line = testLine;
+              }
+            }
+            context.fillText(line, x, currentY);
+            return currentY;
+          }
 
-          ctx.fillStyle = '#595959';
-          ctx.font = (13 * scale) + 'px "Inter", sans-serif';
-          ctx.fillText('Indonesia, ' + cert.issueDate, 400 * scale, 420 * scale);
+          // 2. Deskripsi Sertifikat (Dinamis dari CMS)
+          var defaultDesc = 'In recognition of your active participation in the Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era." Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
+          var certDesc = cert.description || defaultDesc;
+          
+          ctx.fillStyle = '#475569'; // Slate dark gray
+          ctx.font = (12.5 * scale) + 'px "Inter", sans-serif';
+          var descY = 345 * scale;
+          var finalDescY = wrapText(ctx, certDesc, 400 * scale, descY, 560 * scale, 18 * scale);
 
+          // 3. Tanggal Rilis (Di bawah teks deskripsi secara proporsional)
+          ctx.fillStyle = '#334155';
+          ctx.font = 'bold ' + (12 * scale) + 'px "Inter", sans-serif';
+          ctx.fillText(cert.issueDate, 400 * scale, (finalDescY + 28 * scale));
+
+          // 4. Nomor Sertifikat / ID (Sudut Bawah Kiri)
           ctx.fillStyle = '#94A3B8';
           ctx.font = (10 * scale) + 'px monospace';
           ctx.textAlign = 'left';
-          ctx.fillText('ID: ' + (cert.certificateNumber || 'HY-N/A'), 45 * scale, 520 * scale);
+          ctx.fillText('ID: ' + (cert.certificateNumber || 'HY-N/A'), 45 * scale, 525 * scale);
         };
-        img.src = 'assets/img/Certificate-Template.png';
+        // Gunakan cache buster (?v=timestamp) agar browser memuat ulang file template baru yang baru ditimpa
+        img.src = 'assets/img/Certificate-Template.png?v=' + Date.now();
       }
 
       window.downloadCertificatePDF = function() {
