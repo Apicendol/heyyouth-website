@@ -679,8 +679,9 @@
           btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Mencari...' : 'Searching...';
 
           try {
-            // Ganti URL ini dengan URL backend production Anda jika sudah dideploy (misal Render/Vercel)
-            const backendUrl = 'http://localhost:5000';
+            // Gunakan path relatif di Vercel, atau fallback ke localhost:3000 jika dijalankan lokal
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+            const backendUrl = isLocal ? 'http://localhost:3000' : '';
             const response = await fetch(`${backendUrl}/api/certificates?email=${encodeURIComponent(email)}`);
 
             submitBtn.disabled = false;
