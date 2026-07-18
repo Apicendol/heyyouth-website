@@ -401,6 +401,8 @@
             location: 'Zoom Meeting',
             description_id: 'Webinar gratis untuk membantu mahasiswa mempersiapkan karir di tingkat global.',
             description_en: 'Free webinar to help students prepare for global careers.',
+            speaker: 'Yuni Triandini',
+            speakerRole: 'Founder of Hey Youth',
             image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1000&auto=format&fit=crop',
             link: 'https://zoom.us/j/123456789',
             status: 'upcoming'
@@ -808,6 +810,18 @@
                     '<span class="flex items-center" style="margin-left: 12px;"><i class="far fa-clock text-primary" style="margin-right: 8px;"></i>' + _esc(item.time) + '</span>' +
                   '</div>' +
                   '<div class="text-xs text-gray-500 mt-1 flex items-center"><i class="fas fa-map-marker-alt text-primary" style="margin-right: 8px;"></i>' + _esc(item.location) + '</div>' +
+                  (item.speaker ? 
+                    '<div class="text-xs text-heading mt-3 flex items-center font-medium bg-gray-50 dark:bg-slate-800/50 p-2 rounded-xl border border-gray-100 dark:border-slate-800/80" style="gap: 12px;">' +
+                      (item.speakerImage ? 
+                        '<img src="' + _escA(item.speakerImage) + '" class="w-8 h-8 rounded-full object-cover border border-purple-200" alt="Speaker Photo">' :
+                        '<div class="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-950/50 flex items-center justify-center text-purple-600 dark:text-purple-400 font-bold text-xs"><i class="fas fa-user-tie"></i></div>'
+                      ) +
+                      '<div class="min-w-0 flex-grow">' +
+                        '<div class="text-[9px] text-gray-400 uppercase tracking-wider font-bold" style="margin-bottom: 2px;">Pembicara / Speaker</div>' +
+                        '<div class="truncate text-xs"><strong>' + _esc(item.speaker) + '</strong>' + (item.speakerRole ? ' <span class="text-gray-500 text-[10px]">— ' + _esc(item.speakerRole) + '</span>' : '') + '</div>' +
+                      '</div>' +
+                    '</div>' : ''
+                  ) +
                 '</div>' +
                 '<div class="mt-4 flex items-center justify-between gap-4">' +
                   '<span class="inline-block px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-blue-50 text-primary dark:bg-blue-950 dark:text-blue-300 uppercase tracking-wider">Upcoming</span>' +

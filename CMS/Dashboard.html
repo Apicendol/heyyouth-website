@@ -1111,6 +1111,8 @@
                         location: 'Zoom Meeting',
                         description_id: 'Webinar gratis untuk membantu mahasiswa mempersiapkan karir di tingkat global.',
                         description_en: 'Free webinar to help students prepare for global careers.',
+                        speaker: 'Yuni Triandini',
+                        speakerRole: 'Founder of Hey Youth',
                         image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1000&auto=format&fit=crop',
                         link: 'https://zoom.us/j/123456789',
                         status: 'upcoming'
@@ -1194,6 +1196,7 @@
             var deletingSection = null;
             var uploadedImage = null;
             var uploadedQrisImage = null;
+            var uploadedSpeakerImage = null;
 
             /* =========================================
                SIDEBAR & NAVIGATION
@@ -1311,6 +1314,7 @@
                         '<td class="px-4 py-2.5 font-bold text-xs text-heading">' +
                         '  <div>' + escapeHtml(item.title_id || item.title || '') + '</div>' +
                         '  <div class="text-[10px] text-gray-400">EN: ' + escapeHtml(item.title_en || item.title || '') + '</div>' +
+                        '  <div class="text-[10px] text-purple-600 dark:text-purple-400 font-semibold mt-1"><i class="fas fa-user-tie mr-1"></i>Speaker: ' + escapeHtml(item.speaker || '-') + ' (' + escapeHtml(item.speakerRole || '-') + ')</div>' +
                         '</td>' +
                         '<td class="px-4 py-2.5 text-xs">' + escapeHtml(item.date) + ' ' + escapeHtml(item.time || '') + '</td>' +
                         '<td class="px-4 py-2.5 text-xs text-gray-500 max-w-xs truncate">' + escapeHtml(item.location) + '</td>' +
@@ -1536,7 +1540,9 @@
                         return;
                     }
 
-                    var zoneId = (targetType === 'qris') ? 'upload-zone-qris' : 'upload-zone';
+                    var zoneId = 'upload-zone';
+                    if (targetType === 'qris') zoneId = 'upload-zone-qris';
+                    else if (targetType === 'speaker') zoneId = 'upload-zone-speaker';
                     var zone = document.getElementById(zoneId);
 
                     if (zone) {
@@ -1546,6 +1552,9 @@
                         if (targetType === 'qris') {
                             uploadedQrisImage = base64;
                             updateUploadPreviewQris(base64);
+                        } else if (targetType === 'speaker') {
+                            uploadedSpeakerImage = base64;
+                            updateUploadPreviewSpeaker(base64);
                         } else {
                             uploadedImage = base64;
                             updateUploadPreview(base64);
@@ -1577,6 +1586,17 @@
                     '<p class="text-xs text-green-600 font-medium mt-2 text-center">QRIS Uploaded</p>';
             }
 
+            function updateUploadPreviewSpeaker(src) {
+                var zone = document.getElementById('upload-zone-speaker');
+                if (!zone) return;
+                zone.innerHTML =
+                    '<div class="relative">' +
+                    '<img src="' + src + '" alt="Preview Speaker" class="w-24 h-24 object-contain mx-auto bg-gray-50 rounded-full">' +
+                    '<button type="button" onclick="removeUploadSpeaker()" class="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full text-xs shadow-md"><i class="fas fa-times"></i></button>' +
+                    '</div>' +
+                    '<p class="text-xs text-green-600 font-medium mt-2 text-center">Foto Speaker Uploaded</p>';
+            }
+
             window.removeUpload = function () {
                 uploadedImage = null;
                 var zone = document.getElementById('upload-zone');
@@ -1600,8 +1620,21 @@
                     '</div>';
             };
 
+            window.removeUploadSpeaker = function () {
+                uploadedSpeakerImage = null;
+                var zone = document.getElementById('upload-zone-speaker');
+                if (!zone) return;
+                zone.innerHTML =
+                    '<div class="py-4 text-center text-gray-400 text-sm border border-dashed border-gray-300 rounded">' +
+                    '<i class="fas fa-user text-2xl mb-1"></i>' +
+                    '<p>Upload Foto Speaker</p>' +
+                    '</div>';
+            };
+
             function initDragDrop(targetType) {
-                var zoneId = (targetType === 'qris') ? 'upload-zone-qris' : 'upload-zone';
+                var zoneId = 'upload-zone';
+                if (targetType === 'qris') zoneId = 'upload-zone-qris';
+                else if (targetType === 'speaker') zoneId = 'upload-zone-speaker';
                 var zone = document.getElementById(zoneId);
                 if (!zone) return;
 
@@ -1641,6 +1674,9 @@
                         if (targetType === 'qris') {
                             uploadedQrisImage = base64;
                             updateUploadPreviewQris(base64);
+                        } else if (targetType === 'speaker') {
+                            uploadedSpeakerImage = base64;
+                            updateUploadPreviewSpeaker(base64);
                         } else {
                             uploadedImage = base64;
                             updateUploadPreview(base64);
@@ -2013,6 +2049,7 @@
                 editingSection = section;
 
                 uploadedImage = (item.image && item.image.startsWith('data:')) ? item.image : null;
+                uploadedSpeakerImage = (item.speakerImage && item.speakerImage.startsWith('data:')) ? item.speakerImage : null;
                 if (section === 'podcast' && item.thumbnail) {
                     uploadedImage = (item.thumbnail && item.thumbnail.startsWith('data:')) ? item.thumbnail : null;
                 }
@@ -2067,6 +2104,8 @@
                     html += formField('Waktu', 'f-time', item ? item.time : '', 'text', '15:00 WIB');
                     html += formField('Lokasi', 'f-location', item ? item.location : '', 'text', 'Zoom Meeting / Alamat');
                     html += formField('Link Registrasi', 'f-link', item ? item.link : '', 'text', 'https://...');
+                    html += formField('Pembicara / Speaker', 'f-speaker', item ? item.speaker : '', 'text', 'Yuni Triandini');
+                    html += formField('Peran Pembicara / Speaker Role', 'f-speaker-role', item ? item.speakerRole : '', 'text', 'Founder of Hey Youth');
                     
                     html += '<div class="mb-4">' +
                             '<label class="block text-sm font-semibold text-heading mb-1.5">Status</label>' +
@@ -2081,6 +2120,13 @@
                     html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Gambar Cover/Banner</label><div id="upload-zone" class="upload-zone rounded-xl p-4 text-center border border-dashed border-gray-300">';
                     if (existingSrc) html += '<div class="relative"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Gambar tersedia</p>';
                     else html += '<div class="py-6 text-center"><i class="fas fa-image text-3xl text-gray-300 mb-2"></i><p class="text-sm text-gray-500">Upload Gambar</p></div>';
+                    html += '</div></div>';
+
+                    var existingSpeakerSrc = '';
+                    if (item && item.speakerImage) existingSpeakerSrc = _resolveImgPath(item.speakerImage);
+                    html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Foto Pembicara / Speaker Photo</label><div id="upload-zone-speaker" class="upload-zone rounded-xl p-4 text-center border border-dashed border-gray-300">';
+                    if (existingSpeakerSrc) html += '<div class="relative"><img src="' + escapeAttr(existingSpeakerSrc) + '" class="w-24 h-24 object-contain mx-auto bg-gray-50 rounded-full"><button type="button" onclick="removeUploadSpeaker()" class="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full text-xs shadow-md"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2 text-center">Foto Speaker tersedia</p>';
+                    else html += '<div class="py-4 text-center text-gray-400 text-sm"><i class="fas fa-user text-2xl mb-1"></i><p>Upload Foto Speaker</p></div>';
                     html += '</div></div>';
                 }
                 else if (section === 'donation-settings') {
@@ -2287,6 +2333,9 @@
                     }
                 } else if (section === 'external' || section === 'internal' || section === 'team' || section === 'about-hero' || section === 'activity-card' || section === 'podcast' || section === 'partner') {
                     initDragDrop('main');
+                } else if (section === 'event') {
+                    initDragDrop('main');
+                    initDragDrop('speaker');
                 } else if (section === 'locations') {
                     initCmsMap(item);
                 }
@@ -2561,6 +2610,10 @@
                     if (uploadedImage) image = uploadedImage;
                     else if (isEdit && editingItem.image && !editingItem.image.startsWith('data:')) image = editingItem.image;
 
+                    var speakerImage = '';
+                    if (uploadedSpeakerImage) speakerImage = uploadedSpeakerImage;
+                    else if (isEdit && editingItem.speakerImage && !editingItem.speakerImage.startsWith('data:')) speakerImage = editingItem.speakerImage;
+
                     var obj = {
                         id: isEdit ? editingItem.id : Date.now(),
                         title_id: titleId,
@@ -2569,6 +2622,9 @@
                         time: document.getElementById('f-time').value.trim(),
                         location: document.getElementById('f-location').value.trim(),
                         link: document.getElementById('f-link').value.trim() || '#',
+                        speaker: document.getElementById('f-speaker').value.trim(),
+                        speakerRole: document.getElementById('f-speaker-role').value.trim(),
+                        speakerImage: speakerImage,
                         status: document.getElementById('f-status').value,
                         image: image
                     };
