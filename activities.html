@@ -682,25 +682,53 @@
             // Gunakan path relatif di Vercel, atau fallback ke localhost:3000 jika dijalankan lokal
             const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
             const backendUrl = isLocal ? 'http://localhost:3000' : '';
-            const response = await fetch(`${backendUrl}/api/certificates?email=${encodeURIComponent(email)}`);
+            
+            let certDoc = null;
+            
+            try {
+              const response = await fetch(`${backendUrl}/api/certificates?email=${encodeURIComponent(email)}`);
+              
+              if (response.status === 404) {
+                errorText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 
+                  'Maaf, email Anda tidak terdaftar untuk e-sertifikat mana pun.' : 
+                  'Sorry, your email is not registered for any e-certificate.';
+                errorMsg.classList.remove('hidden');
+                submitBtn.disabled = false;
+                spinner.classList.add('hidden');
+                return;
+              }
+
+              if (!response.ok) {
+                throw new Error('API response error');
+              }
+
+              certDoc = await response.json();
+            } catch (apiErr) {
+              console.warn("Backend API offline or failed, falling back to Local Storage:", apiErr);
+              
+              // Fallback ke Local Storage (Penyimpanan Lokal)
+              const listKey = 'mock_fb_list_certificates';
+              const list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
+              const found = list.find(function(itemObj) {
+                return itemObj.data && itemObj.data.email.toLowerCase() === email.toLowerCase();
+              });
+
+              if (!found) {
+                errorText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 
+                  'Maaf, email Anda tidak terdaftar untuk e-sertifikat mana pun.' : 
+                  'Sorry, your email is not registered for any e-certificate.';
+                errorMsg.classList.remove('hidden');
+                submitBtn.disabled = false;
+                spinner.classList.add('hidden');
+                return;
+              }
+              certDoc = found.data;
+            }
 
             submitBtn.disabled = false;
             spinner.classList.add('hidden');
             btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Cari Sertifikat' : 'Search Certificate';
 
-            if (response.status === 404) {
-              errorText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 
-                'Maaf, email Anda tidak terdaftar untuk e-sertifikat mana pun.' : 
-                'Sorry, your email is not registered for any e-certificate.';
-              errorMsg.classList.remove('hidden');
-              return;
-            }
-
-            if (!response.ok) {
-              throw new Error('API response error');
-            }
-
-            const certDoc = await response.json();
             currentCertificate = certDoc;
             drawCertificate(canvas, certDoc);
             previewSection.classList.remove('hidden');
@@ -710,8 +738,8 @@
             spinner.classList.add('hidden');
             btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Cari Sertifikat' : 'Search Certificate';
             errorText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ?
-              'Gagal menghubungi server. Silakan coba kembali nanti.' :
-              'Failed to connect to the server. Please try again later.';
+              'Gagal melakukan pencarian. Silakan coba kembali nanti.' :
+              'Failed to search. Please try again later.';
             errorMsg.classList.remove('hidden');
           }
         });
