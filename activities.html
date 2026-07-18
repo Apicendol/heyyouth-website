@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="assets/Style/tailwind.css">
   <link rel="stylesheet" href="assets/Style/Style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 
 <body class="lang-en bg-bg text-body font-sans antialiased selection:bg-primary selection:text-white">
@@ -911,8 +912,15 @@
         };
         registrations.push(regData);
         localStorage.setItem('event_registrations', JSON.stringify(registrations));
+        
+        // CONFIG EMAILJS (Silakan ganti nilai di bawah dengan akun Anda)
+        var EMAILJS_CONFIG = {
+          serviceId: 'service_j27qkiy', // Service ID Anda dari screenshot
+          templateId: 'template_nl0ak7g', // Template ID Anda dari screenshot
+          publicKey: 'dDvqjnhiR4dvGUDe2'   // Public Key Anda
+        };
 
-        setTimeout(function() {
+        function completeRegistration() {
           if (spinner) spinner.classList.add('hidden');
           if (submitBtn) submitBtn.disabled = false;
 
@@ -932,7 +940,32 @@
           setTimeout(function() {
             closeRegistrationModal();
           }, 2000);
-        }, 800);
+        }
+
+        // Kirim email notifikasi jika konfigurasi sudah lengkap
+        if (EMAILJS_CONFIG.publicKey && EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY' && EMAILJS_CONFIG.templateId && EMAILJS_CONFIG.templateId !== 'YOUR_TEMPLATE_ID') {
+          emailjs.init(EMAILJS_CONFIG.publicKey);
+          emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
+            eventTitle: regData.eventName,
+            userName: regData.name,
+            userEmail: regData.email,
+            userPhone: regData.phone,
+            userInstansi: regData.instansi,
+            userDomisili: regData.domisili,
+            registeredAt: new Date(regData.registeredAt).toLocaleString('id-ID')
+          })
+          .then(function() {
+            console.log('Notification email sent successfully via EmailJS!');
+            completeRegistration();
+          })
+          .catch(function(err) {
+            console.error('EmailJS Error:', err);
+            completeRegistration(); // Tetap daftarkan lokal jika pengiriman email gagal
+          });
+        } else {
+          // Jalankan fallback instan (simulasi delay 1 detik) jika EmailJS belum disetup
+          setTimeout(completeRegistration, 1000);
+        }
       });
 
       async function initActivities() {

@@ -3036,7 +3036,7 @@
             };
 
             // REGISTRATIONS (Offline mock mode)
-            window.loadAndRenderRegistrations = async function () {
+            window.loadAndRenderMockRegistrations = async function () {
                 var tbody = document.getElementById('list-registrations');
                 if (!tbody) return;
                 tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-400"><i class="fas fa-circle-notch fa-spin mr-2"></i>Memuat...</td></tr>';
@@ -3044,7 +3044,9 @@
                     var listKey = 'mock_fb_list_registrations';
                     var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
 
-                    document.getElementById('registrations-count').textContent = list.length + ' total';
+                    var countEl = document.getElementById('registrations-count');
+                    if (countEl) countEl.textContent = list.length + ' total';
+                    
                     if (list.length === 0) {
                         tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-400">Belum ada pendaftaran acara.</td></tr>';
                         return;
@@ -3059,17 +3061,17 @@
                             '<td class="px-4 py-3 font-medium text-xs text-primary">' + escapeHtml(item.eventTitle || 'Acara #' + item.eventId) + '</td>' +
                             '<td class="px-4 py-3 text-xs text-gray-500">' + dateStr + '</td>' +
                             '<td class="px-4 py-3 text-right">' +
-                            '<button onclick="deleteRegistration(\'' + id + '\')" class="text-red-500 hover:text-red-700 p-1 text-xs"><i class="fas fa-trash-alt"></i> Hapus</button>' +
+                            '<button onclick="deleteMockRegistration(\'' + id + '\')" class="text-red-500 hover:text-red-700 p-1 text-xs"><i class="fas fa-trash-alt"></i> Hapus</button>' +
                             '</td>' +
                             '</tr>';
                     }).reverse().join('');
                 } catch (err) {
-                    console.error("loadAndRenderRegistrations error:", err);
+                    console.error("loadAndRenderMockRegistrations error:", err);
                     tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-red-500">Gagal memuat data.</td></tr>';
                 }
             };
 
-            window.deleteRegistration = async function (id) {
+            window.deleteMockRegistration = async function (id) {
                 if (!confirm('Hapus pendaftaran ini?')) return;
                 try {
                     var listKey = 'mock_fb_list_registrations';
@@ -3077,7 +3079,7 @@
                     list = list.filter(function (item) { return item.id !== id; });
                     localStorage.setItem(listKey, JSON.stringify(list));
                     showToast('Pendaftaran berhasil dihapus.', 'success');
-                    loadAndRenderRegistrations();
+                    loadAndRenderMockRegistrations();
                 } catch (err) {
                     console.error(err);
                     showToast('Gagal menghapus pendaftaran.', 'error');
