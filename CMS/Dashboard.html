@@ -22,7 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,700;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,700;1,400&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -1402,7 +1402,7 @@
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Penerima</label><input type="text" id="c-name" required value="' + name + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Email Penerima</label><input type="email" id="c-email" required value="' + email + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Acara / Webinar</label><input type="text" id="c-event" required value="' + eventName + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
-                    '<div><label class="block text-sm font-medium text-gray-700">Teks Deskripsi Sertifikat</label><textarea id="c-description" rows="3" required class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' + escapeHtml(description) + '</textarea></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Teks Deskripsi Sertifikat</label><textarea id="c-description" rows="6" required class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' + escapeHtml(description) + '</textarea><p class="text-[11px] text-gray-500 mt-1">💡 Gunakan tanda <strong>**</strong> di awal dan akhir kata/kalimat untuk mencetak tebal teks. Contoh: <code>**Hey Youth Summit**</code></p></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Tanggal Rilis</label><input type="text" id="c-date" required value="' + issueDateStr + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Terbitkan</button>' +
                     '</form>';
@@ -3197,6 +3197,7 @@
                             '<td class="px-4 py-3 text-xs">' + escapeHtml(item.eventName) + '</td>' +
                             '<td class="px-4 py-3 text-xs">' + escapeHtml(item.issueDate) + '</td>' +
                             '<td class="px-4 py-3 text-right">' +
+                            '<button onclick="viewCertificate(\'' + id + '\')" class="text-blue-500 hover:text-blue-700 p-1 text-xs mr-3"><i class="fas fa-eye"></i> View</button>' +
                             '<button onclick="deleteCertificate(\'' + id + '\')" class="text-red-500 hover:text-red-700 p-1 text-xs"><i class="fas fa-trash-alt"></i> Hapus</button>' +
                             '</td>' +
                             '</tr>';
@@ -3222,6 +3223,151 @@
                 }
             };
 
+            window.viewCertificate = function (id) {
+                var listKey = 'mock_fb_list_certificates';
+                var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
+                var certObj = list.find(function (c) { return c.id === id; });
+                if (!certObj) {
+                    showToast('Sertifikat tidak ditemukan.', 'error');
+                    return;
+                }
+                var cert = certObj.data;
+
+                var modalTitle = document.getElementById('modal-title');
+                var modalBody = document.getElementById('modal-body');
+                if (!modalTitle || !modalBody) return;
+
+                modalTitle.textContent = 'View Certificate - ' + cert.name;
+                
+                modalBody.innerHTML = '<div class="space-y-4 text-center">' +
+                    '  <div class="flex justify-center">' +
+                    '    <canvas id="cert-preview-canvas" style="max-width: 100%; height: auto; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);"></canvas>' +
+                    '  </div>' +
+                    '  <div class="text-xs text-gray-500">' +
+                    '    Nomor Sertifikat: ' + escapeHtml(cert.certificateNumber) + ' | Email: ' + escapeHtml(cert.email) +
+                    '  </div>' +
+                    '</div>';
+
+                document.getElementById('modal').classList.remove('hidden');
+
+                var canvas = document.getElementById('cert-preview-canvas');
+                if (canvas) {
+                    drawCertificatePreview(canvas, cert);
+                }
+            };
+
+            async function drawCertificatePreview(canvas, cert) {
+                const scale = 2;
+                canvas.width = 800 * scale;
+                canvas.height = 565 * scale;
+
+                const ctx = canvas.getContext('2d');
+
+                if (document.fonts) {
+                    try {
+                        await document.fonts.load('20px "Great Vibes"');
+                        await document.fonts.load('10px "Inter"');
+                    } catch (e) {
+                        console.warn("Gagal memuat font secara dinamis:", e);
+                    }
+                }
+
+                const img = new Image();
+                img.onload = function () {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    
+                    // 1. Nama Penerima
+                    ctx.fillStyle = '#b5892c';
+                    ctx.textAlign = 'center';
+                    ctx.font = (42 * scale) + 'px "Great Vibes", cursive';
+                    ctx.fillText(cert.name, 400 * scale, 290 * scale);
+
+                    // Helper untuk wrap text dengan bold
+                    function wrapRichText(context, text, x, y, maxWidth, lineHeight) {
+                        var segments = text.split('**');
+                        var tokens = [];
+                        for (var i = 0; i < segments.length; i++) {
+                            var isBold = (i % 2 === 1);
+                            var segmentText = segments[i];
+                            var words = segmentText.split(' ');
+                            for (var j = 0; j < words.length; j++) {
+                                var wordStr = words[j];
+                                var spacer = (j < words.length - 1) ? ' ' : '';
+                                if (wordStr || spacer) {
+                                    tokens.push({
+                                        text: wordStr + spacer,
+                                        isBold: isBold
+                                    });
+                                }
+                            }
+                        }
+
+                        var lines = [];
+                        var currentLine = [];
+                        var currentLineWidth = 0;
+
+                        var normalFont = (12.5 * scale) + 'px "Inter", sans-serif';
+                        var boldFont = 'bold ' + (12.5 * scale) + 'px "Inter", sans-serif';
+
+                        for (var k = 0; k < tokens.length; k++) {
+                            var token = tokens[k];
+                            context.font = token.isBold ? boldFont : normalFont;
+                            var tokenWidth = context.measureText(token.text).width;
+
+                            if (currentLineWidth + tokenWidth > maxWidth && currentLine.length > 0) {
+                                lines.push({ tokens: currentLine, width: currentLineWidth });
+                                currentLine = [token];
+                                currentLineWidth = tokenWidth;
+                            } else {
+                                currentLine.push(token);
+                                currentLineWidth += tokenWidth;
+                            }
+                        }
+                        if (currentLine.length > 0) {
+                            lines.push({ tokens: currentLine, width: currentLineWidth });
+                        }
+
+                        var currentY = y;
+                        for (var m = 0; m < lines.length; m++) {
+                            var lineObj = lines[m];
+                            var startX = x - (lineObj.width / 2);
+
+                            for (var n = 0; n < lineObj.tokens.length; n++) {
+                                var tok = lineObj.tokens[n];
+                                context.font = tok.isBold ? boldFont : normalFont;
+                                context.textAlign = 'left';
+                                context.fillText(tok.text, startX, currentY);
+                                startX += context.measureText(tok.text).width;
+                            }
+                            currentY += lineHeight;
+                        }
+                        return currentY - lineHeight;
+                    }
+
+                    // 2. Deskripsi
+                    var defaultDesc = 'In recognition of your active participation in the **Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era."** Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
+                    var certDesc = cert.description || defaultDesc;
+                    
+                    ctx.fillStyle = '#475569';
+                    var descY = 345 * scale;
+                    var finalDescY = wrapRichText(ctx, certDesc, 400 * scale, descY, 560 * scale, 18 * scale);
+
+                    // 3. Tanggal Rilis
+                    ctx.fillStyle = '#334155';
+                    ctx.font = 'bold ' + (12 * scale) + 'px "Inter", sans-serif';
+                    ctx.fillText(cert.issueDate, 400 * scale, (finalDescY + 28 * scale));
+
+                    // 4. Nomor Sertifikat / ID
+                    ctx.fillStyle = '#94A3B8';
+                    ctx.font = (10 * scale) + 'px monospace';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('ID: ' + (cert.certificateNumber || 'HY-N/A'), 45 * scale, 525 * scale);
+                };
+                img.src = '../assets/img/Certificate-Template.png?v=' + Date.now();
+            };
+
             window.openAddCertificateModal = function () {
                 var modalTitle = document.getElementById('modal-title');
                 var modalBody = document.getElementById('modal-body');
@@ -3235,7 +3381,7 @@
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Penerima</label><input type="text" id="c-name" required placeholder="John Doe" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Email Penerima</label><input type="email" id="c-email" required placeholder="johndoe@email.com" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Acara / Webinar</label><input type="text" id="c-event" required placeholder="Webinar Pendidikan Kreatif" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
-                    '<div><label class="block text-sm font-medium text-gray-700">Teks Deskripsi Sertifikat</label><textarea id="c-description" rows="3" required class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' + defaultCertDesc + '</textarea></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Teks Deskripsi Sertifikat</label><textarea id="c-description" rows="6" required class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' + defaultCertDesc + '</textarea><p class="text-[11px] text-gray-500 mt-1">💡 Gunakan tanda <strong>**</strong> di awal dan akhir kata/kalimat untuk mencetak tebal teks. Contoh: <code>**Hey Youth Summit**</code></p></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Tanggal Rilis</label><input type="text" id="c-date" required placeholder="17 Juli 2026" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Terbitkan</button>' +
                     '</form>';
