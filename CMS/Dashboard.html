@@ -1385,7 +1385,7 @@
                     return (e.title_id === eventName || e.title_en === eventName || e.title === eventName);
                 });
 
-                var defaultCertDesc = 'In recognition of your active participation in the Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era." Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
+                var defaultCertDesc = 'In recognition of your active participation in the **Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era."** Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
                 var description = eventObj ? (eventObj.certDescription || defaultCertDesc) : defaultCertDesc;
 
                 // Hitung nomor sertifikat acak/urut berdasarkan timestamp
@@ -2144,7 +2144,7 @@
                     html += formField('Pembicara / Speaker', 'f-speaker', item ? item.speaker : '', 'text', 'Yuni Triandini');
                     html += formField('Peran Pembicara / Speaker Role', 'f-speaker-role', item ? item.speakerRole : '', 'text', 'Founder of Hey Youth');
                     
-                    var defaultCertDesc = 'In recognition of your active participation in the Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era." Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
+                    var defaultCertDesc = 'In recognition of your active participation in the **Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era."** Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
                     html += formTextarea('Teks Deskripsi Sertifikat (Akan di-render di tengah sertifikat)', 'f-cert-description', item ? (item.certDescription || item.description) : defaultCertDesc, 'Contoh: In recognition of your active participation in...');
 
                     html += '<div class="mb-4">' +
@@ -3227,7 +3227,7 @@
                 var modalBody = document.getElementById('modal-body');
                 if (!modalTitle || !modalBody) return;
 
-                var defaultCertDesc = 'In recognition of your active participation in the Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era." Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
+                var defaultCertDesc = 'In recognition of your active participation in the **Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era."** Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
 
                 modalTitle.textContent = 'Terbitkan Sertifikat Baru';
                 modalBody.innerHTML = '<form id="form-add-certificate" class="space-y-4">' +

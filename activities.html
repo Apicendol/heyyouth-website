@@ -747,36 +747,75 @@
           ctx.font = (42 * scale) + 'px "Great Vibes", cursive';
           ctx.fillText(cert.name, 400 * scale, 290 * scale);
 
-          // Helper untuk membungkus teks deskripsi panjang menjadi beberapa baris
-          function wrapText(context, text, x, y, maxWidth, lineHeight) {
-            var words = text.split(' ');
-            var line = '';
-            var currentY = y;
-
-            for (var n = 0; n < words.length; n++) {
-              var testLine = line + words[n] + ' ';
-              var metrics = context.measureText(testLine);
-              var testWidth = metrics.width;
-              if (testWidth > maxWidth && n > 0) {
-                context.fillText(line, x, currentY);
-                line = words[n] + ' ';
-                currentY += lineHeight;
-              } else {
-                line = testLine;
+          // Helper untuk membungkus teks deskripsi panjang menjadi beberapa baris (Mendukung Bold dengan **)
+          function wrapRichText(context, text, x, y, maxWidth, lineHeight) {
+            var segments = text.split('**');
+            var tokens = [];
+            for (var i = 0; i < segments.length; i++) {
+              var isBold = (i % 2 === 1);
+              var segmentText = segments[i];
+              var words = segmentText.split(' ');
+              for (var j = 0; j < words.length; j++) {
+                var wordStr = words[j];
+                var spacer = (j < words.length - 1) ? ' ' : '';
+                if (wordStr || spacer) {
+                  tokens.push({
+                    text: wordStr + spacer,
+                    isBold: isBold
+                  });
+                }
               }
             }
-            context.fillText(line, x, currentY);
-            return currentY;
+
+            var lines = [];
+            var currentLine = [];
+            var currentLineWidth = 0;
+
+            var normalFont = (12.5 * scale) + 'px "Inter", sans-serif';
+            var boldFont = 'bold ' + (12.5 * scale) + 'px "Inter", sans-serif';
+
+            for (var k = 0; k < tokens.length; k++) {
+              var token = tokens[k];
+              context.font = token.isBold ? boldFont : normalFont;
+              var tokenWidth = context.measureText(token.text).width;
+
+              if (currentLineWidth + tokenWidth > maxWidth && currentLine.length > 0) {
+                lines.push({ tokens: currentLine, width: currentLineWidth });
+                currentLine = [token];
+                currentLineWidth = tokenWidth;
+              } else {
+                currentLine.push(token);
+                currentLineWidth += tokenWidth;
+              }
+            }
+            if (currentLine.length > 0) {
+              lines.push({ tokens: currentLine, width: currentLineWidth });
+            }
+
+            var currentY = y;
+            for (var m = 0; m < lines.length; m++) {
+              var lineObj = lines[m];
+              var startX = x - (lineObj.width / 2);
+
+              for (var n = 0; n < lineObj.tokens.length; n++) {
+                var tok = lineObj.tokens[n];
+                context.font = tok.isBold ? boldFont : normalFont;
+                context.textAlign = 'left';
+                context.fillText(tok.text, startX, currentY);
+                startX += context.measureText(tok.text).width;
+              }
+              currentY += lineHeight;
+            }
+            return currentY - lineHeight;
           }
 
-          // 2. Deskripsi Sertifikat (Dinamis dari CMS)
-          var defaultDesc = 'In recognition of your active participation in the Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era." Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
+          // 2. Deskripsi Sertifikat (Dinamis dari CMS, mendukung ** untuk cetak tebal)
+          var defaultDesc = 'In recognition of your active participation in the **Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era."** Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
           var certDesc = cert.description || defaultDesc;
           
           ctx.fillStyle = '#475569'; // Slate dark gray
-          ctx.font = (12.5 * scale) + 'px "Inter", sans-serif';
           var descY = 345 * scale;
-          var finalDescY = wrapText(ctx, certDesc, 400 * scale, descY, 560 * scale, 18 * scale);
+          var finalDescY = wrapRichText(ctx, certDesc, 400 * scale, descY, 560 * scale, 18 * scale);
 
           // 3. Tanggal Rilis (Di bawah teks deskripsi secara proporsional)
           ctx.fillStyle = '#334155';
