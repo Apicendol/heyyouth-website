@@ -715,36 +715,41 @@
       }
 
       function drawCertificate(canvas, cert) {
+        // Set resolusi canvas ke HD (3x dari 800x565) agar tidak pecah/blur
+        const scale = 3;
+        canvas.width = 800 * scale;
+        canvas.height = 565 * scale;
+
         const ctx = canvas.getContext('2d');
         const img = new Image();
         img.onload = function() {
           ctx.fillStyle = '#ffffff';
-          ctx.fillRect(0, 0, 800, 565);
-          ctx.drawImage(img, 0, 0, 800, 565);
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           
           ctx.fillStyle = '#002060';
           ctx.textAlign = 'center';
-          ctx.font = 'bold italic 28px "Inter", sans-serif';
-          ctx.fillText(cert.name, 400, 260);
+          ctx.font = 'bold italic ' + (28 * scale) + 'px "Inter", sans-serif';
+          ctx.fillText(cert.name, 400 * scale, 260 * scale);
 
           ctx.fillStyle = '#2E75B6';
-          ctx.font = 'bold 15px "Inter", sans-serif';
-          ctx.fillText((cert.role || 'Participant').toUpperCase(), 400, 305);
+          ctx.font = 'bold ' + (15 * scale) + 'px "Inter", sans-serif';
+          ctx.fillText((cert.role || 'Participant').toUpperCase(), 400 * scale, 305 * scale);
 
           ctx.fillStyle = '#595959';
-          ctx.font = '14px "Inter", sans-serif';
-          ctx.fillText('In appreciation of your valuable time and insightful contribution at the', 400, 345);
-          ctx.font = 'bold 16px "Inter", sans-serif';
-          ctx.fillText('"' + cert.eventName + '"', 400, 370);
+          ctx.font = (14 * scale) + 'px "Inter", sans-serif';
+          ctx.fillText('In appreciation of your valuable time and insightful contribution at the', 400 * scale, 345 * scale);
+          ctx.font = 'bold ' + (16 * scale) + 'px "Inter", sans-serif';
+          ctx.fillText('"' + cert.eventName + '"', 400 * scale, 370 * scale);
 
           ctx.fillStyle = '#595959';
-          ctx.font = '13px "Inter", sans-serif';
-          ctx.fillText('Indonesia, ' + cert.issueDate, 400, 420);
+          ctx.font = (13 * scale) + 'px "Inter", sans-serif';
+          ctx.fillText('Indonesia, ' + cert.issueDate, 400 * scale, 420 * scale);
 
           ctx.fillStyle = '#94A3B8';
-          ctx.font = '10px monospace';
+          ctx.font = (10 * scale) + 'px monospace';
           ctx.textAlign = 'left';
-          ctx.fillText('ID: ' + (cert.certificateNumber || 'HY-N/A'), 45, 520);
+          ctx.fillText('ID: ' + (cert.certificateNumber || 'HY-N/A'), 45 * scale, 520 * scale);
         };
         img.src = 'assets/img/Certificate-Template.png';
       }
@@ -752,12 +757,14 @@
       window.downloadCertificatePDF = function() {
         if (!currentCertificate) return;
         const { jsPDF } = window.jspdf;
+        // Bikin ukuran PDF tetap proporsional [800, 565]
         const pdf = new jsPDF({
           orientation: 'landscape',
           unit: 'px',
           format: [800, 565]
         });
         const canvas = document.getElementById('cert-canvas');
+        // Gambar dari canvas HD (2400x1695) diekspor dengan kualitas tinggi 1.0
         const imgData = canvas.toDataURL('image/jpeg', 1.0);
         pdf.addImage(imgData, 'JPEG', 0, 0, 800, 565);
         pdf.save('Certificate-' + currentCertificate.name.replace(/\s+/g, '_') + '.pdf');
