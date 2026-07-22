@@ -16,6 +16,7 @@
           <a href="index.html" id="nav-link-home" class="nav-link text-body hover:text-primary transition-colors">Home</a>
           <a href="about us.html" id="nav-link-about" class="nav-link text-body hover:text-primary transition-colors">About us</a>
           <a href="activities.html" id="nav-link-activities" class="nav-link text-body hover:text-primary transition-colors">Activities</a>
+          <a href="mentoring.html" id="nav-link-teacher-class" class="nav-link text-body hover:text-primary transition-colors">Teacher Class</a>
           <a href="partner.html" id="nav-link-partners" class="nav-link text-body hover:text-primary transition-colors">Partners</a>
           <a href="donation.html" id="nav-link-donation" class="nav-link text-body hover:text-primary transition-colors">Donation</a>
         </div>
@@ -53,6 +54,7 @@
         <a href="index.html" id="mobile-nav-link-home" class="block px-4 py-3 rounded-xl text-base font-medium text-body hover:text-primary hover:bg-gray-50">Home</a>
         <a href="about us.html" id="mobile-nav-link-about" class="block px-4 py-3 rounded-xl text-base font-medium text-body hover:text-primary hover:bg-gray-50">About us</a>
         <a href="activities.html" id="mobile-nav-link-activities" class="block px-4 py-3 rounded-xl text-base font-medium text-body hover:text-primary hover:bg-gray-50">Activities</a>
+        <a href="mentoring.html" id="mobile-nav-link-teacher-class" class="block px-4 py-3 rounded-xl text-base font-medium text-body hover:text-primary hover:bg-gray-50">Teacher Class</a>
         <a href="partner.html" id="mobile-nav-link-partners" class="block px-4 py-3 rounded-xl text-base font-medium text-body hover:text-primary hover:bg-gray-50">Partners</a>
         <a href="donation.html" id="mobile-nav-link-donation" class="block px-4 py-3 rounded-xl text-base font-medium text-body hover:text-primary hover:bg-gray-50">Donation</a>
         <div class="pt-4 border-t border-gray-100 mt-4 space-y-2">

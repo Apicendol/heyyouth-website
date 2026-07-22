@@ -267,12 +267,12 @@
     <link rel="stylesheet" href="../assets/Style/tailwind.css">
 </head>
 
-<body class="bg-bg text-body min-h-screen" style="display: none;">
+<body class="bg-bg text-body min-h-screen">
 
     <!-- ===== MOBILE TOP BAR ===== -->
     <div
         class="lg:hidden fixed top-0 left-0 right-0 z-50 bg-heading text-white h-14 flex items-center justify-between px-4 shadow-lg">
-        <button id="sidebar-toggle" class="p-2 hover:bg-white/10 rounded-lg transition-colors">
+        <button id="sidebar-toggle" onclick="openSidebar()" class="p-2 hover:bg-white/10 rounded-lg transition-colors">
             <i class="fas fa-bars text-lg"></i>
         </button>
         <span class="font-bold text-sm">CMS Dashboard</span>
@@ -311,6 +311,12 @@
                 <i class="fas fa-bolt w-5 text-center text-xs"></i>
                 <span>Activities</span>
                 <span id="count-activities" class="ml-auto bg-white/10 text-xs px-2 py-0.5 rounded-full">0</span>
+            </button>
+            <button onclick="switchTab('mentoring')" data-tab="mentoring"
+                class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
+                <i class="fas fa-graduation-cap w-5 text-center text-xs"></i>
+                <span>Teacher Class</span>
+                <span id="count-mentoring-cat" class="ml-auto bg-white/10 text-xs px-2 py-0.5 rounded-full">0</span>
             </button>
             <button onclick="switchTab('partners')" data-tab="partners"
                 class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
@@ -676,6 +682,113 @@
                 </div>
             </div>
 
+            <!-- VIEW: MENTORING / TEACHER CLASS SD -->
+            <div id="view-mentoring" class="hidden space-y-10">
+                <!-- 1. Kategori Pelajaran -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center text-accent text-sm">
+                                <i class="fas fa-tags"></i>
+                            </div>
+                            <h2 class="text-lg font-bold text-heading">Kategori Pelajaran</h2>
+                            <span id="count-mentoring-categories" class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-medium">0</span>
+                        </div>
+                        <button onclick="openAddMentoringCategoryModal()" class="bg-primary hover:bg-primaryDark text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+                            <i class="fas fa-plus text-[10px]"></i> Tambah Kategori
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-50 border-b border-gray-200">
+                                    <tr>
+                                        <th class="text-left px-4 py-3 font-semibold text-heading">#</th>
+                                        <th class="text-left px-4 py-3 font-semibold text-heading">ID Kategori</th>
+                                        <th class="text-left px-4 py-3 font-semibold text-heading">Nama Kategori</th>
+                                        <th class="text-right px-4 py-3 font-semibold text-heading">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-mentoring-categories" class="divide-y divide-gray-100"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-gray-200">
+
+                <!-- 2. Daftar Kartu Kelas Teacher Class -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-primary text-sm">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            <h2 class="text-lg font-bold text-heading">Daftar Kelas Teacher Class</h2>
+                            <span id="count-teacher-classes" class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-medium">0</span>
+                        </div>
+                        <button onclick="openAddTeacherClassModal()" class="bg-primary hover:bg-primaryDark text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+                            <i class="fas fa-plus text-[10px]"></i> Tambah Kelas Baru
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-gray-50 border-b border-gray-200 text-heading">
+                                    <tr>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Judul Kelas</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Kategori</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Tingkat Kelas</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Waktu & Platform</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Pengajar</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase text-right">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-teacher-classes" class="divide-y divide-gray-100"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-gray-200">
+
+                <!-- 3. Rekap Data Pendaftaran Peserta -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-sm">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <h2 class="text-lg font-bold text-heading">Pendaftaran Peserta</h2>
+                            <span id="count-teacher-registrations" class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-medium">0</span>
+                        </div>
+                        <button onclick="clearTeacherRegistrations()" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1">
+                            <i class="fas fa-trash text-[10px]"></i> Hapus Rekap
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                        <div class="p-6 overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-gray-50 border-b border-gray-200 text-heading">
+                                    <tr>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Nama Siswa</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Kelas SD</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">WhatsApp Ortu</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Email Ortu</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Kelas Diikuti</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Catatan</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-teacher-registrations" class="divide-y divide-gray-100"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- VIEW: PARTNERS -->
             <div id="view-partners" class="hidden space-y-10">
                 <div>
@@ -781,18 +894,6 @@
     <script>
         (function () {
             'use strict';
-
-            /* =========================================
-               AUTH CHECK
-               ========================================= */
-            firebase.auth().onAuthStateChanged(function (user) {
-                if (!user) {
-                    window.location.href = 'Login.html';
-                } else {
-                    document.body.style.display = 'block';
-                    initDashboard();
-                }
-            });
 
             if (!localStorage.getItem('hey_youth_cms_v2_fixed')) {
                 localStorage.removeItem('hey_youth_cms');
@@ -1202,7 +1303,22 @@
             /* =========================================
                SIDEBAR & NAVIGATION
                ========================================= */
-            window.switchTab = function (tab) {
+            function closeSidebar() {
+                var sidebar = document.getElementById('sidebar');
+                var backdrop = document.getElementById('sidebar-backdrop');
+                if (sidebar) sidebar.classList.add('-translate-x-full');
+                if (backdrop) backdrop.classList.add('hidden');
+            }
+            window.closeSidebar = closeSidebar;
+
+            function openSidebar() {
+                var sidebar = document.getElementById('sidebar');
+                var backdrop = document.getElementById('sidebar-backdrop');
+                if (sidebar) sidebar.classList.remove('-translate-x-full');
+                if (backdrop) backdrop.classList.remove('hidden');
+            }
+            window.openSidebar = openSidebar;
+            function switchTab(tab) {
                 editingItem = null;
                 editingSection = null;
 
@@ -1213,6 +1329,8 @@
                 document.getElementById('view-homepage').classList.add('hidden');
                 document.getElementById('view-about').classList.add('hidden');
                 document.getElementById('view-activities').classList.add('hidden');
+                var viewMentoring = document.getElementById('view-mentoring');
+                if (viewMentoring) viewMentoring.classList.add('hidden');
                 document.getElementById('view-partners').classList.add('hidden');
                 document.getElementById('view-donation').classList.add('hidden');
 
@@ -1229,6 +1347,13 @@
                     document.getElementById('view-activities').classList.remove('hidden');
                     document.getElementById('page-title').textContent = 'Activities';
                     document.getElementById('page-desc').textContent = 'Kelola berita kegiatan dan episode podcast terbaru';
+                } else if (tab === 'mentoring') {
+                    if (viewMentoring) viewMentoring.classList.remove('hidden');
+                    document.getElementById('page-title').textContent = 'Teacher Class';
+                    document.getElementById('page-desc').textContent = 'Kelola kategori pelajaran, kartu sesi kelas, dan pendaftaran siswa SD';
+                    if (typeof loadAndRenderMentoringCategories === 'function') loadAndRenderMentoringCategories();
+                    if (typeof loadAndRenderTeacherClasses === 'function') loadAndRenderTeacherClasses();
+                    if (typeof loadAndRenderTeacherRegistrations === 'function') loadAndRenderTeacherRegistrations();
                 } else if (tab === 'partners') {
                     document.getElementById('view-partners').classList.remove('hidden');
                     document.getElementById('page-title').textContent = 'Partners';
@@ -1242,23 +1367,31 @@
 
                 renderAllLists();
                 closeSidebar();
-            };
+            }
+            window.switchTab = switchTab;
 
             function renderAllLists() {
-                var data = getData();
-                renderTestimonials('list-external', data.externalTestimonials, 'external');
-                renderTestimonials('list-internal', data.internalTestimonials, 'internal');
-                renderFaqs(data.faqs);
-                renderLocations(data.locations);
-                renderTeam(data.team);
-                renderActivityCards(data.activityCards);
-                renderPodcasts(data.podcasts);
-                renderPartners(data.partners);
-                renderEventsTable(data.events || []);
-                renderEventsSettingsPreview(data.eventsSettings || DEFAULT_DATA.eventsSettings);
-                updateCounts(data);
-                renderRegistrationsList();
-                loadAndRenderCertificates();
+                try {
+                    var data = getData();
+                    try { renderTestimonials('list-external', data.externalTestimonials, 'external'); } catch(e){}
+                    try { renderTestimonials('list-internal', data.internalTestimonials, 'internal'); } catch(e){}
+                    try { renderFaqs(data.faqs); } catch(e){}
+                    try { renderLocations(data.locations); } catch(e){}
+                    try { renderTeam(data.team); } catch(e){}
+                    try { renderActivityCards(data.activityCards); } catch(e){}
+                    try { renderPodcasts(data.podcasts); } catch(e){}
+                    try { renderPartners(data.partners); } catch(e){}
+                    try { renderEventsTable(data.events || []); } catch(e){}
+                    try { if (typeof window.loadAndRenderMentoringCategories === 'function') window.loadAndRenderMentoringCategories(); } catch(e){}
+                    try { if (typeof window.loadAndRenderTeacherClasses === 'function') window.loadAndRenderTeacherClasses(); } catch(e){}
+                    try { if (typeof window.loadAndRenderTeacherRegistrations === 'function') window.loadAndRenderTeacherRegistrations(); } catch(e){}
+                    try { renderEventsSettingsPreview(data.eventsSettings || DEFAULT_DATA.eventsSettings); } catch(e){}
+                    try { updateCounts(data); } catch(e){}
+                    try { renderRegistrationsList(); } catch(e){}
+                    try { if (typeof loadAndRenderCertificates === 'function') loadAndRenderCertificates(); } catch(e){}
+                } catch(globalErr) {
+                    console.error("renderAllLists global error:", globalErr);
+                }
 
                 // Render mentors list locally
                 var mentorsTbody = document.getElementById('list-mentors');
@@ -2892,7 +3025,9 @@
             }
 
             function renderVisitorChart(dailyData) {
-                var ctx = document.getElementById('visitorChart').getContext('2d');
+                var canvas = document.getElementById('visitorChart');
+                if (!canvas) return;
+                var ctx = canvas.getContext('2d');
                 var labels = [];
                 var data = [];
                 var now = new Date();
@@ -2979,11 +3114,13 @@
 
             function updateStatisticsUI(stats) {
                 if (!stats) return;
-                document.getElementById('stat-total-visitors').textContent = stats.total || 0;
+                var elTotal = document.getElementById('stat-total-visitors');
+                if (elTotal) elTotal.textContent = stats.total || 0;
 
                 var now = new Date();
                 var todayStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
-                document.getElementById('stat-today-visitors').textContent = (stats.daily && stats.daily[todayStr]) ? stats.daily[todayStr] : 0;
+                var elToday = document.getElementById('stat-today-visitors');
+                if (elToday) elToday.textContent = (stats.daily && stats.daily[todayStr]) ? stats.daily[todayStr] : 0;
 
                 var tbody = document.getElementById('stat-page-views-tbody');
                 var pages = stats.pages || {};
@@ -2994,10 +3131,13 @@
                     return b.views - a.views;
                 });
 
-                if (pageList.length > 0) {
-                    document.getElementById('stat-top-page').textContent = pageList[0].name;
-                } else {
-                    document.getElementById('stat-top-page').textContent = '-';
+                var elTop = document.getElementById('stat-top-page');
+                if (elTop) {
+                    if (pageList.length > 0) {
+                        elTop.textContent = pageList[0].name;
+                    } else {
+                        elTop.textContent = '-';
+                    }
                 }
 
                 var totalPageViews = 0;
@@ -3006,33 +3146,35 @@
                 }
                 if (totalPageViews === 0) totalPageViews = 1;
 
-                if (pageList.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4" class="text-center py-6 text-gray-400">Belum ada data kunjungan.</td></tr>';
-                } else {
-                    tbody.innerHTML = pageList.map(function (p) {
-                        var pct = Math.round((p.views / totalPageViews) * 100);
-                        var colorClass = '';
-                        if (pct < 50) {
-                            colorClass = 'text-green-600 font-semibold';
-                        } else if (pct >= 50 && pct <= 80) {
-                            colorClass = 'text-yellow-500 font-semibold';
-                        } else {
-                            colorClass = 'text-red-600 font-semibold';
-                        }
+                if (tbody) {
+                    if (pageList.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-6 text-gray-400">Belum ada data kunjungan.</td></tr>';
+                    } else {
+                        tbody.innerHTML = pageList.map(function (p) {
+                            var pct = Math.round((p.views / totalPageViews) * 100);
+                            var colorClass = '';
+                            if (pct < 50) {
+                                colorClass = 'text-green-600 font-semibold';
+                            } else if (pct >= 50 && pct <= 80) {
+                                colorClass = 'text-yellow-500 font-semibold';
+                            } else {
+                                colorClass = 'text-red-600 font-semibold';
+                            }
 
-                        var activePages = ['Home', 'About Us', 'Activities', 'Partners', 'Donation', 'Gallery'];
-                        var isActive = activePages.indexOf(p.name) !== -1;
-                        var statusBadge = isActive
-                            ? '<span class="bg-green-600 text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-sm">Active</span>'
-                            : '<span class="bg-red-500 text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-sm">Inactive</span>';
+                            var activePages = ['Home', 'About Us', 'Activities', 'Partners', 'Donation', 'Gallery'];
+                            var isActive = activePages.indexOf(p.name) !== -1;
+                            var statusBadge = isActive
+                                ? '<span class="bg-green-600 text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-sm">Active</span>'
+                                : '<span class="bg-red-500 text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-sm">Inactive</span>';
 
-                        return '<tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">' +
-                            '<td class="px-3 py-2.5 font-medium text-heading text-xs">' + escapeHtml(p.name) + '</td>' +
-                            '<td class="px-3 py-2.5 text-center">' + statusBadge + '</td>' +
-                            '<td class="px-3 py-2.5 text-right font-semibold text-xs">' + p.views + '</td>' +
-                            '<td class="px-3 py-2.5 text-right text-xs ' + colorClass + '">' + pct + '%</td>' +
-                            '</tr>';
-                    }).join('');
+                            return '<tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">' +
+                                '<td class="px-3 py-2.5 font-medium text-heading text-xs">' + escapeHtml(p.name) + '</td>' +
+                                '<td class="px-3 py-2.5 text-center">' + statusBadge + '</td>' +
+                                '<td class="px-3 py-2.5 text-right font-semibold text-xs">' + p.views + '</td>' +
+                                '<td class="px-3 py-2.5 text-right text-xs ' + colorClass + '">' + pct + '%</td>' +
+                                '</tr>';
+                        }).join('');
+                    }
                 }
 
                 var homepageView = document.getElementById('view-homepage');
@@ -3756,12 +3898,526 @@
                 });
             };
 
-            async function initDashboard() {
-                var data = await window.getFirebaseData(DEFAULT_DATA);
-                memoryData = data;
-                renderAllLists();
-                initThemeToggle();
+            // ===== TEACHER CLASS (CATEGORIES, CARDS, REGISTRATIONS) CRUD =====
+
+            // 1. Categories Logic
+            window.loadAndRenderMentoringCategories = function () {
+                var rawCats = localStorage.getItem('sd_categories');
+                var categories;
+                if (!rawCats) {
+                    categories = [
+                        { id: 'matematika', name: 'Matematika' },
+                        { id: 'english', name: 'Bahasa Inggris' },
+                        { id: 'sains', name: 'IPA & Sains' }
+                    ];
+                    localStorage.setItem('sd_categories', JSON.stringify(categories));
+                } else {
+                    categories = JSON.parse(rawCats) || [];
+                }
+
+                var countBadge = document.getElementById('count-mentoring-categories');
+                var countBadgeSidebar = document.getElementById('count-mentoring-cat');
+                if (countBadge) countBadge.textContent = categories.length;
+                if (countBadgeSidebar) countBadgeSidebar.textContent = categories.length;
+
+                var tbody = document.getElementById('list-mentoring-categories');
+                if (!tbody) return;
+
+                if (categories.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" class="text-center py-6 text-gray-400">Belum ada kategori mentoring.</td></tr>';
+                    return;
+                }
+
+                var html = '';
+                categories.forEach(function (cat, index) {
+                    html += '<tr class="hover:bg-gray-50 border-b border-gray-100">' +
+                        '<td class="px-4 py-3 font-semibold text-gray-500">' + (index + 1) + '</td>' +
+                        '<td class="px-4 py-3"><span class="bg-gray-100 dark:bg-slate-800 px-2.5 py-1 rounded text-xs font-mono font-bold text-heading">' + cat.id + '</span></td>' +
+                        '<td class="px-4 py-3 font-bold text-heading">' + escapeHtml(cat.name) + '</td>' +
+                        '<td class="px-4 py-3 text-right" style="text-align: right;">' +
+                        '<div class="flex items-center justify-end gap-2" style="justify-content: flex-end;">' +
+                        '<button onclick="openEditMentoringCategoryModal(' + index + ')" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-primary rounded text-xs font-semibold transition-colors"><i class="fas fa-edit mr-1"></i> Edit</button>' +
+                        '<button onclick="deleteMentoringCategory(' + index + ')" class="px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-600 rounded text-xs font-semibold transition-colors"><i class="fas fa-trash mr-1"></i> Hapus</button>' +
+                        '</div>' +
+                        '</td>' +
+                        '</tr>';
+                });
+                tbody.innerHTML = html;
+            };
+
+            window.openAddMentoringCategoryModal = function () {
+                var modalTitle = document.getElementById('modal-title');
+                var modalBody = document.getElementById('modal-body');
+                if (!modalTitle || !modalBody) return;
+
+                modalTitle.textContent = 'Tambah Kategori Pelajaran SD';
+                modalBody.innerHTML = '<form id="form-add-mentoring-cat" class="space-y-4">' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Nama Kategori Pelajaran SD</label><input type="text" id="cat-name-input" required placeholder="Contoh: Seni & Budaya" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Tambah Kategori</button>' +
+                    '</form>';
+
+                document.getElementById('modal').classList.remove('hidden');
+                document.getElementById('form-add-mentoring-cat').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    var name = document.getElementById('cat-name-input').value.trim();
+                    if (!name) return;
+
+                    var categories = JSON.parse(localStorage.getItem('sd_categories')) || [];
+                    var id = name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+                    categories.push({ id: id, name: name });
+
+                    localStorage.setItem('sd_categories', JSON.stringify(categories));
+                    showToast('Kategori baru berhasil ditambahkan.', 'success');
+                    closeModal();
+                    loadAndRenderMentoringCategories();
+                    loadAndRenderTeacherClasses();
+                });
+            };
+
+            window.openEditMentoringCategoryModal = function (index) {
+                var categories = JSON.parse(localStorage.getItem('sd_categories')) || [];
+                var cat = categories[index];
+                if (!cat) return;
+
+                var modalTitle = document.getElementById('modal-title');
+                var modalBody = document.getElementById('modal-body');
+                if (!modalTitle || !modalBody) return;
+
+                modalTitle.textContent = 'Edit Kategori Pelajaran SD';
+                modalBody.innerHTML = '<form id="form-edit-mentoring-cat" class="space-y-4">' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Nama Kategori</label><input type="text" id="cat-name-input" required value="' + escapeAttr(cat.name) + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Simpan Perubahan</button>' +
+                    '</form>';
+
+                document.getElementById('modal').classList.remove('hidden');
+                document.getElementById('form-edit-mentoring-cat').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    var newName = document.getElementById('cat-name-input').value.trim();
+                    if (!newName) return;
+
+                    categories[index].name = newName;
+                    localStorage.setItem('sd_categories', JSON.stringify(categories));
+                    showToast('Kategori berhasil diperbarui.', 'success');
+                    closeModal();
+                    loadAndRenderMentoringCategories();
+                    loadAndRenderTeacherClasses();
+                });
+            };
+
+            window.deleteMentoringCategory = function (index) {
+                var categories = JSON.parse(localStorage.getItem('sd_categories')) || [];
+                var cat = categories[index];
+                if (!cat) return;
+
+                if (confirm('Apakah Anda yakin ingin menghapus kategori "' + cat.name + '"?')) {
+                    categories.splice(index, 1);
+                    localStorage.setItem('sd_categories', JSON.stringify(categories));
+                    showToast('Kategori berhasil dihapus.', 'success');
+                    loadAndRenderMentoringCategories();
+                    loadAndRenderTeacherClasses();
+                }
+            };
+
+            // 2. Teacher Classes Cards Logic
+            window.loadAndRenderTeacherClasses = function () {
+                var classes = JSON.parse(localStorage.getItem('teacher_classes')) || [
+                    {
+                        id: 1,
+                        title: 'Trik Cepat Berhitung Penjumlahan, Perkalian & Pecahan',
+                        category: 'matematika',
+                        grade: 'Kelas 4 - 6 SD',
+                        slot: 8,
+                        desc: 'Belajar matematika tanpa rasa takut! Metode perkalian cepat, pecahan sederhana, dan logika soal cerita yang menyenangkan.',
+                        date: 'Sabtu, 28 Juli 2026',
+                        time: '10:00 - 11:30 WIB',
+                        platform: 'Google Meet',
+                        mentor: 'Kak Annisa, S.Pd.',
+                        mentorTitle: 'Pengajar Matematika SD',
+                        avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80'
+                    },
+                    {
+                        id: 2,
+                        title: 'Fun English: Kosakata Hewan, Warna & Percakapan Sehari-hari',
+                        category: 'english',
+                        grade: 'Kelas 1 - 3 SD',
+                        slot: 5,
+                        desc: 'Belajar Bahasa Inggris lewat lagu, gambar ceria, dan latihan pengucapan sederhana.',
+                        date: 'Minggu, 29 Juli 2026',
+                        time: '09:00 - 10:15 WIB',
+                        platform: 'Zoom Meeting',
+                        mentor: 'Kak Sarah',
+                        mentorTitle: 'Tutor English for Kids',
+                        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80'
+                    }
+                ];
+
+                var countBadge = document.getElementById('count-teacher-classes');
+                if (countBadge) countBadge.textContent = classes.length;
+
+                var tbody = document.getElementById('list-teacher-classes');
+                if (!tbody) return;
+
+                if (classes.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-gray-400">Belum ada kelas Teacher Class.</td></tr>';
+                    return;
+                }
+
+                var rawCats = localStorage.getItem('sd_categories');
+                var categories;
+                if (!rawCats) {
+                    categories = [
+                        { id: 'matematika', name: 'Matematika' },
+                        { id: 'english', name: 'Bahasa Inggris' },
+                        { id: 'sains', name: 'IPA & Sains' }
+                    ];
+                    localStorage.setItem('sd_categories', JSON.stringify(categories));
+                } else {
+                    categories = JSON.parse(rawCats) || [];
+                }
+
+                var catMap = {};
+                categories.forEach(function(c){ 
+                    catMap[c.id] = c.name; 
+                    catMap[c.name.toLowerCase()] = c.name;
+                });
+
+                var html = '';
+                classes.forEach(function (item, index) {
+                    var rawCat = (item.category || '').toString().toLowerCase().trim();
+                    var catName = catMap[rawCat] || catMap[item.category] || item.category || 'Umum';
+                    html += '<tr class="hover:bg-gray-50 border-b border-gray-100">' +
+                        '<td class="px-4 py-3 font-bold text-heading">' + escapeHtml(item.title) + '</td>' +
+                        '<td class="px-4 py-3"><span class="bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-2.5 py-1 rounded text-xs font-bold uppercase">' + escapeHtml(catName) + '</span></td>' +
+                        '<td class="px-4 py-3 text-xs font-semibold text-gray-600">' + escapeHtml(item.grade) + '</td>' +
+                        '<td class="px-4 py-3 text-xs text-gray-600">' + escapeHtml(item.date + ' | ' + item.time) + '<br><span class="text-green-600 font-semibold">' + escapeHtml(item.platform) + '</span></td>' +
+                        '<td class="px-4 py-3 text-xs font-bold text-heading">' + escapeHtml(item.mentor) + '</td>' +
+                        '<td class="px-4 py-3 text-right" style="text-align: right;">' +
+                        '<div class="flex items-center justify-end gap-2" style="justify-content: flex-end;">' +
+                        '<button onclick="openEditTeacherClassModal(' + index + ')" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-primary rounded text-xs font-semibold transition-colors"><i class="fas fa-edit mr-1"></i> Edit</button>' +
+                        '<button onclick="deleteTeacherClass(' + index + ')" class="px-2.5 py-1 bg-red-50 hover:bg-red-100 text-red-600 rounded text-xs font-semibold transition-colors"><i class="fas fa-trash mr-1"></i> Hapus</button>' +
+                        '</div>' +
+                        '</td>' +
+                        '</tr>';
+                });
+                tbody.innerHTML = html;
+            };
+
+            window.openAddTeacherClassModal = function () {
+                var categories = JSON.parse(localStorage.getItem('sd_categories'));
+                if (!categories || categories.length === 0) {
+                    categories = [
+                        { id: 'matematika', name: 'Matematika' },
+                        { id: 'english', name: 'Bahasa Inggris' },
+                        { id: 'sains', name: 'IPA & Sains' }
+                    ];
+                }
+
+                var catOptions = categories.map(function(c){ 
+                    return '<option value="' + c.id + '" class="bg-white text-gray-900 dark:bg-slate-800 dark:text-white">' + escapeHtml(c.name) + '</option>'; 
+                }).join('');
+
+                var modalTitle = document.getElementById('modal-title');
+                var modalBody = document.getElementById('modal-body');
+                if (!modalTitle || !modalBody) return;
+
+                uploadedImage = null;
+
+                modalTitle.textContent = 'Tambah Kelas Baru (Teacher Class SD)';
+                modalBody.innerHTML = '<form id="form-add-teacher-class" class="space-y-4">' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Judul Sesi Kelas *</label><input type="text" id="tc-title" required placeholder="Contoh: Belajar Trik Berhitung Cepat" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '<div class="grid grid-cols-2 gap-3">' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Kategori *</label><select id="tc-category" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white">' + catOptions + '</select></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Tingkat Kelas SD *</label><input type="text" id="tc-grade" required placeholder="Contoh: Kelas 4 - 6 SD" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '</div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Deskripsi Ringkas Materi *</label><textarea id="tc-desc" rows="2" required class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></textarea></div>' +
+                    '<div class="grid grid-cols-3 gap-3">' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Tanggal *</label><input type="text" id="tc-date" required placeholder="Sabtu, 28 Juli 2026" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Waktu *</label><input type="text" id="tc-time" required placeholder="10:00 - 11:30 WIB" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Platform *</label><input type="text" id="tc-platform" required placeholder="Google Meet" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '</div>' +
+                    '<div class="grid grid-cols-2 gap-3">' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Nama Pengajar/Mentor *</label><input type="text" id="tc-mentor" required placeholder="Kak Annisa, S.Pd." class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Profesi/Gelar *</label><input type="text" id="tc-mentor-title" required placeholder="Pengajar Matematika SD" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '</div>' +
+                    '<div>' +
+                    '<label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Foto Pengajar / Mentor *</label>' +
+                    '<div id="upload-zone" onclick="triggerUpload(\'main\')" class="upload-zone p-4 rounded-xl text-center border-2 border-dashed border-gray-300 hover:border-primary transition-colors cursor-pointer bg-gray-50 dark:bg-slate-900">' +
+                    '<i class="fas fa-cloud-upload-alt text-2xl text-gray-400 mb-1 block"></i>' +
+                    '<span class="text-xs text-gray-500 font-semibold block">Klik untuk Upload Foto Pengajar</span>' +
+                    '<span class="text-[10px] text-gray-400 block">PNG, JPG, WEBP (Maks 2MB)</span>' +
+                    '</div>' +
+                    '<input type="hidden" id="tc-avatar" value="">' +
+                    '</div>' +
+                    '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Simpan & Terbit Sesi</button>' +
+                    '</form>';
+
+                document.getElementById('modal').classList.remove('hidden');
+                initDragDrop('main');
+
+                document.getElementById('form-add-teacher-class').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    var classes = JSON.parse(localStorage.getItem('teacher_classes')) || [];
+                    var avatarVal = uploadedImage || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80';
+
+                    var newClass = {
+                        id: Date.now(),
+                        title: document.getElementById('tc-title').value.trim(),
+                        category: document.getElementById('tc-category').value,
+                        grade: document.getElementById('tc-grade').value.trim(),
+                        desc: document.getElementById('tc-desc').value.trim(),
+                        date: document.getElementById('tc-date').value.trim(),
+                        time: document.getElementById('tc-time').value.trim(),
+                        platform: document.getElementById('tc-platform').value.trim(),
+                        mentor: document.getElementById('tc-mentor').value.trim(),
+                        mentorTitle: document.getElementById('tc-mentor-title').value.trim(),
+                        avatar: avatarVal,
+                        slot: 10
+                    };
+
+                    classes.push(newClass);
+                    localStorage.setItem('teacher_classes', JSON.stringify(classes));
+                    showToast('Kelas Teacher Class baru berhasil ditambahkan.', 'success');
+                    closeModal();
+                    loadAndRenderTeacherClasses();
+                });
+            };
+
+            window.openEditTeacherClassModal = function (index) {
+                var classes = JSON.parse(localStorage.getItem('teacher_classes')) || [];
+                var item = classes[index];
+                if (!item) return;
+
+                var categories = JSON.parse(localStorage.getItem('sd_categories'));
+                if (!categories || categories.length === 0) {
+                    categories = [
+                        { id: 'matematika', name: 'Matematika' },
+                        { id: 'english', name: 'Bahasa Inggris' },
+                        { id: 'sains', name: 'IPA & Sains' }
+                    ];
+                }
+
+                var catOptions = categories.map(function(c){ 
+                    return '<option value="' + c.id + '"' + (item.category === c.id ? ' selected' : '') + ' class="bg-white text-gray-900 dark:bg-slate-800 dark:text-white">' + escapeHtml(c.name) + '</option>'; 
+                }).join('');
+
+                var modalTitle = document.getElementById('modal-title');
+                var modalBody = document.getElementById('modal-body');
+                if (!modalTitle || !modalBody) return;
+
+                uploadedImage = (item.avatar && item.avatar.startsWith('data:')) ? item.avatar : null;
+
+                var existingSrc = item.avatar ? _resolveImgPath(item.avatar) : '';
+
+                modalTitle.textContent = 'Edit Sesi Teacher Class';
+                modalBody.innerHTML = '<form id="form-edit-teacher-class" class="space-y-4">' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Judul Sesi Kelas *</label><input type="text" id="tc-title" required value="' + escapeAttr(item.title) + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '<div class="grid grid-cols-2 gap-3">' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Kategori *</label><select id="tc-category" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white">' + catOptions + '</select></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Tingkat Kelas SD *</label><input type="text" id="tc-grade" required value="' + escapeAttr(item.grade) + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '</div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Deskripsi Ringkas Materi *</label><textarea id="tc-desc" rows="2" required class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white">' + escapeHtml(item.desc) + '</textarea></div>' +
+                    '<div class="grid grid-cols-3 gap-3">' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Tanggal *</label><input type="text" id="tc-date" required value="' + escapeAttr(item.date) + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Waktu *</label><input type="text" id="tc-time" required value="' + escapeAttr(item.time) + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Platform *</label><input type="text" id="tc-platform" required value="' + escapeAttr(item.platform) + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '</div>' +
+                    '<div class="grid grid-cols-2 gap-3">' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Nama Pengajar *</label><input type="text" id="tc-mentor" required value="' + escapeAttr(item.mentor) + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Profesi/Gelar *</label><input type="text" id="tc-mentor-title" required value="' + escapeAttr(item.mentorTitle) + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>' +
+                    '</div>' +
+                    '<div>' +
+                    '<label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Foto Pengajar / Mentor</label>' +
+                    '<div id="upload-zone" onclick="triggerUpload(\'main\')" class="upload-zone p-4 rounded-xl text-center border-2 border-dashed border-gray-300 hover:border-primary transition-colors cursor-pointer bg-gray-50 dark:bg-slate-900">' +
+                    (existingSrc ? '<div class="relative"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-36 object-contain rounded-lg bg-gray-50"><button type="button" onclick="event.stopPropagation(); removeUpload();" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center text-xs shadow-md"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Foto pengajar tersedia</p>' : '<i class="fas fa-cloud-upload-alt text-2xl text-gray-400 mb-1 block"></i><span class="text-xs text-gray-500 font-semibold block">Klik untuk Upload Foto Pengajar</span>') +
+                    '</div>' +
+                    '</div>' +
+                    '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Simpan Perubahan</button>' +
+                    '</form>';
+
+                document.getElementById('modal').classList.remove('hidden');
+                initDragDrop('main');
+
+                document.getElementById('form-edit-teacher-class').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    var avatarVal = uploadedImage || item.avatar;
+
+                    classes[index] = {
+                        id: item.id,
+                        title: document.getElementById('tc-title').value.trim(),
+                        category: document.getElementById('tc-category').value,
+                        grade: document.getElementById('tc-grade').value.trim(),
+                        desc: document.getElementById('tc-desc').value.trim(),
+                        date: document.getElementById('tc-date').value.trim(),
+                        time: document.getElementById('tc-time').value.trim(),
+                        platform: document.getElementById('tc-platform').value.trim(),
+                        mentor: document.getElementById('tc-mentor').value.trim(),
+                        mentorTitle: document.getElementById('tc-mentor-title').value.trim(),
+                        avatar: avatarVal,
+                        slot: item.slot || 10
+                    };
+
+                    localStorage.setItem('teacher_classes', JSON.stringify(classes));
+                    showToast('Sesi kelas berhasil diperbarui.', 'success');
+                    closeModal();
+                    loadAndRenderTeacherClasses();
+                });
+            };
+
+            window.deleteTeacherClass = function (index) {
+                var classes = JSON.parse(localStorage.getItem('teacher_classes')) || [];
+                var item = classes[index];
+                if (!item) return;
+
+                if (confirm('Apakah Anda yakin ingin menghapus kelas "' + item.title + '"?')) {
+                    classes.splice(index, 1);
+                    localStorage.setItem('teacher_classes', JSON.stringify(classes));
+                    showToast('Kelas berhasil dihapus.', 'success');
+                    loadAndRenderTeacherClasses();
+                }
+            };
+
+            // 3. Registrations Logic
+            window.loadAndRenderTeacherRegistrations = function () {
+                var regs = JSON.parse(localStorage.getItem('teacher_registrations')) || [];
+
+                var countBadge = document.getElementById('count-teacher-registrations');
+                if (countBadge) countBadge.textContent = regs.length;
+
+                var tbody = document.getElementById('list-teacher-registrations');
+                if (!tbody) return;
+
+                if (regs.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-gray-400">Belum ada peserta terdaftar.</td></tr>';
+                    return;
+                }
+
+                var html = '';
+                regs.forEach(function (r) {
+                    var rawPhone = (r.phone || '').replace(/[^0-9]/g, '');
+                    if (rawPhone.startsWith('0')) {
+                        rawPhone = '62' + rawPhone.substring(1);
+                    }
+                    
+                    var messageText = 'Halo Orang Tua / Wali dari ' + (r.studentName || 'Siswa') + ',\n\n' +
+                        'Terima kasih telah mendaftar pada sesi Teacher Class Hey Youth!:\n' +
+                        '📚 Kelas: *' + (r.classTitle || '') + '*\n' +
+                        '🏫 Tingkat: ' + (r.grade || '') + '\n\n' +
+                        'Berikut kami sampaikan informasi lanjutan serta tautan ruangan kelas online. Jika ada pertanyaan, silakan membalas pesan ini ya! 😊';
+                        
+                    var waUrl = 'https://wa.me/' + rawPhone + '?text=' + encodeURIComponent(messageText);
+
+                    var emailSubject = 'Konfirmasi Pendaftaran Teacher Class - ' + (r.classTitle || '');
+                    
+                    // Plaintext formatted default email
+                    var emailBodyText = 'HEY YOUTH! TEACHER CLASS\n\n' +
+                        'Halo Orang Tua dari ' + (r.studentName || 'Siswa') + ',\n\n' +
+                        'Pendaftaran sesi ' + (r.classTitle || '') + ' (' + (r.grade || '') + ') dengan email ' + (r.email || '') + ' telah dikonfirmasi.\n\n' +
+                        'Silakan klik tautan di bawah ini untuk konfirmasi kelas:\n' +
+                        '👉 https://heyyouth.org\n\n' +
+                        'Tim Hey Youth! Teacher Class';
+
+                    var gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(r.email) + '&su=' + encodeURIComponent(emailSubject) + '&body=' + encodeURIComponent(emailBodyText);
+                    var mailtoUrl = 'mailto:' + encodeURIComponent(r.email) + '?subject=' + encodeURIComponent(emailSubject) + '&body=' + encodeURIComponent(emailBodyText);
+
+                    var regIndex = regs.indexOf(r);
+
+                    html += '<tr class="hover:bg-gray-50 border-b border-gray-100">' +
+                        '<td class="px-4 py-3 font-bold text-heading">' + escapeHtml(r.studentName) + '</td>' +
+                        '<td class="px-4 py-3 text-xs font-semibold text-primary">' + escapeHtml(r.grade) + '</td>' +
+                        '<td class="px-4 py-3 text-xs font-mono">' +
+                        (rawPhone ? '<a href="' + waUrl + '" target="_blank" class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-green-50 hover:bg-green-100 text-green-700 font-semibold rounded-lg transition-colors border border-green-200 shadow-sm"><i class="fab fa-whatsapp text-sm text-green-600"></i> ' + escapeHtml(r.phone) + '</a>' : escapeHtml(r.phone)) +
+                        '</td>' +
+                        '<td class="px-4 py-3 text-xs font-medium text-gray-600">' + (r.email ? escapeHtml(r.email) : '-') + '</td>' +
+                        '<td class="px-4 py-3 font-semibold text-xs text-heading">' + escapeHtml(r.classTitle) + '</td>' +
+                        '<td class="px-4 py-3 text-xs text-gray-500 italic">' + escapeHtml(r.notes || '-') + '</td>' +
+                        '</tr>';
+                });
+                tbody.innerHTML = html;
+            };
+
+            window.openHtmlEmailModal = function (index) {
+                var regs = JSON.parse(localStorage.getItem('teacher_registrations')) || [];
+                var r = regs[index];
+                if (!r) return;
+
+                var modalTitle = document.getElementById('modal-title');
+                var modalBody = document.getElementById('modal-body');
+                if (!modalTitle || !modalBody) return;
+
+                var studentName = escapeHtml(r.studentName || 'Siswa');
+                var grade = escapeHtml(r.grade || '');
+                var classTitle = escapeHtml(r.classTitle || '');
+                var email = escapeHtml(r.email || '');
+
+                var str = [];
+                str.push('<div style="font-family:sans-serif;padding:20px;background:#F1F5F9;">');
+                str.push('<div style="max-width:500px;margin:0 auto;background:#fff;padding:25px;border-radius:16px;">');
+                str.push('<h2 style="color:#1E40AF;margin:0 0 10px 0;">HEY YOUTH! TEACHER CLASS</h2>');
+                str.push('<p style="color:#334155;">Halo Orang Tua dari <b>' + studentName + '</b>,</p>');
+                str.push('<p style="color:#475569;">Pendaftaran sesi <b>' + classTitle + ' (' + grade + ')</b> dengan email <b>' + email + '</b> telah dikonfirmasi.</p>');
+                str.push('<div style="margin:20px 0;"><a href="https://heyyouth.org" style="background:#2563EB;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:bold;display:inline-block;">Konfirmasi Kelas</a></div>');
+                str.push('<p style="color:#64748B;font-size:12px;">Tim Hey Youth! Teacher Class</p>');
+                str.push('</div></div>');
+                var htmlEmailContent = str.join('');
+
+                modalTitle.textContent = 'Templat Email Resmi HTML';
+                modalBody.innerHTML = '<div class="space-y-4">' +
+                    '<p class="text-xs text-gray-500">Berikut Pratinjau Tampilan Email Resmi HTML (Model Waze Carpool Style). Anda dapat mengeklik tombol <strong>Salin HTML Email</strong> untuk ditempel langsung ke editor email.</p>' +
+                    '<div class="border rounded-2xl p-4 bg-gray-100 max-h-96 overflow-y-auto shadow-inner">' + htmlEmailContent + '</div>' +
+                    '<div class="flex gap-2">' +
+                    '<button type="button" onclick="copyHtmlEmailText()" class="flex-1 bg-primary hover:bg-primaryDark text-white font-bold py-2.5 rounded-lg text-xs transition-colors flex items-center justify-center gap-1.5"><i class="fas fa-copy"></i> Salin HTML Email</button>' +
+                    '<button type="button" onclick="closeModal()" class="px-4 py-2.5 border rounded-lg text-xs font-semibold text-gray-600 hover:bg-gray-100 transition-colors">Tutup</button>' +
+                    '</div>' +
+                    '</div>';
+
+                window.currentHtmlEmailCode = htmlEmailContent;
+                document.getElementById('modal').classList.remove('hidden');
+            };
+
+
+
+            window.copyHtmlEmailText = function () {
+                if (!window.currentHtmlEmailCode) return;
+                navigator.clipboard.writeText(window.currentHtmlEmailCode).then(function () {
+                    showToast('Kode HTML Email berhasil disalin ke clipboard!', 'success');
+                }).catch(function () {
+                    showToast('Gagal menyalin kode HTML.', 'error');
+                });
+            };
+
+            window.clearTeacherRegistrations = function () {
+                if (confirm('Apakah Anda yakin ingin menghapus semua rekap pendaftaran peserta Teacher Class?')) {
+                    localStorage.removeItem('teacher_registrations');
+                    showToast('Rekap pendaftaran peserta dibersihkan.', 'success');
+                    loadAndRenderTeacherRegistrations();
+                }
+            };
+
+
+
+            /* =========================================
+               AUTH CHECK & INIT DASHBOARD
+               ========================================= */
+            function initDashboard() {
+                try {
+                    renderAllLists();
+                    initStatisticsListener();
+                    initThemeToggle();
+                    if (typeof switchTab === 'function') switchTab('homepage');
+                } catch (err) {
+                    console.error("initDashboard error:", err);
+                }
             }
+
+            if (window.firebase && firebase.auth) {
+                firebase.auth().onAuthStateChanged(function (user) {
+                    if (user) {
+                        initDashboard();
+                    }
+                });
+            }
+
+            initDashboard();
         })();
     </script>
 </body>

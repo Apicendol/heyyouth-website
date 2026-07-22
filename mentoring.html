@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function () {
+      var savedTheme = localStorage.getItem('heyyouth_theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Class - Hey Youth!</title>
+  <link rel="icon" type="image/png" href="assets/img/NEW HEY YOUTH Sep 2025.png">
+  <meta name="description"
+    content="Teacher Class: Kelas online interaktif dan pendampingan belajar gratis untuk anak Sekolah Dasar (SD). Matematika, Bahasa Inggris, Sains dari Hey Youth!">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/Style/tailwind.css">
+  <link rel="stylesheet" href="assets/Style/Style.css">
+</head>
+
+<body class="lang-id bg-bg text-body font-sans antialiased selection:bg-primary selection:text-white">
+
+  <!-- Navigation Bar (Global Component) -->
+  <div id="global-navbar"></div>
+
+  <main class="pt-20">
+
+    <!-- Hero Banner Section -->
+    <section class="relative py-16 lg:py-24 bg-gradient-to-br from-yellow-50 via-sky-50 to-orange-50 overflow-hidden dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+      <div class="absolute top-10 right-10 w-72 h-72 bg-yellow-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob dark:bg-amber-900"></div>
+      <div class="absolute bottom-10 left-10 w-72 h-72 bg-sky-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000 dark:bg-sky-900"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        <span class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-yellow-200 text-yellow-900 text-xs sm:text-sm font-bold tracking-wider uppercase mb-6 animate-fade-in-up dark:bg-amber-950 dark:text-amber-200">
+          <i class="fas fa-graduation-cap"></i>
+          <span class="lang-id">Teacher Class - Kelas Online Gratis SD</span>
+          <span class="lang-en">Teacher Class - Free Online Elementary Class</span>
+        </span>
+
+        <h1 class="text-4xl md:text-6xl font-extrabold text-heading mb-6 leading-tight font-serif">
+          <span class="lang-id">Teacher Class: Belajar Seru & <span class="text-primary relative inline-block">Gratis<svg class="absolute w-full h-3 -bottom-1 left-0 text-accent -z-10" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="8" fill="none" /></svg></span> untuk Anak SD</span>
+          <span class="lang-en">Teacher Class: Fun & <span class="text-primary relative inline-block">Free<svg class="absolute w-full h-3 -bottom-1 left-0 text-accent -z-10" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="8" fill="none" /></svg></span> Learning for Kids</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-10 leading-relaxed">
+          <span class="lang-id">Dampingi tumbuh kembang si kecil dengan kelas bimbingan belajar menyenangkan! Mulai dari Matematika Cepat, Bahasa Inggris Dasar, Sains Seru, hingga Seni & Kreativitas.</span>
+          <span class="lang-en">Support your child's growth with fun tutoring sessions! Covering Quick Math, English for Kids, Fun Science, and Arts & Crafts.</span>
+        </p>
+
+        <div class="flex items-center justify-center">
+          <a href="#class-catalog" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 bg-primary hover:bg-primaryDark text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-blue-200 hover:-translate-y-0.5 text-base">
+            <i class="fas fa-child mr-2 text-yellow-300"></i>
+            <span class="lang-id">Pilih Kelas Anak SD</span>
+            <span class="lang-en">Explore Kids Classes</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="py-8 bg-white border-y border-gray-100 dark:bg-slate-900 dark:border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div class="p-4">
+            <p class="text-3xl md:text-4xl font-extrabold text-primary">100%</p>
+            <p class="text-xs sm:text-sm text-gray-500 font-medium mt-1">Gratis Tanpa Biaya</p>
+          </div>
+          <div class="p-4">
+            <p class="text-3xl md:text-4xl font-extrabold text-accent">Kelas 1 - 6</p>
+            <p class="text-xs sm:text-sm text-gray-500 font-medium mt-1">Tingkat Sekolah Dasar</p>
+          </div>
+          <div class="p-4">
+            <p class="text-3xl md:text-4xl font-extrabold text-green-600">Interaktif</p>
+            <p class="text-xs sm:text-sm text-gray-500 font-medium mt-1">Game & Quiz Seru</p>
+          </div>
+          <div class="p-4">
+            <p class="text-3xl md:text-4xl font-extrabold text-purple-600">Kakak Pengajar</p>
+            <p class="text-xs sm:text-sm text-gray-500 font-medium mt-1">Ramah & Berpengalaman</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Class Catalog Section -->
+    <section id="class-catalog" class="py-16 bg-bg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Header Bar -->
+        <div class="mb-8">
+          <span class="text-xs font-bold uppercase tracking-wider text-primary bg-blue-50 dark:bg-slate-800 dark:text-blue-400 px-3 py-1 rounded-full">
+            <span class="lang-id">Jadwal Kelas Pekan Ini</span><span class="lang-en">This Week's Schedule</span>
+          </span>
+          <h2 class="text-3xl font-bold text-heading mt-2 font-serif">
+            <span class="lang-id">Daftar Mata Pelajaran SD</span>
+            <span class="lang-en">Elementary Subjects List</span>
+          </h2>
+        </div>
+
+        <!-- Filter Buttons (Rendered Dynamically via JS) -->
+        <div class="flex flex-wrap items-center gap-2 mb-10" id="category-filter-container">
+          <!-- Rendered dynamically by JS -->
+        </div>
+
+        <!-- Class Grid (Rendered Dynamically via JS) -->
+        <div id="class-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Rendered dynamically by JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL 1: FORM PENDAFTARAN PESERTA (ORANG TUA / SISWA SD) -->
+  <div id="join-modal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative animate-fade-in-up">
+      <button onclick="closeJoinModal()" class="absolute top-6 right-6 z-10 text-gray-400 hover:text-gray-600 dark:hover:text-white p-2 transition-colors">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+
+      <div class="mb-6 pr-8">
+        <span class="inline-block text-xs font-bold text-primary bg-blue-50 dark:bg-slate-700 px-3 py-1 rounded-full uppercase">Form Pendaftaran Anak SD</span>
+        <h3 id="modal-class-title" class="text-2xl font-bold text-heading dark:text-white mt-2">Judul Sesi Kelas SD</h3>
+        <p id="modal-class-info" class="text-sm text-gray-500 dark:text-gray-400 mt-1">Jadwal & Pengajar</p>
+      </div>
+
+      <form id="form-join-class" onsubmit="handleJoinSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Nama Lengkap Pendaftar *</label>
+          <input type="text" required placeholder="Contoh: Rian Pratama" class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 text-sm focus:ring-2 focus:ring-primary focus:outline-none">
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Kelas SD *</label>
+            <select required class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 text-sm focus:ring-2 focus:ring-primary focus:outline-none">
+              <option value="Kelas 1 SD">Kelas 1 SD</option>
+              <option value="Kelas 2 SD">Kelas 2 SD</option>
+              <option value="Kelas 3 SD">Kelas 3 SD</option>
+              <option value="Kelas 4 SD">Kelas 4 SD</option>
+              <option value="Kelas 5 SD">Kelas 5 SD</option>
+              <option value="Kelas 6 SD">Kelas 6 SD</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">No. WhatsApp Orang Tua *</label>
+            <input type="tel" required placeholder="08123456789" class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 text-sm focus:ring-2 focus:ring-primary focus:outline-none">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Email Orang Tua / Wali *</label>
+          <input type="email" required placeholder="ortu@domain.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 text-sm focus:ring-2 focus:ring-primary focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Catatan Tambahan untuk Kakak Pengajar (Opsional)</label>
+          <textarea rows="2" placeholder="Contoh: Anak saya masih belum lancar membaca pecahan..." class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 text-sm focus:ring-2 focus:ring-primary focus:outline-none"></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-4 bg-primary hover:bg-primaryDark text-white font-bold rounded-xl transition-all shadow-lg text-sm mt-4">
+          Kirim Form Registrasi
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer Component -->
+  <div id="global-footer"></div>
+
+  <!-- Scripts -->
+  <script src="assets/Javascript/components.js"></script>
+  <script>
+    // State Kategori & Sesi Kelas (Membaca dari CMS / LocalStorage)
+    let categories = JSON.parse(localStorage.getItem('sd_categories')) || [
+      { id: 'matematika', name: 'Matematika' },
+      { id: 'english', name: 'Bahasa Inggris' },
+      { id: 'sains', name: 'IPA & Sains' }
+    ];
+
+    let activeCategory = 'all';
+
+    let selectedClassTitle = '';
+
+    // Initialize UI
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCategoryFilters();
+      renderClassCatalog();
+    });
+
+    // Render Filter Buttons
+    function renderCategoryFilters() {
+      categories = JSON.parse(localStorage.getItem('sd_categories')) || [
+        { id: 'matematika', name: 'Matematika' },
+        { id: 'english', name: 'Bahasa Inggris' },
+        { id: 'sains', name: 'IPA & Sains' }
+      ];
+
+      const container = document.getElementById('category-filter-container');
+      let html = `
+        <button onclick="setFilter('all')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all ${activeCategory === 'all' ? 'bg-primary text-white shadow-sm' : 'bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-slate-800 dark:text-slate-200'}">
+          Semua Mata Pelajaran
+        </button>
+      `;
+
+      categories.forEach(cat => {
+        const isActive = activeCategory === cat.id;
+        html += `
+          <button onclick="setFilter('${cat.id}')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all ${isActive ? 'bg-primary text-white shadow-sm' : 'bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-slate-800 dark:text-slate-200'}">
+            ${cat.name}
+          </button>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // Set Active Filter
+    function setFilter(catId) {
+      activeCategory = catId;
+      renderCategoryFilters();
+      renderClassCatalog();
+    }
+
+    // Render Class Cards (Dinamis dari CMS)
+    function renderClassCatalog() {
+      const classesData = JSON.parse(localStorage.getItem('teacher_classes')) || [
+        {
+          id: 1,
+          title: 'Trik Cepat Berhitung Penjumlahan, Perkalian & Pecahan',
+          category: 'matematika',
+          grade: 'Kelas 4 - 6 SD',
+          slot: 8,
+          desc: 'Belajar matematika tanpa rasa takut! Metode perkalian cepat, pecahan sederhana, dan logika soal cerita yang menyenangkan.',
+          date: 'Sabtu, 28 Juli 2026',
+          time: '10:00 - 11:30 WIB',
+          platform: 'Google Meet (Live & Quiz)',
+          mentor: 'Kak Annisa, S.Pd.',
+          mentorTitle: 'Pengajar Matematika SD',
+          avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80'
+        },
+        {
+          id: 2,
+          title: 'Fun English: Kosakata Hewan, Warna & Percakapan Sehari-hari',
+          category: 'english',
+          grade: 'Kelas 1 - 3 SD',
+          slot: 5,
+          desc: 'Belajar Bahasa Inggris lewat lagu, gambar ceria, dan latihan pengucapan (pronunciation) sederhana untuk anak usia dini.',
+          date: 'Minggu, 29 Juli 2026',
+          time: '09:00 - 10:15 WIB',
+          platform: 'Zoom Meeting',
+          mentor: 'Kak Sarah',
+          mentorTitle: 'Tutor English for Kids',
+          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80'
+        },
+        {
+          id: 3,
+          title: 'Eksperimen Sains Sederhana: Rahasia Alam & Bagian Tubuh',
+          category: 'sains',
+          grade: 'Kelas 3 - 6 SD',
+          slot: 10,
+          desc: 'Mengenal dunia IPA dengan cara seru! Uji coba sains sederhana di rumah dan memahami organ tubuh makhluk hidup.',
+          date: 'Minggu, 29 Juli 2026',
+          time: '14:00 - 15:30 WIB',
+          platform: 'Google Meet',
+          mentor: 'Kak Budi S.Si.',
+          mentorTitle: 'Voluntir Pengajar Sains',
+          avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80'
+        }
+      ];
+
+      const grid = document.getElementById('class-grid');
+      const filtered = activeCategory === 'all' ? classesData : classesData.filter(c => c.category === activeCategory);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 text-center">
+            <i class="fas fa-folder-open text-4xl text-gray-300 mb-3 block"></i>
+            <p class="text-gray-500 font-medium">Belum ada sesi kelas untuk kategori ini.</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      filtered.forEach(item => {
+        html += `
+          <div class="class-card bg-white dark:bg-slate-800 rounded-3xl border border-gray-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+            <div class="p-6">
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="bg-blue-100 text-primary text-xs font-bold px-3 py-1 rounded-full uppercase">${item.grade}</span>
+                <span class="text-xs font-semibold text-gray-500 dark:text-gray-400"><i class="far fa-user text-accent mr-1"></i> Sisa ${item.slot || 10} Slot</span>
+              </div>
+              <h3 class="text-xl font-bold text-heading dark:text-white mb-2 group-hover:text-primary transition-colors">
+                ${item.title}
+              </h3>
+              <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 line-clamp-2">
+                ${item.desc}
+              </p>
+
+              <div class="space-y-2 pt-4 border-t border-gray-100 dark:border-slate-700 text-xs text-gray-600 dark:text-gray-300">
+                <div class="flex items-center gap-2">
+                  <i class="far fa-calendar-alt text-primary"></i>
+                  <span class="font-medium">${item.date}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="far fa-clock text-primary"></i>
+                  <span class="font-medium">${item.time}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-video text-green-600"></i>
+                  <span class="font-medium">${item.platform}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3 mt-6 pt-4 border-t border-gray-100 dark:border-slate-700">
+                <img src="${item.avatar || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80'}" alt="Mentor" class="w-10 h-10 rounded-full object-cover ring-2 ring-blue-100">
+                <div>
+                  <h4 class="text-sm font-bold text-heading dark:text-white">${item.mentor}</h4>
+                  <p class="text-xs text-gray-500">${item.mentorTitle}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-6 pb-6 pt-2">
+              <button onclick="openJoinModal('${escapeAttr(item.title)}', '${escapeAttr(item.mentor)}', '${escapeAttr(item.date)} | ${escapeAttr(item.time)}')" class="w-full py-3 bg-primary hover:bg-primaryDark text-white font-bold rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                <span>Daftar Sekarang</span>
+                <i class="fas fa-arrow-right text-xs"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      grid.innerHTML = html;
+    }
+
+    // Modal Control Functions Join
+    function openJoinModal(title, mentor, info) {
+      selectedClassTitle = title;
+      document.getElementById('modal-class-title').innerText = title;
+      document.getElementById('modal-class-info').innerText = 'Pengajar: ' + mentor + ' | ' + info;
+      document.getElementById('join-modal').classList.remove('hidden');
+    }
+    function closeJoinModal() {
+      document.getElementById('join-modal').classList.add('hidden');
+    }
+
+    // Form Handler Simpan ke CMS
+    function handleJoinSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const inputs = form.querySelectorAll('input, select, textarea');
+
+      const registrationData = {
+        studentName: inputs[0].value.trim(),
+        grade: inputs[1].value,
+        phone: inputs[2].value.trim(),
+        email: inputs[3].value.trim(),
+        notes: inputs[4].value.trim(),
+        classTitle: selectedClassTitle,
+        registeredAt: new Date().toLocaleString('id-ID')
+      };
+
+      const existingRegs = JSON.parse(localStorage.getItem('teacher_registrations')) || [];
+      existingRegs.push(registrationData);
+      localStorage.setItem('teacher_registrations', JSON.stringify(existingRegs));
+
+      alert('Terima Kasih Bapak/Ibu! Pendaftaran kelas online anak berhasil. Data pendaftaran telah tersimpan di CMS.');
+      form.reset();
+      closeJoinModal();
+    }
+
+    function escapeAttr(str) {
+      if (!str) return '';
+      return String(str).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+  </script>
+  </script>
+</body>
+
+</html>
