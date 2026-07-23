@@ -28,6 +28,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
+    <!-- Quill Rich Text Editor CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -1466,7 +1470,43 @@
                 var countEl = document.getElementById('count-registrations');
                 if (!tbody) return;
 
-                var list = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+                var regKey = 'event_registrations';
+                if (localStorage.getItem(regKey) === null) {
+                    var list = [
+                        {
+                            id: 1,
+                            name: 'Budi Santoso',
+                            instansi: 'Universitas Indonesia',
+                            email: 'peserta@heyyouth.org',
+                            phone: '08123456789',
+                            domisili: 'Jakarta',
+                            eventName: 'HeyYouth Digital Summit 2026',
+                            registeredAt: Date.now()
+                        },
+                        {
+                            id: 2,
+                            name: 'Jane Doe',
+                            instansi: 'Stanford University',
+                            email: 'speaker@heyyouth.org',
+                            phone: '08111222333',
+                            domisili: 'San Francisco',
+                            eventName: 'HeyYouth Digital Summit 2026',
+                            registeredAt: Date.now()
+                        },
+                        {
+                            id: 3,
+                            name: 'Henri Prasetyo',
+                            instansi: 'Institut Teknologi Bandung',
+                            email: 'henriprasetyo6@gmail.com',
+                            phone: '085712345678',
+                            domisili: 'Bandung',
+                            eventName: 'Hey Youth Summit 2026',
+                            registeredAt: Date.now()
+                        }
+                    ];
+                    localStorage.setItem(regKey, JSON.stringify(list));
+                }
+                var list = JSON.parse(localStorage.getItem(regKey) || '[]');
                 if (countEl) countEl.textContent = list.length;
 
                 if (list.length === 0) {
@@ -1496,6 +1536,21 @@
             }
 
 
+            function generateAbbreviation(eventName) {
+                if (!eventName) return 'EVENT';
+                var words = eventName.replace(/[^a-zA-Z0-9 ]/g, '').split(/\s+/);
+                var abb = '';
+                var skip = ['and', 'or', 'in', 'the', 'a', 'of', 'to', 'for', 'with', 'at', 'by', 'from', 'on', 'about', 'as', 'into', 'like', 'through', 'after', 'over', 'between', 'out', 'against', 'during', 'without', 'before', 'under', 'around', 'among'];
+                words.forEach(function(word) {
+                    var w = word.toLowerCase();
+                    if (w && skip.indexOf(w) === -1) {
+                        abb += word[0].toUpperCase();
+                    }
+                });
+                if (!abb) abb = 'EVENT';
+                return abb;
+            }
+
             window.publishCertificateFromReg = function (regId) {
                 var modalTitle = document.getElementById('modal-title');
                 var modalBody = document.getElementById('modal-body');
@@ -1522,8 +1577,12 @@
                 var defaultCertDesc = 'In recognition of your active participation in the **Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era."** Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
                 var description = eventObj ? (eventObj.certDescription || defaultCertDesc) : defaultCertDesc;
 
-                // Hitung nomor sertifikat acak/urut berdasarkan timestamp
-                var certNum = 'HY-REG-' + Date.now().toString().slice(-6);
+                // Hitung nomor sertifikat otomatis: HY-{SINGKATAN}-{URUTAN}
+                var abb = generateAbbreviation(eventName);
+                var listKey = 'mock_fb_list_certificates';
+                var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
+                var count = list.filter(function(c) { return c.data && c.data.eventName === eventName; }).length;
+                var certNum = 'HY-' + abb + '-' + (count + 1);
                 
                 // Format tanggal rilis hari ini
                 var dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -1588,7 +1647,7 @@
 
             window.clearAllRegistrations = function () {
                 if (!confirm('Hapus semua pendaftaran event? Tindakan ini tidak dapat dibatalkan.')) return;
-                localStorage.removeItem('event_registrations');
+                localStorage.setItem('event_registrations', '[]');
                 renderRegistrationsList();
                 showToast('Semua pendaftaran berhasil dibersihkan.', 'success');
             };
@@ -2403,8 +2462,7 @@
 
                     html += '<div class="mb-4">' +
                         '<label class="block text-sm font-semibold text-heading mb-1.5">Full Story (Detail Artikel)</label>' +
-                        '<p class="text-xs text-gray-400 mb-2">Anda bisa menggunakan tag HTML sederhana seperti &lt;p&gt;, &lt;br&gt;, &lt;b&gt;.</p>' +
-                        '<textarea id="f-full-story" rows="10" placeholder="Tulis cerita lengkap di sini..." class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-heading focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">' + escapeHtml(item ? (item.fullStory || '') : '') + '</textarea>' +
+                        '<div id="f-full-story-editor" class="h-64 bg-white dark:bg-slate-800 text-heading border border-gray-200 rounded-lg text-sm overflow-y-auto">' + (item ? (item.fullStory || '') : '') + '</div>' +
                         '</div>';
 
                     var existingSrc = '';
@@ -2507,6 +2565,20 @@
                     }
                 } else if (section === 'external' || section === 'internal' || section === 'team' || section === 'about-hero' || section === 'activity-card' || section === 'podcast' || section === 'partner') {
                     initDragDrop('main');
+                    if (section === 'activity-card') {
+                        window.quillEditor = new Quill('#f-full-story-editor', {
+                            theme: 'snow',
+                            modules: {
+                                toolbar: [
+                                    [{ 'header': [1, 2, 3, false] }],
+                                    ['bold', 'italic', 'underline', 'strike'],
+                                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                    ['link', 'image'],
+                                    ['clean']
+                                ]
+                            }
+                        });
+                    }
                 } else if (section === 'event') {
                     initDragDrop('main');
                     initDragDrop('speaker');
@@ -2668,7 +2740,7 @@
                     if (uploadedImage) image = uploadedImage;
                     else if (isEdit && editingItem.image && !editingItem.image.startsWith('data:')) image = editingItem.image;
 
-                    var fullStoryVal = document.getElementById('f-full-story').value;
+                    var fullStoryVal = window.quillEditor ? window.quillEditor.root.innerHTML : '';
 
                     var obj = {
                         id: isEdit ? editingItem.id : Date.now(),
@@ -3323,7 +3395,48 @@
                 tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-gray-400"><i class="fas fa-circle-notch fa-spin mr-2"></i>Memuat...</td></tr>';
                 try {
                     var listKey = 'mock_fb_list_certificates';
-                    var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
+                    if (localStorage.getItem(listKey) === null) {
+                        var list = [
+                            {
+                                id: "1",
+                                data: {
+                                    email: 'peserta@heyyouth.org',
+                                    name: 'Budi Santoso',
+                                    role: 'Participant',
+                                    eventName: 'HeyYouth Digital Summit 2026',
+                                    issueDate: '18 Juli 2026',
+                                    certificateNumber: 'HY-DS26-0001',
+                                    description: 'as a **Participant** in the online webinar **HeyYouth Digital Summit 2026**'
+                                }
+                            },
+                            {
+                                id: "2",
+                                data: {
+                                    email: 'speaker@heyyouth.org',
+                                    name: 'Jane Doe',
+                                    role: 'Speaker',
+                                    eventName: 'HeyYouth Digital Summit 2026',
+                                    issueDate: '18 Juli 2026',
+                                    certificateNumber: 'HY-DS26-0002',
+                                    description: 'as a **Speaker** in the online webinar **HeyYouth Digital Summit 2026**'
+                                }
+                            },
+                            {
+                                id: "3",
+                                data: {
+                                    email: 'henriprasetyo6@gmail.com',
+                                    name: 'Henri Prasetyo',
+                                    role: 'Participant',
+                                    eventName: 'Hey Youth Summit 2026',
+                                    issueDate: 'July 22nd - 23rd, 2026',
+                                    certificateNumber: 'HY-REG-014838',
+                                    description: 'in recognition of your active participation in the **Hey Youth: Future Ready Summit** themed **"What Makes You Irreplaceable in the AI Era."**'
+                                }
+                            }
+                        ];
+                        localStorage.setItem(listKey, JSON.stringify(list));
+                    }
+                    var list = JSON.parse(localStorage.getItem(listKey) || '[]');
                     var countCertEl = document.getElementById('count-certificates');
                     if (countCertEl) countCertEl.textContent = list.length;
                     if (list.length === 0) {
@@ -3521,16 +3634,29 @@
 
                 modalTitle.textContent = 'Terbitkan Sertifikat Baru';
                 modalBody.innerHTML = '<form id="form-add-certificate" class="space-y-4">' +
-                    '<div><label class="block text-sm font-medium text-gray-700">Nomor Sertifikat</label><input type="text" id="c-number" required placeholder="HY-WEBINAR-001" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Nama Acara / Webinar</label><input type="text" id="c-event" required placeholder="Webinar Pendidikan Kreatif" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Nomor Sertifikat</label><input type="text" id="c-number" required placeholder="HY-EVENT-1" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-gray-50" readonly></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Penerima</label><input type="text" id="c-name" required placeholder="John Doe" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Email Penerima</label><input type="email" id="c-email" required placeholder="johndoe@email.com" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
-                    '<div><label class="block text-sm font-medium text-gray-700">Nama Acara / Webinar</label><input type="text" id="c-event" required placeholder="Webinar Pendidikan Kreatif" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Teks Deskripsi Sertifikat</label><textarea id="c-description" rows="6" required class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' + defaultCertDesc + '</textarea><p class="text-[11px] text-gray-500 mt-1">💡 Gunakan tanda <strong>**</strong> di awal dan akhir kata/kalimat untuk mencetak tebal teks. Contoh: <code>**Hey Youth Summit**</code></p></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Tanggal Rilis</label><input type="text" id="c-date" required placeholder="17 Juli 2026" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Terbitkan</button>' +
                     '</form>';
 
                 document.getElementById('modal').classList.remove('hidden');
+
+                const cEvent = document.getElementById('c-event');
+                const cNumber = document.getElementById('c-number');
+                cEvent.addEventListener('input', function(e) {
+                    var val = e.target.value.trim();
+                    if (!val) { cNumber.value = ''; return; }
+                    var abb = generateAbbreviation(val);
+                    var listKey = 'mock_fb_list_certificates';
+                    var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
+                    var count = list.filter(function(c) { return c.data && c.data.eventName.toLowerCase() === val.toLowerCase(); }).length;
+                    cNumber.value = 'HY-' + abb + '-' + (count + 1);
+                });
+
                 document.getElementById('form-add-certificate').addEventListener('submit', async function (e) {
                     e.preventDefault();
                     var num = document.getElementById('c-number').value.trim();
@@ -4020,36 +4146,41 @@
 
             // 2. Teacher Classes Cards Logic
             window.loadAndRenderTeacherClasses = function () {
-                var classes = JSON.parse(localStorage.getItem('teacher_classes')) || [
-                    {
-                        id: 1,
-                        title: 'Trik Cepat Berhitung Penjumlahan, Perkalian & Pecahan',
-                        category: 'matematika',
-                        grade: 'Kelas 4 - 6 SD',
-                        slot: 8,
-                        desc: 'Belajar matematika tanpa rasa takut! Metode perkalian cepat, pecahan sederhana, dan logika soal cerita yang menyenangkan.',
-                        date: 'Sabtu, 28 Juli 2026',
-                        time: '10:00 - 11:30 WIB',
-                        platform: 'Google Meet',
-                        mentor: 'Kak Annisa, S.Pd.',
-                        mentorTitle: 'Pengajar Matematika SD',
-                        avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80'
-                    },
-                    {
-                        id: 2,
-                        title: 'Fun English: Kosakata Hewan, Warna & Percakapan Sehari-hari',
-                        category: 'english',
-                        grade: 'Kelas 1 - 3 SD',
-                        slot: 5,
-                        desc: 'Belajar Bahasa Inggris lewat lagu, gambar ceria, dan latihan pengucapan sederhana.',
-                        date: 'Minggu, 29 Juli 2026',
-                        time: '09:00 - 10:15 WIB',
-                        platform: 'Zoom Meeting',
-                        mentor: 'Kak Sarah',
-                        mentorTitle: 'Tutor English for Kids',
-                        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80'
-                    }
-                ];
+                var classesKey = 'teacher_classes';
+                if (localStorage.getItem(classesKey) === null) {
+                    var classes = [
+                        {
+                            id: 1,
+                            title: 'Trik Cepat Berhitung Penjumlahan, Perkalian & Pecahan',
+                            category: 'matematika',
+                            grade: 'Kelas 4 - 6 SD',
+                            slot: 8,
+                            desc: 'Belajar matematika tanpa rasa takut! Metode perkalian cepat, pecahan sederhana, dan logika soal cerita yang menyenangkan.',
+                            date: 'Sabtu, 28 Juli 2026',
+                            time: '10:00 - 11:30 WIB',
+                            platform: 'Google Meet',
+                            mentor: 'Kak Annisa, S.Pd.',
+                            mentorTitle: 'Pengajar Matematika SD',
+                            avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80'
+                        },
+                        {
+                            id: 2,
+                            title: 'Fun English: Kosakata Hewan, Warna & Percakapan Sehari-hari',
+                            category: 'english',
+                            grade: 'Kelas 1 - 3 SD',
+                            slot: 5,
+                            desc: 'Belajar Bahasa Inggris lewat lagu, gambar ceria, dan latihan pengucapan sederhana.',
+                            date: 'Minggu, 29 Juli 2026',
+                            time: '09:00 - 10:15 WIB',
+                            platform: 'Zoom Meeting',
+                            mentor: 'Kak Sarah',
+                            mentorTitle: 'Tutor English for Kids',
+                            avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80'
+                        }
+                    ];
+                    localStorage.setItem(classesKey, JSON.stringify(classes));
+                }
+                var classes = JSON.parse(localStorage.getItem(classesKey) || '[]');
 
                 var countBadge = document.getElementById('count-teacher-classes');
                 if (countBadge) countBadge.textContent = classes.length;
@@ -4278,7 +4409,29 @@
 
             // 3. Registrations Logic
             window.loadAndRenderTeacherRegistrations = function () {
-                var regs = JSON.parse(localStorage.getItem('teacher_registrations')) || [];
+                var regsKey = 'teacher_registrations';
+                if (localStorage.getItem(regsKey) === null) {
+                    var regs = [
+                        {
+                            studentName: 'Henri Prasetyo',
+                            grade: '5 SD',
+                            phone: '085712345678',
+                            email: 'henriprasetyo6@gmail.com',
+                            classTitle: 'Trik Cepat Berhitung Penjumlahan, Perkalian & Pecahan',
+                            notes: 'Mohon dibantu bimbingan perkalian dasar.'
+                        },
+                        {
+                            studentName: 'Budi Santoso',
+                            grade: '6 SD',
+                            phone: '08123456789',
+                            email: 'peserta@heyyouth.org',
+                            classTitle: 'Trik Cepat Berhitung Penjumlahan, Perkalian & Pecahan',
+                            notes: 'Sangat bersemangat belajar pecahan.'
+                        }
+                    ];
+                    localStorage.setItem(regsKey, JSON.stringify(regs));
+                }
+                var regs = JSON.parse(localStorage.getItem(regsKey) || '[]');
 
                 var countBadge = document.getElementById('count-teacher-registrations');
                 if (countBadge) countBadge.textContent = regs.length;
@@ -4387,7 +4540,7 @@
 
             window.clearTeacherRegistrations = function () {
                 if (confirm('Apakah Anda yakin ingin menghapus semua rekap pendaftaran peserta Teacher Class?')) {
-                    localStorage.removeItem('teacher_registrations');
+                    localStorage.setItem('teacher_registrations', '[]');
                     showToast('Rekap pendaftaran peserta dibersihkan.', 'success');
                     loadAndRenderTeacherRegistrations();
                 }
