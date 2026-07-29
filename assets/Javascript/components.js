@@ -6,7 +6,7 @@
   'use strict';
 
   var navbarTemplate = `
-  <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-gray-100">
+  <nav id="navbar" class="fixed w-full z-[500] transition-all duration-300 bg-white/70 backdrop-blur-lg border-b border-white/20 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
         <a href="index.html" class="flex-shrink-0 flex items-center gap-2 group">
@@ -82,24 +82,24 @@
   var footerTemplate = `
   <footer id="contact" class="bg-heading text-gray-400 py-12 border-t border-gray-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid md:grid-cols-3 gap-8 mb-8">
-        <div>
-          <span class="text-2xl font-bold text-white block mb-4">Hey Youth!</span>
+      <div class="grid md:grid-cols-3 gap-8 mb-8 items-start">
+        <div class="flex flex-col justify-start">
+          <span class="text-2xl font-bold text-white block mb-4 leading-none h-6 flex items-center">Hey Youth!</span>
           <p class="mt-4 text-sm leading-relaxed text-gray-400">
             Helping youths grow through webinar, mentoring & volunteering<br>
             Est. 2018 | 5K+ learners | 📩 Join our team to make a real impact 🌏
           </p>
         </div>
-        <div>
-          <h4 class="text-white font-bold mb-4 uppercase text-xs tracking-wider">Contact</h4>
-          <ul class="space-y-2 text-sm">
+        <div class="flex flex-col justify-start">
+          <h4 class="text-white font-bold mb-4 uppercase text-xs tracking-wider h-6 flex items-center">Contact</h4>
+          <ul class="space-y-2 text-sm mt-4">
             <li class="flex items-center gap-2"><i class="fas fa-envelope text-accent"></i> hey.youth.id@gmail.com</li>
             <li class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-accent"></i> Jakarta, Indonesia</li>
           </ul>
         </div>
-        <div>
-          <h4 class="text-white font-bold mb-4 uppercase text-xs tracking-wider">Follow Us</h4>
-          <p class="text-xs mb-3 text-gray-500">Follow us to keep you updated with our latest activities</p>
+        <div class="flex flex-col justify-start">
+          <h4 class="text-white font-bold mb-4 uppercase text-xs tracking-wider h-6 flex items-center">Follow Us</h4>
+          <p class="text-xs mb-3 text-gray-500 mt-4">Follow us to keep you updated with our latest activities</p>
           <div class="flex space-x-3">
             <a href="https://www.instagram.com/heyyouth_id/" class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><i class="fab fa-instagram"></i></a>
             <a href="https://www.linkedin.com/company/heyyouth-official/" class="w-8 h-8 rounded bg-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><i class="fab fa-linkedin-in"></i></a>
