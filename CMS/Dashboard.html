@@ -15,7 +15,7 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CMS Dashboard - Hey Youth!</title>
-    <link rel="icon" type="image/png" href="../assets/img/NEW HEY YOUTH Sep 2025.png">
+    <link rel="icon" type="image/webp" href="../assets/img/NEW HEY YOUTH Sep 2025.webp">
     <meta name="robots" content="noindex, nofollow">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -293,7 +293,7 @@
         class="fixed top-0 left-0 h-full w-64 bg-heading text-gray-300 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col">
         <div class="p-5 border-b border-white/10">
             <a href="Login.html" class="flex items-center gap-2">
-                <img src="../assets/img/NEW HEY YOUTH Sep 2025.png" alt="Logo" class="h-8 w-auto brightness-0 invert">
+                <img src="../assets/img/NEW HEY YOUTH Sep 2025.webp" alt="Logo" class="h-8 w-auto brightness-0 invert">
             </a>
             <p class="text-xs text-gray-500 mt-2 ml-1">Admin Panel</p>
         </div>
@@ -604,7 +604,10 @@
                                     <h3 class="font-bold text-heading text-base">Daftar Registrasi Peserta Event</h3>
                                     <span id="count-registrations" class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-medium">0</span>
                                 </div>
-                                <button onclick="clearAllRegistrations()" class="text-red-500 hover:text-red-700 text-xs font-semibold"><i class="fas fa-trash-alt mr-1"></i> Bersihkan Semua</button>
+                                <div class="flex items-center gap-4">
+                                    <button onclick="exportRegistrationsToCSV()" class="text-green-600 hover:text-green-800 text-xs font-semibold"><i class="fas fa-file-excel mr-1"></i> Ekspor CSV</button>
+                                    <button onclick="clearAllRegistrations()" class="text-red-500 hover:text-red-700 text-xs font-semibold"><i class="fas fa-trash-alt mr-1"></i> Bersihkan Semua</button>
+                                </div>
                             </div>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left">
@@ -637,9 +640,14 @@
                                     <h3 class="font-bold text-heading text-base">Daftar Sertifikat Terbit</h3>
                                     <span id="count-certificates" class="text-xs bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 px-2 py-0.5 rounded-full font-medium">0</span>
                                 </div>
-                                <button onclick="openAddCertificateModal()" class="bg-primary hover:bg-primaryDark text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
-                                    <i class="fas fa-plus text-[10px]"></i> Terbitkan Sertifikat Baru
-                                </button>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="exportCertificatesToCSV()" class="bg-green-600 hover:bg-green-700 text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+                                        <i class="fas fa-file-excel"></i> Ekspor CSV
+                                    </button>
+                                    <button onclick="openAddCertificateModal()" class="bg-primary hover:bg-primaryDark text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+                                        <i class="fas fa-plus text-[10px]"></i> Terbitkan Sertifikat Baru
+                                    </button>
+                                </div>
                             </div>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left">
@@ -768,9 +776,14 @@
                             <h2 class="text-lg font-bold text-heading">Pendaftaran Peserta</h2>
                             <span id="count-teacher-registrations" class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-medium">0</span>
                         </div>
-                        <button onclick="clearTeacherRegistrations()" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1">
-                            <i class="fas fa-trash text-[10px]"></i> Hapus Rekap
-                        </button>
+                        <div class="flex items-center gap-2">
+                            <button onclick="exportTeacherRegistrationsToCSV()" class="bg-green-50 hover:bg-green-100 text-green-700 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1">
+                                <i class="fas fa-file-excel text-[10px]"></i> Ekspor CSV
+                            </button>
+                            <button onclick="clearTeacherRegistrations()" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1">
+                                <i class="fas fa-trash text-[10px]"></i> Hapus Rekap
+                            </button>
+                        </div>
                     </div>
 
                     <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
@@ -920,7 +933,7 @@
                         quote: 'Kerjasama dengan Hey Youth! memberikan dampak positif yang nyata bagi komunitas kami.',
                         quote_id: 'Kerjasama dengan Hey Youth! memberikan dampak positif yang nyata bagi komunitas kami.',
                         quote_en: 'Collaborating with Hey Youth! brings a real positive impact to our community.',
-                        image: 'img/Testi/p1.jpg'
+                        image: 'img/Testi/p1.webp'
                     },
                     {
                         id: 2,
@@ -931,7 +944,7 @@
                         quote: 'Sangat menginspirasi melihat semangat pemuda yang rela berkontribusi untuk pendidikan.',
                         quote_id: 'Sangat menginspirasi melihat semangat pemuda yang rela berkontribusi untuk pendidikan.',
                         quote_en: 'It is highly inspiring to see the youth passion to contribute to education.',
-                        image: 'img/Testi/p2.jpg'
+                        image: 'img/Testi/p2.webp'
                     },
                     {
                         id: 3,
@@ -942,7 +955,7 @@
                         quote: 'Hey Youth! adalah jembatan yang menghubungkan antusiasme dengan aksi nyata.',
                         quote_id: 'Hey Youth! adalah jembatan yang menghubungkan antusiasme dengan aksi nyata.',
                         quote_en: 'Hey Youth! is a bridge that connects enthusiasm with real actions.',
-                        image: 'img/Testi/p3.jpg'
+                        image: 'img/Testi/p3.webp'
                     }
                 ],
                 internalTestimonials: [
@@ -955,7 +968,7 @@
                         quote: 'Sangat bahagia bisa bergabung di Hey Youth! Banyak belajar hal baru setiap hari.',
                         quote_id: 'Sangat bahagia bisa bergabung di Hey Youth! Banyak belajar hal baru setiap hari.',
                         quote_en: 'Extremely happy to join Hey Youth! Learning new things every day.',
-                        image: 'img/Testi/Alya.jpg'
+                        image: 'img/Testi/Alya.webp'
                     },
                     {
                         id: 5,
@@ -966,7 +979,7 @@
                         quote: 'Hey Youth adalah agent of change. Di sini kita bisa membuat dampak nyata.',
                         quote_id: 'Hey Youth adalah agent of change. Di sini kita bisa membuat dampak nyata.',
                         quote_en: 'Hey Youth is an agent of change. Here we can make a real difference.',
-                        image: 'img/Testi/Herza.jpg'
+                        image: 'img/Testi/Herza.webp'
                     },
                     {
                         id: 6,
@@ -977,7 +990,7 @@
                         quote: 'Hey Youth merayakan rasa ingin tahu dan membentuk sistem kepercayaan.',
                         quote_id: 'Hey Youth merayakan rasa ingin tahu dan membentuk sistem kepercayaan.',
                         quote_en: 'Hey Youth celebrates curiosity and builds trust systems.',
-                        image: 'img/Testi/Karyn.jpg'
+                        image: 'img/Testi/Karyn.webp'
                     }
                 ],
                 faqs: [
@@ -1049,7 +1062,7 @@
                         description_id: 'Membangun jaringan profesional HR global.',
                         description_en: 'Building a global professional HR network.',
                         icon: 'fa-users-cog',
-                        image: 'img/Partners/Qatar HR Forum.jpg',
+                        image: 'img/Partners/Qatar HR Forum.webp',
                         color: 'blue',
                         link: 'https://qatarhrforum.com'
                     },
@@ -1060,7 +1073,7 @@
                         description_id: 'Klinik kecantikan terpercaya.',
                         description_en: 'A trusted beauty clinic.',
                         icon: 'fa-spa',
-                        image: 'img/Partners/The Facial Skin Lab.jpg',
+                        image: 'img/Partners/The Facial Skin Lab.webp',
                         color: 'pink',
                         link: 'https://instagram.com'
                     },
@@ -1071,7 +1084,7 @@
                         description_id: 'Program mentoring ilmiah.',
                         description_en: 'Scientific mentoring program.',
                         icon: 'fa-flask',
-                        image: 'img/Partners/Shadow A Scientist.jpg',
+                        image: 'img/Partners/Shadow A Scientist.webp',
                         color: 'purple',
                         link: '#'
                     },
@@ -1082,7 +1095,7 @@
                         description_id: 'Sekolah Islam terpadu.',
                         description_en: 'Integrated Islamic School.',
                         icon: 'fa-school',
-                        image: 'img/Partners/SMP Adzkia Islamic.jpg',
+                        image: 'img/Partners/SMP Adzkia Islamic.webp',
                         color: 'green',
                         link: '#'
                     }
@@ -1120,7 +1133,7 @@
                         role: 'Founder',
                         role_id: 'Founder',
                         role_en: 'Founder',
-                        image: 'img/ceo.jpeg',
+                        image: 'img/ceo.webp',
                         linkedin: '#',
                         instagram: '#'
                     },
@@ -1158,7 +1171,7 @@
                         description: 'Kami mengunjungi sekolah di Yos Sudarso untuk berbagi inspirasi dan materi pendidikan interaktif kepada ratusan siswa, membantu mereka bermimpi lebih besar.',
                         description_id: 'Kami mengunjungi sekolah di Yos Sudarso untuk berbagi inspirasi dan materi pendidikan interaktif kepada ratusan siswa, membantu mereka bermimpi lebih besar.',
                         description_en: 'We visited a school in Yos Sudarso to share inspiration and interactive educational materials with hundreds of students, helping them dream bigger.',
-                        image: 'img/Donation.jpeg',
+                        image: 'img/Donation.webp',
                         link: '#',
                         fullStory: '<p>Pada hari yang cerah, tim Hey Youth berkunjung ke SD Yos Sudarso. Antusiasme siswa-siswi sangat luar biasa ketika kami memperkenalkan program mentoring kami.</p><p>Kegiatan ini diawali dengan sesi ice breaking yang diikuti oleh seluruh siswa kelas 5 and 6. Dilanjutkan dengan materi tentang "Membangun Mimpi Sejak Dini".</p><br><p>Kami berharap kunjungan ini dapat menjadi inspirasi bagi mereka untuk terus belajar dan giat meraih cita-cita.</p>',
                         fullStory_id: '<p>Pada hari yang cerah, tim Hey Youth berkunjung ke SD Yos Sudarso. Antusiasme siswa-siswi sangat luar biasa ketika kami memperkenalkan program mentoring kami.</p><p>Kegiatan ini diawali dengan sesi ice breaking yang diikuti oleh seluruh siswa kelas 5 and 6. Dilanjutkan dengan materi tentang "Membangun Mimpi Sejak Dini".</p><br><p>Kami berharap kunjungan ini dapat menjadi inspirasi bagi mereka untuk terus belajar dan giat meraih cita-cita.</p>',
@@ -1192,7 +1205,7 @@
                         title: 'Suicide Is Not The Answer: Here\'s Why',
                         title_id: 'Suicide Is Not The Answer: Ini Alasannya',
                         title_en: 'Suicide Is Not The Answer: Here\'s Why',
-                        thumbnail: 'img/Podcast/Eps 2.png',
+                        thumbnail: 'img/Podcast/Eps 2.webp',
                         spotifyLink: 'https://open.spotify.com/episode/5xcQh5HewK3MvIcxkSiWef'
                     },
                     {
@@ -1203,7 +1216,7 @@
                         title: 'The Power of Self-Affirmation: Transforming Our Lives',
                         title_id: 'Kekuatan Afirmasi Diri: Mengubah Hidup Kita',
                         title_en: 'The Power of Self-Affirmation: Transforming Our Lives',
-                        thumbnail: 'img/Podcast/Eps 1.png',
+                        thumbnail: 'img/Podcast/Eps 1.webp',
                         spotifyLink: 'https://open.spotify.com/episode/1a0xUotfQZAdD6jtHT4l5g?si=l3nk1yvSSzK7XPMMFLMvHA&nd=1&dlsi=746e34d28eaa4e68'
                     }
                 ],
@@ -1582,7 +1595,7 @@
                 var listKey = 'mock_fb_list_certificates';
                 var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
                 var count = list.filter(function(c) { return c.data && c.data.eventName === eventName; }).length;
-                var certNum = 'HY-' + abb + '-' + (count + 1);
+                var certNum = 'HY-' + abb + '-' + String(count + 1).padStart(4, '0');
                 
                 // Format tanggal rilis hari ini
                 var dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -1595,7 +1608,7 @@
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Penerima</label><input type="text" id="c-name" required value="' + name + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Email Penerima</label><input type="email" id="c-email" required value="' + email + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Acara / Webinar</label><input type="text" id="c-event" required value="' + eventName + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
-                    '<div><label class="block text-sm font-medium text-gray-700">Teks Deskripsi Sertifikat</label><textarea id="c-description" rows="6" required class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' + escapeHtml(description) + '</textarea><p class="text-[11px] text-gray-500 mt-1">💡 Gunakan tanda <strong>**</strong> di awal dan akhir kata/kalimat untuk mencetak tebal teks. Contoh: <code>**Hey Youth Summit**</code></p></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Teks Deskripsi Sertifikat</label><textarea id="c-description" rows="6" required style="resize: vertical !important;" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' + escapeHtml(description) + '</textarea><p class="text-[11px] text-gray-500 mt-1">💡 Gunakan tanda <strong>**</strong> di awal dan akhir kata/kalimat untuk mencetak tebal teks. Contoh: <code>**Hey Youth Summit**</code></p></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Tanggal Rilis</label><input type="text" id="c-date" required value="' + issueDateStr + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Terbitkan</button>' +
                     '</form>';
@@ -1737,7 +1750,7 @@
                         canvas.height = h;
                         var ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, w, h);
-                        callback(canvas.toDataURL('image/jpeg', quality));
+                        callback(canvas.toDataURL('image/webp', quality));
                     };
                     img.src = e.target.result;
                 };
@@ -2597,7 +2610,7 @@
             function formTextarea(label, id, value, placeholder) {
                 return '<div class="mb-4">' +
                     '<label class="block text-sm font-semibold text-heading mb-1.5">' + label + '</label>' +
-                    '<textarea id="' + id + '" rows="3" placeholder="' + escapeAttr(placeholder) + '" class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-heading focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">' + escapeHtml(value) + '</textarea>' +
+                    '<textarea id="' + id + '" rows="3" placeholder="' + escapeAttr(placeholder) + '" style="resize: vertical !important;" class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-heading focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">' + escapeHtml(value) + '</textarea>' +
                     '</div>';
             }
 
@@ -3622,7 +3635,7 @@
                     ctx.textAlign = 'left';
                     ctx.fillText('ID: ' + (cert.certificateNumber || 'HY-N/A'), 45 * scale, 525 * scale);
                 };
-                img.src = '../assets/img/Certificate-Template.png?v=' + Date.now();
+                img.src = '../assets/img/Certificate-Template.webp?v=' + Date.now();
             };
 
             window.openAddCertificateModal = function () {
@@ -3638,7 +3651,7 @@
                     '<div><label class="block text-sm font-medium text-gray-700">Nomor Sertifikat</label><input type="text" id="c-number" required placeholder="HY-EVENT-1" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-gray-50" readonly></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Penerima</label><input type="text" id="c-name" required placeholder="John Doe" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Email Penerima</label><input type="email" id="c-email" required placeholder="johndoe@email.com" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
-                    '<div><label class="block text-sm font-medium text-gray-700">Teks Deskripsi Sertifikat</label><textarea id="c-description" rows="6" required class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' + defaultCertDesc + '</textarea><p class="text-[11px] text-gray-500 mt-1">💡 Gunakan tanda <strong>**</strong> di awal dan akhir kata/kalimat untuk mencetak tebal teks. Contoh: <code>**Hey Youth Summit**</code></p></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Teks Deskripsi Sertifikat</label><textarea id="c-description" rows="6" required style="resize: vertical !important;" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' + defaultCertDesc + '</textarea><p class="text-[11px] text-gray-500 mt-1">💡 Gunakan tanda <strong>**</strong> di awal dan akhir kata/kalimat untuk mencetak tebal teks. Contoh: <code>**Hey Youth Summit**</code></p></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Tanggal Rilis</label><input type="text" id="c-date" required placeholder="17 Juli 2026" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Terbitkan</button>' +
                     '</form>';
@@ -3654,7 +3667,7 @@
                     var listKey = 'mock_fb_list_certificates';
                     var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
                     var count = list.filter(function(c) { return c.data && c.data.eventName.toLowerCase() === val.toLowerCase(); }).length;
-                    cNumber.value = 'HY-' + abb + '-' + (count + 1);
+                    cNumber.value = 'HY-' + abb + '-' + String(count + 1).padStart(4, '0');
                 });
 
                 document.getElementById('form-add-certificate').addEventListener('submit', async function (e) {
@@ -4489,7 +4502,8 @@
             };
 
             window.openHtmlEmailModal = function (index) {
-                var regs = JSON.parse(localStorage.getItem('teacher_registrations')) || [];
+                var regsKey = 'teacher_class_registrations';
+                var regs = JSON.parse(localStorage.getItem(regsKey)) || [];
                 var r = regs[index];
                 if (!r) return;
 
@@ -4497,53 +4511,153 @@
                 var modalBody = document.getElementById('modal-body');
                 if (!modalTitle || !modalBody) return;
 
-                var studentName = escapeHtml(r.studentName || 'Siswa');
-                var grade = escapeHtml(r.grade || '');
-                var classTitle = escapeHtml(r.classTitle || '');
-                var email = escapeHtml(r.email || '');
+                var plainText = 'HEY YOUTH! TEACHER CLASS\n\n' +
+                    'Halo Orang Tua dari ' + (r.studentName || 'Siswa') + ',\n\n' +
+                    'Pendaftaran sesi ' + (r.classTitle || '') + ' (' + (r.grade || '') + ') dengan email ' + (r.email || '') + ' telah dikonfirmasi.\n\n' +
+                    'Silakan klik tautan di bawah ini untuk konfirmasi kelas:\n' +
+                    '👉 https://heyyouth.org\n\n' +
+                    'Tim Hey Youth! Teacher Class';
 
-                var str = [];
-                str.push('<div style="font-family:sans-serif;padding:20px;background:#F1F5F9;">');
-                str.push('<div style="max-width:500px;margin:0 auto;background:#fff;padding:25px;border-radius:16px;">');
-                str.push('<h2 style="color:#1E40AF;margin:0 0 10px 0;">HEY YOUTH! TEACHER CLASS</h2>');
-                str.push('<p style="color:#334155;">Halo Orang Tua dari <b>' + studentName + '</b>,</p>');
-                str.push('<p style="color:#475569;">Pendaftaran sesi <b>' + classTitle + ' (' + grade + ')</b> dengan email <b>' + email + '</b> telah dikonfirmasi.</p>');
-                str.push('<div style="margin:20px 0;"><a href="https://heyyouth.org" style="background:#2563EB;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:bold;display:inline-block;">Konfirmasi Kelas</a></div>');
-                str.push('<p style="color:#64748B;font-size:12px;">Tim Hey Youth! Teacher Class</p>');
-                str.push('</div></div>');
-                var htmlEmailContent = str.join('');
-
-                modalTitle.textContent = 'Templat Email Resmi HTML';
+                modalTitle.textContent = 'Templat Email Konfirmasi';
                 modalBody.innerHTML = '<div class="space-y-4">' +
-                    '<p class="text-xs text-gray-500">Berikut Pratinjau Tampilan Email Resmi HTML (Model Waze Carpool Style). Anda dapat mengeklik tombol <strong>Salin HTML Email</strong> untuk ditempel langsung ke editor email.</p>' +
-                    '<div class="border rounded-2xl p-4 bg-gray-100 max-h-96 overflow-y-auto shadow-inner">' + htmlEmailContent + '</div>' +
+                    '<p class="text-xs text-gray-500">Berikut pratinjau teks email konfirmasi. Anda dapat mengeklik tombol <strong>Salin Teks Email</strong> untuk menyalin teks biasa ke clipboard.</p>' +
+                    '<div class="border rounded-2xl p-4 bg-gray-55 text-xs font-sans text-body max-h-96 overflow-y-auto whitespace-pre-wrap leading-relaxed">' + escapeHtml(plainText) + '</div>' +
                     '<div class="flex gap-2">' +
-                    '<button type="button" onclick="copyHtmlEmailText()" class="flex-1 bg-primary hover:bg-primaryDark text-white font-bold py-2.5 rounded-lg text-xs transition-colors flex items-center justify-center gap-1.5"><i class="fas fa-copy"></i> Salin HTML Email</button>' +
+                    '<button type="button" onclick="copyPlainEmailText()" class="flex-1 bg-primary hover:bg-primaryDark text-white font-bold py-2.5 rounded-lg text-xs transition-colors flex items-center justify-center gap-1.5"><i class="fas fa-copy"></i> Salin Teks Email</button>' +
                     '<button type="button" onclick="closeModal()" class="px-4 py-2.5 border rounded-lg text-xs font-semibold text-gray-600 hover:bg-gray-100 transition-colors">Tutup</button>' +
                     '</div>' +
                     '</div>';
 
-                window.currentHtmlEmailCode = htmlEmailContent;
+                window.currentPlainEmailText = plainText;
                 document.getElementById('modal').classList.remove('hidden');
             };
 
+            window.copyPlainEmailText = function () {
+                if (!window.currentPlainEmailText) return;
+                var text = window.currentPlainEmailText;
 
-
-            window.copyHtmlEmailText = function () {
-                if (!window.currentHtmlEmailCode) return;
-                navigator.clipboard.writeText(window.currentHtmlEmailCode).then(function () {
-                    showToast('Kode HTML Email berhasil disalin ke clipboard!', 'success');
-                }).catch(function () {
-                    showToast('Gagal menyalin kode HTML.', 'error');
-                });
+                if (window.navigator && navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(function () {
+                        showToast('Teks email berhasil disalin ke clipboard!', 'success');
+                    }).catch(function (err) {
+                        console.warn("Clipboard API writeText failed, using fallback:", err);
+                        fallbackCopyText(text);
+                    });
+                } else {
+                    fallbackCopyText(text);
+                }
             };
 
+            function fallbackCopyText(text) {
+                var textarea = document.createElement("textarea");
+                textarea.value = text;
+                textarea.style.position = "fixed";
+                document.body.appendChild(textarea);
+                textarea.focus();
+                textarea.select();
+                try {
+                    var successful = document.execCommand('copy');
+                    if (successful) {
+                        showToast('Teks email berhasil disalin ke clipboard!', 'success');
+                    } else {
+                        showToast('Gagal menyalin email.', 'error');
+                    }
+                } catch (err) {
+                    console.error('Fallback copy text failed', err);
+                    showToast('Gagal menyalin email.', 'error');
+                }
+                document.body.removeChild(textarea);
+            }
             window.clearTeacherRegistrations = function () {
                 if (confirm('Apakah Anda yakin ingin menghapus semua rekap pendaftaran peserta Teacher Class?')) {
-                    localStorage.setItem('teacher_registrations', '[]');
+                    localStorage.setItem('teacher_class_registrations', '[]');
                     showToast('Rekap pendaftaran peserta dibersihkan.', 'success');
                     loadAndRenderTeacherRegistrations();
                 }
+            };
+
+            // CSV EXPORTS (Suggestion 2)
+            function downloadCSV(headers, data, filename) {
+                var csvRows = [];
+                // Add BOM for UTF-8 compatibility with Excel
+                csvRows.push('\ufeff' + headers.join(';'));
+                data.forEach(function(row) {
+                    var values = row.map(function(val) {
+                        var str = (val === null || val === undefined) ? '' : String(val);
+                        var clean = str.replace(/"/g, '""');
+                        if (clean.search(/("|,|;|\n)/g) >= 0) {
+                            clean = '"' + clean + '"';
+                        }
+                        return clean;
+                    });
+                    csvRows.push(values.join(';'));
+                });
+                var csvString = csvRows.join('\r\n');
+                var blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+                var url = URL.createObjectURL(blob);
+                var link = document.createElement("a");
+                link.setAttribute("href", url);
+                link.setAttribute("download", filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            window.exportRegistrationsToCSV = function() {
+                var list = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+                if (!list.length) { showToast('Tidak ada data registrasi event untuk diekspor.', 'error'); return; }
+                var headers = ['Nama', 'Instansi', 'Email', 'No HP', 'Domisili', 'Nama Event', 'Tanggal Registrasi'];
+                var data = list.map(function(item) {
+                    return [
+                        item.name,
+                        item.instansi,
+                        item.email,
+                        item.phone,
+                        item.domisili,
+                        item.eventName,
+                        item.registeredAt ? new Date(item.registeredAt).toLocaleString('id-ID') : ''
+                    ];
+                });
+                downloadCSV(headers, data, 'registrasi-event.csv');
+                showToast('Data registrasi event berhasil diekspor.', 'success');
+            };
+
+            window.exportCertificatesToCSV = function() {
+                var list = JSON.parse(localStorage.getItem('mock_fb_list_certificates') || '[]');
+                if (!list.length) { showToast('Tidak ada data sertifikat untuk diekspor.', 'error'); return; }
+                var headers = ['No Sertifikat', 'Nama', 'Email', 'Nama Event', 'Tanggal Rilis', 'Deskripsi'];
+                var data = list.map(function(itemObj) {
+                    var item = itemObj.data;
+                    return [
+                        item.certificateNumber,
+                        item.name,
+                        item.email,
+                        item.eventName,
+                        item.issueDate,
+                        item.description
+                    ];
+                });
+                downloadCSV(headers, data, 'daftar-sertifikat.csv');
+                showToast('Data sertifikat berhasil diekspor.', 'success');
+            };
+
+            window.exportTeacherRegistrationsToCSV = function() {
+                var list = JSON.parse(localStorage.getItem('teacher_class_registrations') || '[]');
+                if (!list.length) { showToast('Tidak ada data pendaftar Teacher Class untuk diekspor.', 'error'); return; }
+                var headers = ['Nama Siswa', 'Kelas SD', 'WhatsApp Ortu', 'Email Ortu', 'Kelas Diikuti', 'Catatan'];
+                var data = list.map(function(item) {
+                    return [
+                        item.studentName,
+                        item.grade,
+                        item.phone,
+                        item.email,
+                        item.classTitle,
+                        item.notes
+                    ];
+                });
+                downloadCSV(headers, data, 'pendaftaran-teacher-class.csv');
+                showToast('Data pendaftar Teacher Class berhasil diekspor.', 'success');
             };
 
 

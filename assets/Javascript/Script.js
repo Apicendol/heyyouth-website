@@ -69,7 +69,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             quote: 'Kerjasama dengan Hey Youth! memberikan dampak positif yang nyata bagi komunitas kami.', 
             quote_id: 'Kerjasama dengan Hey Youth! memberikan dampak positif yang nyata bagi komunitas kami.',
             quote_en: 'Collaborating with Hey Youth! brings a real positive impact to our community.',
-            image: 'img/Testi/p1.jpg' 
+            image: 'img/Testi/p1.webp' 
         },
         { 
             id: 2, 
@@ -80,7 +80,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             quote: 'Sangat menginspirasi melihat semangat pemuda yang rela berkontribusi untuk pendidikan.', 
             quote_id: 'Sangat menginspirasi melihat semangat pemuda yang rela berkontribusi untuk pendidikan.',
             quote_en: 'It is highly inspiring to see the youth passion to contribute to education.',
-            image: 'img/Testi/p2.jpg' 
+            image: 'img/Testi/p2.webp' 
         },
         { 
             id: 3, 
@@ -91,7 +91,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             quote: 'Hey Youth! adalah jembatan yang menghubungkan antusiasme dengan aksi nyata.', 
             quote_id: 'Hey Youth! adalah jembatan yang menghubungkan antusiasme dengan aksi nyata.',
             quote_en: 'Hey Youth! is a bridge that connects enthusiasm with real actions.',
-            image: 'img/Testi/p3.jpg' 
+            image: 'img/Testi/p3.webp' 
         }
     ],
     internalTestimonials: [
@@ -104,7 +104,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             quote: 'Sangat bahagia bisa bergabung di Hey Youth! Banyak belajar hal baru setiap hari.', 
             quote_id: 'Sangat bahagia bisa bergabung di Hey Youth! Banyak belajar hal baru setiap hari.',
             quote_en: 'Extremely happy to join Hey Youth! Learning new things every day.',
-            image: 'img/Testi/Alya.jpg' 
+            image: 'img/Testi/Alya.webp' 
         },
         { 
             id: 5, 
@@ -115,7 +115,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             quote: 'Hey Youth adalah agent of change. Di sini kita bisa membuat dampak nyata.', 
             quote_id: 'Hey Youth adalah agent of change. Di sini kita bisa membuat dampak nyata.',
             quote_en: 'Hey Youth is an agent of change. Here we can make a real difference.',
-            image: 'img/Testi/Herza.jpg' 
+            image: 'img/Testi/Herza.webp' 
         },
         { 
             id: 6, 
@@ -126,7 +126,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             quote: 'Hey Youth merayakan rasa ingin tahu dan membentuk sistem kepercayaan.', 
             quote_id: 'Hey Youth merayakan rasa ingin tahu dan membentuk sistem kepercayaan.',
             quote_en: 'Hey Youth celebrates curiosity and builds trust systems.',
-            image: 'img/Testi/Karyn.jpg' 
+            image: 'img/Testi/Karyn.webp' 
         }
     ],
     faqs: [
@@ -198,7 +198,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             description_id: 'Membangun jaringan profesional HR global.',
             description_en: 'Building a global professional HR network.',
             icon: 'fa-users-cog', 
-            image: 'img/Partners/Qatar HR Forum.jpg', 
+            image: 'img/Partners/Qatar HR Forum.webp', 
             color: 'blue', 
             link: 'https://qatarhrforum.com' 
         },
@@ -209,7 +209,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             description_id: 'Klinik kecantikan terpercaya.',
             description_en: 'A trusted beauty clinic.',
             icon: 'fa-spa', 
-            image: 'img/Partners/The Facial Skin Lab.jpg', 
+            image: 'img/Partners/The Facial Skin Lab.webp', 
             color: 'pink', 
             link: 'https://instagram.com' 
         },
@@ -220,7 +220,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             description_id: 'Program mentoring ilmiah.',
             description_en: 'Scientific mentoring program.',
             icon: 'fa-flask', 
-            image: 'img/Partners/Shadow A Scientist.jpg', 
+            image: 'img/Partners/Shadow A Scientist.webp', 
             color: 'purple', 
             link: '#' 
         },
@@ -231,7 +231,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             description_id: 'Sekolah Islam terpadu.',
             description_en: 'Integrated Islamic School.',
             icon: 'fa-school', 
-            image: 'img/Partners/SMP Adzkia Islamic.jpg', 
+            image: 'img/Partners/SMP Adzkia Islamic.webp', 
             color: 'green', 
             link: '#' 
         }
@@ -273,7 +273,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             role: 'Founder', 
             role_id: 'Founder',
             role_en: 'Founder',
-            image: 'img/ceo.jpeg', 
+            image: 'img/ceo.webp', 
             linkedin: '#', 
             instagram: '#' 
         },
@@ -311,7 +311,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             description: 'Kami mengunjungi sekolah di Yos Sudarso untuk berbagi inspirasi dan materi pendidikan interaktif kepada ratusan siswa, membantu mereka bermimpi lebih besar.',
             description_id: 'Kami mengunjungi sekolah di Yos Sudarso untuk berbagi inspirasi dan materi pendidikan interaktif kepada ratusan siswa, membantu mereka bermimpi lebih besar.',
             description_en: 'We visited a school in Yos Sudarso to share inspiration and interactive educational materials with hundreds of students, helping them dream bigger.',
-            image: 'img/Donation.jpeg',
+            image: 'img/Donation.webp',
             link: '#',
             fullStory: '<p>Pada hari yang cerah, tim Hey Youth berkunjung ke SD Yos Sudarso. Antusiasme siswa-siswi sangat luar biasa ketika kami memperkenalkan program mentoring kami.</p><p>Kegiatan ini diawali dengan sesi ice breaking yang diikuti oleh seluruh siswa kelas 5 dan 6. Dilanjutkan dengan materi tentang "Membangun Mimpi Sejak Dini".</p><br><p>Kami berharap kunjungan ini dapat menjadi inspirasi bagi mereka untuk terus belajar dan giat meraih cita-cita.</p>',
             fullStory_id: '<p>Pada hari yang cerah, tim Hey Youth berkunjung ke SD Yos Sudarso. Antusiasme siswa-siswi sangat luar biasa ketika kami memperkenalkan program mentoring kami.</p><p>Kegiatan ini diawali dengan sesi ice breaking yang diikuti oleh seluruh siswa kelas 5 dan 6. Dilanjutkan dengan materi tentang "Membangun Mimpi Sejak Dini".</p><br><p>Kami berharap kunjungan ini dapat menjadi inspirasi bagi mereka untuk terus belajar dan giat meraih cita-cita.</p>',
@@ -345,7 +345,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             title: 'Suicide Is Not The Answer: Here\'s Why',
             title_id: 'Suicide Is Not The Answer: Ini Alasannya',
             title_en: 'Suicide Is Not The Answer: Here\'s Why',
-            thumbnail: 'img/Podcast/Eps 2.png', 
+            thumbnail: 'img/Podcast/Eps 2.webp', 
             spotifyLink: 'https://open.spotify.com/episode/5xcQh5HewK3MvIcxkSiWef' 
         },
         {
@@ -356,7 +356,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             title: 'The Power of Self-Affirmation: Transforming Our Lives',
             title_id: 'Kekuatan Afirmasi Diri: Mengubah Hidup Kita',
             title_en: 'The Power of Self-Affirmation: Transforming Our Lives',
-            thumbnail: 'img/Podcast/Eps 1.png',
+            thumbnail: 'img/Podcast/Eps 1.webp',
             spotifyLink: 'https://open.spotify.com/episode/1a0xUotfQZAdD6jtHT4l5g?si=l3nk1yvSSzK7XPMMFLMvHA&nd=1&dlsi=746e34d28eaa4e68'
         }
     ]

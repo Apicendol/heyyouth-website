@@ -10,7 +10,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
         <a href="index.html" class="flex-shrink-0 flex items-center gap-2 group">
-          <img src="assets/img/NEW HEY YOUTH Sep 2025.png" alt="Hey Youth Logo" class="h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
+          <img src="assets/img/NEW HEY YOUTH Sep 2025.webp" alt="Hey Youth Logo" class="h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
         </a>
         <div class="hidden md:flex space-x-8 items-center">
           <a href="index.html" id="nav-link-home" class="nav-link text-body hover:text-primary transition-colors">Home</a>
