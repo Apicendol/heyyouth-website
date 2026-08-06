@@ -871,6 +871,8 @@
         </div>
     </div>
 
+
+
     <!-- ===== CONFIRM DIALOG ===== -->
     <div id="confirm-dialog" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4">
         <div class="modal-overlay absolute inset-0" onclick="closeConfirm()"></div>
@@ -1451,9 +1453,10 @@
                 }
                 
                 tbody.innerHTML = events.map(function (item) {
-                    var statusBadge = item.status === 'upcoming'
+                    var computedStatus = getEventStatus(item.date, item.time);
+                    var statusBadge = computedStatus === 'upcoming'
                         ? '<span class="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Upcoming</span>'
-                        : '<span class="bg-gray-100 text-gray-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Past</span>';
+                        : '<span class="bg-gray-100 text-gray-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Selesai</span>';
 
                     var imgSrc = item.image ? _resolveImgPath(item.image) : '';
                     var imgHtml = imgSrc 
@@ -1526,7 +1529,6 @@
                     tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-gray-400">Belum ada pendaftaran event.</td></tr>';
                     return;
                 }
-
                 tbody.innerHTML = list.map(function (item) {
                     var escName = escapeHtml(item.name).replace(/'/g, "\\'");
                     var escEmail = escapeHtml(item.email).replace(/'/g, "\\'");
@@ -1541,12 +1543,12 @@
                         '<td class="px-4 py-3 text-xs text-gray-500">' + escapeHtml(item.domisili) + '</td>' +
                         '<td class="px-4 py-3 text-xs text-gray-500 max-w-[150px] truncate">' + escapeHtml(item.eventName) + '</td>' +
                         '<td class="px-4 py-3 text-right space-x-2">' +
+                        '  <button onclick="quickApproveRegistration(' + item.id + ')" class="text-green-600 hover:text-green-800 text-xs font-semibold mr-2"><i class="fas fa-check-circle"></i> Setujui Cepat</button>' +
                         '  <button onclick="publishCertificateFromReg(' + item.id + ')" class="text-purple-600 hover:text-purple-800 text-xs font-semibold"><i class="fas fa-certificate"></i> Terbitkan Sertifikat</button>' +
                         '  <button onclick="deleteRegistration(' + item.id + ')" class="text-red-500 hover:text-red-700 text-xs font-semibold"><i class="fas fa-trash-alt"></i> Hapus</button>' +
                         '</td>' +
                         '</tr>';
-                }).join('');
-            }
+                }).join('');            }
 
 
             function generateAbbreviation(eventName) {
@@ -1563,6 +1565,60 @@
                 if (!abb) abb = 'EVENT';
                 return abb;
             }
+
+            window.quickApproveRegistration = function (regId) {
+                var regList = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+                var reg = regList.find(function (r) { return r.id === regId; });
+                if (!reg) {
+                    showToast('Data registrasi tidak ditemukan.', 'error');
+                    return;
+                }
+
+                var name = reg.name;
+                var email = reg.email;
+                var eventName = reg.eventName;
+
+                var data = getData();
+                var events = data.events || [];
+                var eventObj = events.find(function(e) {
+                    return (e.title_id === eventName || e.title_en === eventName || e.title === eventName);
+                });
+
+                var defaultCertDesc = 'In recognition of your active participation in the **Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era."** Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
+                var description = eventObj ? (eventObj.certDescription || defaultCertDesc) : defaultCertDesc;
+
+                var abb = generateAbbreviation(eventName);
+                var listKey = 'mock_fb_list_certificates';
+                var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
+                var count = list.filter(function(c) { return c.data && c.data.eventName === eventName; }).length;
+                var certNum = 'HY-' + abb + '-' + String(count + 1).padStart(4, '0');
+                
+                var dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+                var todayStr = new Date().toLocaleDateString('id-ID', dateOptions);
+                var issueDateStr = eventObj ? eventObj.date : todayStr;
+
+                try {
+                    var newId = 'cert_' + Date.now();
+                    list.push({
+                        id: newId,
+                        data: {
+                            certificateNumber: certNum,
+                            name: name,
+                            email: email,
+                            phone: reg.phone || '',
+                            eventName: eventName,
+                            description: description,
+                            issueDate: issueDateStr
+                        }
+                    });
+                    localStorage.setItem(listKey, JSON.stringify(list));
+                    showToast('Sertifikat berhasil diterbitkan secara otomatis!', 'success');
+                    loadAndRenderCertificates();
+                } catch (err) {
+                    console.error(err);
+                    showToast('Gagal menerbitkan sertifikat otomatis.', 'error');
+                }
+            };
 
             window.publishCertificateFromReg = function (regId) {
                 var modalTitle = document.getElementById('modal-title');
@@ -1633,6 +1689,7 @@
                                 certificateNumber: num,
                                 name: nameVal,
                                 email: emailVal,
+                                phone: reg.phone || '',
                                 eventName: eventVal,
                                 description: descVal,
                                 issueDate: dateVal
@@ -2334,14 +2391,15 @@
                     html += formField('Nama Event (EN)', 'f-title-en', item ? item.title_en : '', 'text', 'Career Prep Webinar');
                     var startDateVal = item ? (item.startDate || '') : '';
                     var endDateVal = item ? (item.endDate || '') : '';
+                    var todayISO = new Date().toISOString().split('T')[0];
                     html += '<div class="grid grid-cols-2 gap-4 mb-4 items-end">' +
                             '  <div>' +
                             '    <label class="block text-sm font-semibold text-heading mb-1.5">Tanggal Mulai</label>' +
-                            '    <input type="date" id="f-start-date" value="' + escapeAttr(startDateVal) + '" onclick="this.showPicker()" class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-heading focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">' +
+                            '    <input type="date" id="f-start-date" min="' + todayISO + '" value="' + escapeAttr(startDateVal) + '" onclick="this.showPicker()" class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-heading focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">' +
                             '  </div>' +
                             '  <div>' +
                             '    <label class="block text-sm font-semibold text-heading mb-1.5">Tanggal Selesai (Opsional)</label>' +
-                            '    <input type="date" id="f-end-date" value="' + escapeAttr(endDateVal) + '" onclick="this.showPicker()" class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-heading focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">' +
+                            '    <input type="date" id="f-end-date" min="' + todayISO + '" value="' + escapeAttr(endDateVal) + '" onclick="this.showPicker()" class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-heading focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all">' +
                             '  </div>' +
                             '</div>';
                     html += formField('Waktu', 'f-time', item ? item.time : '', 'text', '15:00 WIB');
@@ -2353,13 +2411,7 @@
                     var defaultCertDesc = 'In recognition of your active participation in the **Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era."** Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
                     html += formTextarea('Teks Deskripsi Sertifikat (Akan di-render di tengah sertifikat)', 'f-cert-description', item ? (item.certDescription || item.description) : defaultCertDesc, 'Contoh: In recognition of your active participation in...');
 
-                    html += '<div class="mb-4">' +
-                            '<label class="block text-sm font-semibold text-heading mb-1.5">Status</label>' +
-                            '<select id="f-status" class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-heading focus:outline-none focus:border-primary">' +
-                            '<option value="upcoming" ' + (item && item.status === 'upcoming' ? 'selected' : '') + '>Upcoming (Akan Datang)</option>' +
-                            '<option value="past" ' + (item && item.status === 'past' ? 'selected' : '') + '>Past (Selesai)</option>' +
-                            '</select>' +
-                            '</div>';
+
 
                     var existingSrc = '';
                     if (item && item.image) existingSrc = _resolveImgPath(item.image);
@@ -2931,7 +2983,7 @@
                         speakerRole: document.getElementById('f-speaker-role').value.trim(),
                         speakerImage: speakerImage,
                         certDescription: document.getElementById('f-cert-description').value.trim(),
-                        status: document.getElementById('f-status').value,
+                        status: getEventStatus(startDateVal || formattedDate, document.getElementById('f-time').value.trim()),
                         image: image
                     };
 
@@ -3526,6 +3578,13 @@
             };
 
             async function drawCertificatePreview(canvas, cert) {
+                var layout = {
+                    nameX: 400, nameY: 290,
+                    descX: 400, descY: 345,
+                    dateX: 400, dateY: null,
+                    numX: 45, numY: 525
+                };
+
                 const scale = 2;
                 canvas.width = 800 * scale;
                 canvas.height = 565 * scale;
@@ -3551,7 +3610,7 @@
                     ctx.fillStyle = '#b5892c';
                     ctx.textAlign = 'center';
                     ctx.font = (42 * scale) + 'px "Great Vibes", cursive';
-                    ctx.fillText(cert.name, 400 * scale, 290 * scale);
+                    ctx.fillText(cert.name, layout.nameX * scale, layout.nameY * scale);
 
                     // Helper untuk wrap text dengan bold
                     function wrapRichText(context, text, x, y, maxWidth, lineHeight) {
@@ -3620,23 +3679,26 @@
                     var certDesc = cert.description || defaultDesc;
                     
                     ctx.fillStyle = '#475569';
-                    var descY = 345 * scale;
-                    var finalDescY = wrapRichText(ctx, certDesc, 400 * scale, descY, 560 * scale, 18 * scale);
+                    var descY = layout.descY * scale;
+                    var finalDescY = wrapRichText(ctx, certDesc, layout.descX * scale, descY, 560 * scale, 18 * scale);
 
                     // 3. Tanggal Rilis
                     ctx.fillStyle = '#334155';
                     ctx.textAlign = 'center';
                     ctx.font = 'bold ' + (12 * scale) + 'px "Inter", sans-serif';
-                    ctx.fillText(cert.issueDate, 400 * scale, (finalDescY + 28 * scale));
+                    var targetDateY = layout.dateY ? (layout.dateY * scale) : (finalDescY + 28 * scale);
+                    ctx.fillText(cert.issueDate, layout.dateX * scale, targetDateY);
 
                     // 4. Nomor Sertifikat / ID
                     ctx.fillStyle = '#94A3B8';
                     ctx.font = (10 * scale) + 'px monospace';
                     ctx.textAlign = 'left';
-                    ctx.fillText('ID: ' + (cert.certificateNumber || 'HY-N/A'), 45 * scale, 525 * scale);
+                    ctx.fillText('ID: ' + (cert.certificateNumber || 'HY-N/A'), layout.numX * scale, layout.numY * scale);
                 };
                 img.src = '../assets/img/Certificate-Template.webp?v=' + Date.now();
             };
+
+
 
             window.openAddCertificateModal = function () {
                 var modalTitle = document.getElementById('modal-title');
@@ -3651,6 +3713,7 @@
                     '<div><label class="block text-sm font-medium text-gray-700">Nomor Sertifikat</label><input type="text" id="c-number" required placeholder="HY-EVENT-1" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm bg-gray-50" readonly></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Penerima</label><input type="text" id="c-name" required placeholder="John Doe" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Email Penerima</label><input type="email" id="c-email" required placeholder="johndoe@email.com" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Nomor HP / WhatsApp Penerima</label><input type="text" id="c-phone" placeholder="08123456789" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Teks Deskripsi Sertifikat</label><textarea id="c-description" rows="6" required style="resize: vertical !important;" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' + defaultCertDesc + '</textarea><p class="text-[11px] text-gray-500 mt-1">💡 Gunakan tanda <strong>**</strong> di awal dan akhir kata/kalimat untuk mencetak tebal teks. Contoh: <code>**Hey Youth Summit**</code></p></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Tanggal Rilis</label><input type="text" id="c-date" required placeholder="17 Juli 2026" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Terbitkan</button>' +
@@ -3675,6 +3738,7 @@
                     var num = document.getElementById('c-number').value.trim();
                     var name = document.getElementById('c-name').value.trim();
                     var email = document.getElementById('c-email').value.trim();
+                    var phone = document.getElementById('c-phone').value.trim();
                     var event = document.getElementById('c-event').value.trim();
                     var desc = document.getElementById('c-description').value.trim();
                     var date = document.getElementById('c-date').value.trim();
@@ -3689,6 +3753,7 @@
                                 certificateNumber: num,
                                 name: name,
                                 email: email,
+                                phone: phone,
                                 eventName: event,
                                 description: desc,
                                 issueDate: date
@@ -3877,6 +3942,63 @@
             };
 
             // EVENTS CRUD
+            function getEventDateTime(dateStr, timeStr) {
+                if (!dateStr) return new Date(0);
+                var str = (dateStr + ' ' + (timeStr || '')).toLowerCase();
+                str = str.replace(/(wib|wita|wit|utc|gmt\+7|gmt\+8|gmt\+9)/gi, '').trim();
+
+                var monthsId = ['januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember'];
+                var monthsEn = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+                var monthsAbbrId = ['jan', 'feb', 'mar', 'apr', 'mei', 'jun', 'jul', 'agu', 'sep', 'okt', 'nov', 'des'];
+                var monthsAbbrEn = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+                for (var i = 0; i < 12; i++) {
+                    str = str.replace(new RegExp(monthsId[i], 'g'), monthsEn[i]);
+                    str = str.replace(new RegExp(monthsAbbrId[i], 'g'), monthsAbbrEn[i]);
+                }
+
+                var parsedMs = Date.parse(str);
+                if (!isNaN(parsedMs)) {
+                    return new Date(parsedMs);
+                }
+
+                var match = str.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})(?:\s+(\d{1,2})[:.](\d{2}))?/);
+                if (match) {
+                    var day = parseInt(match[1]);
+                    var monthName = match[2];
+                    var year = parseInt(match[3]);
+                    var hours = match[4] ? parseInt(match[4]) : 0;
+                    var minutes = match[5] ? parseInt(match[5]) : 0;
+
+                    var monthIndex = monthsEn.indexOf(monthName);
+                    if (monthIndex === -1) {
+                        monthIndex = monthsAbbrEn.indexOf(monthName);
+                    }
+                    if (monthIndex !== -1) {
+                        return new Date(year, monthIndex, day, hours, minutes);
+                    }
+                }
+                
+                var isoMatch = str.match(/(\d{4})-(\d{2})-(\d{2})/);
+                if (isoMatch) {
+                    var y = parseInt(isoMatch[1]);
+                    var m = parseInt(isoMatch[2]) - 1;
+                    var d = parseInt(isoMatch[3]);
+                    var tMatch = str.match(/(\d{1,2})[:.](\d{2})/);
+                    var h = tMatch ? parseInt(tMatch[1]) : 0;
+                    var min = tMatch ? parseInt(tMatch[2]) : 0;
+                    return new Date(y, m, d, h, min);
+                }
+
+                return new Date(str);
+            }
+
+            function getEventStatus(dateStr, timeStr) {
+                var eventDate = getEventDateTime(dateStr, timeStr);
+                var now = new Date();
+                return eventDate < now ? 'completed' : 'upcoming';
+            }
+
             window.loadAndRenderEvents = function () {
                 var eventsTbody = document.getElementById('list-events');
                 if (!eventsTbody) return;
@@ -3887,14 +4009,15 @@
                     eventsTbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-gray-400">Belum ada event.</td></tr>';
                 } else {
                     eventsTbody.innerHTML = events.map(function (item) {
-                        var statusBadge = item.status === 'upcoming'
+                        var computedStatus = getEventStatus(item.date, item.time);
+                        var statusBadge = computedStatus === 'upcoming'
                             ? '<span class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Upcoming</span>'
-                            : '<span class="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Completed</span>';
+                            : '<span class="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Selesai</span>';
 
                         var imgSrc = item.image ? window._resolveImgPath(item.image) : '';
                         var imgHtml = imgSrc ? '<img src="' + escapeAttr(imgSrc) + '" class="w-12 h-12 object-cover border rounded-lg">' : '<div class="w-12 h-12 rounded-lg bg-gray-200 flex items-center justify-center text-xs text-gray-500 font-bold"><i class="fas fa-calendar-alt"></i></div>';
 
-                        return '<tr class="border-b border-gray-150 hover:bg-gray-50 transition-colors">' +
+                        return '<tr class="border-b border-gray-150 hover:bg-gray-55 transition-colors">' +
                             '<td class="px-4 py-2.5">' + imgHtml + '</td>' +
                             '<td class="px-4 py-2.5 font-bold text-xs text-heading">' +
                             '<div class="font-semibold">' + escapeHtml(item.title_id) + '</div>' +
@@ -3940,9 +4063,6 @@
                     '<div><label class="block text-sm font-medium text-gray-700">Deskripsi (EN)</label><textarea id="e-desc-en" rows="3" placeholder="Description in English..." class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></textarea></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Poster Gambar URL / Base64</label><input type="text" id="e-img" placeholder="https://images.unsplash.com/..." class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Link Registrasi / Zoom</label><input type="text" id="e-link" placeholder="https://zoom.us/..." class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
-                    '<div><label class="block text-sm font-medium text-gray-700">Status</label>' +
-                    '<select id="e-status" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"><option value="upcoming">Upcoming</option><option value="completed">Completed</option></select>' +
-                    '</div>' +
                     '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Simpan</button>' +
                     '</form>';
 
@@ -3953,19 +4073,21 @@
                     if (!data.events) data.events = [];
 
                     var newId = data.events.length > 0 ? Math.max.apply(null, data.events.map(function (item) { return item.id; })) + 1 : 601;
+                    var dateVal = document.getElementById('e-date').value.trim();
+                    var timeVal = document.getElementById('e-time').value.trim();
 
                     var newEvent = {
                         id: newId,
                         title_id: document.getElementById('e-title-id').value.trim(),
                         title_en: document.getElementById('e-title-en').value.trim(),
-                        date: document.getElementById('e-date').value.trim(),
-                        time: document.getElementById('e-time').value.trim(),
+                        date: dateVal,
+                        time: timeVal,
                         location: document.getElementById('e-location').value.trim(),
                         description_id: document.getElementById('e-desc-id').value.trim(),
                         description_en: document.getElementById('e-desc-en').value.trim(),
                         image: document.getElementById('e-img').value.trim(),
                         link: document.getElementById('e-link').value.trim(),
-                        status: document.getElementById('e-status').value
+                        status: getEventStatus(dateVal, timeVal)
                     };
 
                     data.events.push(newEvent);
@@ -3999,12 +4121,6 @@
                     '<div><label class="block text-sm font-medium text-gray-700">Deskripsi (EN)</label><textarea id="e-desc-en" rows="3" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' + escapeHtml(eventItem.description_en || '') + '</textarea></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Poster Gambar URL / Base64</label><input type="text" id="e-img" value="' + escapeAttr(eventItem.image || '') + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Link Registrasi / Zoom</label><input type="text" id="e-link" value="' + escapeAttr(eventItem.link || '') + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
-                    '<div><label class="block text-sm font-medium text-gray-700">Status</label>' +
-                    '<select id="e-status" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm">' +
-                    '<option value="upcoming"' + (eventItem.status === 'upcoming' ? ' selected' : '') + '>Upcoming</option>' +
-                    '<option value="completed"' + (eventItem.status === 'completed' ? ' selected' : '') + '>Completed</option>' +
-                    '</select>' +
-                    '</div>' +
                     '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Simpan Perubahan</button>' +
                     '</form>';
 
@@ -4015,18 +4131,21 @@
                     var idx = data.events.findIndex(function (item) { return item.id === id; });
                     if (idx === -1) return;
 
+                    var dateVal = document.getElementById('e-date').value.trim();
+                    var timeVal = document.getElementById('e-time').value.trim();
+
                     data.events[idx] = {
                         id: id,
                         title_id: document.getElementById('e-title-id').value.trim(),
                         title_en: document.getElementById('e-title-en').value.trim(),
-                        date: document.getElementById('e-date').value.trim(),
-                        time: document.getElementById('e-time').value.trim(),
+                        date: dateVal,
+                        time: timeVal,
                         location: document.getElementById('e-location').value.trim(),
                         description_id: document.getElementById('e-desc-id').value.trim(),
                         description_en: document.getElementById('e-desc-en').value.trim(),
                         image: document.getElementById('e-img').value.trim(),
                         link: document.getElementById('e-link').value.trim(),
-                        status: document.getElementById('e-status').value
+                        status: getEventStatus(dateVal, timeVal)
                     };
 
                     if (saveData(data)) {

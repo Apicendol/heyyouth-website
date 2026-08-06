@@ -16,12 +16,55 @@ function initCertificateSearch() {
 
   if (!searchForm) return;
 
+  const tabEmail = document.getElementById('search-type-email');
+  const tabPhone = document.getElementById('search-type-phone');
+  const inputLabel = document.getElementById('search-input-label');
+  const inputIcon = document.getElementById('search-input-icon');
+  const inputField = document.getElementById('c-email');
+
+  var activeSearchType = 'email';
+
+  if (tabEmail && tabPhone) {
+    tabEmail.addEventListener('click', function () {
+      activeSearchType = 'email';
+      tabEmail.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-slate-800 text-primary dark:text-blue-400 shadow-sm transition-all';
+      tabPhone.className = 'flex-1 py-2 text-xs font-bold rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 transition-all';
+      inputLabel.textContent = 'Email';
+      inputIcon.innerHTML = '<i class="fas fa-envelope text-sm"></i>';
+      inputField.type = 'email';
+      inputField.placeholder = 'johndoe@email.com';
+      inputField.value = '';
+      errorMsg.classList.add('hidden');
+    });
+
+    tabPhone.addEventListener('click', function () {
+      activeSearchType = 'phone';
+      tabPhone.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-slate-800 text-primary dark:text-blue-400 shadow-sm transition-all';
+      tabEmail.className = 'flex-1 py-2 text-xs font-bold rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 transition-all';
+      inputLabel.innerHTML = localStorage.getItem('heyyouth_lang') === 'id' ? 'Nomor HP / WhatsApp' : 'Phone / WhatsApp Number';
+      inputIcon.innerHTML = '<i class="fas fa-phone-alt text-sm"></i>';
+      inputField.type = 'text';
+      inputField.placeholder = localStorage.getItem('heyyouth_lang') === 'id' ? 'contoh: 08123456789' : 'e.g. 08123456789';
+      inputField.value = '';
+      errorMsg.classList.add('hidden');
+    });
+  }
+
+  function cleanPhone(num) {
+    if (!num) return '';
+    var cleaned = String(num).replace(/\D/g, '');
+    if (cleaned.startsWith('62')) {
+      cleaned = '0' + cleaned.substring(2);
+    }
+    return cleaned;
+  }
+
   searchForm.addEventListener('submit', async function (e) {
     e.preventDefault();
-    const email = document.getElementById('c-email').value.trim();
+    const queryVal = inputField.value.trim();
     errorMsg.classList.add('hidden');
     previewSection.classList.add('hidden');
-    if (!email) return;
+    if (!queryVal) return;
 
     submitBtn.disabled = true;
     spinner.classList.remove('hidden');
@@ -35,6 +78,7 @@ function initCertificateSearch() {
             id: "1",
             data: {
               email: 'peserta@heyyouth.org',
+              phone: '08123456789',
               name: 'Budi Santoso',
               role: 'Participant',
               eventName: 'HeyYouth Digital Summit 2026',
@@ -47,6 +91,7 @@ function initCertificateSearch() {
             id: "2",
             data: {
               email: 'speaker@heyyouth.org',
+              phone: '08987654321',
               name: 'Jane Doe',
               role: 'Speaker',
               eventName: 'HeyYouth Digital Summit 2026',
@@ -59,6 +104,7 @@ function initCertificateSearch() {
             id: "3",
             data: {
               email: 'henriprasetyo6@gmail.com',
+              phone: '081122334455',
               name: 'Henri Prasetyo',
               role: 'Participant',
               eventName: 'Hey Youth Summit 2026',
@@ -72,7 +118,22 @@ function initCertificateSearch() {
       }
       var list = JSON.parse(localStorage.getItem(listKey) || '[]');
       var found = list.find(function (itemObj) {
-        return itemObj.data && itemObj.data.email.toLowerCase() === email.toLowerCase();
+        if (!itemObj.data) return false;
+        if (activeSearchType === 'email') {
+          return itemObj.data.email && itemObj.data.email.toLowerCase() === queryVal.toLowerCase();
+        } else {
+          var certPhone = itemObj.data.phone;
+          if (!certPhone && itemObj.data.email) {
+            var regList = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+            var reg = regList.find(function(r) {
+              return r.email && r.email.toLowerCase() === itemObj.data.email.toLowerCase();
+            });
+            if (reg) {
+              certPhone = reg.phone;
+            }
+          }
+          return certPhone && cleanPhone(certPhone) === cleanPhone(queryVal);
+        }
       });
 
       submitBtn.disabled = false;
@@ -80,9 +141,64 @@ function initCertificateSearch() {
       btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Cari Sertifikat' : 'Search Certificate';
 
       if (!found) {
-        errorText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ?
-          'Maaf, email Anda tidak terdaftar untuk e-sertifikat mana pun. Coba cari dengan: peserta@heyyouth.org' :
-          'Sorry, your email is not registered for any e-certificate. Try search with: peserta@heyyouth.org';
+        if (activeSearchType === 'email') {
+          // Levenshtein Fuzzy Search
+          function getLevenshteinDistance(a, b) {
+            a = a.toLowerCase();
+            b = b.toLowerCase();
+            if (a.length === 0) return b.length;
+            if (b.length === 0) return a.length;
+            var matrix = [];
+            for (var i = 0; i <= b.length; i++) { matrix[i] = [i]; }
+            for (var j = 0; j <= a.length; j++) { matrix[0][j] = j; }
+            for (var i = 1; i <= b.length; i++) {
+              for (var j = 1; j <= a.length; j++) {
+                if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                  matrix[i][j] = matrix[i - 1][j - 1];
+                } else {
+                  matrix[i][j] = Math.min(
+                    matrix[i - 1][j - 1] + 1, // substitution
+                    matrix[i][j - 1] + 1,     // insertion
+                    matrix[i - 1][j] + 1      // deletion
+                  );
+                }
+              }
+            }
+            return matrix[b.length][a.length];
+          }
+
+          var bestMatch = null;
+          var minDistance = 999;
+          list.forEach(function (itemObj) {
+            if (itemObj.data && itemObj.data.email) {
+              var dist = getLevenshteinDistance(queryVal, itemObj.data.email);
+              if (dist < minDistance) {
+                minDistance = dist;
+                bestMatch = itemObj.data.email;
+              }
+            }
+          });
+
+          // Expose function to auto fill email from suggestion
+          window.useSuggestedEmail = function(suggestedEmail) {
+            document.getElementById('c-email').value = suggestedEmail;
+            document.getElementById('certificate-search-form').dispatchEvent(new Event('submit'));
+          };
+
+          if (minDistance <= 3 && bestMatch) {
+            errorText.innerHTML = localStorage.getItem('heyyouth_lang') === 'id' ?
+              'Email tidak ditemukan. Apakah maksud Anda: <a href="#" onclick="useSuggestedEmail(\'' + bestMatch + '\'); return false;" class="underline font-bold text-blue-600 dark:text-blue-400">' + bestMatch + '</a>?' :
+              'Email not found. Did you mean: <a href="#" onclick="useSuggestedEmail(\'' + bestMatch + '\'); return false;" class="underline font-bold text-blue-600 dark:text-blue-400">' + bestMatch + '</a>?';
+          } else {
+            errorText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ?
+              'Maaf, email Anda tidak terdaftar untuk e-sertifikat mana pun. Coba cari dengan: peserta@heyyouth.org' :
+              'Sorry, your email is not registered for any e-certificate. Try search with: peserta@heyyouth.org';
+          }
+        } else {
+          errorText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ?
+            'Maaf, nomor HP/WhatsApp Anda tidak terdaftar untuk e-sertifikat mana pun.' :
+            'Sorry, your phone number is not registered for any e-certificate.';
+        }
         errorMsg.classList.remove('hidden');
         return;
       }
@@ -111,6 +227,14 @@ function initCertificateSearch() {
 }
 
 async function drawCertificate(canvas, cert) {
+  // Load layout coords from localStorage or defaults
+  var layout = {
+    nameX: 400, nameY: 290,
+    descX: 400, descY: 345,
+    dateX: 400, dateY: null,
+    numX: 45, numY: 525
+  };
+
   // Set resolusi canvas ke HD (3x dari 800x565) agar tidak pecah/blur
   const scale = 3;
   canvas.width = 800 * scale;
@@ -138,7 +262,7 @@ async function drawCertificate(canvas, cert) {
     ctx.fillStyle = '#b5892c'; // Warna emas elegan
     ctx.textAlign = 'center';
     ctx.font = (42 * scale) + 'px "Great Vibes", cursive';
-    ctx.fillText(cert.name, 400 * scale, 290 * scale);
+    ctx.fillText(cert.name, layout.nameX * scale, layout.nameY * scale);
 
     // Helper untuk membungkus teks deskripsi panjang menjadi beberapa baris (Mendukung Bold dengan **)
     function wrapRichText(context, text, x, y, maxWidth, lineHeight) {
@@ -207,37 +331,44 @@ async function drawCertificate(canvas, cert) {
     var certDesc = cert.description || defaultDesc;
 
     ctx.fillStyle = '#475569'; // Slate dark gray
-    var descY = 345 * scale;
-    var finalDescY = wrapRichText(ctx, certDesc, 400 * scale, descY, 560 * scale, 18 * scale);
+    var descY = layout.descY * scale;
+    var finalDescY = wrapRichText(ctx, certDesc, layout.descX * scale, descY, 560 * scale, 18 * scale);
 
-    // 3. Tanggal Rilis (Di bawah teks deskripsi secara proporsional)
+    // 3. Tanggal Rilis
     ctx.fillStyle = '#334155';
     ctx.textAlign = 'center';
     ctx.font = 'bold ' + (12 * scale) + 'px "Inter", sans-serif';
-    ctx.fillText(cert.issueDate, 400 * scale, (finalDescY + 28 * scale));
+    var targetDateY = layout.dateY ? (layout.dateY * scale) : (finalDescY + 28 * scale);
+    ctx.fillText(cert.issueDate, layout.dateX * scale, targetDateY);
 
     // 4. Nomor Sertifikat / ID (Sudut Bawah Kiri)
     ctx.fillStyle = '#94A3B8';
     ctx.font = (10 * scale) + 'px monospace';
     ctx.textAlign = 'left';
-    ctx.fillText('ID: ' + (cert.certificateNumber || 'HY-N/A'), 45 * scale, 525 * scale);
+    ctx.fillText('ID: ' + (cert.certificateNumber || 'HY-N/A'), layout.numX * scale, layout.numY * scale);
   };
-  // Gunakan cache buster (?v=timestamp) agar browser memuat ulang file template baru yang baru ditimpa
   img.src = 'assets/img/Certificate-Template.webp?v=' + Date.now();
 }
 
 window.downloadCertificatePDF = function () {
   if (!currentCertificate) return;
   const { jsPDF } = window.jspdf;
-  // Bikin ukuran PDF tetap proporsional [800, 565]
   const pdf = new jsPDF({
     orientation: 'landscape',
     unit: 'px',
     format: [800, 565]
   });
   const canvas = document.getElementById('cert-canvas');
-  // Gambar dari canvas HD (2400x1695) diekspor dengan kualitas tinggi 1.0
   const imgData = canvas.toDataURL('image/jpeg', 1.0);
   pdf.addImage(imgData, 'JPEG', 0, 0, 800, 565);
   pdf.save('Certificate-' + currentCertificate.name.replace(/\s+/g, '_') + '.pdf');
+};
+
+window.downloadCertificatePNG = function () {
+  if (!currentCertificate) return;
+  const canvas = document.getElementById('cert-canvas');
+  const link = document.createElement('a');
+  link.download = 'Certificate-' + currentCertificate.name.replace(/\s+/g, '_') + '.png';
+  link.href = canvas.toDataURL('image/png', 1.0);
+  link.click();
 };
