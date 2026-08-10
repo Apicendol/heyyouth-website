@@ -1,3 +1,7 @@
+/* =============================================
+   HEY YOUTH! — Backend Server Setup
+   ============================================= */
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -6,22 +10,23 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection
+/* =============================================
+   DATABASE CONNECTION & SCHEMA
+   ============================================= */
+
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/heyyouth';
 mongoose.connect(MONGODB_URI)
   .then(() => {
     console.log('Successfully connected to MongoDB.');
-    seedMockData(); // Seed some initial data for testing if database is empty
+    seedMockData();
   })
   .catch((err) => {
     console.error('MongoDB connection error:', err);
   });
 
-// Schema definition
 const certificateSchema = new mongoose.Schema({
   email: { type: String, required: true, lowercase: true, index: true },
   name: { type: String, required: true },
@@ -33,7 +38,6 @@ const certificateSchema = new mongoose.Schema({
 
 const Certificate = mongoose.model('Certificate', certificateSchema);
 
-// Seeding function (Local Development / Testing Helper)
 async function seedMockData() {
   try {
     const count = await Certificate.countDocuments();
@@ -64,8 +68,10 @@ async function seedMockData() {
   }
 }
 
-// Routes
-// 1. Get certificate by email
+/* =============================================
+   API ROUTES
+   ============================================= */
+
 app.get('/api/certificates', async (req, res) => {
   const email = req.query.email;
   if (!email) {
@@ -84,7 +90,6 @@ app.get('/api/certificates', async (req, res) => {
   }
 });
 
-// 2. Create certificate (Admin/CMS endpoint)
 app.post('/api/certificates', async (req, res) => {
   const { email, name, role, eventName, issueDate, certificateNumber } = req.body;
 
@@ -112,12 +117,14 @@ app.post('/api/certificates', async (req, res) => {
   }
 });
 
-// Base Route
 app.get('/', (req, res) => {
   res.send('HeyYouth API is running...');
 });
 
-// Start Server
+/* =============================================
+   START SERVER
+   ============================================= */
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

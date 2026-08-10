@@ -220,7 +220,6 @@
   <!-- Scripts -->
   <script src="assets/Javascript/components.js"></script>
   <script>
-    // State Kategori & Sesi Kelas (Membaca dari CMS / LocalStorage)
     let categories = JSON.parse(localStorage.getItem('sd_categories')) || [
       { id: 'matematika', name: 'Matematika' },
       { id: 'english', name: 'Bahasa Inggris' },
@@ -231,13 +230,11 @@
 
     let selectedClassTitle = '';
 
-    // Initialize UI
     document.addEventListener('DOMContentLoaded', () => {
       renderCategoryFilters();
       renderClassCatalog();
     });
 
-    // Render Filter Buttons
     function renderCategoryFilters() {
       categories = JSON.parse(localStorage.getItem('sd_categories')) || [
         { id: 'matematika', name: 'Matematika' },
@@ -264,14 +261,12 @@
       container.innerHTML = html;
     }
 
-    // Set Active Filter
     function setFilter(catId) {
       activeCategory = catId;
       renderCategoryFilters();
       renderClassCatalog();
     }
 
-    // Render Class Cards (Dinamis dari CMS)
     function renderClassCatalog() {
       const classesData = JSON.parse(localStorage.getItem('teacher_classes')) || [
         {
@@ -384,7 +379,6 @@
       grid.innerHTML = html;
     }
 
-    // Modal Control Functions Join
     function openJoinModal(title, mentor, info) {
       selectedClassTitle = title;
       document.getElementById('modal-class-title').innerText = title;
@@ -395,7 +389,6 @@
       document.getElementById('join-modal').classList.add('hidden');
     }
 
-    // Form Handler Simpan ke CMS
     function handleJoinSubmit(e) {
       e.preventDefault();
       const form = e.target;

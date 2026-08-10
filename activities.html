@@ -454,7 +454,6 @@
       'use strict';
 
       /* =========================================
-         DATA DEFAULT & GETTER
          ========================================= */
       var CMS_KEY = 'hey_youth_cms';
       var DEFAULT_DATA = {
@@ -534,7 +533,6 @@
       }
 
       /* =========================================
-         UTILITY FUNCTIONS
          ========================================= */
       function _esc(s) {
         if (!s) return '';
@@ -549,7 +547,6 @@
       }
 
       /* =========================================
-         RENDER ACTIVITY CARDS
          ========================================= */
       function _bilEsc(idVal, enVal, fallback) {
         var idText = idVal || fallback || '';
@@ -631,7 +628,6 @@
       }
 
       /* =========================================
- RENDER — PODCASTS
  ========================================= */
       function renderPodcasts(items) {
         var container = document.getElementById('podcast-container');
@@ -701,7 +697,6 @@
       }
 
       /* =========================================
-         INIT
          ========================================= */
       var allActivities = [];
       var allPodcasts = [];
@@ -710,7 +705,7 @@
       var podcastSearchQuery = '';
 
       function filterAndRenderActivities() {
-        var filtered = allActivities.slice().reverse(); // Show latest first
+        var filtered = allActivities.slice().reverse();
 
         if (activeCategory !== 'all') {
           filtered = filtered.filter(function (item) {
@@ -746,7 +741,7 @@
       }
 
       function filterAndRenderPodcasts() {
-        var filtered = allPodcasts.slice().reverse(); // Show latest first
+        var filtered = allPodcasts.slice().reverse();
 
         if (podcastSearchQuery) {
           var q = podcastSearchQuery.toLowerCase();
@@ -766,7 +761,6 @@
       }
 
 
-      // Certificate Search & PDF Download logic moved to assets/Javascript/certificate.js
 
       function getEventDateTime(dateStr, timeStr) {
         if (!dateStr) return new Date(0);
@@ -826,7 +820,6 @@
       }
 
       /* =========================================
-         RENDER UPCOMING EVENTS (Local Storage Only)
          ========================================= */
       function renderUpcomingEvents(events) {
         var container = document.getElementById('events-container');
@@ -887,7 +880,6 @@
       }
 
       /* =========================================
-         EVENT REGISTRATION MODAL
          ========================================= */
       window.openRegistrationModal = function (id, titleId, titleEn) {
         var modal = document.getElementById('event-register-modal');
@@ -901,7 +893,6 @@
 
         idInput.value = id;
 
-        // Check active lang
         var isEn = document.documentElement.lang === 'en' || document.body.classList.contains('lang-en');
         titleEl.textContent = isEn ? titleEn : titleId;
 
@@ -930,7 +921,6 @@
         }, 300);
       };
 
-      // Form submission handler
       document.getElementById('event-registration-form').addEventListener('submit', function (e) {
         e.preventDefault();
 
@@ -965,7 +955,6 @@
         registrations.push(regData);
         localStorage.setItem('event_registrations', JSON.stringify(registrations));
 
-        // CONFIG EMAILJS (Silakan ganti nilai di bawah dengan akun Anda)
         var EMAILJS_CONFIG = {
           serviceId: 'service_j27qkiy', // Service ID Anda dari screenshot
           templateId: 'template_nl0ak7g', // Template ID Anda dari screenshot
@@ -994,7 +983,6 @@
           }, 2000);
         }
 
-        // Kirim email notifikasi jika konfigurasi sudah lengkap
         if (EMAILJS_CONFIG.publicKey && EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY' && EMAILJS_CONFIG.templateId && EMAILJS_CONFIG.templateId !== 'YOUR_TEMPLATE_ID') {
           emailjs.init(EMAILJS_CONFIG.publicKey);
           emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
@@ -1012,10 +1000,9 @@
             })
             .catch(function (err) {
               console.error('EmailJS Error:', err);
-              completeRegistration(); // Tetap daftarkan lokal jika pengiriman email gagal
+              completeRegistration();
             });
         } else {
-          // Jalankan fallback instan (simulasi delay 1 detik) jika EmailJS belum disetup
           setTimeout(completeRegistration, 1000);
         }
       });
@@ -1030,7 +1017,6 @@
         initCertificateSearch();
         renderUpcomingEvents(data.events || DEFAULT_DATA.events || []);
 
-        // Render dynamic header settings
         var s = data.eventsSettings || {
           eventTitle_id: 'Ikuti Event Kami',
           eventTitle_en: 'Join Our Events',

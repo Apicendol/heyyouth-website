@@ -920,7 +920,6 @@
             }
 
             /* =========================================
-               CONSTANTS & DEFAULT DATA
                ========================================= */
             var CMS_KEY = 'hey_youth_cms';
 
@@ -1262,7 +1261,6 @@
             };
 
             /* =========================================
-               DATA LAYER
                ========================================= */
             var memoryData = null;
 
@@ -1309,7 +1307,6 @@
             }
 
             /* =========================================
-               STATE
                ========================================= */
             var editingItem = null;
             var editingSection = null;
@@ -1320,7 +1317,6 @@
             var uploadedSpeakerImage = null;
 
             /* =========================================
-               SIDEBAR & NAVIGATION
                ========================================= */
             function closeSidebar() {
                 var sidebar = document.getElementById('sidebar');
@@ -1412,7 +1408,6 @@
                     console.error("renderAllLists global error:", globalErr);
                 }
 
-                // Render mentors list locally
                 var mentorsTbody = document.getElementById('list-mentors');
                 if (mentorsTbody) {
                     var mentors = data.mentors || [];
@@ -1636,7 +1631,6 @@
                 var email = reg.email;
                 var eventName = reg.eventName;
 
-                // Cari data event kustom untuk mengambil certDescription kustom dan tanggal event
                 var data = getData();
                 var events = data.events || [];
                 var eventObj = events.find(function(e) {
@@ -1646,14 +1640,12 @@
                 var defaultCertDesc = 'In recognition of your active participation in the **Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era."** Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
                 var description = eventObj ? (eventObj.certDescription || defaultCertDesc) : defaultCertDesc;
 
-                // Hitung nomor sertifikat otomatis: HY-{SINGKATAN}-{URUTAN}
                 var abb = generateAbbreviation(eventName);
                 var listKey = 'mock_fb_list_certificates';
                 var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
                 var count = list.filter(function(c) { return c.data && c.data.eventName === eventName; }).length;
                 var certNum = 'HY-' + abb + '-' + String(count + 1).padStart(4, '0');
                 
-                // Format tanggal rilis hari ini
                 var dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
                 var todayStr = new Date().toLocaleDateString('id-ID', dateOptions);
                 var issueDateStr = eventObj ? eventObj.date : todayStr;
@@ -1756,7 +1748,6 @@
             });
 
             /* =========================================
-               COUNTS
                ========================================= */
             function updateCounts(data) {
                 var ext = (data.externalTestimonials || []).length;
@@ -1789,7 +1780,6 @@
             }
 
             /* =========================================
-               IMAGE UPLOAD & COMPRESSION
                ========================================= */
             function compressImage(file, maxWidth, quality, callback) {
                 var reader = new FileReader();
@@ -2053,7 +2043,6 @@
             }
 
             /* =========================================
-               RENDER FUNCTIONS
                ========================================= */
             function renderTestimonials(containerId, items, type) {
                 var container = document.getElementById(containerId);
@@ -2295,7 +2284,6 @@
             }
 
             /* =========================================
-               MODAL — OPEN ADD
                ========================================= */
             window.openAddModal = function (section) {
                 editingItem = null;
@@ -2353,7 +2341,6 @@
             };
 
             /* =========================================
-               MODAL — RENDER FORM
                ========================================= */
             function renderModalForm(section, item) {
                 var isEdit = !!item;
@@ -2685,7 +2672,6 @@
             };
 
             /* =========================================
-               SAVE ITEM
                ========================================= */
             window.saveItem = function () {
                 var section = editingSection;
@@ -3018,7 +3004,6 @@
             };
 
             /* =========================================
-               DELETE
                ========================================= */
             window.confirmDelete = function (section, id) {
                 deletingSection = section;
@@ -3076,7 +3061,6 @@
             };
 
             /* =========================================
-               TOAST
                ========================================= */
             var toastTimer = null;
             function showToast(message, type) {
@@ -3124,7 +3108,6 @@
             });
 
             /* =========================================
-               STATISTICS
                ========================================= */
             var visitorChartInstance = null;
             var unsubscribeVisitorStats = null;
@@ -3383,7 +3366,6 @@
             }
 
             /* =========================================
-               EDUCATIONS TAB JS SUB-METHODS
                ========================================= */
             window.switchEduSubTab = function (subtab) {
                 document.querySelectorAll('.edu-subview-pane').forEach(function (pane) {
@@ -3402,7 +3384,6 @@
                 }
             };
 
-            // REGISTRATIONS (Offline mock mode)
             window.loadAndRenderMockRegistrations = async function () {
                 var tbody = document.getElementById('list-registrations');
                 if (!tbody) return;
@@ -3453,7 +3434,6 @@
                 }
             };
 
-            // CERTIFICATES (Offline mock mode)
             window.loadAndRenderCertificates = async function () {
                 var tbody = document.getElementById('list-certificates');
                 if (!tbody) return;
@@ -3606,13 +3586,11 @@
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                     
-                    // 1. Nama Penerima
                     ctx.fillStyle = '#b5892c';
                     ctx.textAlign = 'center';
                     ctx.font = (42 * scale) + 'px "Great Vibes", cursive';
                     ctx.fillText(cert.name, layout.nameX * scale, layout.nameY * scale);
 
-                    // Helper untuk wrap text dengan bold
                     function wrapRichText(context, text, x, y, maxWidth, lineHeight) {
                         var segments = text.split('**');
                         var tokens = [];
@@ -3674,7 +3652,6 @@
                         return currentY - lineHeight;
                     }
 
-                    // 2. Deskripsi
                     var defaultDesc = 'In recognition of your active participation in the **Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era."** Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
                     var certDesc = cert.description || defaultDesc;
                     
@@ -3682,14 +3659,12 @@
                     var descY = layout.descY * scale;
                     var finalDescY = wrapRichText(ctx, certDesc, layout.descX * scale, descY, 560 * scale, 18 * scale);
 
-                    // 3. Tanggal Rilis
                     ctx.fillStyle = '#334155';
                     ctx.textAlign = 'center';
                     ctx.font = 'bold ' + (12 * scale) + 'px "Inter", sans-serif';
                     var targetDateY = layout.dateY ? (layout.dateY * scale) : (finalDescY + 28 * scale);
                     ctx.fillText(cert.issueDate, layout.dateX * scale, targetDateY);
 
-                    // 4. Nomor Sertifikat / ID
                     ctx.fillStyle = '#94A3B8';
                     ctx.font = (10 * scale) + 'px monospace';
                     ctx.textAlign = 'left';
@@ -3770,7 +3745,6 @@
                 });
             };
 
-            // MENTORSHIP
             window.loadAndRenderMentorship = async function () {
                 var requestsTbody = document.getElementById('list-mentoring-requests');
                 if (!requestsTbody) return;
@@ -3941,7 +3915,6 @@
                 });
             };
 
-            // EVENTS CRUD
             function getEventDateTime(dateStr, timeStr) {
                 if (!dateStr) return new Date(0);
                 var str = (dateStr + ' ' + (timeStr || '')).toLowerCase();
@@ -4158,7 +4131,6 @@
 
             // ===== TEACHER CLASS (CATEGORIES, CARDS, REGISTRATIONS) CRUD =====
 
-            // 1. Categories Logic
             window.loadAndRenderMentoringCategories = function () {
                 var rawCats = localStorage.getItem('sd_categories');
                 var categories;
@@ -4276,7 +4248,6 @@
                 }
             };
 
-            // 2. Teacher Classes Cards Logic
             window.loadAndRenderTeacherClasses = function () {
                 var classesKey = 'teacher_classes';
                 if (localStorage.getItem(classesKey) === null) {
@@ -4539,7 +4510,6 @@
                 }
             };
 
-            // 3. Registrations Logic
             window.loadAndRenderTeacherRegistrations = function () {
                 var regsKey = 'teacher_registrations';
                 if (localStorage.getItem(regsKey) === null) {
@@ -4593,7 +4563,6 @@
 
                     var emailSubject = 'Konfirmasi Pendaftaran Teacher Class - ' + (r.classTitle || '');
                     
-                    // Plaintext formatted default email
                     var emailBodyText = 'HEY YOUTH! TEACHER CLASS\n\n' +
                         'Halo Orang Tua dari ' + (r.studentName || 'Siswa') + ',\n\n' +
                         'Pendaftaran sesi ' + (r.classTitle || '') + ' (' + (r.grade || '') + ') dengan email ' + (r.email || '') + ' telah dikonfirmasi.\n\n' +
@@ -4695,10 +4664,8 @@
                 }
             };
 
-            // CSV EXPORTS (Suggestion 2)
             function downloadCSV(headers, data, filename) {
                 var csvRows = [];
-                // Add BOM for UTF-8 compatibility with Excel
                 csvRows.push('\ufeff' + headers.join(';'));
                 data.forEach(function(row) {
                     var values = row.map(function(val) {
@@ -4782,7 +4749,6 @@
 
 
             /* =========================================
-               AUTH CHECK & INIT DASHBOARD
                ========================================= */
             function initDashboard() {
                 try {

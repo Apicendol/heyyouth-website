@@ -1,4 +1,7 @@
-// Initialize Firebase
+/* =============================================
+   HEY YOUTH! — Firebase Configuration & Helpers
+   ============================================= */
+
 const firebaseConfig = {
     apiKey: "AIzaSyAdHfy2lR-gSKNDY-PE6utV-jL57hPNDzM",
     authDomain: "hey-youth-cms.firebaseapp.com",
@@ -12,7 +15,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Global utility to get data
 window.getFirebaseData = async function(defaultData) {
     var fallback = null;
     try {
@@ -42,7 +44,6 @@ window.getFirebaseData = async function(defaultData) {
     }
 };
 
-// Global utility to save data
 window.saveFirebaseData = async function(data) {
     try {
         const docRef = db.collection('heyyouth').doc('cms_data');

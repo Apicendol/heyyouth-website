@@ -125,7 +125,6 @@
       footerContainer.outerHTML = footerTemplate;
     }
 
-    // Highlight active page link based on the filename in URL path
     var pathname = window.location.pathname;
     var filename = decodeURIComponent(pathname.split('/').pop().toLowerCase());
 

@@ -142,7 +142,6 @@ function initCertificateSearch() {
 
       if (!found) {
         if (activeSearchType === 'email') {
-          // Levenshtein Fuzzy Search
           function getLevenshteinDistance(a, b) {
             a = a.toLowerCase();
             b = b.toLowerCase();
@@ -157,9 +156,9 @@ function initCertificateSearch() {
                   matrix[i][j] = matrix[i - 1][j - 1];
                 } else {
                   matrix[i][j] = Math.min(
-                    matrix[i - 1][j - 1] + 1, // substitution
-                    matrix[i][j - 1] + 1,     // insertion
-                    matrix[i - 1][j] + 1      // deletion
+                    matrix[i - 1][j - 1] + 1,
+                    matrix[i][j - 1] + 1,
+                    matrix[i - 1][j] + 1
                   );
                 }
               }
@@ -179,7 +178,6 @@ function initCertificateSearch() {
             }
           });
 
-          // Expose function to auto fill email from suggestion
           window.useSuggestedEmail = function(suggestedEmail) {
             document.getElementById('c-email').value = suggestedEmail;
             document.getElementById('certificate-search-form').dispatchEvent(new Event('submit'));
@@ -227,7 +225,6 @@ function initCertificateSearch() {
 }
 
 async function drawCertificate(canvas, cert) {
-  // Load layout coords from localStorage or defaults
   var layout = {
     nameX: 400, nameY: 290,
     descX: 400, descY: 345,
@@ -235,14 +232,12 @@ async function drawCertificate(canvas, cert) {
     numX: 45, numY: 525
   };
 
-  // Set resolusi canvas ke HD (3x dari 800x565) agar tidak pecah/blur
   const scale = 3;
   canvas.width = 800 * scale;
   canvas.height = 565 * scale;
 
   const ctx = canvas.getContext('2d');
 
-  // Pastikan font "Great Vibes" dan "Inter" sudah terunduh sebelum menggambar
   if (document.fonts) {
     try {
       await document.fonts.load('30px "Great Vibes"');
@@ -258,13 +253,11 @@ async function drawCertificate(canvas, cert) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-    // 1. Nama Penerima (Kaligrafi Latin Emas/Gold)
-    ctx.fillStyle = '#b5892c'; // Warna emas elegan
+    ctx.fillStyle = '#b5892c';
     ctx.textAlign = 'center';
     ctx.font = (42 * scale) + 'px "Great Vibes", cursive';
     ctx.fillText(cert.name, layout.nameX * scale, layout.nameY * scale);
 
-    // Helper untuk membungkus teks deskripsi panjang menjadi beberapa baris (Mendukung Bold dengan **)
     function wrapRichText(context, text, x, y, maxWidth, lineHeight) {
       var segments = text.split('**');
       var tokens = [];
@@ -326,22 +319,19 @@ async function drawCertificate(canvas, cert) {
       return currentY - lineHeight;
     }
 
-    // 2. Deskripsi Sertifikat (Dinamis dari CMS, mendukung ** untuk cetak tebal)
     var defaultDesc = 'In recognition of your active participation in the **Hey Youth: Future Ready Summit themed "What Makes You Irreplaceable in the AI Era."** Your participation has contributed to the success of this event, and we hope the knowledge and insights gained will inspire your continued growth and impact.';
     var certDesc = cert.description || defaultDesc;
 
-    ctx.fillStyle = '#475569'; // Slate dark gray
+    ctx.fillStyle = '#475569';
     var descY = layout.descY * scale;
     var finalDescY = wrapRichText(ctx, certDesc, layout.descX * scale, descY, 560 * scale, 18 * scale);
 
-    // 3. Tanggal Rilis
     ctx.fillStyle = '#334155';
     ctx.textAlign = 'center';
     ctx.font = 'bold ' + (12 * scale) + 'px "Inter", sans-serif';
     var targetDateY = layout.dateY ? (layout.dateY * scale) : (finalDescY + 28 * scale);
     ctx.fillText(cert.issueDate, layout.dateX * scale, targetDateY);
 
-    // 4. Nomor Sertifikat / ID (Sudut Bawah Kiri)
     ctx.fillStyle = '#94A3B8';
     ctx.font = (10 * scale) + 'px monospace';
     ctx.textAlign = 'left';

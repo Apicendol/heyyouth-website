@@ -1,10 +1,13 @@
 /* =============================================
-   HEY YOUTH! — Global Script (UPDATED)
+   HEY YOUTH! — Global Script
    ============================================= */
 
 var _cmsLocations = null;
 
-/* ------ UTILITIES ------ */
+/* =============================================
+   UTILITIES
+   ============================================= */
+
 function _esc(s) {
     if (!s) return '';
     var d = document.createElement('div');
@@ -58,7 +61,11 @@ function _bilingualHtml(idVal, enVal, fallback) {
     return '<span class="lang-id">' + id + '</span><span class="lang-en">' + en + '</span>';
 }
 
-/* ------ DEFAULT DATA (sama persis dengan CMS) ------ */var _CMS_DEFAULT = {
+/* =============================================
+   DEFAULT DATA
+   ============================================= */
+
+var _CMS_DEFAULT = {
     externalTestimonials: [
         { 
             id: 1, 
@@ -90,7 +97,7 @@ function _bilingualHtml(idVal, enVal, fallback) {
             title_en: 'Student, Univ. of Edinburgh',
             quote: 'Hey Youth! adalah jembatan yang menghubungkan antusiasme dengan aksi nyata.', 
             quote_id: 'Hey Youth! adalah jembatan yang menghubungkan antusiasme dengan aksi nyata.',
-            quote_en: 'Hey Youth! is a bridge that connects enthusiasm with real actions.',
+            quote_en: 'Hey Youth! is a bridge that connects elegance with real actions.',
             image: 'img/Testi/p3.webp' 
         }
     ],
@@ -236,8 +243,6 @@ function _bilingualHtml(idVal, enVal, fallback) {
             link: '#' 
         }
     ],
-    
-    // DATA DONATION BARU
     donationSettings: {
         heroTitle: 'Support Our Mission',
         heroTitle_id: 'Dukung Misi Kami',
@@ -254,8 +259,6 @@ function _bilingualHtml(idVal, enVal, fallback) {
         accountNumber: '466 0070 724',
         qrisImage: 'https://via.placeholder.com/200?text=QRIS' 
     },
-
-    // DYNAMIC HOME/ABOUT/ACTIVITIES DATA FOR SYNC
     aboutHero: {
         title: 'Mendidik Untuk <br><span class="text-primary">Masa Depan Indonesia</span>',
         title_id: 'Mendidik Untuk <br><span class="text-primary">Masa Depan Indonesia</span>',
@@ -366,7 +369,10 @@ async function _getCMS() {
     return await window.getFirebaseData(_CMS_DEFAULT);
 }
 
-/* ------ CMS: RENDER EXTERNAL TESTIMONIALS ------ */
+/* =============================================
+   CMS RENDERING
+   ============================================= */
+
 function _renderExternal(data) {
     var el = document.getElementById('external-testimonials');
     if (!el || !data || !data.length) return;
@@ -387,7 +393,6 @@ function _renderExternal(data) {
     el.innerHTML = html;
 }
 
-/* ------ CMS: RENDER INTERNAL TESTIMONIALS ------ */
 function _renderInternal(data) {
     var el = document.getElementById('internal-testimonials');
     if (!el || !data || !data.length) return;
@@ -408,7 +413,6 @@ function _renderInternal(data) {
     el.innerHTML = html;
 }
 
-/* ------ CMS: RENDER FAQ ------ */
 function _renderFAQ(data) {
     var el = document.getElementById('faq-container');
     if (!el || !data || !data.length) return;
@@ -426,7 +430,6 @@ function _renderFAQ(data) {
     el.innerHTML = html;
 }
 
-/* ------ CMS: RENDER PARTNERS (PUBLIC VIEW) ------ */
 function _renderPartners(data) {
     var el = document.getElementById('partners-grid-container');
     if (!el || !data || !data.length) {
@@ -481,12 +484,10 @@ function _renderPartners(data) {
     el.innerHTML = html;
 }
 
-/* ------ CMS: RENDER DONATION PAGE (BARU) ------ */
 function _renderDonation(data) {
     if (!data || !data.donationSettings) return;
     var s = data.donationSettings;
 
-    // 1. Update Hero Text
     var heroTitleEl = document.getElementById('hero-title-donation');
     if (heroTitleEl) {
         heroTitleEl.innerHTML = _bilingualHtml(s.heroTitle_id, s.heroTitle_en, s.heroTitle || 'Support Our <span class="text-primary">Mission</span>');
@@ -496,7 +497,6 @@ function _renderDonation(data) {
         heroSubEl.innerHTML = _bilingualHtml(s.heroSubtitle_id, s.heroSubtitle_en, s.heroSubtitle);
     }
 
-    // 2. Update Image Strip
     var stripImgEl = document.getElementById('strip-img-display');
     var stripTextEl = document.getElementById('strip-text-display');
     if (stripImgEl && s.stripImage) {
@@ -506,7 +506,6 @@ function _renderDonation(data) {
         stripTextEl.innerHTML = _bilingualHtml(s.stripText_id, s.stripText_en, s.stripText);
     }
 
-    // 3. Update Payment Details
     var bankNameEl = document.getElementById('bank-name-display');
     var accNameEl = document.getElementById('acc-name-display');
     var accNumEl = document.getElementById('acc-num-display');
@@ -515,18 +514,19 @@ function _renderDonation(data) {
     if (accNameEl) accNameEl.textContent = s.accountName;
     if (accNumEl) accNumEl.textContent = s.accountNumber;
     
-    // 4. Update QRIS
     var qrisImgEl = document.getElementById('qris-img-display');
     if (qrisImgEl && s.qrisImage) {
         qrisImgEl.src = window._resolveImgPath(s.qrisImage);
-        qrisImgEl.classList.remove('hidden'); // Tampilkan gambar asli
-        // Sembunyikan placeholder icon jika ada
+        qrisImgEl.classList.remove('hidden');
         var placeholder = qrisImgEl.nextElementSibling;
         if (placeholder && placeholder.tagName === 'I') placeholder.classList.add('hidden');
     }
 }
 
-/* ------ FAQ ACCORDION ------ */
+/* =============================================
+   FAQ & GENERAL PAGE LOGIC
+   ============================================= */
+
 function _initFAQ() {
     var items = document.querySelectorAll('.faq-item');
     for (var i = 0; i < items.length; i++) {
@@ -552,7 +552,6 @@ function _initFAQ() {
     }
 }
 
-/* ------ COPY TO CLIPBOARD ------ */
 function copyToClipboard(text) {
     if (!text) {
         var el = document.getElementById('acc-num-display');
@@ -575,7 +574,6 @@ function copyToClipboard(text) {
     });
 }
 
-/* ------ NAVBAR SCROLL ------ */
 function _initNavbar() {
     var nav = document.getElementById('navbar');
     if (!nav) return;
@@ -593,6 +591,7 @@ function _initNavbar() {
 /* =============================================
    VISITOR TRACKING
    ============================================= */
+
 function getPageName() {
     var path = window.location.pathname;
     var page = path.split("/").pop().toLowerCase();
@@ -664,9 +663,11 @@ async function trackVisitor() {
     }
 }
 
-/* ------ INIT (MAIN SITES) ------ */
+/* =============================================
+   INITIALIZE MAIN
+   ============================================= */
+
 async function _initMain() {
-    // 1. Mobile Menu
     var btn = document.getElementById('mobile-menu-btn');
     var menu = document.getElementById('mobile-menu');
     var iconO = document.getElementById('icon-menu');
@@ -690,16 +691,14 @@ async function _initMain() {
         }
     }
 
-    // 2. Fetch CMS Data
     var cms = await _getCMS();
 
-    /* --- 1. Load CMS data --- */
     try {
         _renderExternal(cms.externalTestimonials);
         _renderInternal(cms.internalTestimonials);
         _renderFAQ(cms.faqs);
         _renderPartners(cms.partners);
-        _renderDonation(cms); // RENDER DONATION
+        _renderDonation(cms);
 
         if (cms.locations && cms.locations.length) {
             _cmsLocations = cms.locations;
@@ -708,16 +707,9 @@ async function _initMain() {
         console.error('CMS error:', e);
     }
     
-    /* --- 2. FAQ accordion --- */
     _initFAQ();
-
-    /* --- 3. Navbar --- */
     _initNavbar();
-
-    /* --- 5. Map (Updated) --- */
     _initMap();
-
-    /* --- 6. Visitor Tracking --- */
     trackVisitor();
 }
 
@@ -728,25 +720,22 @@ if (document.readyState === 'loading') {
 }
 
 /* =============================================
-   LEAFLET MAP (FINAL PRODUCTION VERSION)
+   LEAFLET MAP
    ============================================= */
+
 function _initMap() {
     var el = document.getElementById('map');
     if (!el || typeof L === 'undefined') return;
 
-    // 1. Setup Peta (Fokus Indonesia)
     var map = L.map('map', { zoomControl: false }).setView([-2.5489, 118.0149], 5); 
 
-    // 2. Kontrol Zoom
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    // 3. Layer Peta Dasar (OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
         maxZoom: 19
     }).addTo(map);
 
-    // 4. FUNGSI PEMBUAT PIN KUSTOM
     function createPinIcon(volunteerCount) {
         return L.divIcon({
             className: 'custom-div-icon',
@@ -769,10 +758,8 @@ function _initMap() {
         });
     }
 
-    // 5. Ambil data lokasi
     var locs = _cmsLocations || _CMS_DEFAULT.locations;
     
-    // 6. Loop lokasi untuk render marker
     for (var i = 0; i < locs.length; i++) {
         var l = locs[i];
         L.marker([l.lat, l.lng], { icon: createPinIcon(l.volunteers) })
@@ -780,13 +767,13 @@ function _initMap() {
          .bindPopup('<strong>' + l.name + '</strong><br>Volunteers: ' + l.volunteers);
     }
     
-    // 7. Fix render issue saat layout berubah
     setTimeout(function() { map.invalidateSize(); }, 100);
 }
 
 /* =============================================
-   LANGUAGE TOGGLE LOGIC
+   LANGUAGE SWITCHER
    ============================================= */
+
 function initLanguageToggle() {
     var groups = document.querySelectorAll('.lang-toggle-group');
     if (!groups.length) return;
@@ -802,9 +789,9 @@ function initLanguageToggle() {
             var slider = group.querySelector('.lang-slider-bg');
             if (slider) {
                 if (lang === 'en') {
-                    slider.style.transform = 'translateX(40px)'; // Move to EN
+                    slider.style.transform = 'translateX(40px)';
                 } else {
-                    slider.style.transform = 'translateX(0px)';  // Move to ID
+                    slider.style.transform = 'translateX(0px)';
                 }
             }
         });
@@ -826,8 +813,9 @@ function initLanguageToggle() {
 }
 
 /* =============================================
-   DARK MODE TOGGLE LOGIC
+   THEME SWITCHER
    ============================================= */
+
 function initThemeToggle() {
     var toggles = document.querySelectorAll('.theme-toggle-btn');
     if (!toggles.length) return;

@@ -256,14 +256,12 @@
 
                     updatePageTitle();
 
-                    // Listen to language changes
                     document.querySelectorAll('.lang-btn').forEach(btn => {
                         btn.addEventListener('click', () => {
                             setTimeout(updatePageTitle, 100);
                         });
                     });
 
-                    // Check if it is an event we can register for (Pendidikan/Education/Webinar/Event)
                     const category = (activity.category || '').toLowerCase();
                     const categoryId = (activity.category_id || '').toLowerCase();
                     const categoryEn = (activity.category_en || '').toLowerCase();
