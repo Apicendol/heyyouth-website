@@ -70,6 +70,7 @@ function initCertificateSearch() {
     spinner.classList.remove('hidden');
     btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Mencari...' : 'Searching...';
 
+    try {
       let query = supabase.from('certificates').select('*');
       if (activeSearchType === 'email') {
         query = query.ilike('email', queryVal);
