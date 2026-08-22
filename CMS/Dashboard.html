@@ -1823,18 +1823,49 @@
                     var zone = document.getElementById(zoneId);
 
                     if (zone) {
-                        zone.innerHTML = '<div class="py-6 text-center text-gray-400"><i class="fas fa-spinner fa-spin text-2xl mb-2 block"></i><p class="text-xs">Memproses gambar...</p></div>';
+                        zone.innerHTML = '<div class="py-6 text-center text-gray-400"><i class="fas fa-spinner fa-spin text-2xl mb-2 block"></i><p class="text-xs">Mengunggah ke cloud...</p></div>';
                     }
                     compressImage(file, 400, 0.7, function (base64) {
-                        if (targetType === 'qris') {
-                            uploadedQrisImage = base64;
-                            updateUploadPreviewQris(base64);
-                        } else if (targetType === 'speaker') {
-                            uploadedSpeakerImage = base64;
-                            updateUploadPreviewSpeaker(base64);
+                        if (typeof window.uploadToSupabaseStorage === 'function') {
+                            window.uploadToSupabaseStorage(base64)
+                                .then(function(publicUrl) {
+                                    if (targetType === 'qris') {
+                                        uploadedQrisImage = publicUrl;
+                                        updateUploadPreviewQris(publicUrl);
+                                    } else if (targetType === 'speaker') {
+                                        uploadedSpeakerImage = publicUrl;
+                                        updateUploadPreviewSpeaker(publicUrl);
+                                    } else {
+                                        uploadedImage = publicUrl;
+                                        updateUploadPreview(publicUrl);
+                                    }
+                                    showToast('Gambar berhasil diunggah.', 'success');
+                                })
+                                .catch(function(err) {
+                                    console.error(err);
+                                    showToast('Gagal mengunggah ke cloud, menggunakan cache lokal.', 'warning');
+                                    if (targetType === 'qris') {
+                                        uploadedQrisImage = base64;
+                                        updateUploadPreviewQris(base64);
+                                    } else if (targetType === 'speaker') {
+                                        uploadedSpeakerImage = base64;
+                                        updateUploadPreviewSpeaker(base64);
+                                    } else {
+                                        uploadedImage = base64;
+                                        updateUploadPreview(base64);
+                                    }
+                                });
                         } else {
-                            uploadedImage = base64;
-                            updateUploadPreview(base64);
+                            if (targetType === 'qris') {
+                                uploadedQrisImage = base64;
+                                updateUploadPreviewQris(base64);
+                            } else if (targetType === 'speaker') {
+                                uploadedSpeakerImage = base64;
+                                updateUploadPreviewSpeaker(base64);
+                            } else {
+                                uploadedImage = base64;
+                                updateUploadPreview(base64);
+                            }
                         }
                     });
                 };

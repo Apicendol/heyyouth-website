@@ -494,3 +494,37 @@ window.syncFromSupabase = async function() {
 
 // Run initial synchronization in the background
 window.syncFromSupabase();
+
+window.uploadToSupabaseStorage = async function(base64Data, filename) {
+    try {
+        const arr = base64Data.split(',');
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        const blob = new Blob([u8arr], { type: mime });
+        
+        const finalName = filename || `${Date.now()}-${Math.random().toString(36).substring(2, 8)}.webp`;
+        
+        const { data, error } = await supabaseClient.storage
+            .from('media')
+            .upload(finalName, blob, {
+                contentType: mime,
+                upsert: true
+            });
+            
+        if (error) throw error;
+        
+        const { data: urlData } = supabaseClient.storage
+            .from('media')
+            .getPublicUrl(finalName);
+            
+        return urlData.publicUrl;
+    } catch(e) {
+        console.error("Error uploading to Supabase Storage:", e);
+        throw e;
+    }
+};
