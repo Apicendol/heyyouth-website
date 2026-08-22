@@ -38,7 +38,7 @@ function _resolveImgPath(path) {
     }
     var depth = 0;
     var loc = window.location.pathname.toLowerCase();
-    if (loc.indexOf('/landing-page/') !== -1 || loc.indexOf('/cms/') !== -1 || loc.slice(-13) === '/landing-page' || loc.slice(-4) === '/cms') {
+    if (loc.indexOf('/landing-page/') !== -1 || loc.indexOf('/cms/') !== -1 || loc.indexOf('/pages/') !== -1 || loc.slice(-13) === '/landing-page' || loc.slice(-4) === '/cms' || loc.slice(-6) === '/pages') {
         depth = 1;
     }
     return (depth === 1 ? '../assets/' : 'assets/') + cleanPath;
