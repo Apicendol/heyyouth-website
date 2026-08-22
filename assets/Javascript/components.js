@@ -118,20 +118,37 @@
     var navbarContainer = document.getElementById('global-navbar');
     var footerContainer = document.getElementById('global-footer');
 
+    var pathname = window.location.pathname.toLowerCase();
+    var isSubFolder = pathname.includes('/pages/') || pathname.includes('/cms/');
+    var basePath = isSubFolder ? '../' : '';
+
+    var processedNavbar = navbarTemplate
+      .replace(/href="index\.html"/g, 'href="' + basePath + 'index.html"')
+      .replace(/href="about us\.html"/g, 'href="' + basePath + 'pages/about-us.html"')
+      .replace(/href="activities\.html"/g, 'href="' + basePath + 'pages/activities.html"')
+      .replace(/href="mentoring\.html"/g, 'href="' + basePath + 'pages/mentoring.html"')
+      .replace(/href="partner\.html"/g, 'href="' + basePath + 'pages/partner.html"')
+      .replace(/href="donation\.html"/g, 'href="' + basePath + 'pages/donation.html"')
+      .replace(/href="CMS\/Login\.html"/g, 'href="' + basePath + 'CMS/Login.html"')
+      .replace(/src="assets\//g, 'src="' + basePath + 'assets/');
+
+    var processedFooter = footerTemplate
+      .replace(/href="index\.html"/g, 'href="' + basePath + 'index.html"')
+      .replace(/src="assets\//g, 'src="' + basePath + 'assets/');
+
     if (navbarContainer) {
-      navbarContainer.outerHTML = navbarTemplate;
+      navbarContainer.outerHTML = processedNavbar;
     }
     if (footerContainer) {
-      footerContainer.outerHTML = footerTemplate;
+      footerContainer.outerHTML = processedFooter;
     }
 
-    var pathname = window.location.pathname;
     var filename = decodeURIComponent(pathname.split('/').pop().toLowerCase());
 
     var activeId = '';
     if (filename === '' || filename === 'index.html') {
       activeId = 'home';
-    } else if (filename === 'about us.html') {
+    } else if (filename === 'about-us.html' || filename === 'about us.html') {
       activeId = 'about';
     } else if (filename === 'activities.html' || filename === 'activity-detail.html') {
       activeId = 'activities';
