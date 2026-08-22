@@ -333,6 +333,11 @@
                 <i class="fas fa-donate w-5 text-center text-xs"></i>
                 <span>Donation</span>
             </button>
+            <button onclick="switchTab('certificates')" data-tab="certificates"
+                class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
+                <i class="fas fa-certificate w-5 text-center text-xs text-amber-500"></i>
+                <span>Sertifikat</span>
+            </button>
 
         </nav>
         <div class="p-4 border-t border-white/10 space-y-2">
@@ -630,45 +635,7 @@
                             </div>
                         </div>
 
-                        <!-- Certificates List (Menempel di Bawah Registrasi) -->
-                        <div class="border-t border-gray-200 bg-white dark:bg-slate-900 p-6">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 bg-purple-100 dark:bg-purple-950/50 rounded-lg flex items-center justify-center text-purple-600 dark:text-purple-400 text-sm">
-                                        <i class="fas fa-certificate"></i>
-                                    </div>
-                                    <h3 class="font-bold text-heading text-base">Daftar Sertifikat Terbit</h3>
-                                    <span id="count-certificates" class="text-xs bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 px-2 py-0.5 rounded-full font-medium">0</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <button onclick="exportCertificatesToCSV()" class="bg-green-600 hover:bg-green-700 text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
-                                        <i class="fas fa-file-excel"></i> Ekspor CSV
-                                    </button>
-                                    <button onclick="openAddCertificateModal()" class="bg-primary hover:bg-primaryDark text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
-                                        <i class="fas fa-plus text-[10px]"></i> Terbitkan Sertifikat Baru
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-sm text-left">
-                                    <thead class="bg-gray-100 dark:bg-slate-800 border-b border-gray-200 text-heading">
-                                        <tr>
-                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">No. Sertifikat</th>
-                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">Nama</th>
-                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">Email</th>
-                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">Event</th>
-                                            <th class="px-4 py-2.5 text-xs font-bold uppercase">Tanggal Rilis</th>
-                                            <th class="px-4 py-2.5 text-xs font-bold uppercase text-right">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="list-certificates" class="divide-y divide-gray-150">
-                                        <tr>
-                                            <td colspan="6" class="text-center py-6 text-gray-400">Belum ada sertifikat yang diterbitkan.</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <!-- Removed Certificates List -->
                     </div>
                 </div>
 
@@ -848,6 +815,112 @@
                         <p class="text-sm text-gray-500 mb-4">Kelola teks hero, gambar strip, dan detail rekening bank:
                         </p>
                         <div id="preview-donation" class="border border-gray-100 rounded-lg p-4 bg-gray-50"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB: CERTIFICATES ===== -->
+            <div id="view-certificates" class="hidden space-y-6">
+                <!-- Certificate Layout Designer (Redirect Card) -->
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-8 h-8 bg-amber-100 dark:bg-amber-950/50 rounded-lg flex items-center justify-center text-amber-600 dark:text-amber-400 text-sm">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h2 class="text-lg font-bold text-heading">Desainer Layout Sertifikat</h2>
+                    </div>
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6" style="background:var(--bg2, #ffffff); border:1px solid var(--bdr, #e2e8f0); border-radius:12px; display:flex; flex-direction:row; gap:20px; align-items:center; flex-wrap:wrap;">
+                        <div class="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-500 text-3xl" style="background:rgba(200,139,30,0.1); width:64px; height:64px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:var(--ac); font-size:28px; flex-shrink:0; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <div style="flex:1; min-width: 250px;">
+                            <h4 class="font-bold text-heading text-sm mb-1" style="font-weight:700; color:var(--fg); font-size:15px; margin-bottom:4px;">Buka Editor Desain Layar Penuh (Pop-up)</h4>
+                            <p class="text-xs text-gray-500 leading-relaxed" style="font-size:12.5px; color:var(--mt); line-height:1.6; margin:0;">
+                                Kelola template gambar latar sertifikat, posisikan teks dinamis (nama peserta, judul acara, tanggal), atur tanda tangan komite, serta ukuran canvas secara penuh dan leluasa tanpa batasan resolusi layar.
+                            </p>
+                        </div>
+                        <div style="flex-shrink:0;">
+                            <a href="CertificateEditor.html" target="_blank"
+                                class="transition-all shadow-md hover:shadow-lg flex items-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0"
+                                style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; min-height:44px; white-space:nowrap; padding: 12px 20px; border-radius: 8px; background-color: #d97706 !important; color: #ffffff !important; font-weight: 600; font-size: 12px; border: none;">
+                                <i class="fas fa-external-link-alt" style="color: #ffffff !important;"></i> Buka Desainer (Upload Template)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daftar Desain Sertifikat Per Event -->
+                <div class="mt-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-amber-100 dark:bg-amber-950/50 rounded-lg flex items-center justify-center text-amber-600 dark:text-amber-400 text-sm">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <h3 class="font-bold text-heading text-base">Daftar Desain Sertifikat per Event</h3>
+                            <span id="count-certificate-designs" class="text-xs bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-full font-medium">0</span>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-gray-100 dark:bg-slate-800 border-b border-gray-200 dark:border-slate-800 text-heading">
+                                    <tr>
+                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Background</th>
+                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Nama Event / Kegiatan</th>
+                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Jumlah Elemen Layout</th>
+                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Terakhir Diperbarui</th>
+                                        <th class="px-4 py-2.5 text-xs font-bold uppercase text-right">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-certificate-designs" class="divide-y divide-gray-150 dark:divide-slate-800">
+                                    <tr>
+                                        <td colspan="5" class="text-center py-6 text-gray-400 text-xs">Memuat data desain sertifikat...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daftar Sertifikat Terbit -->
+                <div class="mt-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-purple-100 dark:bg-purple-950/50 rounded-lg flex items-center justify-center text-purple-600 dark:text-purple-400 text-sm">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <h3 class="font-bold text-heading text-base">Daftar Sertifikat Terbit</h3>
+                            <span id="count-certificates" class="text-xs bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 px-2 py-0.5 rounded-full font-medium">0</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="exportCertificatesToCSV()" class="bg-green-600 hover:bg-green-700 text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+                                <i class="fas fa-file-excel"></i> Ekspor CSV
+                            </button>
+                            <button onclick="openAddCertificateModal()" class="bg-primary hover:bg-primaryDark text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+                                <i class="fas fa-plus text-[10px]"></i> Terbitkan Sertifikat Baru
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-gray-100 dark:bg-slate-800 border-b border-gray-200 dark:border-slate-800 text-heading">
+                                    <tr>
+                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">No. Sertifikat</th>
+                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Nama</th>
+                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Email</th>
+                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Event</th>
+                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Tanggal Rilis</th>
+                                        <th class="px-4 py-2.5 text-xs font-bold uppercase text-right">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-certificates" class="divide-y divide-gray-150 dark:divide-slate-800">
+                                    <tr>
+                                        <td colspan="6" class="text-center py-6 text-gray-400">Belum ada sertifikat yang diterbitkan.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1346,6 +1419,8 @@
                 if (viewMentoring) viewMentoring.classList.add('hidden');
                 document.getElementById('view-partners').classList.add('hidden');
                 document.getElementById('view-donation').classList.add('hidden');
+                var viewCertificates = document.getElementById('view-certificates');
+                if (viewCertificates) viewCertificates.classList.add('hidden');
 
                 if (tab === 'homepage') {
                     document.getElementById('view-homepage').classList.remove('hidden');
@@ -1376,12 +1451,81 @@
                     document.getElementById('page-title').textContent = 'Donation Page';
                     document.getElementById('page-desc').textContent = 'Kelola konten halaman donasi';
                     renderDonationPreview();
+                } else if (tab === 'certificates') {
+                    if (viewCertificates) viewCertificates.classList.remove('hidden');
+                    document.getElementById('page-title').textContent = 'Sertifikat';
+                    document.getElementById('page-desc').textContent = 'Desain layout e-sertifikat dan kelola log data sertifikat yang terbit';
+                    if (typeof loadAndRenderCertificateDesigns === 'function') loadAndRenderCertificateDesigns();
                 }
 
                 renderAllLists();
                 closeSidebar();
             }
             window.switchTab = switchTab;
+
+            async function loadAndRenderCertificateDesigns() {
+                var tbody = document.getElementById('list-certificate-designs');
+                var countEl = document.getElementById('count-certificate-designs');
+                if (!tbody) return;
+                try {
+                    const { data, error } = await window.supabase
+                        .from('certificate_settings')
+                        .select('*')
+                        .order('updated_at', { ascending: false });
+                        
+                    if (error) throw error;
+                    
+                    if (countEl) countEl.textContent = data ? data.length : 0;
+                    
+                    if (!data || data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="5" class="text-center py-6 text-gray-400">Belum ada desain sertifikat yang disimpan.</td></tr>';
+                        return;
+                    }
+                    
+                    tbody.innerHTML = data.map(function(item) {
+                        var imgHtml = item.template_image 
+                            ? '<img src="' + item.template_image + '" class="w-16 h-10 object-cover rounded border border-gray-200 dark:border-slate-700 shadow-sm">' 
+                            : '<div class="w-16 h-10 bg-gray-100 dark:bg-slate-800 rounded border flex items-center justify-center text-[10px] text-gray-400">No Image</div>';
+                        
+                        var elementCount = item.layout_json ? item.layout_json.length : 0;
+                        var updatedDate = item.updated_at ? new Date(item.updated_at).toLocaleString('id-ID') : '-';
+                        
+                        return '<tr class="hover:bg-gray-55 transition-colors">' +
+                            '<td class="px-4 py-3">' + imgHtml + '</td>' +
+                            '<td class="px-4 py-3 font-semibold text-xs text-heading">' + escapeHtml(item.event_name) + '</td>' +
+                            '<td class="px-4 py-3 text-xs">' + elementCount + ' elemen</td>' +
+                            '<td class="px-4 py-3 text-xs text-gray-500">' + updatedDate + '</td>' +
+                            '<td class="px-4 py-3 text-right text-xs space-x-2">' +
+                            '  <a href="CertificateEditor.html" target="_blank" class="text-amber-600 hover:text-amber-700 font-semibold"><i class="fas fa-edit"></i> Edit</a>' +
+                            '  <button onclick="deleteCertificateDesign(\'' + escapeHtml(item.event_name) + '\')" class="text-red-500 hover:text-red-700 font-semibold"><i class="fas fa-trash-alt"></i> Hapus</button>' +
+                            '</td>' +
+                            '</tr>';
+                    }).join('');
+                } catch(e) {
+                    console.error("Gagal merender daftar desain sertifikat:", e);
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-6 text-red-500">Gagal memuat data.</td></tr>';
+                }
+            }
+            window.loadAndRenderCertificateDesigns = loadAndRenderCertificateDesigns;
+
+            async function deleteCertificateDesign(eventName) {
+                if (eventName === '-- DEFAULT LAYOUT --') {
+                    alert("Layout Default tidak dapat dihapus!");
+                    return;
+                }
+                if (!confirm("Apakah Anda yakin ingin menghapus desain sertifikat untuk event '" + eventName + "'?")) return;
+                try {
+                    const { error } = await window.supabase
+                        .from('certificate_settings')
+                        .delete()
+                        .eq('event_name', eventName);
+                    if (error) throw error;
+                    loadAndRenderCertificateDesigns();
+                } catch(e) {
+                    alert("Gagal menghapus: " + e.message);
+                }
+            }
+            window.deleteCertificateDesign = deleteCertificateDesign;
 
             function renderAllLists() {
                 try {
@@ -1402,6 +1546,7 @@
                     try { updateCounts(data); } catch(e){}
                     try { renderRegistrationsList(); } catch(e){}
                     try { if (typeof loadAndRenderCertificates === 'function') loadAndRenderCertificates(); } catch(e){}
+                    try { loadAndRenderCertificateDesigns(); } catch(e){}
                 } catch(globalErr) {
                     console.error("renderAllLists global error:", globalErr);
                 }

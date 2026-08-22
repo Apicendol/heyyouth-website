@@ -193,8 +193,256 @@ function initCertificateSearch() {
     }
   });
 }
+function rR(ctx,x,y,w,h,r){r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath()}
 
 async function drawCertificate(canvas, cert) {
+  let settings = null;
+  try {
+    const { data } = await supabase.from('certificate_settings').select('*').eq('event_name', cert.eventName).single();
+    settings = data;
+    if (!settings) {
+      const { data: fallbackData } = await supabase.from('certificate_settings').select('*').eq('event_name', '-- DEFAULT LAYOUT --').single();
+      settings = fallbackData;
+    }
+  } catch(e) {
+    console.warn("Fallback to static certificate design:", e);
+  }
+
+  // If a custom cloud layout is saved, render it dynamically
+  if (settings && settings.template_image && settings.layout_json) {
+     const cw = 1123;
+     const ch = 794;
+     const scale = 2; // high-quality export resolution
+     canvas.width = cw * scale;
+     canvas.height = ch * scale;
+     const ctx = canvas.getContext('2d');
+     ctx.scale(scale, scale);
+     ctx.fillStyle = '#ffffff';
+     ctx.fillRect(0, 0, cw, ch);
+
+     // Wait for image background to load
+     await new Promise((resolve) => {
+         const img = new Image();
+         img.crossOrigin = "anonymous";
+         img.onload = () => {
+             ctx.drawImage(img, 0, 0, cw, ch);
+             resolve();
+         };
+         img.onerror = () => {
+             console.error("Gagal memuat template gambar latar sertifikat.");
+             resolve();
+         };
+         img.src = settings.template_image;
+     });
+
+     // Render all elements sequentially
+     const elements = settings.layout_json;
+     const tasks = [];
+     
+     elements.filter(e => e.visible !== false).forEach(el => {
+         tasks.push(new Promise((res) => {
+             // Map data binding roles
+             let textVal = el.text || '';
+             if (el.role === 'recipient') textVal = cert.name;
+             else if (el.role === 'event') textVal = cert.eventName;
+             else if (el.role === 'desc_full') textVal = cert.description;
+             else if (el.role === 'date') textVal = cert.issueDate;
+
+             // Dynamic replacements
+             textVal = textVal.replace(/\[\s*Nama Penerima\s*\]/gi, cert.name)
+                              .replace(/\[\s*Nama Acara\s*\]/gi, cert.eventName)
+                              .replace(/\[\s*Nomor Sertifikat\s*\]/gi, cert.certificateNumber || '')
+                              .replace(/\[\s*Tanggal\s*\]/gi, cert.issueDate);
+
+             if (el.type === 'text') {
+                 ctx.save();
+                 ctx.globalAlpha = el.opacity;
+                 ctx.translate(el.x + el.width/2, el.y + el.height/2);
+                 ctx.rotate((el.rotation || 0) * Math.PI / 180);
+                 ctx.translate(-(el.x + el.width/2), -(el.y + el.height/2));
+                 
+                 let fontStyle = '';
+                 if (el.italic) fontStyle += 'italic ';
+                 if (el.bold) fontStyle += 'bold ';
+                 fontStyle += el.fontSize + 'px ' + el.fontFamily;
+                 
+                 ctx.font = fontStyle;
+                 ctx.fillStyle = el.color;
+                 ctx.textAlign = el.textAlign || 'left';
+                 ctx.textBaseline = 'top';
+                 
+                 if (el.bgColor && el.bgColor !== 'transparent') {
+                     ctx.fillStyle = el.bgColor;
+                     ctx.fillRect(el.x, el.y, el.width, el.height);
+                     ctx.fillStyle = el.color;
+                 }
+                 
+                 const txt = el.uppercase ? textVal.toUpperCase() : textVal;
+                 const lines = txt.split('\n');
+                 let yp = el.y + 4;
+                 const lh = (el.lineHeight || 1.3) * el.fontSize;
+                 const ls = el.letterSpacing || 0;
+                 
+                 lines.forEach(line => {
+                     if (ls === 0) {
+                         ctx.fillText(line, el.x + el.width/2, yp, el.width);
+                     } else {
+                         const mw = ctx.measureText(line).width + ls * Math.max(0, line.length - 1);
+                         let xp;
+                         if (ctx.textAlign === 'center') xp = el.x + el.width/2 - mw/2;
+                         else if (ctx.textAlign === 'right') xp = el.x + el.width - mw;
+                         else xp = el.x;
+                         
+                         ctx.textAlign = 'left';
+                         for (const char of line) {
+                             ctx.fillText(char, xp, yp);
+                             xp += ctx.measureText(char).width + ls;
+                         }
+                     }
+                     yp += lh;
+                 });
+                 
+                 if (el.underline) {
+                     ctx.strokeStyle = el.color;
+                     ctx.lineWidth = Math.max(1, el.fontSize / 16);
+                     ctx.beginPath();
+                     ctx.moveTo(el.x + 8, yp);
+                     ctx.lineTo(el.x + el.width - 8, yp);
+                     ctx.stroke();
+                 }
+                 ctx.restore();
+                 res();
+             } else if (el.type === 'image') {
+                 const i = new Image();
+                 i.crossOrigin = "anonymous";
+                 i.onload = () => {
+                     ctx.save();
+                     ctx.globalAlpha = el.opacity;
+                     ctx.translate(el.x + el.width/2, el.y + el.height/2);
+                     ctx.rotate((el.rotation || 0) * Math.PI / 180);
+                     ctx.translate(-(el.x + el.width/2), -(el.y + el.height/2));
+                     
+                     if (el.borderRadius > 0) {
+                         rR(ctx, el.x, el.y, el.width, el.height, el.borderRadius);
+                         ctx.clip();
+                     }
+                     if (el.borderWidth > 0) {
+                         ctx.strokeStyle = el.borderColor;
+                         ctx.lineWidth = el.borderWidth;
+                         rR(ctx, el.x, el.y, el.width, el.height, el.borderRadius);
+                         ctx.stroke();
+                     }
+                     ctx.drawImage(i, el.x, el.y, el.width, el.height);
+                     ctx.restore();
+                     res();
+                 };
+                 i.onerror = res;
+                 i.src = el.src;
+             } else if (el.type === 'shape') {
+                 ctx.save();
+                 ctx.globalAlpha = el.opacity;
+                 ctx.translate(el.x + el.width/2, el.y + el.height/2);
+                 ctx.rotate((el.rotation || 0) * Math.PI / 180);
+                 ctx.translate(-(el.x + el.width/2), -(el.y + el.height/2));
+                 ctx.fillStyle = el.color;
+                 const s = el.shapeType || 'rectangle';
+                 
+                 if (s === 'circle') {
+                     ctx.beginPath();
+                     ctx.ellipse(el.x + el.width/2, el.y + el.height/2, el.width/2, el.height/2, 0, 0, Math.PI * 2);
+                     ctx.fill();
+                     if (el.borderWidth > 0) {
+                         ctx.strokeStyle = el.borderColor;
+                         ctx.lineWidth = el.borderWidth;
+                         ctx.stroke();
+                     }
+                 } else if (s === 'diamond') {
+                     ctx.beginPath();
+                     ctx.moveTo(el.x + el.width/2, el.y);
+                     ctx.lineTo(el.x + el.width, el.y + el.height/2);
+                     ctx.lineTo(el.x + el.width/2, el.y + el.height);
+                     ctx.lineTo(el.x, el.y + el.height/2);
+                     ctx.closePath();
+                     ctx.fill();
+                     if (el.borderWidth > 0) {
+                         ctx.strokeStyle = el.borderColor;
+                         ctx.lineWidth = el.borderWidth;
+                         ctx.stroke();
+                     }
+                 } else if (s === 'triangle') {
+                     ctx.beginPath();
+                     ctx.moveTo(el.x + el.width/2, el.y);
+                     ctx.lineTo(el.x + el.width, el.y + el.height);
+                     ctx.lineTo(el.x, el.y + el.height);
+                     ctx.closePath();
+                     ctx.fill();
+                     if (el.borderWidth > 0) {
+                         ctx.strokeStyle = el.borderColor;
+                         ctx.lineWidth = el.borderWidth;
+                         ctx.stroke();
+                     }
+                 } else {
+                     if (el.borderRadius > 0) {
+                         rR(ctx, el.x, el.y, el.width, el.height, el.borderRadius);
+                         ctx.fill();
+                         if (el.borderWidth > 0) {
+                             ctx.strokeStyle = el.borderColor;
+                             ctx.lineWidth = el.borderWidth;
+                             ctx.stroke();
+                         }
+                     } else {
+                         ctx.fillRect(el.x, el.y, el.width, el.height);
+                         if (el.borderWidth > 0) {
+                             ctx.strokeStyle = el.borderColor;
+                             ctx.lineWidth = el.borderWidth;
+                             ctx.strokeRect(el.x, el.y, el.width, el.height);
+                         }
+                     }
+                 }
+                 ctx.restore();
+                 res();
+             } else if (el.type === 'line') {
+                 ctx.save();
+                 ctx.globalAlpha = el.opacity;
+                 ctx.translate(el.x + el.width/2, el.y);
+                 ctx.rotate((el.rotation || 0) * Math.PI / 180);
+                 ctx.translate(-(el.x + el.width/2), -el.y);
+                 ctx.strokeStyle = el.color;
+                 const lw = el.lineWidth || 2, ls = el.lineStyle || 'solid';
+                 
+                 if (ls === 'double') {
+                     ctx.lineWidth = Math.max(1, lw/2);
+                     ctx.beginPath();
+                     ctx.moveTo(el.x, el.y - 2);
+                     ctx.lineTo(el.x + el.width, el.y - 2);
+                     ctx.stroke();
+                     ctx.beginPath();
+                     ctx.moveTo(el.x, el.y + 2);
+                     ctx.lineTo(el.x + el.width, el.y + 2);
+                     ctx.stroke();
+                 } else {
+                     if (ls === 'dashed') ctx.setLineDash([10, 6]);
+                     else if (ls === 'dotted') ctx.setLineDash([3, 4]);
+                     else ctx.setLineDash([]);
+                     ctx.lineWidth = lw;
+                     ctx.beginPath();
+                     ctx.moveTo(el.x, el.y);
+                     ctx.lineTo(el.x + el.width, el.y);
+                     ctx.stroke();
+                 }
+                 ctx.restore();
+                 res();
+             } else {
+                 res();
+             }
+         }));
+     });
+     
+     await Promise.all(tasks);
+     return;
+  }
+
+  // Fallback to legacy static drawing route
   var layout = {
     nameX: 400, nameY: 290,
     descX: 400, descY: 345,
@@ -218,6 +466,7 @@ async function drawCertificate(canvas, cert) {
   }
 
   const img = new Image();
+  img.crossOrigin = "anonymous";
   img.onload = function () {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -313,14 +562,18 @@ async function drawCertificate(canvas, cert) {
 window.downloadCertificatePDF = function () {
   if (!currentCertificate) return;
   const { jsPDF } = window.jspdf;
+  const canvas = document.getElementById('cert-canvas');
+  // Determine scale factor based on canvas resolution to match pixel layout to paper size
+  const scale = canvas.width > 2000 ? 2 : 3;
+  const w = canvas.width / scale;
+  const h = canvas.height / scale;
   const pdf = new jsPDF({
     orientation: 'landscape',
     unit: 'px',
-    format: [800, 565]
+    format: [w, h]
   });
-  const canvas = document.getElementById('cert-canvas');
   const imgData = canvas.toDataURL('image/jpeg', 1.0);
-  pdf.addImage(imgData, 'JPEG', 0, 0, 800, 565);
+  pdf.addImage(imgData, 'JPEG', 0, 0, w, h);
   pdf.save('Certificate-' + currentCertificate.name.replace(/\s+/g, '_') + '.pdf');
 };
 

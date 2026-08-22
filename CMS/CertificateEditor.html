@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Layout Editor | Hey Youth!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Sans+3:wght@300;400;600;700&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Cinzel:wght@400;700;900&family=Lora:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root, body.dark-mode {
+            --bg: #0b0d13;
+            --bg2: #111420;
+            --card: #181c2a;
+            --bdr: #252a3c;
+            --fg: #e2e3e8;
+            --mt: #8a8f9f;
+            --ac: #c88b1e;
+            --ac2: #e0a530;
+            --dn: #d93a52;
+            --ok: #28b864;
+            --cv-bg: #0d0f16;
+        }
+        body.light-mode {
+            --bg: #f8fafc;
+            --bg2: #ffffff;
+            --card: #ffffff;
+            --bdr: #e2e8f0;
+            --fg: #0f172a;
+            --mt: #64748b;
+            --ac: #c88b1e;
+            --ac2: #e0a530;
+            --dn: #d93a52;
+            --ok: #28b864;
+            --cv-bg: #e2e8f0;
+        }
+        
+        /* Language Visibility Rules */
+        body[data-lang="id"] .lang-en { display: none !important; }
+        body[data-lang="en"] .lang-id { display: none !important; }
+
+        body.light-mode .cv-area {
+            background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,.05) 1px, transparent 0);
+        }
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--fg);overflow:hidden;height:100vh;transition: background-color 0.25s, color 0.25s;}
+        ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:10px}
+        .cv-area{background:var(--cv-bg);background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.02) 1px,transparent 0);background-size:20px 20px;transition: background-color 0.25s;}
+        .cel{position:absolute;cursor:move;user-select:none;z-index:1;outline:2px solid transparent;transition:outline-color .1s}
+        .cel:hover{outline-color:rgba(200,139,30,.3)}
+        .cel.sel{outline-color:var(--ac);outline-offset:1px;z-index:50}
+        .rh{position:absolute;width:10px;height:10px;background:var(--ac);border:2px solid var(--bg2);border-radius:2px;z-index:60;display:none}
+        .cel.sel .rh{display:block}
+        .rh.nw{top:-5px;left:-5px;cursor:nw-resize}.rh.ne{top:-5px;right:-5px;cursor:ne-resize}
+        .rh.sw{bottom:-5px;left:-5px;cursor:sw-resize}.rh.se{bottom:-5px;right:-5px;cursor:se-resize}
+        .rh.n{top:-5px;left:50%;transform:translateX(-50%);cursor:n-resize}
+        .rh.s{bottom:-5px;left:50%;transform:translateX(-50%);cursor:s-resize}
+        .rh.e{right:-5px;top:50%;transform:translateY(-50%);cursor:e-resize}
+        .rh.w{left:-5px;top:50%;transform:translateY(-50%);cursor:w-resize}
+        .ie{outline:none;background:rgba(200,139,30,.07);border:1px dashed var(--ac);border-radius:3px;padding:2px 4px;min-width:40px;cursor:text}
+        .tb{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;background:var(--card);border:1px solid var(--bdr);color:var(--fg);font-size:12px;cursor:pointer;transition:all .2s ease;white-space:nowrap;font-family:inherit}
+        .tb:hover{background:var(--bdr);border-color:var(--mt);transform: translateY(-1px);}
+        .tb:active{transform: translateY(0);}
+        .tb.gd{background:var(--ac);color:#0b0d13;border-color:var(--ac);font-weight:700}.tb.gd:hover{background:var(--ac2);box-shadow: 0 4px 12px rgba(200,139,30,0.2);}
+        .tb.rd:hover{background:rgba(217,58,82,.1);border-color:var(--dn);color:var(--dn)}
+        .sp{width:1px;height:22px;background:var(--bdr);margin:0 1px;flex-shrink:0}
+        .ps{border-bottom:1px solid var(--bdr);padding:12px 14px}
+        .pl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--mt);margin-bottom:8px}
+        .pi{width:100%;padding:6px 10px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;color:var(--fg);font-size:12px;outline:none;transition:border-color .15s, box-shadow .15s;font-family:inherit}
+        .pi:focus{border-color:var(--ac);box-shadow: 0 0 0 2px rgba(200,139,30,0.15)}
+        .pr{display:flex;gap:6px;margin-bottom:6px;align-items:center}
+        .pr label{font-size:11px;color:var(--mt);min-width:22px}
+        .pr .pi{flex:1}
+        .psel{width:100%;padding:6px 10px;background:var(--bg);border:1px solid var(--bdr);border-radius:6px;color:var(--fg);font-size:12px;outline:none;cursor:pointer;font-family:inherit;transition: border-color .15s;}
+        .psel:focus{border-color:var(--ac)}
+        input[type="color"]{-webkit-appearance:none;appearance:none;border:1px solid var(--bdr);border-radius:6px;width:34px;height:30px;cursor:pointer;padding:2px;background:var(--bg);transition: border-color .15s;}
+        input[type="color"]::-webkit-color-swatch-wrapper{padding:2px}input[type="color"]::-webkit-color-swatch{border:none;border-radius:4px}
+        input[type="range"]{-webkit-appearance:none;appearance:none;background:var(--bdr);height:3px;border-radius:2px;outline:none;flex:1}
+        input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--ac);cursor:pointer;border:2px solid var(--bg2)}
+        .ab{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;background:var(--bg);border:1px solid var(--bdr);color:var(--mt);cursor:pointer;font-size:10px;transition:all .15s}
+        .ab:hover{color:var(--fg);border-color:var(--mt);transform: translateY(-1px);}
+        .ab.on{color:var(--ac);border-color:var(--ac);background:rgba(200,139,30,.08)}
+        .upz{border:2px dashed var(--bdr);border-radius:14px;padding:50px 30px;text-align:center;cursor:pointer;transition:all .3s}
+        .upz:hover,.upz.ov{border-color:var(--ac);background:rgba(200,139,30,.03)}
+        .ly{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:12px;transition:all .15s}
+        .ly:hover{background:rgba(255,255,255,.025)}.ly.ac{background:rgba(200,139,30,.09);color:var(--ac)}
+        .ly i{font-size:9px;width:13px;text-align:center}
+        .ly .vb{margin-left:auto;opacity:0;font-size:9px;color:var(--mt);cursor:pointer;padding:2px;transition: opacity .15s;}.ly:hover .vb{opacity:1}
+        .tm{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(70px);padding:10px 20px;border-radius:8px;font-size:12.5px;font-weight:600;z-index:9999;opacity:0;transition:all .3s cubic-bezier(.16,1,.3,1);pointer-events:none}
+        .tm.show{transform:translateX(-50%) translateY(0);opacity:1}.tm.ok{background:var(--ok);color:#0b0d13}.tm.er{background:var(--dn);color:#fff}.tm.wr{background:var(--ac);color:#0b0d13}
+        .mo{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center}
+        .mo.show{display:flex}
+        .mb{background:var(--card);border:1px solid var(--bdr);border-radius:13px;padding:24px;max-width:430px;width:92%;animation:mi .22s ease}
+        @keyframes mi{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+        #cv{position:relative;overflow:hidden;box-shadow:0 10px 50px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.03);background:#fff}
+        .es{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;color:var(--mt);text-align:center;gap:6px}
+        .es i{font-size:24px;opacity:.3}
+        .zb{background:var(--card);border:1px solid var(--bdr);padding:2px 9px;border-radius:5px;font-size:11px;color:var(--mt);font-weight:600}
+        .hb{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(200,139,30,.95);color:#0b0d13;padding:9px 22px;border-radius:9px;font-size:12px;font-weight:600;z-index:100;box-shadow:0 3px 18px rgba(200,139,30,0.3);animation:hp 2s ease infinite;cursor:pointer;white-space:nowrap}
+        @keyframes hp{0%,100%{box-shadow:0 3px 18px rgba(200,139,30,.3)}50%{box-shadow:0 3px 28px rgba(200,139,30,.5)}}
+        .ci{position:absolute;top:7px;right:10px;background:rgba(0,0,0,.45);backdrop-filter:blur(5px);padding:3px 9px;border-radius:5px;font-size:10px;color:rgba(255,255,255,.45);z-index:80;pointer-events:none}
+        .tag{display:inline-block;padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-left:6px}
+        .tag.logo{background:rgba(40,184,100,.15);color:var(--ok)}.tag.nama{background:rgba(200,139,30,.15);color:var(--ac)}
+        .tag.judul{background:rgba(100,140,255,.15);color:#7aa0ff}.tag.sub{background:rgba(180,100,220,.15);color:#c090e0}
+        .tag.desc{background:rgba(100,200,180,.15);color:#70c8b0}.tag.tgl{background:rgba(220,160,60,.15);color:#dca840}
+        .tag.ttd{background:rgba(220,100,100,.15);color:#e08080}.tag.jab{background:rgba(140,160,180,.15);color:#a0b0c0}
+    </style>
+</head>
+<body>
+<!-- Loader Overlay -->
+<div id="loader-overlay" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex flex-col items-center justify-center z-[9999]">
+    <i class="fas fa-certificate fa-spin text-accent text-5xl mb-4"></i>
+    <p class="text-slate-300 font-bold" id="loader-text">Menghubungkan ke database...</p>
+</div>
+
+<div id="toast" class="tm"></div>
+
+<header style="background:var(--bg2);border-bottom:1px solid var(--bdr);height:48px" class="flex items-center px-3 gap-2">
+    <div class="flex items-center gap-2 mr-1">
+        <button onclick="window.close()" class="text-gray-400 hover:text-white mr-1 text-sm transition-colors"><i class="fas fa-arrow-left"></i></button>
+        <div style="background:var(--ac);width:24px;height:24px;border-radius:5px" class="flex items-center justify-center"><i class="fas fa-certificate" style="color:var(--bg);font-size:11px"></i></div>
+        <span class="font-bold text-sm hidden sm:inline">Certificate Layout Editor</span>
+    </div>
+    <div class="sp"></div>
+    <button class="tb" onclick="document.getElementById('fIn').click()">
+        <i class="fas fa-cloud-upload-alt"></i> 
+        <span class="lang-id">Upload Template</span><span class="lang-en">Upload Template</span>
+    </button>
+    <input type="file" id="fIn" accept="image/*" style="display:none" onchange="hUp(event)">
+    <div class="sp"></div>
+    <button class="tb" onclick="addE('text')">
+        <i class="fas fa-font"></i> 
+        <span class="lang-id">Teks</span><span class="lang-en">Text</span>
+    </button>
+    <button class="tb" onclick="addE('image')">
+        <i class="fas fa-image"></i> 
+        <span class="lang-id">Gambar</span><span class="lang-en">Image</span>
+    </button>
+    <button class="tb" onclick="addE('shape')">
+        <i class="fas fa-shapes"></i> 
+        <span class="lang-id">Bentuk</span><span class="lang-en">Shape</span>
+    </button>
+    <button class="tb" onclick="addE('line')">
+        <i class="fas fa-minus"></i> 
+        <span class="lang-id">Garis</span><span class="lang-en">Line</span>
+    </button>
+    <div class="sp"></div>
+    <button class="tb" onclick="doZ(-.1)" style="padding:6px 8px"><i class="fas fa-search-minus"></i></button>
+    <span class="zb" id="zB">100%</span>
+    <button class="tb" onclick="doZ(.1)" style="padding:6px 8px"><i class="fas fa-search-plus"></i></button>
+    <div class="sp"></div>
+    <div class="flex items-center gap-1.5">
+        <select id="event-selector" class="psel font-semibold text-xs" style="width: 200px; padding: 4px 8px;" onchange="loadEventLayout(this.value)">
+            <option value="-- DEFAULT LAYOUT --">-- Layout Default --</option>
+        </select>
+    </div>
+    <div class="sp"></div>
+    <button class="tb" onclick="toggleTheme()" id="theme-btn"><i class="fas fa-sun"></i></button>
+    <button class="tb" onclick="toggleLanguage()" id="lang-btn"><i class="fas fa-globe"></i> ID</button>
+    
+    <div class="flex-1"></div>
+    <button class="tb" onclick="openM('exM')">
+        <i class="fas fa-download"></i> 
+        <span class="lang-id">Ekspor</span><span class="lang-en">Export</span>
+    </button>
+    <button class="tb gd" id="save-btn" onclick="saveToSupabase()">
+        <i class="fas fa-save"></i> 
+        <span class="lang-id">Simpan</span><span class="lang-en">Save</span>
+    </button>
+</header>
+
+<div class="flex" style="height:calc(100vh - 48px)">
+    <!-- LAYERS -->
+    <aside style="width:220px;background:var(--bg2);border-right:1px solid var(--bdr)" class="flex flex-col overflow-hidden">
+        <div class="ps flex-1 overflow-hidden flex flex-col">
+            <div class="pl"><span class="lang-id">Layer Elemen</span><span class="lang-en">Element Layers</span></div>
+            <div id="lL" class="flex flex-col gap-1 overflow-y-auto flex-1"></div>
+        </div>
+        <div class="ps" style="border-bottom:none">
+            <div class="pl"><span class="lang-id">Ukuran Canvas</span><span class="lang-en">Canvas Size</span></div>
+            <div class="pr">
+                <label>W</label><input type="number" class="pi" id="cW" value="1123" onchange="rsCv()">
+                <label>H</label><input type="number" class="pi" id="cH" value="794" onchange="rsCv()">
+            </div>
+        </div>
+    </aside>
+
+    <!-- CANVAS -->
+    <main class="flex-1 cv-area flex items-center justify-center overflow-auto" id="cvC" onclick="dsel(event)">
+        <div id="cv" style="width:1123px;height:794px;transform-origin:center center;position:relative">
+            <div id="upZ" class="upz" style="position:absolute;inset:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:0"
+                 onclick="event.stopPropagation();document.getElementById('fIn').click()"
+                 ondragover="event.preventDefault();this.classList.add('ov')"
+                 ondragleave="this.classList.remove('ov')"
+                 ondrop="event.preventDefault();this.classList.remove('ov');hDrop(event)">
+                <i class="fas fa-cloud-upload-alt animate-bounce" style="font-size:42px;color:var(--mt)"></i>
+                <div style="font-size:16px;font-weight:700;color:var(--fg)">
+                    <span class="lang-id">Unggah Template Sertifikat</span><span class="lang-en">Upload Certificate Template</span>
+                </div>
+                <div style="font-size:12.5px;color:var(--mt);max-width:330px">
+                    <span class="lang-id">Seret gambar ke sini atau klik untuk pilih file. Semua elemen teks &amp; logo akan otomatis dibuat dan siap diedit.</span>
+                    <span class="lang-en">Drag an image here or click to select a file. Text and logo elements will be auto-generated and ready for editing.</span>
+                </div>
+                <div style="font-size:10.5px;color:var(--mt);margin-top:3px">JPG, PNG, SVG, WebP</div>
+            </div>
+            <div class="ci" id="cvI" style="display:none">1123 × 794 px</div>
+        </div>
+    </main>
+
+    <!-- PROPERTIES -->
+    <aside style="width:268px;background:var(--bg2);border-left:1px solid var(--bdr)" class="overflow-y-auto" id="pP">
+        <div id="pE" class="es">
+            <i class="fas fa-mouse-pointer"></i>
+            <div style="font-size:12.5px">
+                <span class="lang-id">Pilih elemen untuk mengedit</span><span class="lang-en">Select an element to edit</span>
+            </div>
+            <div style="font-size:10.5px">
+                <span class="lang-id">Klik elemen di canvas atau layer</span><span class="lang-en">Click an element on the canvas or layer</span>
+            </div>
+        </div>
+        
+        <div id="pB" style="display:none">
+            <div class="ps">
+                <div class="flex items-center gap-2 mb-2">
+                    <i id="pIc" class="fas fa-font" style="color:var(--ac);font-size:11px"></i>
+                    <input type="text" class="pi" id="pNm" style="font-weight:600" onchange="sP('name',this.value)">
+                    <span id="pTag" class="tag judul">JUDUL</span>
+                </div>
+                <div class="pl"><span class="lang-id">Role Data Binding (Supabase)</span><span class="lang-en">Role Data Binding (Supabase)</span></div>
+                <select class="psel mb-4" id="pRole" onchange="sP('role',this.value); rL(); rP();">
+                    <option value="custom">-- Tidak ada (Teks/Gambar Biasa) --</option>
+                    <option value="recipient">Nama Penerima ([Nama Penerima])</option>
+                    <option value="event">Nama Event/Kegiatan ([Nama Acara])</option>
+                    <option value="title">Judul Sertifikat</option>
+                    <option value="subtitle">Sub-judul Sertifikat</option>
+                    <option value="desc_full">Deskripsi Lengkap / Keterangan Kelulusan</option>
+                    <option value="date">Tanggal Rilis</option>
+                    <option value="logo">Logo Acara</option>
+                    <option value="sig1_name">Nama Penandatangan 1</option>
+                    <option value="sig1_title">Jabatan Penandatangan 1</option>
+                    <option value="sig2_name">Nama Penandatangan 2</option>
+                    <option value="sig2_title">Jabatan Penandatangan 2</option>
+                    <option value="deco">Garis / Dekorasi</option>
+                </select>
+                <div class="pl"><span class="lang-id">Posisi</span><span class="lang-en">Position</span></div>
+                <div class="pr"><label>X</label><input type="number" class="pi" id="pX" onchange="sP('x',+this.value)"><label>Y</label><input type="number" class="pi" id="pY" onchange="sP('y',+this.value)"></div>
+                <div class="pl"><span class="lang-id">Ukuran</span><span class="lang-en">Size</span></div>
+                <div class="pr"><label>W</label><input type="number" class="pi" id="pW" onchange="sP('width',Math.max(10,+this.value))"><label>H</label><input type="number" class="pi" id="pH" onchange="sP('height',Math.max(10,+this.value))"></div>
+                <div class="pl">Transform</div>
+                <div class="pr"><label><i class="fas fa-redo" style="font-size:8px"></i></label><input type="range" min="0" max="360" value="0" id="pRt" oninput="sP('rotation',+this.value);document.getElementById('rv').textContent=this.value+'°'"><span id="rv" style="font-size:10.5px;color:var(--mt);min-width:30px;text-align:right">0°</span></div>
+                <div class="pr"><label><i class="fas fa-eye" style="font-size:8px"></i></label><input type="range" min="0" max="100" value="100" id="pOp" oninput="sP('opacity',this.value/100);document.getElementById('ovv').textContent=this.value+'%'"><span id="ovv" style="font-size:10.5px;color:var(--mt);min-width:30px;text-align:right">100%</span></div>
+            </div>
+            
+            <div class="ps">
+                <div class="pl"><span class="lang-id">Perataan</span><span class="lang-en">Alignment</span></div>
+                <div class="flex gap-2 flex-wrap">
+                    <button class="ab" onclick="alE('left')" title="Kiri"><i class="fas fa-align-left"></i></button>
+                    <button class="ab" onclick="alE('centerH')" title="Tengah H"><i class="fas fa-align-center"></i></button>
+                    <button class="ab" onclick="alE('right')" title="Kanan"><i class="fas fa-align-right"></i></button>
+                    <button class="ab" onclick="alE('top')" title="Atas"><i class="fas fa-arrow-up"></i></button>
+                    <button class="ab" onclick="alE('centerV')" title="Tengah V"><i class="fas fa-arrows-alt-v"></i></button>
+                    <button class="ab" onclick="alE('bottom')" title="Bawah"><i class="fas fa-arrow-down"></i></button>
+                </div>
+            </div>
+            
+            <!-- TEXT -->
+            <div id="txP" style="display:none">
+                <div class="ps">
+                    <div class="pl"><span class="lang-id">Konten Teks</span><span class="lang-en">Text Content</span></div>
+                    <textarea class="pi" id="pTx" rows="3" style="resize:vertical;margin-bottom:6px" oninput="sP('text',this.value)"></textarea>
+                    <div style="font-size:10px;color:var(--mt);margin-bottom:8px">
+                        <i class="fas fa-info-circle"></i> 
+                        <span class="lang-id">Double-klik elemen di canvas untuk edit langsung</span>
+                        <span class="lang-en">Double-click element on canvas to edit directly</span>
+                    </div>
+                    <div class="pr"><label style="min-width:32px">Font</label>
+                        <select class="psel" id="pFn" onchange="sP('fontFamily',this.value)">
+                            <option value="'Playfair Display', serif">Playfair Display</option>
+                            <option value="'Cinzel', serif">Cinzel</option>
+                            <option value="'Lora', serif">Lora</option>
+                            <option value="'Poppins', sans-serif">Poppins</option>
+                            <option value="'Dancing Script', cursive">Dancing Script</option>
+                            <option value="'Great Vibes', cursive">Great Vibes</option>
+                            <option value="'Sacramento', cursive">Sacramento</option>
+                            <option value="'Source Sans 3', sans-serif">Source Sans 3</option>
+                            <option value="Georgia, serif">Georgia</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                            <option value="Arial, sans-serif">Arial</option>
+                        </select>
+                    </div>
+                    <div class="pr">
+                        <label style="min-width:32px"><span class="lang-id">Ukuran</span><span class="lang-en">Size</span></label>
+                        <input type="number" class="pi" id="pFS" min="6" max="300" onchange="sP('fontSize',Math.max(6,+this.value))"><label style="min-width:14px">px</label>
+                    </div>
+                    <div class="pr">
+                        <label style="min-width:32px"><span class="lang-id">Warna</span><span class="lang-en">Color</span></label>
+                        <input type="color" id="pCl" value="#1a1a2e" onchange="sP('color',this.value)">
+                        <label style="min-width:18px;margin-left:5px">Bg</label>
+                        <input type="color" id="pBg" value="#ffffff" onchange="sP('bgColor',this.value)">
+                        <button class="ab" style="margin-left:2px" onclick="sP('bgColor','transparent');document.getElementById('pBg').value='#ffffff'" title="Hapus bg"><i class="fas fa-ban" style="font-size:8px"></i></button>
+                    </div>
+                    <div class="pl" style="margin-top:6px"><span class="lang-id">Gaya</span><span class="lang-en">Style</span></div>
+                    <div class="flex gap-2 flex-wrap">
+                        <button class="ab" id="bB" onclick="tS('bold')"><i class="fas fa-bold"></i></button>
+                        <button class="ab" id="bI" onclick="tS('italic')"><i class="fas fa-italic"></i></button>
+                        <button class="ab" id="bU" onclick="tS('underline')"><i class="fas fa-underline"></i></button>
+                        <button class="ab" id="bUp" onclick="tS('uppercase')"><i class="fas fa-text-height" style="font-size:8px"></i></button>
+                    </div>
+                    <div class="pl" style="margin-top:8px"><span class="lang-id">Align Teks</span><span class="lang-en">Text Align</span></div>
+                    <div class="flex gap-2">
+                        <button class="ab" id="bAL" onclick="sP('textAlign','left')"><i class="fas fa-align-left"></i></button>
+                        <button class="ab" id="bAC" onclick="sP('textAlign','center')"><i class="fas fa-align-center"></i></button>
+                        <button class="ab" id="bAR" onclick="sP('textAlign','right')"><i class="fas fa-align-right"></i></button>
+                        <button class="ab" id="bAJ" onclick="sP('textAlign','justify')"><i class="fas fa-align-justify"></i></button>
+                    </div>
+                    <div class="pl" style="margin-top:8px"><span class="lang-id">Spasi</span><span class="lang-en">Spacing</span></div>
+                    <div class="pr"><label style="min-width:32px"><span class="lang-id">Baris</span><span class="lang-en">Line</span></label><input type="range" min="50" max="300" value="130" id="pLH" oninput="sP('lineHeight',this.value/100);document.getElementById('lhv').textContent=(this.value/100).toFixed(1)"><span id="lhv" style="font-size:10.5px;color:var(--mt);min-width:24px;text-align:right">1.3</span></div>
+                    <div class="pr"><label style="min-width:32px"><span class="lang-id">Huruf</span><span class="lang-en">Letter</span></label><input type="range" min="-5" max="25" value="0" id="pLS" oninput="sP('letterSpacing',+this.value);document.getElementById('lsv').textContent=this.value+'px'"><span id="lsv" style="font-size:10.5px;color:var(--mt);min-width:30px;text-align:right">0px</span></div>
+                </div>
+            </div>
+            
+            <!-- SHAPE -->
+            <div id="shP" style="display:none"><div class="ps">
+                <div class="pl"><span class="lang-id">Bentuk</span><span class="lang-en">Shape</span></div>
+                <div class="pr">
+                    <label style="min-width:32px"><span class="lang-id">Tipe</span><span class="lang-en">Type</span></label>
+                    <select class="psel" id="pST" onchange="sP('shapeType',this.value);rE()">
+                        <option value="rectangle"><span class="lang-id">Persegi</span><span class="lang-en">Rectangle</span></option>
+                        <option value="circle"><span class="lang-id">Lingkaran</span><span class="lang-en">Circle</span></option>
+                        <option value="diamond"><span class="lang-id">Berlian</span><span class="lang-en">Diamond</span></option>
+                        <option value="triangle"><span class="lang-id">Segitiga</span><span class="lang-en">Triangle</span></option>
+                    </select>
+                </div>
+                <div class="pr"><label style="min-width:32px"><span class="lang-id">Warna</span><span class="lang-en">Color</span></label><input type="color" id="pSC" value="#c88b1e" onchange="sP('color',this.value)"></div>
+                <div class="pr"><label style="min-width:32px">Border</label><input type="number" class="pi" id="pSBW" min="0" max="20" style="width:50px;flex:none" onchange="sP('borderWidth',Math.max(0,+this.value))"><input type="color" id="pSBC" value="#000" onchange="sP('borderColor',this.value)"></div>
+                <div class="pr"><label style="min-width:32px">Radius</label><input type="range" min="0" max="100" value="0" id="pSBR" oninput="sP('borderRadius',+this.value);document.getElementById('brv').textContent=this.value+'px'"><span id="brv" style="font-size:10.5px;color:var(--mt);min-width:30px;text-align:right">0px</span></div>
+            </div></div>
+            
+            <!-- LINE -->
+            <div id="lnP" style="display:none"><div class="ps">
+                <div class="pl"><span class="lang-id">Garis</span><span class="lang-en">Line</span></div>
+                <div class="pr"><label style="min-width:32px"><span class="lang-id">Warna</span><span class="lang-en">Color</span></label><input type="color" id="pLC" value="#1a1a2e" onchange="sP('color',this.value)"></div>
+                <div class="pr"><label style="min-width:32px"><span class="lang-id">Tebal</span><span class="lang-en">Width</span></label><input type="number" class="pi" id="pLW" min="1" max="30" onchange="sP('lineWidth',Math.max(1,+this.value))"></div>
+                <div class="pr">
+                    <label style="min-width:32px"><span class="lang-id">Gaya</span><span class="lang-en">Style</span></label>
+                    <select class="psel" id="pLS2" onchange="sP('lineStyle',this.value)">
+                        <option value="solid">Solid</option>
+                        <option value="dashed">Dashed</option>
+                        <option value="dotted">Dotted</option>
+                        <option value="double">Double</option>
+                    </select>
+                </div>
+            </div></div>
+            
+            <!-- IMAGE -->
+            <div id="imP" style="display:none"><div class="ps">
+                <div class="pl"><span class="lang-id">Gambar / Logo</span><span class="lang-en">Image / Logo</span></div>
+                <button class="tb" style="width:100%;justify-content:center;margin-bottom:8px" onclick="chgImg()">
+                    <i class="fas fa-exchange-alt"></i> 
+                    <span class="lang-id">Ganti Gambar</span><span class="lang-en">Replace Image</span>
+                </button>
+                <div class="pr"><label style="min-width:32px">Radius</label><input type="range" min="0" max="200" value="0" id="pIR" oninput="sP('borderRadius',+this.value);document.getElementById('irv').textContent=this.value+'px'"><span id="irv" style="font-size:10.5px;color:var(--mt);min-width:30px;text-align:right">0px</span></div>
+                <div class="pr"><label style="min-width:32px">Border</label><input type="number" class="pi" id="pIBW" min="0" max="20" style="width:50px;flex:none" onchange="sP('borderWidth',Math.max(0,+this.value))"><input type="color" id="pIBC" value="#000" onchange="sP('borderColor',this.value)"></div>
+            </div></div>
+            
+            <!-- ACTIONS -->
+            <div class="ps" style="border-bottom:none">
+                <div class="flex gap-2">
+                    <button class="tb" style="flex:1;justify-content:center" onclick="dupE()">
+                        <i class="fas fa-copy"></i> 
+                        <span class="lang-id">Duplikat</span><span class="lang-en">Duplicate</span>
+                    </button>
+                    <button class="tb rd" style="flex:1;justify-content:center" onclick="delE()">
+                        <i class="fas fa-trash"></i> 
+                        <span class="lang-id">Hapus</span><span class="lang-en">Delete</span>
+                    </button>
+                </div>
+                <div style="font-size:9.5px;color:var(--mt);margin-top:8px;text-align:center">
+                    <i class="fas fa-keyboard"></i> 
+                    <span class="lang-id">Arrow=geser · Shift+Arrow=10px · Del=hapus · Ctrl+D=duplikat</span>
+                    <span class="lang-en">Arrow=move · Shift+Arrow=10px · Del=delete · Ctrl+D=duplicate</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="mo" id="exM"><div class="mb">
+    <h3 style="font-size:16px;font-weight:700;margin-bottom:12px">
+        <span class="lang-id">Export Sertifikat</span><span class="lang-en">Export Certificate</span>
+    </h3>
+    <div class="pr">
+        <label style="min-width:42px"><span class="lang-id">Skala</span><span class="lang-en">Scale</span></label>
+        <select class="psel" id="eSc"><option value="1">1x</option><option value="2" selected>2x</option><option value="3">3x</option></select>
+    </div>
+    <div class="pr"><label style="min-width:42px">Format</label><select class="psel" id="eFm" onchange="document.getElementById('eQR').style.display=this.value==='jpeg'?'flex':'none'"><option value="png">PNG</option><option value="jpeg">JPEG</option></select></div>
+    <div class="pr" id="eQR" style="display:none">
+        <label style="min-width:42px"><span class="lang-id">Kualitas</span><span class="lang-en">Quality</span></label>
+        <input type="range" min="10" max="100" value="92" id="eQ" oninput="document.getElementById('eQv').textContent=this.value+'%'"><span id="eQv" style="font-size:10.5px;color:var(--mt);min-width:30px;text-align:right">92%</span>
+    </div>
+    <div class="flex gap-3 mt-4">
+        <button class="tb" style="flex:1;justify-content:center" onclick="clM('exM')">
+            <span class="lang-id">Batal</span><span class="lang-en">Cancel</span>
+        </button>
+        <button class="tb gd" style="flex:1;justify-content:center" onclick="expC()">
+            <i class="fas fa-download"></i> 
+            <span class="lang-id">Export</span><span class="lang-en">Export</span>
+        </button>
+    </div>
+</div></div>
+
+<input type="file" id="imIn" accept="image/*" style="display:none" onchange="hImUp(event)">
+
+<!-- Supabase SDK & Config -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../assets/Javascript/supabase-init.js"></script>
+
+<script>
+// ============================================
+// STATE
+// ============================================
+let els=[],selId=null,nid=1,zm=1,drag=false,rsize=false,dd={},tpl=null,inline=false;
+let activeEventName = '-- DEFAULT LAYOUT --';
+const cv=document.getElementById('cv'),cvC=document.getElementById('cvC');
+
+// ============================================
+// SUPABASE SECURITY & LOAD
+// ============================================
+document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize Theme and Language first
+    const savedTheme = localStorage.getItem('cert_editor_theme') || 'dark';
+    document.body.classList.add(savedTheme + '-mode');
+    updateThemeButtonIcon(savedTheme);
+
+    const savedLang = localStorage.getItem('heyyouth_lang') || 'id';
+    applyLanguage(savedLang);
+
+    // 1. Session Check (Admin Only)
+    if (typeof window.supabase === 'undefined') {
+        alert("Gagal memuat modul Supabase. Kembali ke Login.");
+        window.location.href = 'Login.html';
+        return;
+    }
+    const { data: { session } } = await window.supabase.auth.getSession();
+    if (!session) {
+        window.location.href = 'Login.html';
+        return;
+    }
+
+    // 2. Fetch Events list to populate dropdown
+    try {
+        const { data: eventsList } = await window.supabase
+            .from('events')
+            .select('id, title_id, title_en');
+        
+        const sel = document.getElementById('event-selector');
+        if (eventsList && eventsList.length > 0) {
+            eventsList.forEach(ev => {
+                const opt = document.createElement('option');
+                opt.value = ev.title_id;
+                opt.textContent = ev.title_id;
+                sel.appendChild(opt);
+            });
+        }
+    } catch(e) {
+        console.error("Gagal memuat daftar event:", e);
+    }
+
+    // 3. Load default fallback layout
+    await loadEventLayout('-- DEFAULT LAYOUT --');
+});
+
+// ============================================
+// LOAD LAYOUT PER EVENT
+// ============================================
+window.loadEventLayout = async function(eventName) {
+    activeEventName = eventName;
+    document.getElementById('loader-overlay').classList.remove('hidden');
+    const loadingTxt = localStorage.getItem('heyyouth_lang') === 'id' ? 'Memuat layout...' : 'Loading layout...';
+    document.getElementById('loader-text').textContent = loadingTxt;
+    
+    try {
+        // Reset state
+        els = [];
+        selId = null;
+        tpl = null;
+        cv.style.backgroundImage = 'none';
+        document.getElementById('upZ').style.display = 'flex';
+        document.getElementById('cvI').style.display = 'none';
+        
+        const { data } = await window.supabase
+            .from('certificate_settings')
+            .select('*')
+            .eq('event_name', eventName)
+            .maybeSingle();
+            
+        if (data) {
+            if (data.template_image) {
+                tpl = data.template_image;
+                cv.style.backgroundImage=`url(${tpl})`;
+                cv.style.backgroundSize='cover';
+                cv.style.backgroundPosition='center';
+                document.getElementById('upZ').style.display='none';
+                document.getElementById('cvI').style.display='block';
+            }
+            if (data.layout_json) {
+                els = data.layout_json;
+                nid = els.length > 0 ? Math.max(...els.map(e => e.id)) + 1 : 1;
+            }
+        } else if (eventName !== '-- DEFAULT LAYOUT --') {
+            // Fallback load default fallback layout
+            const { data: defaultData } = await window.supabase
+                .from('certificate_settings')
+                .select('*')
+                .eq('event_name', '-- DEFAULT LAYOUT --')
+                .maybeSingle();
+                
+            if (defaultData) {
+                if (defaultData.template_image) {
+                    tpl = defaultData.template_image;
+                    cv.style.backgroundImage=`url(${tpl})`;
+                    cv.style.backgroundSize='cover';
+                    cv.style.backgroundPosition='center';
+                    document.getElementById('upZ').style.display='none';
+                    document.getElementById('cvI').style.display='block';
+                }
+                if (defaultData.layout_json) {
+                    els = JSON.parse(JSON.stringify(defaultData.layout_json));
+                    nid = els.length > 0 ? Math.max(...els.map(e => e.id)) + 1 : 1;
+                }
+            }
+        }
+        
+        rsCv();
+        rE();
+        rL();
+        rP();
+    } catch(e) {
+        console.error("Gagal memuat layout event:", e);
+        toast("Gagal memuat layout: " + e.message, "er");
+    } finally {
+        document.getElementById('loader-overlay').classList.add('hidden');
+    }
+};
+
+// ============================================
+// SAVE TO SUPABASE
+// ============================================
+async function saveToSupabase() {
+    const saveBtn = document.getElementById('save-btn');
+    saveBtn.disabled = true;
+    
+    const savingText = localStorage.getItem('heyyouth_lang') === 'id' ? 'Menyimpan...' : 'Saving...';
+    saveBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${savingText}`;
+    
+    try {
+        let finalTemplateUrl = tpl;
+        
+        // If template image is local base64, upload to Supabase Storage first
+        if (tpl && tpl.startsWith('data:')) {
+            const uploadText = localStorage.getItem('heyyouth_lang') === 'id' ? 
+                "Mengunggah template ke cloud storage..." : "Uploading template to cloud storage...";
+            toast(uploadText, "wr");
+            const filename = `cert-template-${Date.now()}.webp`;
+            finalTemplateUrl = await window.uploadToSupabaseStorage(tpl, filename);
+        }
+
+        // Clean els array (remove null or system artifacts)
+        const layoutData = els.map(e => ({
+            id: e.id,
+            type: e.type,
+            role: e.role || 'custom',
+            name: e.name,
+            x: e.x,
+            y: e.y,
+            width: e.width,
+            height: e.height,
+            rotation: e.rotation || 0,
+            opacity: e.opacity || 1,
+            text: e.text || '',
+            fontFamily: e.fontFamily || "'Source Sans 3', sans-serif",
+            fontSize: e.fontSize || 16,
+            color: e.color || '#000000',
+            bgColor: e.bgColor || 'transparent',
+            bold: !!e.bold,
+            italic: !!e.italic,
+            underline: !!e.underline,
+            uppercase: !!e.uppercase,
+            textAlign: e.textAlign || 'left',
+            lineHeight: e.lineHeight || 1.3,
+            letterSpacing: e.letterSpacing || 0,
+            src: e.src || '',
+            borderRadius: e.borderRadius || 0,
+            borderWidth: e.borderWidth || 0,
+            borderColor: e.borderColor || '#000000',
+            shapeType: e.shapeType || 'rectangle',
+            lineWidth: e.lineWidth || 2,
+            lineStyle: e.lineStyle || 'solid',
+            visible: e.visible !== false
+        }));
+
+        const { error } = await window.supabase
+            .from('certificate_settings')
+            .upsert({
+                event_name: activeEventName,
+                template_image: finalTemplateUrl,
+                layout_json: layoutData,
+                updated_at: new Date().toISOString()
+            }, { onConflict: 'event_name' });
+
+        if (error) throw error;
+        tpl = finalTemplateUrl; // update state with public URL
+        const successMsg = localStorage.getItem('heyyouth_lang') === 'id' ? 
+            "Layout sertifikat berhasil disimpan!" : "Certificate layout successfully saved!";
+        toast(successMsg, "ok");
+    } catch(err) {
+        console.error("Save error:", err);
+        const errMsg = localStorage.getItem('heyyouth_lang') === 'id' ? 
+            "Gagal menyimpan layout: " : "Failed to save layout: ";
+        toast(errMsg + err.message, "er");
+    } finally {
+        saveBtn.disabled = false;
+        const btnSaveText = localStorage.getItem('heyyouth_lang') === 'id' ? 'Simpan' : 'Save';
+        saveBtn.innerHTML = `<i class="fas fa-save"></i> ${btnSaveText}`;
+    }
+}
+
+// ============================================
+// THEME TOGGLE
+// ============================================
+window.toggleTheme = function() {
+    const isLight = document.body.classList.contains('light-mode');
+    if (isLight) {
+        document.body.classList.remove('light-mode');
+        document.body.classList.add('dark-mode');
+        updateThemeButtonIcon('dark');
+        localStorage.setItem('cert_editor_theme', 'dark');
+    } else {
+        document.body.classList.remove('dark-mode');
+        document.body.classList.add('light-mode');
+        updateThemeButtonIcon('light');
+        localStorage.setItem('cert_editor_theme', 'light');
+    }
+};
+
+function updateThemeButtonIcon(theme) {
+    const btn = document.getElementById('theme-btn');
+    if (btn) {
+        if (theme === 'light') {
+            btn.innerHTML = '<i class="fas fa-moon"></i>';
+        } else {
+            btn.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+    }
+}
+
+// ============================================
+// LANGUAGE TOGGLE
+// ============================================
+window.toggleLanguage = function() {
+    const currentLang = localStorage.getItem('heyyouth_lang') || 'id';
+    const nextLang = currentLang === 'id' ? 'en' : 'id';
+    localStorage.setItem('heyyouth_lang', nextLang);
+    applyLanguage(nextLang);
+};
+
+function applyLanguage(lang) {
+    document.body.setAttribute('data-lang', lang);
+    const btn = document.getElementById('lang-btn');
+    if (btn) btn.innerHTML = `<i class="fas fa-globe"></i> ${lang.toUpperCase()}`;
+}
+
+// ============================================
+// UTILITAS EDITOR
+// ============================================
+function toast(m,t='ok'){const e=document.getElementById('toast');e.textContent=m;e.className='tm '+t;setTimeout(()=>e.classList.add('show'),10);setTimeout(()=>e.classList.remove('show'),2200)}
+function openM(id){document.getElementById(id).classList.add('show')}
+function clM(id){document.getElementById(id).classList.remove('show')}
+document.querySelectorAll('.mo').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')}));
+
+// ============================================
+// ZOOM
+// ============================================
+function doZ(d){zm=Math.max(.15,Math.min(3,zm+d));cv.style.transform=`scale(${zm})`;document.getElementById('zB').textContent=Math.round(zm*100)+'%'}
+cvC.addEventListener('wheel',e=>{if(e.ctrlKey||e.metaKey){e.preventDefault();doZ(e.deltaY>0?-.06:.06)}},{passive:false});
+
+// ============================================
+// CANVAS RESIZE
+// ============================================
+function rsCv(){const w=Math.max(200,+document.getElementById('cW').value||1123),h=Math.max(200,+document.getElementById('cH').value||794);cv.style.width=w+'px';cv.style.height=h+'px';const i=document.getElementById('cvI');if(i.style.display!=='none')i.textContent=w+' × '+h+' px'}
+
+// ============================================
+// UPLOAD TEMPLATE + AUTO GENERATE SEMUA ELEMEN
+// ============================================
+function hUp(e){const f=e.target.files[0];if(f)ldTpl(f);e.target.value=''}
+function hDrop(e){const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))ldTpl(f)}
+
+function ldTpl(file){
+    const r=new FileReader();
+    r.onload=function(ev){
+        tpl=ev.target.result;
+        cv.style.backgroundImage=`url(${tpl})`;
+        cv.style.backgroundSize='cover';
+        cv.style.backgroundPosition='center';
+        document.getElementById('upZ').style.display='none';
+        document.getElementById('cvI').style.display='block';
+        if (els.length === 0) {
+            genAllElements();
+        }
+        const doneText = localStorage.getItem('heyyouth_lang') === 'id' ? 
+            'Template diupload! Klik elemen untuk mengedit.' : 'Template uploaded! Click elements to edit.';
+        toast(doneText);
+        showHint();
+    };
+    r.readAsDataURL(file);
+}
+
+function genAllElements(){
+    const cw=parseInt(cv.style.width),ch=parseInt(cv.style.height);
+    const mx=cw*.08,aw=cw-mx*2;
+
+    // 1. LOGO (placeholder - user ganti)
+    els.push({id:nid++,type:'image',role:'logo',name:'Logo Acara',x:mx,y:ch*.04,width:90,height:90,rotation:0,opacity:1,src:genPlaceholderLogo(),borderRadius:0,borderWidth:0,borderColor:'#000',visible:true});
+
+    // 2. NAMA ACARA
+    els.push({id:nid++,type:'text',role:'event',name:'Nama Acara',x:mx+110,y:ch*.06,width:aw-110,height:50,rotation:0,opacity:1,text:'HEY YOUTH SUMMIT 2026',fontFamily:"'Cinzel', serif",fontSize:28,color:'#1a1a2e',bgColor:'transparent',bold:true,italic:false,underline:false,uppercase:true,textAlign:'left',lineHeight:1.2,letterSpacing:3,visible:true});
+
+    // 3. CERTIFICATE OF PARTICIPANT
+    els.push({id:nid++,type:'text',role:'title',name:'Certificate of Participant',x:mx,y:ch*.18,width:aw,height:48,rotation:0,opacity:1,text:'CERTIFICATE OF PARTICIPANT',fontFamily:"'Playfair Display', serif",fontSize:36,color:'#1a1a2e',bgColor:'transparent',bold:true,italic:false,underline:false,uppercase:true,textAlign:'center',lineHeight:1.2,letterSpacing:5,visible:true});
+
+    // 4. Sub-judul
+    els.push({id:nid++,type:'text',role:'subtitle',name:'Sub-Judul',x:mx,y:ch*.27,width:aw,height:24,rotation:0,opacity:1,text:'This is to certify that',fontFamily:"'Lora', serif",fontSize:15,color:'#555555',bgColor:'transparent',bold:false,italic:true,underline:false,uppercase:false,textAlign:'center',lineHeight:1.3,letterSpacing:1,visible:true});
+
+    // 5. NAMA PENERIMA
+    els.push({id:nid++,type:'text',role:'recipient',name:'Nama Penerima',x:mx,y:ch*.34,width:aw,height:65,rotation:0,opacity:1,text:'[ Nama Penerima ]',fontFamily:"'Great Vibes', cursive",fontSize:50,color:'#1a1a2e',bgColor:'transparent',bold:false,italic:false,underline:false,uppercase:false,textAlign:'center',lineHeight:1.2,letterSpacing:2,visible:true});
+
+    // 6. Garis dekoratif
+    els.push({id:nid++,type:'line',role:'deco',name:'Garis Dekoratif',x:cw*.25,y:ch*.50,width:cw*.50,height:2,rotation:0,opacity:.5,color:'#c4952a',lineWidth:1.5,lineStyle:'solid',visible:true});
+
+    // 7. DESKRIPSI SINGKAT
+    els.push({id:nid++,type:'text',role:'desc_short',name:'Deskripsi Singkat',x:mx+50,y:ch*.54,width:aw-100,height:26,rotation:0,opacity:1,text:'has successfully participated in',fontFamily:"'Source Sans 3', sans-serif",fontSize:14,color:'#555555',bgColor:'transparent',bold:false,italic:false,underline:false,uppercase:false,textAlign:'center',lineHeight:1.3,letterSpacing:0,visible:true});
+
+    // 8. PENJELASAN
+    els.push({id:nid++,type:'text',role:'desc_full',name:'Penjelasan Lengkap',x:mx+50,y:ch*.59,width:aw-100,height:55,rotation:0,opacity:1,text:'HEY YOUTH SUMMIT 2026 held on 15-17 January 2026 at Jakarta Convention Center, and has demonstrated outstanding dedication, active involvement, and valuable contribution throughout the entire program.',fontFamily:"'Source Sans 3', sans-serif",fontSize:13,color:'#666666',bgColor:'transparent',bold:false,italic:false,underline:false,uppercase:false,textAlign:'center',lineHeight:1.6,letterSpacing:0,visible:true});
+
+    // 9. TANGGAL RILIS
+    els.push({id:nid++,type:'text',role:'date',name:'Tanggal Rilis',x:mx,y:ch*.78,width:cw*.32,height:22,rotation:0,opacity:1,text:'Date: 17 January 2026',fontFamily:"'Poppins', sans-serif",fontSize:11,color:'#666666',bgColor:'transparent',bold:false,italic:false,underline:false,uppercase:false,textAlign:'left',lineHeight:1.3,letterSpacing:.5,visible:true});
+
+    // 10. TANDA TANGAN 1 (garis)
+    els.push({id:nid++,type:'line',role:'sig1_line',name:'Garis TTD 1',x:cw*.55,y:ch*.80,width:cw*.16,height:2,rotation:0,opacity:.5,color:'#888888',lineWidth:1,lineStyle:'solid',visible:true});
+
+    // 11. NAMA PENANDATANGAN 1
+    els.push({id:nid++,type:'text',role:'sig1_name',name:'Penanda Tangan 1',x:cw*.55,y:ch*.82,width:cw*.16,height:20,rotation:0,opacity:1,text:'Dr. Ahmad Fauzi',fontFamily:"'Poppins', sans-serif",fontSize:12,color:'#333333',bgColor:'transparent',bold:600,italic:false,underline:false,uppercase:false,textAlign:'center',lineHeight:1.3,letterSpacing:.3,visible:true});
+
+    // 12. JABATAN PENANDATANGAN 1
+    els.push({id:nid++,type:'text',role:'sig1_title',name:'Jabatan TTD 1',x:cw*.55,y:ch*.855,width:cw*.16,height:18,rotation:0,opacity:1,text:'Chairman of Committee',fontFamily:"'Poppins', sans-serif",fontSize:10,color:'#888888',bgColor:'transparent',bold:false,italic:false,underline:false,uppercase:true,textAlign:'center',lineHeight:1.3,letterSpacing:.8,visible:true});
+
+    // 13. TANDA TANGAN 2 (garis)
+    els.push({id:nid++,type:'line',role:'sig2_line',name:'Garis TTD 2',x:cw*.76,y:ch*.80,width:cw*.16,height:2,rotation:0,opacity:.5,color:'#888888',lineWidth:1,lineStyle:'solid',visible:true});
+
+    // 14. NAMA PENANDATANGAN 2
+    els.push({id:nid++,type:'text',role:'sig2_name',name:'Penanda Tangan 2',x:cw*.76,y:ch*.82,width:cw*.16,height:20,rotation:0,opacity:1,text:'Prof. Siti Rahma',fontFamily:"'Poppins', sans-serif",fontSize:12,color:'#333333',bgColor:'transparent',bold:600,italic:false,underline:false,uppercase:false,textAlign:'center',lineHeight:1.3,letterSpacing:.3,visible:true});
+
+    // 15. JABATAN PENANDATANGAN 2
+    els.push({id:nid++,type:'text',role:'sig2_title',name:'Jabatan TTD 2',x:cw*.76,y:ch*.855,width:cw*.16,height:18,rotation:0,opacity:1,text:'Executive Director',fontFamily:"'Poppins', sans-serif",fontSize:10,color:'#888888',bgColor:'transparent',bold:false,italic:false,underline:false,uppercase:true,textAlign:'center',lineHeight:1.3,letterSpacing:.8,visible:true});
+
+    selId=null;rE();rL();rP();
+}
+
+// Placeholder logo (SVG data URL)
+function genPlaceholderLogo(){
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+    <rect width="200" height="200" fill="#f0f0f0" rx="12"/>
+    <circle cx="100" cy="75" r="35" fill="#c88b1e" opacity=".2" stroke="#c88b1e" stroke-width="2"/>
+    <text x="100" y="85" text-anchor="middle" font-family="serif" font-size="28" font-weight="bold" fill="#c88b1e">LOGO</text>
+    <text x="100" y="140" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#999">Klik untuk ganti</text>
+    <text x="100" y="156" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#bbb">gambar logo</text>
+    </svg>`;
+    return 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svg)));
+}
+
+function showHint(){
+    cv.querySelectorAll('.hb').forEach(h=>h.remove());
+    const h=document.createElement('div');h.className='hb';
+    h.innerHTML = localStorage.getItem('heyyouth_lang') === 'id' ? 
+        '<i class="fas fa-hand-pointer"></i> &nbsp;Klik elemen untuk edit &middot; Double-klik teks untuk edit langsung &middot; Klik logo untuk ganti gambar' :
+        '<i class="fas fa-hand-pointer"></i> &nbsp;Click element to edit &middot; Double-click text to edit directly &middot; Click logo to replace image';
+    h.onclick=()=>h.remove();cv.appendChild(h);
+    setTimeout(()=>{if(h.parentNode)h.remove()},7000);
+}
+
+// ============================================
+// TAG ROLE
+// ============================================
+const roleMap={
+    logo:{label:'LOGO',cls:'logo'},event:{label:'ACARA',cls:'judul'},title:{label:'JUDUL',cls:'judul'},
+    subtitle:{label:'SUB',cls:'sub'},recipient:{label:'NAMA',cls:'nama'},
+    desc_short:{label:'DESKRIPSI',cls:'desc'},desc_full:{label:'PENJELASAN',cls:'desc'},
+    date:{label:'TANGGAL',cls:'tgl'},sig1_line:{label:'GARIS',cls:'ttd'},sig1_name:{label:'TTD 1',cls:'ttd'},
+    sig1_title:{label:'JABATAN 1',cls:'jab'},sig2_line:{label:'GARIS',cls:'ttd'},sig2_name:{label:'TTD 2',cls:'ttd'},
+    sig2_title:{label:'JABATAN 2',cls:'jab'},deco:{label:'DEKORASI',cls:'sub'}
+};
+function getTag(role){return roleMap[role]||null}
+
+// ============================================
+// TAMBAH ELEMEN MANUAL
+// ============================================
+function addE(type){
+    const idText = localStorage.getItem('heyyouth_lang') === 'id' ? 'Teks ' : 'Text ';
+    const imgText = localStorage.getItem('heyyouth_lang') === 'id' ? 'Gambar ' : 'Image ';
+    const shapeText = localStorage.getItem('heyyouth_lang') === 'id' ? 'Bentuk ' : 'Shape ';
+    const lineText = localStorage.getItem('heyyouth_lang') === 'id' ? 'Garis ' : 'Line ';
+
+    if(type==='text'){els.push({id:nid++,type:'text',role:'custom',name:idText + nid,x:200,y:300,width:500,height:40,rotation:0,opacity:1,text:'Teks baru',fontFamily:"'Playfair Display', serif",fontSize:24,color:'#1a1a2e',bgColor:'transparent',bold:false,italic:false,underline:false,uppercase:false,textAlign:'center',lineHeight:1.3,letterSpacing:0,visible:true})}
+    else if(type==='image'){document.getElementById('imIn').click();return}
+    else if(type==='shape'){els.push({id:nid++,type:'shape',role:'custom',name:shapeText + nid,x:100,y:100,width:120,height:120,rotation:0,opacity:1,shapeType:'rectangle',color:'#c88b1e',borderWidth:2,borderColor:'#1a1a2e',borderRadius:0,visible:true})}
+    else if(type==='line'){els.push({id:nid++,type:'line',role:'custom',name:lineText + nid,x:200,y:400,width:600,height:2,rotation:0,opacity:1,color:'#1a1a2e',lineWidth:2,lineStyle:'solid',visible:true})}
+    selId=nid-1;rE();rL();rP();
+    
+    const addedText = localStorage.getItem('heyyouth_lang') === 'id' ? 'Elemen ditambahkan' : 'Element added';
+    toast(addedText);
+}
+
+function hImUp(e){
+    const f=e.target.files[0];if(!f)return;
+    const r=new FileReader();
+    const imgText = localStorage.getItem('heyyouth_lang') === 'id' ? 'Gambar ' : 'Image ';
+    r.onload=function(ev){
+        els.push({id:nid++,type:'image',role:'custom',name:imgText + nid,x:100,y:100,width:180,height:180,rotation:0,opacity:1,src:ev.target.result,borderRadius:0,borderWidth:0,borderColor:'#000',visible:true});
+        selId=nid-1;rE();rL();rP();
+        const addedImgText = localStorage.getItem('heyyouth_lang') === 'id' ? 'Gambar ditambahkan' : 'Image added';
+        toast(addedImgText);
+    };r.readAsDataURL(f);e.target.value='';
+}
+
+function chgImg(){
+    const el=gS();if(!el||el.type!=='image')return;
+    const inp=document.getElementById('imIn');
+    inp.onchange=function(e){
+        const f=e.target.files[0];if(!f)return;
+        const r=new FileReader();
+        r.onload=ev=>{
+            el.src=ev.target.result;rE();
+            const replacedText = localStorage.getItem('heyyouth_lang') === 'id' ? 'Gambar/logo diganti' : 'Image/logo replaced';
+            toast(replacedText)
+        };
+        r.readAsDataURL(f);inp.value='';inp.onchange=hImUp;
+    };inp.click();
+}
+
+// ============================================
+// GET / SELECT / DELETE / DUPLICATE
+// ============================================
+function gS(){return els.find(e=>e.id===selId)}
+function selE(id){selId=id;rE();rL();rP()}
+function dsel(e){if(e.target===cv||e.target===cvC||e.target.id==='upZ'||e.target.closest('#upZ')){if(!inline){selId=null;rE();rL();rP()}}}
+function delE(){
+    if(!selId)return;
+    els=els.filter(e=>e.id!==selId);
+    selId=null;rE();rL();rP();
+    const deletedText = localStorage.getItem('heyyouth_lang') === 'id' ? 'Elemen dihapus' : 'Element deleted';
+    toast(deletedText);
+}
+function dupE(){
+    const el=gS();if(!el)return;
+    const c=JSON.parse(JSON.stringify(el));
+    c.id=nid++;c.name=el.name+' (copy)';c.x+=20;c.y+=20;
+    els.push(c);selId=c.id;rE();rL();rP();
+    const dupText = localStorage.getItem('heyyouth_lang') === 'id' ? 'Diduplikat' : 'Duplicated';
+    toast(dupText);
+}
+
+// ============================================
+// UPDATE PROPS
+// ============================================
+function sP(k,v){const el=gS();if(!el)return;el[k]=v;rE();if(k==='name' || k==='role')rL()}
+function tS(s){const el=gS();if(!el||el.type!=='text')return;el[s]=!el[s];rE();rP()}
+
+// ============================================
+// ALIGNMENT
+// ============================================
+function alE(d){const el=gS();if(!el)return;const cw=parseInt(cv.style.width),ch=parseInt(cv.style.height);
+if(d==='left')el.x=0;else if(d==='right')el.x=cw-el.width;else if(d==='top')el.y=0;else if(d==='bottom')el.y=ch-el.height;else if(d==='centerH')el.x=(cw-el.width)/2;else if(d==='centerV')el.y=(ch-el.height)/2;
+rE();rP()}
+
+// ============================================
+// RENDER ELEMEN
+// ============================================
+function rE(){
+    cv.querySelectorAll('.cel').forEach(e=>e.remove());
+    els.forEach(el=>{
+        if(el.visible===false)return;
+        const d=document.createElement('div');
+        d.className='cel'+(el.id===selId?' sel':'');
+        d.dataset.id=el.id;
+        d.style.left=el.x+'px';d.style.top=el.y+'px';
+        d.style.width=el.width+'px';d.style.height=el.height+'px';
+        d.style.transform=`rotate(${el.rotation||0}deg)`;
+        d.style.opacity=el.opacity;
+
+        if(el.type==='text'){
+            d.style.fontFamily=el.fontFamily;d.style.fontSize=el.fontSize+'px';d.style.color=el.color;
+            d.style.fontWeight=el.bold?'700':'400';d.style.fontStyle=el.italic?'italic':'normal';
+            d.style.textDecoration=el.underline?'underline':'none';d.style.textTransform=el.uppercase?'uppercase':'none';
+            d.style.textAlign=el.textAlign||'left';d.style.lineHeight=el.lineHeight||1.3;
+            d.style.letterSpacing=(el.letterSpacing||0)+'px';d.style.wordBreak='break-word';d.style.whiteSpace='pre-wrap';
+            if(el.bgColor&&el.bgColor!=='transparent'){d.style.backgroundColor=el.bgColor;d.style.padding='4px 8px'}
+            d.textContent=el.text;
+        }else if(el.type==='image'){
+            d.style.backgroundImage=`url(${el.src})`;d.style.backgroundSize='cover';d.style.backgroundPosition='center';
+            d.style.borderRadius=(el.borderRadius||0)+'px';
+            if(el.borderWidth>0)d.style.border=el.borderWidth+'px solid '+(el.borderColor||'#000');
+        }else if(el.type==='shape'){
+            const s=el.shapeType||'rectangle';d.style.backgroundColor=el.color;
+            if(s==='circle')d.style.borderRadius='50%';
+            else if(s==='diamond')d.style.clipPath='polygon(50% 0%,100% 50%,50% 100%,0% 50%)';
+            else if(s==='triangle')d.style.clipPath='polygon(50% 0%,100% 100%,0% 100%)';
+            else d.style.borderRadius=(el.borderRadius||0)+'px';
+            if(el.borderWidth>0&&s!=='diamond'&&s!=='triangle')d.style.border=el.borderWidth+'px solid '+(el.borderColor||'#000');
+        }else if(el.type==='image'){
+             d.style.backgroundImage=`url(${el.src})`;d.style.backgroundSize='cover';d.style.backgroundPosition='center';
+             d.style.borderRadius=(el.borderRadius||0)+'px';
+             if(el.borderWidth>0)d.style.border=el.borderWidth+'px solid '+(el.borderColor||'#000');
+        }else if(el.type==='line'){
+            d.style.height='0px';const lw=el.lineWidth||2,ls=el.lineStyle||'solid';
+            if(ls==='double'){d.style.borderTop=`${Math.max(1,lw/2)}px solid ${el.color}`;d.style.borderBottom=`${Math.max(1,lw/2)}px solid ${el.color}`;d.style.paddingTop='1px'}
+            else d.style.borderTop=`${lw}px ${ls} ${el.color}`;
+        }
+
+        if(el.id===selId){
+            ['nw','ne','sw','se','n','s','e','w'].forEach(dir=>{const h=document.createElement('div');h.className='rh '+dir;h.dataset.dir=dir;d.appendChild(h)});
+            
+            // Interactive Dimensions Floating Badge
+            const badge = document.createElement('div');
+            badge.className = 'absolute -top-7 left-0 bg-amber-500 text-[10px] text-slate-950 font-bold px-1.5 py-0.5 rounded shadow-lg pointer-events-none z-[100] whitespace-nowrap transition-transform scale-95 origin-left duration-75';
+            badge.textContent = `${Math.round(el.x)}, ${Math.round(el.y)} (${Math.round(el.width)}×${Math.round(el.height)})`;
+            d.appendChild(badge);
+        }
+
+        d.addEventListener('mousedown',e=>onED(e,el));
+        d.addEventListener('click',e=>{e.stopPropagation();selE(el.id)});
+        if(el.type==='text')d.addEventListener('dblclick',e=>{e.stopPropagation();startIE(d,el)});
+
+        cv.appendChild(d);
+    });
+}
+
+// ============================================
+// INLINE EDIT
+// ============================================
+function startIE(div,el){
+    if(inline)return;inline=true;
+    div.contentEditable='true';div.classList.add('ie');div.style.cursor='text';div.focus();
+    const range=document.createRange();range.selectNodeContents(div);
+    const sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);
+    const finish=()=>{div.contentEditable='false';div.classList.remove('ie');div.style.cursor='move';el.text=div.textContent;inline=false;rP()};
+    div.addEventListener('blur',finish,{once:true});
+    div.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();div.blur()}if(e.key==='Escape'){div.textContent=el.text;div.blur()}e.stopPropagation()});
+}
+
+// ============================================
+// RENDER LAYERS
+// ============================================
+function rL(){
+    const list=document.getElementById('lL');list.innerHTML='';
+    [...els].reverse().forEach(el=>{
+        const d=document.createElement('div');d.className='ly'+(el.id===selId?' ac':'');
+        if(el.visible===false)d.style.opacity='.4';
+        const ic=el.type==='text'?'fa-font':el.type==='image'?'fa-image':el.type==='shape'?'fa-shapes':'fa-minus';
+        const tg=getTag(el.role);
+        const tagHtml=tg?`<span class="tag ${tg.cls}">${tg.label}</span>`:'';
+        
+        const eyeTitle = el.visible===false ? 
+            (localStorage.getItem('heyyouth_lang') === 'id' ? 'Tampilkan' : 'Show') : 
+            (localStorage.getItem('heyyouth_lang') === 'id' ? 'Sembunyikan' : 'Hide');
+
+        d.innerHTML=`<i class="fas ${ic}"></i><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${el.name}</span>${tagHtml}<span class="vb" onclick="event.stopPropagation();tVis(${el.id})" title="${eyeTitle}"><i class="fas ${el.visible===false?'fa-eye-slash':'fa-eye'}"></i></span>`;
+        d.onclick=()=>selE(el.id);list.appendChild(d);
+    });
+}
+
+function tVis(id){const el=els.find(e=>e.id===id);if(el){el.visible=el.visible===false?true:false;rE();rL()}}
+
+// ============================================
+// RENDER PROPERTIES
+// ============================================
+function rP(){
+    const el=gS(),emp=document.getElementById('pE'),bod=document.getElementById('pB');
+    const txP=document.getElementById('txP'),shP=document.getElementById('shP'),lnP=document.getElementById('lnP'),imP=document.getElementById('imP');
+    if(!el){emp.style.display='flex';bod.style.display='none';return}
+    emp.style.display='none';bod.style.display='block';
+    txP.style.display='none';shP.style.display='none';lnP.style.display='none';imP.style.display='none';
+
+    const ic=el.type==='text'?'fa-font':el.type==='image'?'fa-image':el.type==='shape'?'fa-shapes':'fa-minus';
+    document.getElementById('pIc').className='fas '+ic;
+    document.getElementById('pNm').value=el.name;
+    document.getElementById('pRole').value=el.role || 'custom';
+
+    // Tag
+    const tagEl=document.getElementById('pTag');
+    const tg=getTag(el.role);
+    if(tg){tagEl.className='tag '+tg.cls;tagEl.textContent=tg.label;tagEl.style.display='inline-block'}
+    else{tagEl.style.display='none'}
+
+    document.getElementById('pX').value=Math.round(el.x);document.getElementById('pY').value=Math.round(el.y);
+    document.getElementById('pW').value=Math.round(el.width);document.getElementById('pH').value=Math.round(el.height);
+    document.getElementById('pRt').value=el.rotation||0;document.getElementById('rv').textContent=(el.rotation||0)+'°';
+    document.getElementById('pOp').value=Math.round((el.opacity||1)*100);document.getElementById('ovv').textContent=Math.round((el.opacity||1)*100)+'%';
+
+    if(el.type==='text'){
+        txP.style.display='block';
+        document.getElementById('pTx').value=el.text;document.getElementById('pFn').value=el.fontFamily;
+        document.getElementById('pFS').value=el.fontSize;document.getElementById('pCl').value=el.color;
+        document.getElementById('pBg').value=el.bgColor==='transparent'?'#ffffff':(el.bgColor||'#ffffff');
+        document.getElementById('pLH').value=Math.round((el.lineHeight||1.3)*100);document.getElementById('lhv').textContent=(el.lineHeight||1.3).toFixed(1);
+        document.getElementById('pLS').value=el.letterSpacing||0;document.getElementById('lsv').textContent=(el.letterSpacing||0)+'px';
+        document.getElementById('bB').className='ab'+(el.bold?' on':'');document.getElementById('bI').className='ab'+(el.italic?' on':'');
+        document.getElementById('bU').className='ab'+(el.underline?' on':'');document.getElementById('bUp').className='ab'+(el.uppercase?' on':'');
+        const am={L:'left',C:'center',R:'right',J:'justify'};
+        Object.keys(am).forEach(a=>{document.getElementById('bA'+a).className='ab'+((el.textAlign||'left')===am[a]?' on':'')});
+    }else if(el.type==='shape'){
+        shP.style.display='block';
+        document.getElementById('pST').value=el.shapeType;document.getElementById('pSC').value=el.color;
+        document.getElementById('pSBW').value=el.borderWidth||0;document.getElementById('pSBC').value=el.borderColor||'#000000';
+        document.getElementById('pSBR').value=el.borderRadius||0;document.getElementById('brv').textContent=(el.borderRadius||0)+'px';
+    }else if(el.type==='line'){
+        lnP.style.display='block';
+        document.getElementById('pLC').value=el.color;document.getElementById('pLW').value=el.lineWidth||2;
+        document.getElementById('pLS2').value=el.lineStyle||'solid';
+    }else if(el.type==='image'){
+        imP.style.display='block';
+        document.getElementById('pIR').value=el.borderRadius||0;document.getElementById('irv').textContent=(el.borderRadius||0)+'px';
+        document.getElementById('pIBW').value=el.borderWidth||0;document.getElementById('pIBC').value=el.borderColor||'#000000';
+    }
+}
+
+// ============================================
+// DRAG & RESIZE
+// ============================================
+function onED(e,el){
+    e.preventDefault();e.stopPropagation();
+    const h=e.target.closest('.rh');
+    if(h){rsize=true;dd={dir:h.dataset.dir,sx:e.clientX,sy:e.clientY,ox:el.x,oy:el.y,ow:el.width,oh:el.height}}
+    else{selE(el.id);drag=true;dd={sx:e.clientX,sy:e.clientY,ox:el.x,oy:el.y}}
+}
+
+document.addEventListener('mousemove',e=>{
+    if(!drag&&!rsize)return;const el=gS();if(!el)return;
+    const dx=(e.clientX-dd.sx)/zm,dy=(e.clientY-dd.sy)/zm;
+    if(drag){el.x=dd.ox+dx;el.y=dd.oy+dy;rE();document.getElementById('pX').value=Math.round(el.x);document.getElementById('pY').value=Math.round(el.y)}
+    if(rsize){
+        let{dir,ox,oy,ow,oh}=dd;let nx=ox,ny=oy,nw=ow,nh=oh;
+        if(dir.includes('e'))nw=Math.max(20,ow+dx);if(dir.includes('w')){nw=Math.max(20,ow-dx);nx=ox+dx}
+        if(dir.includes('s'))nh=Math.max(10,oh+dy);if(dir.includes('n')){nh=Math.max(10,oh-dy);ny=oy+dy}
+        el.x=nx;el.y=ny;el.width=nw;el.height=nh;rE();
+        document.getElementById('pX').value=Math.round(el.x);document.getElementById('pY').value=Math.round(el.y);
+        document.getElementById('pW').value=Math.round(el.width);document.getElementById('pH').value=Math.round(el.height);
+    }
+});
+document.addEventListener('mouseup',()=>{drag=false;rsize=false;dd={}});
+
+// ============================================
+// KEYBOARD
+// ============================================
+document.addEventListener('keydown',e=>{
+    if(inline)return;if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;
+    const el=gS();if(!el)return;const s=e.shiftKey?10:1;
+    switch(e.key){
+        case'ArrowLeft':e.preventDefault();el.x-=s;rE();rP();break;case'ArrowRight':e.preventDefault();el.x+=s;rE();rP();break;
+        case'ArrowUp':e.preventDefault();el.y-=s;rE();rP();break;case'ArrowDown':e.preventDefault();el.y+=s;rE();rP();break;
+        case'Delete':case'Backspace':e.preventDefault();delE();break;
+        case'd':if(e.ctrlKey||e.metaKey){e.preventDefault();dupE()}break;
+    }
+});
+
+// ============================================
+// EXPORT
+// ============================================
+function expC(){
+    const sc=+document.getElementById('eSc').value,fmt=document.getElementById('eFm').value;
+    const q=fmt==='jpeg'?(+document.getElementById('eQ').value/100):undefined;
+    const cw=parseInt(cv.style.width),ch=parseInt(cv.style.height);
+    const oc=document.createElement('canvas');oc.width=cw*sc;oc.height=ch*sc;
+    const ctx=oc.getContext('2d');ctx.scale(sc,sc);ctx.fillStyle='#ffffff';ctx.fillRect(0,0,cw,ch);
+    let tasks=[];
+    if(tpl)tasks.push(new Promise(r=>{const i=new Image();i.onload=()=>{ctx.drawImage(i,0,0,cw,ch);r()};i.onerror=r;i.src=tpl}));
+    els.filter(e=>e.visible!==false).forEach(el=>{
+        tasks.push(new Promise(res=>{
+            if(el.type==='text'){
+                ctx.save();ctx.globalAlpha=el.opacity;
+                ctx.translate(el.x+el.width/2,el.y+el.height/2);ctx.rotate((el.rotation||0)*Math.PI/180);ctx.translate(-(el.x+el.width/2),-(el.y+el.height/2));
+                let fs='';if(el.italic)fs+='italic ';if(el.bold)fs+='bold ';fs+=el.fontSize+'px '+el.fontFamily;
+                ctx.font=fs;ctx.fillStyle=el.color;ctx.textAlign=el.textAlign||'left';ctx.textBaseline='top';
+                if(el.bgColor&&el.bgColor!=='transparent'){ctx.fillStyle=el.bgColor;ctx.fillRect(el.x,el.y,el.width,el.height);ctx.fillStyle=el.color}
+                const txt=el.uppercase?el.text.toUpperCase():el.text;const lines=txt.split('\n');
+                let yp=el.y+4;const lh=(el.lineHeight||1.3)*el.fontSize;const ls=el.letterSpacing||0;
+                lines.forEach(line=>{
+                    if(ls===0){ctx.fillText(line,el.x+el.width/2,yp,el.width)}
+                    else{const mw=ctx.measureText(line).width+ls*Math.max(0,line.length-1);let xp;
+                        if(ctx.textAlign==='center')xp=el.x+el.width/2-mw/2;else if(ctx.textAlign==='right')xp=el.x+el.width-mw;else xp=el.x;
+                        ctx.textAlign='left';for(const c of line){ctx.fillText(c,xp,yp);xp+=ctx.measureText(c).width+ls}}
+                    yp+=lh});
+                if(el.underline){ctx.strokeStyle=el.color;ctx.lineWidth=Math.max(1,el.fontSize/16);ctx.beginPath();ctx.moveTo(el.x+8,yp);ctx.lineTo(el.x+el.width-8,yp);ctx.stroke()}
+                ctx.restore();res();
+            }else if(el.type==='image'){
+                const i=new Image();i.onload=()=>{ctx.save();ctx.globalAlpha=el.opacity;
+                ctx.translate(el.x+el.width/2,el.y+el.height/2);ctx.rotate((el.rotation||0)*Math.PI/180);ctx.translate(-(el.x+el.width/2),-(el.y+el.height/2));
+                if(el.borderRadius>0){rR(ctx,el.x,el.y,el.width,el.height,el.borderRadius);ctx.clip()}
+                if(el.borderWidth>0){ctx.strokeStyle=el.borderColor;ctx.lineWidth=el.borderWidth;rR(ctx,el.x,el.y,el.width,el.height,el.borderRadius);ctx.stroke()}
+                ctx.drawImage(i,el.x,el.y,el.width,el.height);ctx.restore();res()};i.onerror=res;i.src=el.src;
+            }else if(el.type==='shape'){
+                ctx.save();ctx.globalAlpha=el.opacity;ctx.translate(el.x+el.width/2,el.y+el.height/2);ctx.rotate((el.rotation||0)*Math.PI/180);ctx.translate(-(el.x+el.width/2),-(el.y+el.height/2));
+                ctx.fillStyle=el.color;const s=el.shapeType||'rectangle';
+                if(s==='circle'){ctx.beginPath();ctx.ellipse(el.x+el.width/2,el.y+el.height/2,el.width/2,el.height/2,0,0,Math.PI*2);ctx.fill();if(el.borderWidth>0){ctx.strokeStyle=el.borderColor;ctx.lineWidth=el.borderWidth;ctx.stroke()}}
+                else if(s==='diamond'){ctx.beginPath();ctx.moveTo(el.x+el.width/2,el.y);ctx.lineTo(el.x+el.width,el.y+el.height/2);ctx.lineTo(el.x+el.width/2,el.y+el.height);ctx.lineTo(el.x,el.y+el.height/2);ctx.closePath();ctx.fill();if(el.borderWidth>0){ctx.strokeStyle=el.borderColor;ctx.lineWidth=el.borderWidth;ctx.stroke()}}
+                else if(s==='triangle'){ctx.beginPath();ctx.moveTo(el.x+el.width/2,el.y);ctx.lineTo(el.x+el.width,el.y+el.height);ctx.lineTo(el.x,el.y+el.height);ctx.closePath();ctx.fill();if(el.borderWidth>0){ctx.strokeStyle=el.borderColor;ctx.lineWidth=el.borderWidth;ctx.stroke()}}
+                else{if(el.borderRadius>0){rR(ctx,el.x,el.y,el.width,el.height,el.borderRadius);ctx.fill();if(el.borderWidth>0){ctx.strokeStyle=el.borderColor;ctx.lineWidth=el.borderWidth;ctx.stroke()}}
+                else{ctx.fillRect(el.x,el.y,el.width,el.height);if(el.borderWidth>0){ctx.strokeStyle=el.borderColor;ctx.lineWidth=el.borderWidth;ctx.strokeRect(el.x,el.y,el.width,el.height)}}}
+                ctx.restore();res();
+            }else if(el.type==='line'){
+                ctx.save();ctx.globalAlpha=el.opacity;ctx.translate(el.x+el.width/2,el.y);ctx.rotate((el.rotation||0)*Math.PI/180);ctx.translate(-(el.x+el.width/2),-el.y);
+                ctx.strokeStyle=el.color;const lw=el.lineWidth||2,ls=el.lineStyle||'solid';
+                if(ls==='double'){ctx.lineWidth=Math.max(1,lw/2);ctx.beginPath();ctx.moveTo(el.x,el.y-2);ctx.lineTo(el.x+el.width,el.y-2);ctx.stroke();ctx.beginPath();ctx.moveTo(el.x,el.y+2);ctx.lineTo(el.x+el.width,el.y+2);ctx.stroke()}
+                else{if(ls==='dashed')ctx.setLineDash([10,6]);else if(ls==='dotted')ctx.setLineDash([3,4]);else ctx.setLineDash([]);ctx.lineWidth=lw;ctx.beginPath();ctx.moveTo(el.x,el.y);ctx.lineTo(el.x+el.width,el.y);ctx.stroke()}
+                ctx.restore();res();
+            }else{res()}
+        }));
+    });
+    Promise.all(tasks).then(()=>{
+        const mime=fmt==='jpeg'?'image/jpeg':'image/png';const url=oc.toDataURL(mime,q);
+        const a=document.createElement('a');a.href=url;a.download='sertifikat.'+(fmt==='jpeg'?'jpg':'png');a.click();
+        clM('exM');
+        const doneText = localStorage.getItem('heyyouth_lang') === 'id' ? 
+            'Sertifikat berhasil di-export!' : 'Certificate successfully exported!';
+        toast(doneText);
+    });
+}
+
+function rR(ctx,x,y,w,h,r){r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath()}
+
+// ============================================
+// THEME TOGGLE (IIFE INITIALIZER)
+// ============================================
+(function() {
+    const savedTheme = localStorage.getItem('cert_editor_theme') || 'dark';
+    document.body.classList.add(savedTheme + '-mode');
+    document.addEventListener('DOMContentLoaded', () => {
+        updateThemeButtonIcon(savedTheme);
+    });
+})();
+</script>
+</body>
+</html>
