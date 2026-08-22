@@ -4779,8 +4779,15 @@
 
             /* =========================================
                ========================================= */
-            function initDashboard() {
+            async function initDashboard() {
                 try {
+                    // Fetch latest CMS data from Supabase/database on startup
+                    if (typeof window.getFirebaseData === 'function') {
+                        var fetchedData = await window.getFirebaseData(DEFAULT_DATA);
+                        if (fetchedData) {
+                            memoryData = fetchedData;
+                        }
+                    }
                     renderAllLists();
                     initStatisticsListener();
                     initThemeToggle();
