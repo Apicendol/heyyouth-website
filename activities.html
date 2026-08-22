@@ -442,9 +442,8 @@
   <!-- Footer (Global Component) -->
   <div id="global-footer"></div>
 
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-  <script src="assets/Javascript/firebase-init.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/Javascript/supabase-init.js"></script>
   <script src="assets/Javascript/components.js"></script>
   <script src="assets/Javascript/Script.js"></script>
   <script src="assets/Javascript/certificate.js"></script>
@@ -940,20 +939,23 @@
         if (spinner) spinner.classList.remove('hidden');
         if (submitBtn) submitBtn.disabled = true;
 
-        var registrations = JSON.parse(localStorage.getItem('event_registrations') || '[]');
         var regData = {
-          id: Date.now(),
-          eventId: id,
-          eventName: document.getElementById('reg-event-title-el').textContent,
+          event_id: String(id),
+          event_name: document.getElementById('reg-event-title-el').textContent,
           name: name,
           instansi: instansi,
           email: email,
           phone: phone,
-          domisili: domisili,
-          registeredAt: new Date().toISOString()
+          domisili: domisili
         };
-        registrations.push(regData);
-        localStorage.setItem('event_registrations', JSON.stringify(registrations));
+
+        supabase.from('event_registrations').insert(regData).then(function(result) {
+          if (result.error) {
+            console.error("Error saving event registration:", result.error.message);
+          } else {
+            console.log("Event registration saved successfully in Supabase");
+          }
+        });
 
         var EMAILJS_CONFIG = {
           serviceId: 'service_j27qkiy', // Service ID Anda dari screenshot

@@ -70,70 +70,39 @@ function initCertificateSearch() {
     spinner.classList.remove('hidden');
     btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Mencari...' : 'Searching...';
 
-    try {
-      var listKey = 'mock_fb_list_certificates';
-      if (localStorage.getItem(listKey) === null) {
-        var list = [
-          {
-            id: "1",
-            data: {
-              email: 'peserta@heyyouth.org',
-              phone: '08123456789',
-              name: 'Budi Santoso',
-              role: 'Participant',
-              eventName: 'HeyYouth Digital Summit 2026',
-              issueDate: '18 Juli 2026',
-              certificateNumber: 'HY-DS26-0001',
-              description: 'as a **Participant** in the online webinar **HeyYouth Digital Summit 2026**'
-            }
-          },
-          {
-            id: "2",
-            data: {
-              email: 'speaker@heyyouth.org',
-              phone: '08987654321',
-              name: 'Jane Doe',
-              role: 'Speaker',
-              eventName: 'HeyYouth Digital Summit 2026',
-              issueDate: '18 Juli 2026',
-              certificateNumber: 'HY-DS26-0002',
-              description: 'as a **Speaker** in the online webinar **HeyYouth Digital Summit 2026**'
-            }
-          },
-          {
-            id: "3",
-            data: {
-              email: 'henriprasetyo6@gmail.com',
-              phone: '081122334455',
-              name: 'Henri Prasetyo',
-              role: 'Participant',
-              eventName: 'Hey Youth Summit 2026',
-              issueDate: 'July 22nd - 23rd, 2026',
-              certificateNumber: 'HY-REG-014838',
-              description: 'in recognition of your active participation in the **Hey Youth: Future Ready Summit** themed **"What Makes You Irreplaceable in the AI Era."**'
-            }
-          }
-        ];
-        localStorage.setItem(listKey, JSON.stringify(list));
+      let query = supabase.from('certificates').select('*');
+      if (activeSearchType === 'email') {
+        query = query.ilike('email', queryVal);
+      } else {
+        var searchPhone = cleanPhone(queryVal);
+        query = query.or(`phone.eq.${searchPhone},phone.eq.${queryVal}`);
       }
-      var list = JSON.parse(localStorage.getItem(listKey) || '[]');
-      var found = list.find(function (itemObj) {
-        if (!itemObj.data) return false;
-        if (activeSearchType === 'email') {
-          return itemObj.data.email && itemObj.data.email.toLowerCase() === queryVal.toLowerCase();
-        } else {
-          var certPhone = itemObj.data.phone;
-          if (!certPhone && itemObj.data.email) {
-            var regList = JSON.parse(localStorage.getItem('event_registrations') || '[]');
-            var reg = regList.find(function(r) {
-              return r.email && r.email.toLowerCase() === itemObj.data.email.toLowerCase();
-            });
-            if (reg) {
-              certPhone = reg.phone;
-            }
+
+      const { data: resData, error: resError } = await query;
+      if (resError) throw resError;
+
+      var found = null;
+      if (resData && resData.length > 0) {
+        var c = resData[0];
+        found = {
+          id: String(c.id),
+          data: {
+            email: c.email,
+            phone: c.phone,
+            name: c.name,
+            role: c.role,
+            eventName: c.event_name,
+            issueDate: c.issue_date,
+            certificateNumber: c.certificate_number,
+            description: c.description
           }
-          return certPhone && cleanPhone(certPhone) === cleanPhone(queryVal);
-        }
+        };
+      }
+
+      // Fetch all certificate emails for suggested matches fallback
+      const { data: allCerts } = await supabase.from('certificates').select('email');
+      var list = (allCerts || []).map(function(c) {
+        return { data: { email: c.email } };
       });
 
       submitBtn.disabled = false;

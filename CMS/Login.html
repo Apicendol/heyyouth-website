@@ -284,10 +284,8 @@
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-    <script src="../assets/Javascript/firebase-init.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/Javascript/supabase-init.js"></script>
     <script>
         (function () {
             var form = document.getElementById('login-form');
@@ -305,8 +303,9 @@
             if (!form) return;
 
 
-            firebase.auth().onAuthStateChanged(function (user) {
-                if (user) {
+            // Check active session using Supabase
+            supabase.auth.getSession().then(function (result) {
+                if (result.data && result.data.session) {
                     setLoading(true);
                     window.location.href = 'Dashboard.html';
                 }
@@ -358,16 +357,24 @@
 
                 setLoading(true);
 
-                firebase.auth().signInWithEmailAndPassword(email, password)
-                    .then(function (userCredential) {
-                        setLoading(false);
-                        window.location.href = 'Dashboard.html';
-                    })
-                    .catch(function (error) {
-                        setLoading(false);
+                supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                })
+                .then(function (response) {
+                    setLoading(false);
+                    if (response.error) {
                         showError('Email atau password salah. Periksa kembali kredensial Anda.');
-                        console.error("Login error:", error);
-                    });
+                        console.error("Login error:", response.error.message);
+                    } else {
+                        window.location.href = 'Dashboard.html';
+                    }
+                })
+                .catch(function (error) {
+                    setLoading(false);
+                    showError('Terjadi kesalahan saat menghubungi server.');
+                    console.error("Connection error:", error);
+                });
             });
             function initThemeToggle() {
                 var toggles = document.querySelectorAll('.theme-toggle-btn');

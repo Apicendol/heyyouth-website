@@ -903,13 +903,11 @@
     <input type="file" id="file-input-hidden" accept="image/*" class="hidden">
 
     <!-- ===== JAVASCRIPT ===== -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../assets/Javascript/firebase-init.js"></script>
+    <script src="../assets/Javascript/supabase-init.js"></script>
     <script>
         (function () {
             'use strict';
@@ -3053,7 +3051,7 @@
             };
 
             window.logout = function () {
-                firebase.auth().signOut().then(function () {
+                supabase.auth.signOut().then(function () {
                     window.location.href = 'Login.html';
                 }).catch(function (error) {
                     console.error("Logout error", error);
@@ -4761,15 +4759,14 @@
                 }
             }
 
-            if (window.firebase && firebase.auth) {
-                firebase.auth().onAuthStateChanged(function (user) {
-                    if (user) {
-                        initDashboard();
-                    }
-                });
-            }
-
-            initDashboard();
+            // Check active session using Supabase to protect dashboard
+            supabase.auth.getSession().then(function (result) {
+                if (result.data && result.data.session) {
+                    initDashboard();
+                } else {
+                    window.location.href = 'Login.html';
+                }
+            });
         })();
     </script>
 </body>

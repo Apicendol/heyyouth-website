@@ -20,6 +20,8 @@
   "homepage": "https://github.com/Henripras/preview-heyyouth#readme",
   "description": "",
   "dependencies": {
+    "@supabase/ssr": "^0.12.4",
+    "@supabase/supabase-js": "^2.112.3",
     "cors": "^2.8.5",
     "mongoose": "^8.3.1"
   },

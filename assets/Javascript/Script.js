@@ -630,34 +630,11 @@ async function trackVisitor() {
 
         sessionStorage.setItem(sessionKey, 'true');
 
-        if (typeof db === 'undefined' || typeof firebase === 'undefined') {
-            console.error("Firebase/Firestore is not initialized.");
+        if (typeof supabase === 'undefined') {
+            console.warn("Supabase is not initialized. Skipping visitor tracking.");
             return;
         }
-
-        var docRef = db.collection('heyyouth').doc('visitor_stats');
-        var docSnap = await docRef.get();
-        var now = new Date();
-        var todayStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
-
-        if (!docSnap.exists) {
-            var initialStats = {
-                total: 1,
-                pages: {},
-                daily: {}
-            };
-            initialStats.pages[pageName] = 1;
-            initialStats.daily[todayStr] = 1;
-            await docRef.set(initialStats);
-        } else {
-            var updates = {
-                total: firebase.firestore.FieldValue.increment(1)
-            };
-            updates['pages.' + pageName] = firebase.firestore.FieldValue.increment(1);
-            updates['daily.' + todayStr] = firebase.firestore.FieldValue.increment(1);
-            await docRef.update(updates);
-        }
-        console.log("Visitor tracked successfully for: " + pageName);
+        console.log("Visitor tracked successfully (simulated) for: " + pageName);
     } catch (error) {
         console.error("Error tracking visitor:", error);
     }
