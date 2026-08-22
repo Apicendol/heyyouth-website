@@ -29,7 +29,8 @@ window.getFirebaseData = async function(defaultData) {
             resActivities,
             resPodcasts,
             resDonation,
-            resAbout
+            resAbout,
+            resEvents
         ] = await Promise.all([
             supabaseClient.from('testimonials').select('*'),
             supabaseClient.from('faqs').select('*'),
@@ -39,7 +40,8 @@ window.getFirebaseData = async function(defaultData) {
             supabaseClient.from('activities').select('*'),
             supabaseClient.from('podcasts').select('*'),
             supabaseClient.from('donation_settings').select('*').eq('id', 1).single(),
-            supabaseClient.from('about_settings').select('*').eq('id', 1).single()
+            supabaseClient.from('about_settings').select('*').eq('id', 1).single(),
+            supabaseClient.from('events').select('*')
         ]);
 
         if (resTestimonials.error) throw resTestimonials.error;
@@ -163,7 +165,23 @@ window.getFirebaseData = async function(defaultData) {
                 subtitle_en: resAbout.data.subtitle_en,
                 volunteerCount: resAbout.data.volunteer_count,
                 image: resAbout.data.image
-            } : fallback.aboutHero
+            } : fallback.aboutHero,
+            events: (resEvents.data || []).map(e => ({
+                id: e.id,
+                title: e.title_id || e.title_en,
+                title_id: e.title_id,
+                title_en: e.title_en,
+                date: e.date,
+                time: e.time,
+                location: e.location,
+                description: e.description_id || e.description_en,
+                description_id: e.description_id,
+                description_en: e.description_en,
+                speaker: e.speaker,
+                speakerRole: e.speaker_role,
+                image: e.image,
+                link: e.link
+            }))
         };
 
         try {
@@ -260,7 +278,7 @@ window.saveFirebaseData = async function(data) {
             account_name: ds.accountName, account_number: ds.accountNumber, qris_image: ds.qrisImage
         };
 
-        const ab = data.aboutHero;
+        const ab = data.aboutHero || {};
         const aboutObj = {
             id: 1,
             title_id: ab.title_id || ab.title || '',
@@ -270,6 +288,21 @@ window.saveFirebaseData = async function(data) {
             volunteer_count: ab.volunteerCount, image: ab.image
         };
 
+        const eventsList = (data.events || []).map(e => ({
+            id: e.id,
+            title_id: e.title_id || e.title || '',
+            title_en: e.title_en || e.title || '',
+            date: e.date || '',
+            time: e.time || '',
+            location: e.location || '',
+            description_id: e.description_id || e.description || '',
+            description_en: e.description_en || e.description || '',
+            speaker: e.speaker || '',
+            speaker_role: e.speakerRole || '',
+            image: e.image || '',
+            link: e.link || ''
+        }));
+
         // Perform updates sequentially
         await Promise.all([
             supabaseClient.from('testimonials').delete().neq('id', 0),
@@ -278,7 +311,8 @@ window.saveFirebaseData = async function(data) {
             supabaseClient.from('partners').delete().neq('id', 0),
             supabaseClient.from('team_members').delete().neq('id', 0),
             supabaseClient.from('activities').delete().neq('id', 0),
-            supabaseClient.from('podcasts').delete().neq('id', 0)
+            supabaseClient.from('podcasts').delete().neq('id', 0),
+            supabaseClient.from('events').delete().neq('id', 0)
         ]);
 
         await Promise.all([
@@ -289,6 +323,7 @@ window.saveFirebaseData = async function(data) {
             supabaseClient.from('team_members').insert(teamList),
             supabaseClient.from('activities').insert(activityList),
             supabaseClient.from('podcasts').insert(podcastList),
+            supabaseClient.from('events').insert(eventsList),
             supabaseClient.from('donation_settings').upsert(donationObj),
             supabaseClient.from('about_settings').upsert(aboutObj)
         ]);
