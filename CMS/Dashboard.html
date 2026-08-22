@@ -338,6 +338,12 @@
                 <i class="fas fa-certificate w-5 text-center text-xs text-amber-500"></i>
                 <span>Sertifikat</span>
             </button>
+            <button onclick="switchTab('activity-log')" data-tab="activity-log"
+                class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
+                <i class="fas fa-history w-5 text-center text-xs text-emerald-400"></i>
+                <span>Log Aktivitas</span>
+                <span id="count-activity-log" class="ml-auto bg-white/10 text-xs px-2 py-0.5 rounded-full">0</span>
+            </button>
 
         </nav>
         <div class="p-4 border-t border-white/10 space-y-2">
@@ -346,11 +352,6 @@
                 <i class="fas fa-external-link-alt w-5 text-center text-xs"></i>
                 <span>Lihat Beranda</span>
             </a>
-            <button onclick="resetData()"
-                class="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-red-400 rounded-lg hover:bg-white/5 transition-all w-full text-left">
-                <i class="fas fa-undo w-5 text-center text-xs"></i>
-                <span>Reset ke Default</span>
-            </button>
             <button onclick="logout()"
                 class="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-red-400 rounded-lg hover:bg-white/5 transition-all w-full text-left">
                 <i class="fas fa-sign-out-alt w-5 text-center text-xs"></i>
@@ -925,6 +926,60 @@
                 </div>
             </div>
 
+            <!-- ===== VIEW: LOG AKTIVITAS ===== -->
+            <div id="view-activity-log" class="hidden space-y-6">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-emerald-100 dark:bg-emerald-950/50 rounded-lg flex items-center justify-center text-emerald-600 dark:text-emerald-400 text-sm">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <h2 class="text-lg font-bold text-heading">Log Aktivitas Admin</h2>
+                            <span id="badge-log-count" class="text-xs bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-full font-medium">0 entri</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="exportActivityLogToCSV()" class="bg-green-600 hover:bg-green-700 text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+                                <i class="fas fa-file-excel"></i> Ekspor CSV
+                            </button>
+                            <button onclick="clearActivityLog()" class="hidden bg-red-500 hover:bg-red-600 text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+                                <i class="fas fa-trash"></i> Hapus Semua Log
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Legenda Badge -->
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"><i class="fas fa-sign-in-alt text-[10px]"></i> LOGIN</span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300"><i class="fas fa-plus text-[10px]"></i> TAMBAH</span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-600"><i class="fas fa-pen text-[10px]"></i> EDIT</span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400"><i class="fas fa-trash text-[10px]"></i> HAPUS</span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-slate-300"><i class="fas fa-sign-out-alt text-[10px]"></i> LOGOUT</span>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-gray-100 dark:bg-slate-800 border-b border-gray-200 dark:border-slate-800 text-heading">
+                                    <tr>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Waktu</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Aksi</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Kategori</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Detail</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Admin</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-activity-log" class="divide-y divide-gray-100 dark:divide-slate-800">
+                                    <tr>
+                                        <td colspan="5" class="text-center py-10 text-gray-400">
+                                            <i class="fas fa-history text-3xl mb-2 block opacity-30"></i>
+                                            Belum ada aktivitas yang tercatat.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </main>
@@ -1456,7 +1511,17 @@
                     document.getElementById('page-title').textContent = 'Sertifikat';
                     document.getElementById('page-desc').textContent = 'Desain layout e-sertifikat dan kelola log data sertifikat yang terbit';
                     if (typeof loadAndRenderCertificateDesigns === 'function') loadAndRenderCertificateDesigns();
+                } else if (tab === 'activity-log') {
+                    var viewActivityLog = document.getElementById('view-activity-log');
+                    if (viewActivityLog) viewActivityLog.classList.remove('hidden');
+                    document.getElementById('page-title').textContent = 'Log Aktivitas';
+                    document.getElementById('page-desc').textContent = 'Riwayat seluruh aktivitas admin: login, tambah, edit, dan hapus data';
+                    renderActivityLog();
                 }
+
+                // Sembunyikan view-activity-log kecuali tab-nya aktif
+                var viewActivityLog = document.getElementById('view-activity-log');
+                if (viewActivityLog && tab !== 'activity-log') viewActivityLog.classList.add('hidden');
 
                 renderAllLists();
                 closeSidebar();
@@ -1520,6 +1585,11 @@
                         .delete()
                         .eq('event_name', eventName);
                     if (error) throw error;
+                    // ===== ACTIVITY LOG =====
+                    try {
+                        addActivityLog('HAPUS', 'Desain Sertifikat', 'Menghapus desain sertifikat: "' + eventName + '"');
+                    } catch(e) {}
+                    // ========================
                     loadAndRenderCertificateDesigns();
                 } catch(e) {
                     alert("Gagal menghapus: " + e.message);
@@ -1750,6 +1820,9 @@
                         }
                     });
                     localStorage.setItem(listKey, JSON.stringify(list));
+                    // ===== ACTIVITY LOG =====
+                    addActivityLog('TAMBAH', 'Sertifikat', 'Menerbitkan sertifikat otomatis untuk: "' + name + '" (' + eventName + ')');
+                    // ========================
                     showToast('Sertifikat berhasil diterbitkan secara otomatis!', 'success');
                     loadAndRenderCertificates();
                 } catch (err) {
@@ -1844,8 +1917,12 @@
             window.deleteRegistration = function (id) {
                 if (!confirm('Hapus pendaftaran ini?')) return;
                 var list = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+                var found = list.find(function(item) { return item.id === id; });
                 list = list.filter(function (item) { return item.id !== id; });
                 localStorage.setItem('event_registrations', JSON.stringify(list));
+                // ===== ACTIVITY LOG =====
+                addActivityLog('HAPUS', 'Registrasi Event', 'Menghapus registrasi' + (found ? ': "' + (found.name || found.email || '') + '"' : ''));
+                // ========================
                 renderRegistrationsList();
                 showToast('Pendaftaran berhasil dihapus.', 'success');
             };
@@ -3169,6 +3246,34 @@
                 }
 
                 if (!saveData(data)) return;
+                // ===== ACTIVITY LOG: Catat event TAMBAH / EDIT =====
+                try {
+                    var logCategoryMap = {
+                        'external': 'Testimoni Eksternal', 'internal': 'Testimoni Internal',
+                        'faq': 'FAQ', 'locations': 'Lokasi', 'team': 'Tim',
+                        'activity-card': 'Activity Card', 'podcast': 'Podcast',
+                        'partner': 'Partner', 'event': 'Event',
+                        'about-hero': 'About Hero', 'donation-settings': 'Donasi',
+                        'events-settings': 'Pengaturan Event'
+                    };
+                    var logCat = logCategoryMap[section] || section;
+                    var logAction = isEdit ? 'EDIT' : 'TAMBAH';
+                    var logDetail = (isEdit ? 'Mengedit ' : 'Menambahkan ') + logCat;
+                    // Coba ambil nama item untuk detail yang lebih informatif
+                    try {
+                        var itemName = '';
+                        if (section === 'external' || section === 'internal') itemName = document.getElementById('f-name') ? document.getElementById('f-name').value : '';
+                        else if (section === 'faq') itemName = document.getElementById('f-question') ? document.getElementById('f-question').value : '';
+                        else if (section === 'locations') itemName = document.getElementById('f-name') ? document.getElementById('f-name').value : '';
+                        else if (section === 'team') itemName = document.getElementById('f-name') ? document.getElementById('f-name').value : '';
+                        else if (section === 'activity-card' || section === 'podcast') itemName = document.getElementById('f-title') ? document.getElementById('f-title').value : '';
+                        else if (section === 'partner') itemName = document.getElementById('f-name') ? document.getElementById('f-name').value : '';
+                        else if (section === 'event') itemName = document.getElementById('f-title-id') ? document.getElementById('f-title-id').value : '';
+                        if (itemName) logDetail += ': "' + itemName + '"';
+                    } catch(nameErr) {}
+                    addActivityLog(logAction, logCat, logDetail);
+                } catch(logErr) { console.warn('Log error:', logErr); }
+                // ====================================================
                 closeModal();
                 renderAllLists();
                 if (section === 'about-hero') renderAboutPreview();
@@ -3198,6 +3303,20 @@
                 var data = getData();
                 var section = deletingSection;
                 var id = deletingId;
+                // Ambil nama item sebelum dihapus untuk log yang informatif
+                var deletedItemName = '';
+                try {
+                    var itemList = {
+                        'external': data.externalTestimonials, 'internal': data.internalTestimonials,
+                        'faq': data.faqs, 'locations': data.locations, 'team': data.team,
+                        'activity-card': data.activityCards, 'podcast': data.podcasts,
+                        'partner': data.partners, 'event': data.events
+                    }[section] || [];
+                    var foundItem = itemList.find(function(i) { return i.id === id; });
+                    if (foundItem) {
+                        deletedItemName = foundItem.name || foundItem.title || foundItem.title_id || foundItem.question || '';
+                    }
+                } catch(e) {}
                 switch (section) {
                     case 'external': data.externalTestimonials = (data.externalTestimonials || []).filter(function (i) { return i.id !== id; }); break;
                     case 'internal': data.internalTestimonials = (data.internalTestimonials || []).filter(function (i) { return i.id !== id; }); break;
@@ -3210,28 +3329,199 @@
                     case 'event': data.events = (data.events || []).filter(function (i) { return i.id !== id; }); break;
                 }
                 if (!saveData(data)) return;
+                // ===== ACTIVITY LOG: Catat event HAPUS =====
+                try {
+                    var logCatMap = {
+                        'external': 'Testimoni Eksternal', 'internal': 'Testimoni Internal',
+                        'faq': 'FAQ', 'locations': 'Lokasi', 'team': 'Tim',
+                        'activity-card': 'Activity Card', 'podcast': 'Podcast',
+                        'partner': 'Partner', 'event': 'Event'
+                    };
+                    var logCat = logCatMap[section] || section;
+                    var logDetail = 'Menghapus ' + logCat + (deletedItemName ? ': "' + deletedItemName + '"' : '');
+                    addActivityLog('HAPUS', logCat, logDetail);
+                } catch(logErr) {}
+                // ===========================================
                 closeConfirm();
                 renderAllLists();
                 showToast('Data berhasil dihapus.', 'success');
             }
 
-            window.resetData = async function () {
-                if (!confirm('Reset semua data ke default?')) return;
-                memoryData = JSON.parse(JSON.stringify(DEFAULT_DATA));
-                await window.saveFirebaseData(memoryData);
-                renderAllLists();
-                renderAboutPreview();
-                renderDonationPreview();
-                renderEventsSettingsPreview(memoryData.eventsSettings);
-                showToast('Data berhasil direset.', 'success');
-            };
-
             window.logout = function () {
+                // ===== ACTIVITY LOG: Catat event LOGOUT =====
+                try {
+                    addActivityLog('LOGOUT', 'Sistem', 'Admin keluar dari sesi');
+                } catch(e) {}
+                // ============================================
                 supabase.auth.signOut().then(function () {
                     window.location.href = 'Login.html';
                 }).catch(function (error) {
                     console.error("Logout error", error);
                 });
+            };
+
+            /* =========================================
+               SISTEM LOGGING AKTIVITAS ADMIN
+               Mencatat riwayat aksi admin ke localStorage
+               key: 'hey_youth_admin_logs', maks 200 entri
+               ========================================= */
+            var ACTIVITY_LOG_KEY = 'hey_youth_admin_logs';
+            var MAX_LOG_ENTRIES = 200;
+
+            /**
+             * Mencatat satu entri aktivitas ke log (menyimpan ke LocalStorage & Supabase).
+             * @param {string} action  - 'LOGIN' | 'TAMBAH' | 'EDIT' | 'HAPUS' | 'LOGOUT'
+             * @param {string} category - Kategori data, mis. 'FAQ', 'Event', 'Sertifikat'
+             * @param {string} detail  - Deskripsi lengkap aksi yang dilakukan
+             */
+            async function addActivityLog(action, category, detail) {
+                try {
+                    var adminEmail = window._currentAdminEmail || localStorage.getItem('hey_youth_last_login_email') || 'Admin';
+                    
+                    // Fallback to localStorage
+                    var logs = JSON.parse(localStorage.getItem(ACTIVITY_LOG_KEY) || '[]');
+                    var entry = {
+                        timestamp: new Date().toISOString(),
+                        action: action,
+                        category: category,
+                        detail: detail,
+                        adminEmail: adminEmail
+                    };
+                    logs.unshift(entry);
+                    if (logs.length > MAX_LOG_ENTRIES) logs = logs.slice(0, MAX_LOG_ENTRIES);
+                    localStorage.setItem(ACTIVITY_LOG_KEY, JSON.stringify(logs));
+                    
+                    // Update badge counter di sidebar
+                    var badge = document.getElementById('count-activity-log');
+                    if (badge) badge.textContent = logs.length;
+
+                    // Insert to Supabase
+                    if (window.supabase) {
+                        await window.supabase.from('admin_logs').insert([{
+                            admin_email: adminEmail,
+                            action: action,
+                            category: category,
+                            detail: detail
+                        }]);
+                    }
+                } catch(e) {
+                    console.warn('Gagal menyimpan log aktivitas:', e);
+                }
+            }
+            window.addActivityLog = addActivityLog;
+
+            /**
+             * Render tabel log aktivitas di panel view-activity-log.
+             * Mengambil data realtime dari Supabase jika tersedia.
+             */
+            async function renderActivityLog() {
+                var tbody = document.getElementById('list-activity-log');
+                var badgeCount = document.getElementById('badge-log-count');
+                var sidebarBadge = document.getElementById('count-activity-log');
+
+                if (!tbody) return;
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin text-3xl mb-2 block opacity-30"></i>Memuat log aktivitas...</td></tr>';
+
+                var logs = [];
+                if (window.supabase) {
+                    try {
+                        const { data, error } = await window.supabase
+                            .from('admin_logs')
+                            .select('*')
+                            .order('created_at', { ascending: false })
+                            .limit(100);
+                        
+                        if (!error && data) {
+                            logs = data.map(function(d) {
+                                return {
+                                    timestamp: d.created_at,
+                                    action: d.action,
+                                    category: d.category,
+                                    detail: d.detail,
+                                    adminEmail: d.admin_email
+                                };
+                            });
+                            // Sync fallback to local storage
+                            localStorage.setItem(ACTIVITY_LOG_KEY, JSON.stringify(logs));
+                        } else {
+                            logs = JSON.parse(localStorage.getItem(ACTIVITY_LOG_KEY) || '[]');
+                        }
+                    } catch(e) {
+                        logs = JSON.parse(localStorage.getItem(ACTIVITY_LOG_KEY) || '[]');
+                    }
+                } else {
+                    logs = JSON.parse(localStorage.getItem(ACTIVITY_LOG_KEY) || '[]');
+                }
+
+                if (badgeCount) badgeCount.textContent = logs.length + ' entri';
+                if (sidebarBadge) sidebarBadge.textContent = logs.length;
+
+                if (logs.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-10 text-gray-400"><i class="fas fa-history text-3xl mb-2 block opacity-30"></i>Belum ada aktivitas yang tercatat.</td></tr>';
+                    return;
+                }
+
+                // Badge warna per aksi
+                var badgeMap = {
+                    'LOGIN':  '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"><i class="fas fa-sign-in-alt"></i> LOGIN</span>',
+                    'TAMBAH': '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300"><i class="fas fa-plus"></i> TAMBAH</span>',
+                    'EDIT':   '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-600"><i class="fas fa-pen"></i> EDIT</span>',
+                    'HAPUS':  '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400"><i class="fas fa-trash"></i> HAPUS</span>',
+                    'LOGOUT': '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-slate-300"><i class="fas fa-sign-out-alt"></i> LOGOUT</span>'
+                };
+
+                tbody.innerHTML = logs.map(function(log) {
+                    var dt = new Date(log.timestamp);
+                    var dateStr = dt.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+                    var timeStr = dt.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    var actionBadge = badgeMap[log.action] || ('<span class="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 text-gray-500">' + escapeHtml(log.action) + '</span>');
+                    return '<tr class="border-b border-gray-100 dark:border-slate-800 hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">' +
+                        '<td class="px-4 py-2.5 text-xs text-gray-500 whitespace-nowrap"><div class="font-medium text-heading">' + escapeHtml(dateStr) + '</div><div class="text-[10px] text-gray-400">' + escapeHtml(timeStr) + '</div></td>' +
+                        '<td class="px-4 py-2.5">' + actionBadge + '</td>' +
+                        '<td class="px-4 py-2.5 text-xs font-semibold text-heading">' + escapeHtml(log.category || '-') + '</td>' +
+                        '<td class="px-4 py-2.5 text-xs text-gray-600 dark:text-slate-300 max-w-xs">' + escapeHtml(log.detail || '-') + '</td>' +
+                        '<td class="px-4 py-2.5 text-xs text-gray-400">' + escapeHtml(log.adminEmail || 'Admin') + '</td>' +
+                        '</tr>';
+                }).join('');
+            }
+            window.renderActivityLog = renderActivityLog;
+
+            /**
+             * Menghapus semua entri log aktivitas.
+             */
+            window.clearActivityLog = async function() {
+                if (!confirm('Hapus semua log aktivitas? Tindakan ini tidak dapat dibatalkan.')) return;
+                try {
+                    if (window.supabase) {
+                        await window.supabase.from('admin_logs').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+                    }
+                    localStorage.setItem(ACTIVITY_LOG_KEY, '[]');
+                    renderActivityLog();
+                    showToast('Semua log aktivitas berhasil dihapus.', 'success');
+                } catch(e) {
+                    showToast('Gagal menghapus log dari database.', 'error');
+                }
+            };
+
+            /**
+             * Mengekspor log aktivitas ke file CSV.
+             */
+            window.exportActivityLogToCSV = function() {
+                var logs = [];
+                try { logs = JSON.parse(localStorage.getItem(ACTIVITY_LOG_KEY) || '[]'); } catch(e) {}
+                if (!logs.length) { showToast('Tidak ada log untuk diekspor.', 'error'); return; }
+                var headers = ['Waktu', 'Aksi', 'Kategori', 'Detail', 'Admin'];
+                var data = logs.map(function(log) {
+                    return [
+                        new Date(log.timestamp).toLocaleString('id-ID'),
+                        log.action,
+                        log.category,
+                        log.detail,
+                        log.adminEmail
+                    ];
+                });
+                downloadCSV(headers, data, 'log-aktivitas-admin.csv');
+                showToast('Log aktivitas berhasil diekspor ke CSV.', 'success');
             };
 
             /* =========================================
@@ -3688,8 +3978,13 @@
                 try {
                     var listKey = 'mock_fb_list_certificates';
                     var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
+                    var found = list.find(function(c) { return c.id === id; });
                     list = list.filter(function (item) { return item.id !== id; });
                     localStorage.setItem(listKey, JSON.stringify(list));
+                    // ===== ACTIVITY LOG =====
+                    var detail = 'Menghapus sertifikat' + (found && found.data ? ': "' + (found.data.certificateNumber || found.data.name) + '"' : '');
+                    addActivityLog('HAPUS', 'Sertifikat', detail);
+                    // ========================
                     showToast('Sertifikat berhasil dihapus.', 'success');
                     loadAndRenderCertificates();
                 } catch (err) {
@@ -3986,8 +4281,13 @@
                 try {
                     var listKey = 'mock_fb_list_mentoring_requests';
                     var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
+                    var found = list.find(function(item) { return item.id === id; });
                     list = list.filter(function (item) { return item.id !== id; });
                     localStorage.setItem(listKey, JSON.stringify(list));
+                    // ===== ACTIVITY LOG =====
+                    var detail = 'Menghapus permintaan mentoring' + (found && found.data ? ': "' + (found.data.menteeName || '') + '"' : '');
+                    addActivityLog('HAPUS', 'Permintaan Mentoring', detail);
+                    // ========================
                     showToast('Permintaan berhasil dihapus.', 'success');
                     loadAndRenderMentorship();
                 } catch (err) {
@@ -3999,8 +4299,13 @@
             window.deleteMentor = function (id) {
                 if (!confirm('Hapus mentor ini?')) return;
                 var data = getData();
+                var found = (data.mentors || []).find(function(m) { return m.id === id; });
                 data.mentors = (data.mentors || []).filter(function (m) { return m.id !== id; });
                 if (saveData(data)) {
+                    // ===== ACTIVITY LOG =====
+                    var detail = 'Menghapus mentor' + (found ? ': "' + found.name + '"' : '');
+                    addActivityLog('HAPUS', 'Mentor', detail);
+                    // ========================
                     showToast('Mentor berhasil dihapus.', 'success');
                     renderAllLists();
                 }
@@ -4028,9 +4333,10 @@
                     if (!data.mentors) data.mentors = [];
 
                     var newId = data.mentors.length > 0 ? Math.max.apply(null, data.mentors.map(function (item) { return item.id; })) + 1 : 501;
+                    var nameVal = document.getElementById('m-name').value.trim();
                     var newMentor = {
                         id: newId,
-                        name: document.getElementById('m-name').value.trim(),
+                        name: nameVal,
                         role: document.getElementById('m-role').value.trim(),
                         expertise: document.getElementById('m-expertise').value.trim(),
                         image: document.getElementById('m-image').value.trim(),
@@ -4039,6 +4345,9 @@
 
                     data.mentors.push(newMentor);
                     if (saveData(data)) {
+                        // ===== ACTIVITY LOG =====
+                        addActivityLog('TAMBAH', 'Mentor', 'Menambahkan mentor baru: "' + nameVal + '"');
+                        // ========================
                         showToast('Mentor baru berhasil ditambahkan.', 'success');
                         closeModal();
                         renderAllLists();
@@ -4072,9 +4381,10 @@
                     var idx = data.mentors.findIndex(function (m) { return m.id === id; });
                     if (idx === -1) return;
 
+                    var nameVal = document.getElementById('m-name').value.trim();
                     data.mentors[idx] = {
                         id: id,
-                        name: document.getElementById('m-name').value.trim(),
+                        name: nameVal,
                         role: document.getElementById('m-role').value.trim(),
                         expertise: document.getElementById('m-expertise').value.trim(),
                         image: document.getElementById('m-image').value.trim(),
@@ -4082,6 +4392,9 @@
                     };
 
                     if (saveData(data)) {
+                        // ===== ACTIVITY LOG =====
+                        addActivityLog('EDIT', 'Mentor', 'Mengedit mentor: "' + nameVal + '"');
+                        // ========================
                         showToast('Data mentor berhasil diperbarui.', 'success');
                         closeModal();
                         renderAllLists();
@@ -4371,6 +4684,9 @@
                     categories.push({ id: id, name: name });
 
                     localStorage.setItem('sd_categories', JSON.stringify(categories));
+                    // ===== ACTIVITY LOG =====
+                    addActivityLog('TAMBAH', 'Kategori Pelajaran SD', 'Menambahkan kategori: "' + name + '"');
+                    // ========================
                     showToast('Kategori baru berhasil ditambahkan.', 'success');
                     closeModal();
                     loadAndRenderMentoringCategories();
@@ -4401,6 +4717,9 @@
 
                     categories[index].name = newName;
                     localStorage.setItem('sd_categories', JSON.stringify(categories));
+                    // ===== ACTIVITY LOG =====
+                    addActivityLog('EDIT', 'Kategori Pelajaran SD', 'Mengedit kategori: "' + newName + '"');
+                    // ========================
                     showToast('Kategori berhasil diperbarui.', 'success');
                     closeModal();
                     loadAndRenderMentoringCategories();
@@ -4416,6 +4735,9 @@
                 if (confirm('Apakah Anda yakin ingin menghapus kategori "' + cat.name + '"?')) {
                     categories.splice(index, 1);
                     localStorage.setItem('sd_categories', JSON.stringify(categories));
+                    // ===== ACTIVITY LOG =====
+                    addActivityLog('HAPUS', 'Kategori Pelajaran SD', 'Menghapus kategori: "' + cat.name + '"');
+                    // ========================
                     showToast('Kategori berhasil dihapus.', 'success');
                     loadAndRenderMentoringCategories();
                     loadAndRenderTeacherClasses();
@@ -4566,10 +4888,11 @@
                     e.preventDefault();
                     var classes = JSON.parse(localStorage.getItem('teacher_classes')) || [];
                     var avatarVal = uploadedImage || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80';
+                    var titleVal = document.getElementById('tc-title').value.trim();
 
                     var newClass = {
                         id: Date.now(),
-                        title: document.getElementById('tc-title').value.trim(),
+                        title: titleVal,
                         category: document.getElementById('tc-category').value,
                         grade: document.getElementById('tc-grade').value.trim(),
                         desc: document.getElementById('tc-desc').value.trim(),
@@ -4584,6 +4907,9 @@
 
                     classes.push(newClass);
                     localStorage.setItem('teacher_classes', JSON.stringify(classes));
+                    // ===== ACTIVITY LOG =====
+                    addActivityLog('TAMBAH', 'Sesi Kelas', 'Menambahkan sesi kelas: "' + titleVal + '"');
+                    // ========================
                     showToast('Kelas Teacher Class baru berhasil ditambahkan.', 'success');
                     closeModal();
                     loadAndRenderTeacherClasses();
@@ -4648,10 +4974,11 @@
                 document.getElementById('form-edit-teacher-class').addEventListener('submit', function (e) {
                     e.preventDefault();
                     var avatarVal = uploadedImage || item.avatar;
+                    var titleVal = document.getElementById('tc-title').value.trim();
 
                     classes[index] = {
                         id: item.id,
-                        title: document.getElementById('tc-title').value.trim(),
+                        title: titleVal,
                         category: document.getElementById('tc-category').value,
                         grade: document.getElementById('tc-grade').value.trim(),
                         desc: document.getElementById('tc-desc').value.trim(),
@@ -4665,6 +4992,9 @@
                     };
 
                     localStorage.setItem('teacher_classes', JSON.stringify(classes));
+                    // ===== ACTIVITY LOG =====
+                    addActivityLog('EDIT', 'Sesi Kelas', 'Mengedit sesi kelas: "' + titleVal + '"');
+                    // ========================
                     showToast('Sesi kelas berhasil diperbarui.', 'success');
                     closeModal();
                     loadAndRenderTeacherClasses();
@@ -4679,6 +5009,9 @@
                 if (confirm('Apakah Anda yakin ingin menghapus kelas "' + item.title + '"?')) {
                     classes.splice(index, 1);
                     localStorage.setItem('teacher_classes', JSON.stringify(classes));
+                    // ===== ACTIVITY LOG =====
+                    addActivityLog('HAPUS', 'Sesi Kelas', 'Menghapus sesi kelas: "' + item.title + '"');
+                    // ========================
                     showToast('Kelas berhasil dihapus.', 'success');
                     loadAndRenderTeacherClasses();
                 }
@@ -4936,6 +5269,23 @@
                     renderAllLists();
                     initStatisticsListener();
                     initThemeToggle();
+                    // Inisialisasi badge log di sidebar & Realtime Subscription
+                    try {
+                        if (window.supabase) {
+                            window.supabase.channel('public:admin_logs')
+                                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'admin_logs' }, function(payload) {
+                                    // Refresh the list if it's currently visible
+                                    var logView = document.getElementById('view-activity-log');
+                                    if (logView && !logView.classList.contains('hidden')) {
+                                        if (typeof renderActivityLog === 'function') renderActivityLog();
+                                    }
+                                })
+                                .subscribe();
+                        }
+                        var initLogs = JSON.parse(localStorage.getItem('hey_youth_admin_logs') || '[]');
+                        var sidebarBadge = document.getElementById('count-activity-log');
+                        if (sidebarBadge) sidebarBadge.textContent = initLogs.length;
+                    } catch(e) {}
                     if (typeof switchTab === 'function') switchTab('homepage');
                 } catch (err) {
                     console.error("initDashboard error:", err);
@@ -4945,6 +5295,11 @@
             // Check active session using Supabase to protect dashboard
             supabase.auth.getSession().then(function (result) {
                 if (result.data && result.data.session) {
+                    // Simpan email admin ke variabel global untuk digunakan logging
+                    if (result.data.session.user) {
+                        window._currentAdminEmail = result.data.session.user.email || 'Admin';
+                        localStorage.setItem('hey_youth_last_login_email', window._currentAdminEmail);
+                    }
                     initDashboard();
                 } else {
                     window.location.href = 'Login.html';
