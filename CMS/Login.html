@@ -367,6 +367,24 @@
                         showError('Email atau password salah. Periksa kembali kredensial Anda.');
                         console.error("Login error:", response.error.message);
                     } else {
+                        // ===== ACTIVITY LOG: Catat event LOGIN =====
+                        try {
+                            var adminEmail = (response.data && response.data.user) ? response.data.user.email : 'Admin';
+                            localStorage.setItem('hey_youth_last_login_email', adminEmail);
+                            var loginLogs = JSON.parse(localStorage.getItem('hey_youth_admin_logs') || '[]');
+                            loginLogs.unshift({
+                                timestamp: new Date().toISOString(),
+                                action: 'LOGIN',
+                                category: 'Sistem',
+                                detail: 'Login berhasil sebagai ' + adminEmail,
+                                adminEmail: adminEmail
+                            });
+                            if (loginLogs.length > 200) loginLogs = loginLogs.slice(0, 200);
+                            localStorage.setItem('hey_youth_admin_logs', JSON.stringify(loginLogs));
+                        } catch(logErr) {
+                            console.warn('Gagal menyimpan log login:', logErr);
+                        }
+                        // ==========================================
                         window.location.href = 'Dashboard.html';
                     }
                 })
