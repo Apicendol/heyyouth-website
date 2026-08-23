@@ -366,57 +366,90 @@ localStorage.setItem = function(key, value) {
 
 async function syncClassesToSupabase(classes) {
     try {
-        const list = classes.map(c => ({
-            id: c.id,
-            title: c.title,
-            category: c.category,
-            grade: c.grade,
-            slot: parseInt(c.slot, 10) || 0,
-            desc_text: c.desc || '',
-            date_str: c.date || '',
-            time_str: c.time || '',
-            platform: c.platform || '',
-            mentor: c.mentor || '',
-            mentor_title: c.mentorTitle || '',
-            avatar: c.avatar || ''
-        }));
-        await supabaseClient.from('teacher_classes').delete().neq('id', 0);
-        await supabaseClient.from('teacher_classes').insert(list);
+        const hasTempId = classes.some(c => isNaN(parseInt(c.id, 10)));
+        const list = classes.map(c => {
+            const item = {
+                title: c.title,
+                category: c.category,
+                grade: c.grade,
+                slot: parseInt(c.slot, 10) || 0,
+                desc_text: c.desc || '',
+                date_str: c.date || '',
+                time_str: c.time || '',
+                platform: c.platform || '',
+                mentor: c.mentor || '',
+                mentor_title: c.mentorTitle || '',
+                avatar: c.avatar || ''
+            };
+            if (!hasTempId) {
+                item.id = parseInt(c.id, 10);
+            }
+            return item;
+        });
+        const { error: delErr } = await supabaseClient.from('teacher_classes').delete().neq('id', 0);
+        if (delErr) throw delErr;
+        if (list.length > 0) {
+            const { error: insErr } = await supabaseClient.from('teacher_classes').insert(list);
+            if (insErr) throw insErr;
+        }
+        console.log("Successfully synced teacher classes to Supabase.");
     } catch(e) { console.error("Error syncing classes:", e); }
 }
 
 async function syncCertsToSupabase(certs) {
     try {
-        const list = certs.map(c => ({
-            id: parseInt(c.id, 10) || undefined,
-            certificate_number: c.data.certificateNumber,
-            name: c.data.name,
-            email: c.data.email,
-            phone: c.data.phone || null,
-            event_name: c.data.eventName,
-            issue_date: c.data.issueDate,
-            role: c.data.role || 'Participant',
-            description: c.data.description
-        }));
-        await supabaseClient.from('certificates').delete().neq('id', 0);
-        await supabaseClient.from('certificates').insert(list);
+        const hasTempId = certs.some(c => isNaN(parseInt(c.id, 10)));
+        const list = certs.map(c => {
+            const item = {
+                certificate_number: c.data.certificateNumber,
+                name: c.data.name,
+                email: c.data.email,
+                phone: c.data.phone || null,
+                event_name: c.data.eventName,
+                issue_date: c.data.issueDate,
+                role: c.data.role || 'Participant',
+                description: c.data.description
+            };
+            if (!hasTempId) {
+                item.id = parseInt(c.id, 10);
+            }
+            return item;
+        });
+        const { error: delErr } = await supabaseClient.from('certificates').delete().neq('id', 0);
+        if (delErr) throw delErr;
+        if (list.length > 0) {
+            const { error: insErr } = await supabaseClient.from('certificates').insert(list);
+            if (insErr) throw insErr;
+        }
+        console.log("Successfully synced certificates to Supabase.");
     } catch(e) { console.error("Error syncing certificates:", e); }
 }
 
 async function syncEventRegsToSupabase(regs) {
     try {
-        const list = regs.map(r => ({
-            id: r.id,
-            event_id: String(r.eventId || ''),
-            event_name: r.eventName || '',
-            name: r.name,
-            instansi: r.instansi || null,
-            email: r.email,
-            phone: r.phone,
-            domisili: r.domisili || null
-        }));
-        await supabaseClient.from('event_registrations').delete().neq('id', 0);
-        await supabaseClient.from('event_registrations').insert(list);
+        const hasTempId = regs.some(r => isNaN(parseInt(r.id, 10)));
+        const list = regs.map(r => {
+            const item = {
+                event_id: String(r.eventId || ''),
+                event_name: r.eventName || '',
+                name: r.name,
+                instansi: r.instansi || null,
+                email: r.email,
+                phone: r.phone,
+                domisili: r.domisili || null
+            };
+            if (!hasTempId) {
+                item.id = parseInt(r.id, 10);
+            }
+            return item;
+        });
+        const { error: delErr } = await supabaseClient.from('event_registrations').delete().neq('id', 0);
+        if (delErr) throw delErr;
+        if (list.length > 0) {
+            const { error: insErr } = await supabaseClient.from('event_registrations').insert(list);
+            if (insErr) throw insErr;
+        }
+        console.log("Successfully synced event registrations to Supabase.");
     } catch(e) { console.error("Error syncing event registrations:", e); }
 }
 
@@ -430,8 +463,13 @@ async function syncTeacherRegsToSupabase(regs) {
             notes: r.notes || null,
             class_title: r.classTitle
         }));
-        await supabaseClient.from('teacher_registrations').delete().neq('id', 0);
-        await supabaseClient.from('teacher_registrations').insert(list);
+        const { error: delErr } = await supabaseClient.from('teacher_registrations').delete().neq('id', 0);
+        if (delErr) throw delErr;
+        if (list.length > 0) {
+            const { error: insErr } = await supabaseClient.from('teacher_registrations').insert(list);
+            if (insErr) throw insErr;
+        }
+        console.log("Successfully synced teacher registrations to Supabase.");
     } catch(e) { console.error("Error syncing teacher registrations:", e); }
 }
 
@@ -527,8 +565,10 @@ window.syncFromSupabase = async function() {
     }
 };
 
-// Run initial synchronization in the background
-window.syncFromSupabase();
+// Run initial synchronization in the background only in the CMS pages
+if (window.location.pathname.includes('/CMS/') || window.location.pathname.includes('Dashboard.html')) {
+    window.syncFromSupabase();
+}
 
 window.uploadToSupabaseStorage = async function(base64Data, filename) {
     try {

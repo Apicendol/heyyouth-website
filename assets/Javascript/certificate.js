@@ -209,7 +209,7 @@ async function drawCertificate(canvas, cert) {
   }
 
   // If a custom cloud layout is saved, render it dynamically
-  if (settings && settings.template_image && settings.layout_json) {
+  if (settings && settings.template_image && settings.layout_json && Array.isArray(settings.layout_json) && settings.layout_json.length > 0) {
      const cw = 1123;
      const ch = 794;
      const scale = 2; // high-quality export resolution
@@ -217,6 +217,19 @@ async function drawCertificate(canvas, cert) {
      canvas.height = ch * scale;
      const ctx = canvas.getContext('2d');
      ctx.scale(scale, scale);
+     
+     // Wait for all custom fonts in the layout to load
+      if (document.fonts) {
+          try {
+              const fontFamilies = [...new Set(settings.layout_json.filter(e => e.type === 'text' && e.fontFamily).map(e => {
+                  return e.fontFamily.replace(/['"]/g, '').split(',')[0].trim();
+              }))];
+              await Promise.all(fontFamilies.map(font => document.fonts.load(`20px "${font}"`)));
+          } catch (e) {
+              console.warn("Gagal memuat font dinamis:", e);
+          }
+      }
+
      ctx.fillStyle = '#ffffff';
      ctx.fillRect(0, 0, cw, ch);
 
@@ -281,11 +294,14 @@ async function drawCertificate(canvas, cert) {
                  const lines = txt.split('\n');
                  let yp = el.y + 4;
                  const lh = (el.lineHeight || 1.3) * el.fontSize;
-                 const ls = el.letterSpacing || 0;
+                 const ls = parseFloat(el.letterSpacing) || 0;
                  
                  lines.forEach(line => {
                      if (ls === 0) {
-                         ctx.fillText(line, el.x + el.width/2, yp, el.width);
+                         let xp = el.x;
+                         if (el.textAlign === 'center') xp = el.x + el.width / 2;
+                         else if (el.textAlign === 'right') xp = el.x + el.width;
+                         ctx.fillText(line, xp, yp, el.width);
                      } else {
                          const mw = ctx.measureText(line).width + ls * Math.max(0, line.length - 1);
                          let xp;
