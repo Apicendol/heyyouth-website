@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate Layout Editor | Hey Youth!</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Sans+3:wght@300;400;600;700&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Cinzel:wght@400;700;900&family=Lora:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&family=Sacramento&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Sans+3:wght@300;400;600;700&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Cinzel:wght@400;700;900&family=Lora:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&family=Sacramento&family=Roboto:wght@300;400;500;700&family=Montserrat:wght@300;400;500;700&family=Oswald:wght@300;400;500;700&family=Raleway:wght@300;400;500;700&family=Merriweather:wght@300;400;700&family=Nunito:wght@300;400;600;700&family=Ubuntu:wght@300;400;500;700&family=Pacifico&family=Caveat:wght@400;700&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&family=Inter:wght@400;600;700&family=PT+Sans:wght@400;700&family=Noto+Sans:wght@400;700&family=Work+Sans:wght@400;600&family=Fira+Sans:wght@400;600&family=Quicksand:wght@400;600&family=Barlow:wght@400;600&family=Mulish:wght@400;700&family=Titillium+Web:wght@400;600&family=Josefin+Sans:wght@400;600&family=Dosis:wght@400;600&family=Anton&family=Cabin:wght@400;600&family=Libre+Franklin:wght@400;600&family=PT+Serif:wght@400;700&family=Noto+Serif:wght@400;700&family=EB+Garamond:wght@400;600&family=Libre+Baskerville:wght@400;700&family=Crimson+Text:wght@400;600&family=Bitter:wght@400;600&family=Cormorant+Garamond:wght@400;600&family=Zilla+Slab:wght@400;600&family=Inconsolata:wght@400;600&family=Fira+Code:wght@400;600&family=Source+Code+Pro:wght@400;600&family=Space+Mono:wght@400;700&family=Satisfy&family=Courgette&family=Kaushan+Script&family=Yellowtail&family=Amatic+SC:wght@400;700&family=Shadows+Into+Light&family=Indie+Flower&family=Permanent+Marker&family=Lobster&family=Righteous&family=Bebas+Neue&family=Fjalla+One&family=Alfa+Slab+One&family=Passion+One:wght@400;700&family=Cinzel+Decorative:wght@400;700&family=Yeseva+One&family=Abril+Fatface&family=Bungee&family=Fredoka+One&family=Varela+Round&family=Comfortaa:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root, body.dark-mode {
@@ -208,7 +208,7 @@
     </main>
 
     <!-- PROPERTIES -->
-    <aside style="width:268px;background:var(--bg2);border-left:1px solid var(--bdr)" class="overflow-y-auto" id="pP">
+    <aside style="width:340px;background:var(--bg2);border-left:1px solid var(--bdr)" class="overflow-y-auto" id="pP">
         <div id="pE" class="es">
             <i class="fas fa-mouse-pointer"></i>
             <div style="font-size:12.5px">
@@ -275,17 +275,75 @@
                     </div>
                     <div class="pr"><label style="min-width:32px">Font</label>
                         <select class="psel" id="pFn" onchange="sP('fontFamily',this.value)">
-                            <option value="'Playfair Display', serif">Playfair Display</option>
-                            <option value="'Cinzel', serif">Cinzel</option>
-                            <option value="'Lora', serif">Lora</option>
-                            <option value="'Poppins', sans-serif">Poppins</option>
-                            <option value="'Dancing Script', cursive">Dancing Script</option>
-                            <option value="'Great Vibes', cursive">Great Vibes</option>
-                            <option value="'Sacramento', cursive">Sacramento</option>
-                            <option value="'Source Sans 3', sans-serif">Source Sans 3</option>
-                            <option value="Georgia, serif">Georgia</option>
-                            <option value="'Times New Roman', serif">Times New Roman</option>
-                            <option value="Arial, sans-serif">Arial</option>
+                            <option value="'Playfair Display', serif" style="font-family: 'Playfair Display', serif; font-size: 16px;">Playfair Display - Ag</option>
+                            <option value="'Cinzel', serif" style="font-family: 'Cinzel', serif; font-size: 16px;">Cinzel - Ag</option>
+                            <option value="'Lora', serif" style="font-family: 'Lora', serif; font-size: 16px;">Lora - Ag</option>
+                            <option value="'Poppins', sans-serif" style="font-family: 'Poppins', sans-serif; font-size: 16px;">Poppins - Ag</option>
+                            <option value="'Dancing Script', cursive" style="font-family: 'Dancing Script', cursive; font-size: 16px;">Dancing Script - Ag</option>
+                            <option value="'Great Vibes', cursive" style="font-family: 'Great Vibes', cursive; font-size: 16px;">Great Vibes - Ag</option>
+                            <option value="'Sacramento', cursive" style="font-family: 'Sacramento', cursive; font-size: 16px;">Sacramento - Ag</option>
+                            <option value="'Source Sans 3', sans-serif" style="font-family: 'Source Sans 3', sans-serif; font-size: 16px;">Source Sans 3 - Ag</option>
+                            <option value="'Roboto', sans-serif" style="font-family: 'Roboto', sans-serif; font-size: 16px;">Roboto - Ag</option>
+                            <option value="'Montserrat', sans-serif" style="font-family: 'Montserrat', sans-serif; font-size: 16px;">Montserrat - Ag</option>
+                            <option value="'Oswald', sans-serif" style="font-family: 'Oswald', sans-serif; font-size: 16px;">Oswald - Ag</option>
+                            <option value="'Raleway', sans-serif" style="font-family: 'Raleway', sans-serif; font-size: 16px;">Raleway - Ag</option>
+                            <option value="'Merriweather', serif" style="font-family: 'Merriweather', serif; font-size: 16px;">Merriweather - Ag</option>
+                            <option value="'Nunito', sans-serif" style="font-family: 'Nunito', sans-serif; font-size: 16px;">Nunito - Ag</option>
+                            <option value="'Ubuntu', sans-serif" style="font-family: 'Ubuntu', sans-serif; font-size: 16px;">Ubuntu - Ag</option>
+                            <option value="'Pacifico', cursive" style="font-family: 'Pacifico', cursive; font-size: 16px;">Pacifico - Ag</option>
+                            <option value="'Caveat', cursive" style="font-family: 'Caveat', cursive; font-size: 16px;">Caveat - Ag</option>
+                            <option value="'Open Sans', sans-serif" style="font-family: 'Open Sans', sans-serif; font-size: 16px;">Open Sans - Ag</option>
+                            <option value="'Lato', sans-serif" style="font-family: 'Lato', sans-serif; font-size: 16px;">Lato - Ag</option>
+                            <option value="'Inter', sans-serif" style="font-family: 'Inter', sans-serif; font-size: 16px;">Inter - Ag</option>
+                            <option value="'PT Sans', sans-serif" style="font-family: 'PT Sans', sans-serif; font-size: 16px;">PT Sans - Ag</option>
+                            <option value="'Noto Sans', sans-serif" style="font-family: 'Noto Sans', sans-serif; font-size: 16px;">Noto Sans - Ag</option>
+                            <option value="'Work Sans', sans-serif" style="font-family: 'Work Sans', sans-serif; font-size: 16px;">Work Sans - Ag</option>
+                            <option value="'Fira Sans', sans-serif" style="font-family: 'Fira Sans', sans-serif; font-size: 16px;">Fira Sans - Ag</option>
+                            <option value="'Quicksand', sans-serif" style="font-family: 'Quicksand', sans-serif; font-size: 16px;">Quicksand - Ag</option>
+                            <option value="'Barlow', sans-serif" style="font-family: 'Barlow', sans-serif; font-size: 16px;">Barlow - Ag</option>
+                            <option value="'Mulish', sans-serif" style="font-family: 'Mulish', sans-serif; font-size: 16px;">Mulish - Ag</option>
+                            <option value="'Titillium Web', sans-serif" style="font-family: 'Titillium Web', sans-serif; font-size: 16px;">Titillium Web - Ag</option>
+                            <option value="'Josefin Sans', sans-serif" style="font-family: 'Josefin Sans', sans-serif; font-size: 16px;">Josefin Sans - Ag</option>
+                            <option value="'Dosis', sans-serif" style="font-family: 'Dosis', sans-serif; font-size: 16px;">Dosis - Ag</option>
+                            <option value="'Anton', sans-serif" style="font-family: 'Anton', sans-serif; font-size: 16px;">Anton - Ag</option>
+                            <option value="'Cabin', sans-serif" style="font-family: 'Cabin', sans-serif; font-size: 16px;">Cabin - Ag</option>
+                            <option value="'Libre Franklin', sans-serif" style="font-family: 'Libre Franklin', sans-serif; font-size: 16px;">Libre Franklin - Ag</option>
+                            <option value="'PT Serif', serif" style="font-family: 'PT Serif', serif; font-size: 16px;">PT Serif - Ag</option>
+                            <option value="'Noto Serif', serif" style="font-family: 'Noto Serif', serif; font-size: 16px;">Noto Serif - Ag</option>
+                            <option value="'EB Garamond', serif" style="font-family: 'EB Garamond', serif; font-size: 16px;">EB Garamond - Ag</option>
+                            <option value="'Libre Baskerville', serif" style="font-family: 'Libre Baskerville', serif; font-size: 16px;">Libre Baskerville - Ag</option>
+                            <option value="'Crimson Text', serif" style="font-family: 'Crimson Text', serif; font-size: 16px;">Crimson Text - Ag</option>
+                            <option value="'Bitter', serif" style="font-family: 'Bitter', serif; font-size: 16px;">Bitter - Ag</option>
+                            <option value="'Cormorant Garamond', serif" style="font-family: 'Cormorant Garamond', serif; font-size: 16px;">Cormorant Garamond - Ag</option>
+                            <option value="'Zilla Slab', serif" style="font-family: 'Zilla Slab', serif; font-size: 16px;">Zilla Slab - Ag</option>
+                            <option value="'Inconsolata', monospace" style="font-family: 'Inconsolata', monospace; font-size: 16px;">Inconsolata - Ag</option>
+                            <option value="'Fira Code', monospace" style="font-family: 'Fira Code', monospace; font-size: 16px;">Fira Code - Ag</option>
+                            <option value="'Source Code Pro', monospace" style="font-family: 'Source Code Pro', monospace; font-size: 16px;">Source Code Pro - Ag</option>
+                            <option value="'Space Mono', monospace" style="font-family: 'Space Mono', monospace; font-size: 16px;">Space Mono - Ag</option>
+                            <option value="'Satisfy', cursive" style="font-family: 'Satisfy', cursive; font-size: 16px;">Satisfy - Ag</option>
+                            <option value="'Courgette', cursive" style="font-family: 'Courgette', cursive; font-size: 16px;">Courgette - Ag</option>
+                            <option value="'Kaushan Script', cursive" style="font-family: 'Kaushan Script', cursive; font-size: 16px;">Kaushan Script - Ag</option>
+                            <option value="'Yellowtail', cursive" style="font-family: 'Yellowtail', cursive; font-size: 16px;">Yellowtail - Ag</option>
+                            <option value="'Amatic SC', cursive" style="font-family: 'Amatic SC', cursive; font-size: 16px;">Amatic SC - Ag</option>
+                            <option value="'Shadows Into Light', cursive" style="font-family: 'Shadows Into Light', cursive; font-size: 16px;">Shadows Into Light - Ag</option>
+                            <option value="'Indie Flower', cursive" style="font-family: 'Indie Flower', cursive; font-size: 16px;">Indie Flower - Ag</option>
+                            <option value="'Permanent Marker', cursive" style="font-family: 'Permanent Marker', cursive; font-size: 16px;">Permanent Marker - Ag</option>
+                            <option value="'Lobster', cursive" style="font-family: 'Lobster', cursive; font-size: 16px;">Lobster - Ag</option>
+                            <option value="'Righteous', display" style="font-family: 'Righteous', display; font-size: 16px;">Righteous - Ag</option>
+                            <option value="'Bebas Neue', display" style="font-family: 'Bebas Neue', display; font-size: 16px;">Bebas Neue - Ag</option>
+                            <option value="'Fjalla One', sans-serif" style="font-family: 'Fjalla One', sans-serif; font-size: 16px;">Fjalla One - Ag</option>
+                            <option value="'Alfa Slab One', display" style="font-family: 'Alfa Slab One', display; font-size: 16px;">Alfa Slab One - Ag</option>
+                            <option value="'Passion One', display" style="font-family: 'Passion One', display; font-size: 16px;">Passion One - Ag</option>
+                            <option value="'Cinzel Decorative', display" style="font-family: 'Cinzel Decorative', display; font-size: 16px;">Cinzel Decorative - Ag</option>
+                            <option value="'Yeseva One', display" style="font-family: 'Yeseva One', display; font-size: 16px;">Yeseva One - Ag</option>
+                            <option value="'Abril Fatface', display" style="font-family: 'Abril Fatface', display; font-size: 16px;">Abril Fatface - Ag</option>
+                            <option value="'Bungee', display" style="font-family: 'Bungee', display; font-size: 16px;">Bungee - Ag</option>
+                            <option value="'Fredoka One', display" style="font-family: 'Fredoka One', display; font-size: 16px;">Fredoka One - Ag</option>
+                            <option value="'Varela Round', sans-serif" style="font-family: 'Varela Round', sans-serif; font-size: 16px;">Varela Round - Ag</option>
+                            <option value="'Comfortaa', display" style="font-family: 'Comfortaa', display; font-size: 16px;">Comfortaa - Ag</option>
+                            <option value="Georgia, serif" style="font-family: Georgia, serif; font-size: 16px;">Georgia - Ag</option>
+                            <option value="'Times New Roman', serif" style="font-family: 'Times New Roman', serif; font-size: 16px;">Times New Roman - Ag</option>
+                            <option value="Arial, sans-serif" style="font-family: Arial, sans-serif; font-size: 16px;">Arial - Ag</option>
                         </select>
                     </div>
                     <div class="pr">
@@ -294,10 +352,12 @@
                     </div>
                     <div class="pr">
                         <label style="min-width:32px"><span class="lang-id">Warna</span><span class="lang-en">Color</span></label>
-                        <input type="color" id="pCl" value="#1a1a2e" onchange="sP('color',this.value)">
+                        <input type="color" id="pCl" value="#1a1a2e" oninput="sP('color',this.value);document.getElementById('pClHex').value=this.value">
+                        <input type="text" id="pClHex" class="pi" style="width:65px;padding:4px;font-size:10px;font-family:monospace;text-transform:uppercase" oninput="document.getElementById('pCl').value=this.value;sP('color',this.value)">
                         <label style="min-width:18px;margin-left:5px">Bg</label>
-                        <input type="color" id="pBg" value="#ffffff" onchange="sP('bgColor',this.value)">
-                        <button class="ab" style="margin-left:2px" onclick="sP('bgColor','transparent');document.getElementById('pBg').value='#ffffff'" title="Hapus bg"><i class="fas fa-ban" style="font-size:8px"></i></button>
+                        <input type="color" id="pBg" value="#ffffff" oninput="sP('bgColor',this.value);document.getElementById('pBgHex').value=this.value">
+                        <input type="text" id="pBgHex" class="pi" style="width:65px;padding:4px;font-size:10px;font-family:monospace;text-transform:uppercase" oninput="document.getElementById('pBg').value=this.value;sP('bgColor',this.value)">
+                        <button class="ab" style="margin-left:2px" onclick="sP('bgColor','transparent');document.getElementById('pBg').value='#ffffff';document.getElementById('pBgHex').value='TRNSPR'" title="Hapus bg"><i class="fas fa-ban" style="font-size:8px"></i></button>
                     </div>
                     <div class="pl" style="margin-top:6px"><span class="lang-id">Gaya</span><span class="lang-en">Style</span></div>
                     <div class="flex gap-2 flex-wrap">
@@ -331,15 +391,15 @@
                         <option value="triangle"><span class="lang-id">Segitiga</span><span class="lang-en">Triangle</span></option>
                     </select>
                 </div>
-                <div class="pr"><label style="min-width:32px"><span class="lang-id">Warna</span><span class="lang-en">Color</span></label><input type="color" id="pSC" value="#c88b1e" onchange="sP('color',this.value)"></div>
-                <div class="pr"><label style="min-width:32px">Border</label><input type="number" class="pi" id="pSBW" min="0" max="20" style="width:50px;flex:none" onchange="sP('borderWidth',Math.max(0,+this.value))"><input type="color" id="pSBC" value="#000" onchange="sP('borderColor',this.value)"></div>
+                <div class="pr"><label style="min-width:32px"><span class="lang-id">Warna</span><span class="lang-en">Color</span></label><input type="color" id="pSC" value="#c88b1e" oninput="sP('color',this.value);document.getElementById('pSCHex').value=this.value"><input type="text" id="pSCHex" class="pi" style="width:65px;margin-left:4px;padding:4px;font-size:10px;font-family:monospace;text-transform:uppercase" oninput="document.getElementById('pSC').value=this.value;sP('color',this.value)"></div>
+                <div class="pr"><label style="min-width:32px">Border</label><input type="number" class="pi" id="pSBW" min="0" max="20" style="width:50px;flex:none" onchange="sP('borderWidth',Math.max(0,+this.value))"><input type="color" id="pSBC" value="#000" oninput="sP('borderColor',this.value);document.getElementById('pSBCHex').value=this.value"><input type="text" id="pSBCHex" class="pi" style="width:65px;margin-left:4px;padding:4px;font-size:10px;font-family:monospace;text-transform:uppercase" oninput="document.getElementById('pSBC').value=this.value;sP('borderColor',this.value)"></div>
                 <div class="pr"><label style="min-width:32px">Radius</label><input type="range" min="0" max="100" value="0" id="pSBR" oninput="sP('borderRadius',+this.value);document.getElementById('brv').textContent=this.value+'px'"><span id="brv" style="font-size:10.5px;color:var(--mt);min-width:30px;text-align:right">0px</span></div>
             </div></div>
             
             <!-- LINE -->
             <div id="lnP" style="display:none"><div class="ps">
                 <div class="pl"><span class="lang-id">Garis</span><span class="lang-en">Line</span></div>
-                <div class="pr"><label style="min-width:32px"><span class="lang-id">Warna</span><span class="lang-en">Color</span></label><input type="color" id="pLC" value="#1a1a2e" onchange="sP('color',this.value)"></div>
+                <div class="pr"><label style="min-width:32px"><span class="lang-id">Warna</span><span class="lang-en">Color</span></label><input type="color" id="pLC" value="#1a1a2e" oninput="sP('color',this.value);document.getElementById('pLCHex').value=this.value"><input type="text" id="pLCHex" class="pi" style="width:65px;margin-left:4px;padding:4px;font-size:10px;font-family:monospace;text-transform:uppercase" oninput="document.getElementById('pLC').value=this.value;sP('color',this.value)"></div>
                 <div class="pr"><label style="min-width:32px"><span class="lang-id">Tebal</span><span class="lang-en">Width</span></label><input type="number" class="pi" id="pLW" min="1" max="30" onchange="sP('lineWidth',Math.max(1,+this.value))"></div>
                 <div class="pr">
                     <label style="min-width:32px"><span class="lang-id">Gaya</span><span class="lang-en">Style</span></label>
@@ -360,11 +420,18 @@
                     <span class="lang-id">Ganti Gambar</span><span class="lang-en">Replace Image</span>
                 </button>
                 <div class="pr"><label style="min-width:32px">Radius</label><input type="range" min="0" max="200" value="0" id="pIR" oninput="sP('borderRadius',+this.value);document.getElementById('irv').textContent=this.value+'px'"><span id="irv" style="font-size:10.5px;color:var(--mt);min-width:30px;text-align:right">0px</span></div>
-                <div class="pr"><label style="min-width:32px">Border</label><input type="number" class="pi" id="pIBW" min="0" max="20" style="width:50px;flex:none" onchange="sP('borderWidth',Math.max(0,+this.value))"><input type="color" id="pIBC" value="#000" onchange="sP('borderColor',this.value)"></div>
+                <div class="pr"><label style="min-width:32px">Border</label><input type="number" class="pi" id="pIBW" min="0" max="20" style="width:50px;flex:none" onchange="sP('borderWidth',Math.max(0,+this.value))"><input type="color" id="pIBC" value="#000" oninput="sP('borderColor',this.value);document.getElementById('pIBCHex').value=this.value"><input type="text" id="pIBCHex" class="pi" style="width:65px;margin-left:4px;padding:4px;font-size:10px;font-family:monospace;text-transform:uppercase" oninput="document.getElementById('pIBC').value=this.value;sP('borderColor',this.value)"></div>
             </div></div>
             
             <!-- ACTIONS -->
             <div class="ps" style="border-bottom:none">
+                <div class="pl"><span class="lang-id">Urutan Layer</span><span class="lang-en">Layer Order</span></div>
+                <div class="flex gap-2 mb-3">
+                    <button class="ab" style="flex:1" onclick="mvL('front')" title="Pindah Paling Depan"><i class="fas fa-angle-double-up"></i></button>
+                    <button class="ab" style="flex:1" onclick="mvL('up')" title="Maju 1 Layer"><i class="fas fa-angle-up"></i></button>
+                    <button class="ab" style="flex:1" onclick="mvL('down')" title="Mundur 1 Layer"><i class="fas fa-angle-down"></i></button>
+                    <button class="ab" style="flex:1" onclick="mvL('back')" title="Pindah Paling Belakang"><i class="fas fa-angle-double-down"></i></button>
+                </div>
                 <div class="flex gap-2">
                     <button class="tb" style="flex:1;justify-content:center" onclick="dupE()">
                         <i class="fas fa-copy"></i> 
@@ -872,6 +939,21 @@ function dupE(){
 }
 
 // ============================================
+// LAYER ORDER
+// ============================================
+function mvL(dir){
+    if(!selId)return;
+    const idx = els.findIndex(e=>e.id===selId);
+    if(idx===-1)return;
+    const el = els.splice(idx,1)[0];
+    if(dir==='front'){ els.push(el); }
+    else if(dir==='back'){ els.unshift(el); }
+    else if(dir==='up'){ els.splice(Math.min(els.length, idx+1), 0, el); }
+    else if(dir==='down'){ els.splice(Math.max(0, idx-1), 0, el); }
+    rE();rL();
+}
+
+// ============================================
 // UPDATE PROPS
 // ============================================
 function sP(k,v){const el=gS();if(!el)return;el[k]=v;rE();if(k==='name' || k==='role')rL()}
@@ -1011,8 +1093,10 @@ function rP(){
     if(el.type==='text'){
         txP.style.display='block';
         document.getElementById('pTx').value=el.text;document.getElementById('pFn').value=el.fontFamily;
-        document.getElementById('pFS').value=el.fontSize;document.getElementById('pCl').value=el.color;
-        document.getElementById('pBg').value=el.bgColor==='transparent'?'#ffffff':(el.bgColor||'#ffffff');
+        document.getElementById('pFS').value=el.fontSize;
+        document.getElementById('pCl').value=el.color; document.getElementById('pClHex').value=el.color;
+        const bgVal = el.bgColor==='transparent'?'#ffffff':(el.bgColor||'#ffffff');
+        document.getElementById('pBg').value=bgVal; document.getElementById('pBgHex').value=el.bgColor==='transparent'?'TRNSPR':bgVal;
         document.getElementById('pLH').value=Math.round((el.lineHeight||1.3)*100);document.getElementById('lhv').textContent=(el.lineHeight||1.3).toFixed(1);
         document.getElementById('pLS').value=el.letterSpacing||0;document.getElementById('lsv').textContent=(el.letterSpacing||0)+'px';
         document.getElementById('bB').className='ab'+(el.bold?' on':'');document.getElementById('bI').className='ab'+(el.italic?' on':'');
@@ -1021,17 +1105,21 @@ function rP(){
         Object.keys(am).forEach(a=>{document.getElementById('bA'+a).className='ab'+((el.textAlign||'left')===am[a]?' on':'')});
     }else if(el.type==='shape'){
         shP.style.display='block';
-        document.getElementById('pST').value=el.shapeType;document.getElementById('pSC').value=el.color;
-        document.getElementById('pSBW').value=el.borderWidth||0;document.getElementById('pSBC').value=el.borderColor||'#000000';
+        document.getElementById('pST').value=el.shapeType;
+        document.getElementById('pSC').value=el.color; document.getElementById('pSCHex').value=el.color;
+        document.getElementById('pSBW').value=el.borderWidth||0;
+        document.getElementById('pSBC').value=el.borderColor||'#000000'; document.getElementById('pSBCHex').value=el.borderColor||'#000000';
         document.getElementById('pSBR').value=el.borderRadius||0;document.getElementById('brv').textContent=(el.borderRadius||0)+'px';
     }else if(el.type==='line'){
         lnP.style.display='block';
-        document.getElementById('pLC').value=el.color;document.getElementById('pLW').value=el.lineWidth||2;
+        document.getElementById('pLC').value=el.color; document.getElementById('pLCHex').value=el.color;
+        document.getElementById('pLW').value=el.lineWidth||2;
         document.getElementById('pLS2').value=el.lineStyle||'solid';
     }else if(el.type==='image'){
         imP.style.display='block';
         document.getElementById('pIR').value=el.borderRadius||0;document.getElementById('irv').textContent=(el.borderRadius||0)+'px';
-        document.getElementById('pIBW').value=el.borderWidth||0;document.getElementById('pIBC').value=el.borderColor||'#000000';
+        document.getElementById('pIBW').value=el.borderWidth||0;
+        document.getElementById('pIBC').value=el.borderColor||'#000000'; document.getElementById('pIBCHex').value=el.borderColor||'#000000';
     }
 }
 

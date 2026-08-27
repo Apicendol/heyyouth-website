@@ -953,6 +953,32 @@
           domisili: domisili
         };
 
+        var existingRegs = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+        var isDuplicate = existingRegs.some(function(r) {
+            var sameEvent = (r.eventId === String(id) || r.event_id === String(id) || r.eventName === regData.event_name);
+            var sameUser = (r.email === email || r.phone === phone);
+            return sameEvent && sameUser;
+        });
+
+        if (isDuplicate) {
+            if (spinner) spinner.classList.add('hidden');
+            if (submitBtn) submitBtn.disabled = false;
+            
+            if (alertEl) {
+                alertEl.className = 'rounded-xl p-4 text-sm font-medium flex items-center gap-3 border bg-red-50 border-red-200 text-red-700 dark:bg-red-950 dark:border-red-900 dark:text-red-300';
+                if (alertIcon) alertIcon.className = 'fas fa-exclamation-circle text-lg flex-shrink-0 text-red-600';
+                
+                var isEn = document.documentElement.lang === 'en' || document.body.classList.contains('lang-en');
+                if (alertText) {
+                    alertText.textContent = isEn 
+                        ? 'Email or phone number is already registered for this event!' 
+                        : 'Email atau nomor telepon sudah terdaftar untuk event ini!';
+                }
+                alertEl.classList.remove('hidden');
+            }
+            return;
+        }
+
         supabase.from('event_registrations').insert(regData).then(function(result) {
           if (result.error) {
             console.error("Error saving event registration:", result.error.message);

@@ -201,11 +201,13 @@ window.saveFirebaseData = async function(data) {
             ...(data.externalTestimonials || []).map(t => ({
                 id: t.id, type: 'external', name: t.name,
                 title_id: t.title_id || t.title || '', title_en: t.title_en || t.title || '',
+                role_id: '', role_en: '',
                 quote_id: t.quote_id || t.quote || '', quote_en: t.quote_en || t.quote || '',
                 image: t.image
             })),
             ...(data.internalTestimonials || []).map(t => ({
                 id: t.id, type: 'internal', name: t.name,
+                title_id: '', title_en: '',
                 role_id: t.role_id || t.role || '', role_en: t.role_en || t.role || '',
                 quote_id: t.quote_id || t.quote || '', quote_en: t.quote_en || t.quote || '',
                 image: t.image
