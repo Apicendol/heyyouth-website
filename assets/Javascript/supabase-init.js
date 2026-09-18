@@ -88,7 +88,13 @@ window.getFirebaseData = async function(defaultData) {
                 name: l.name,
                 lat: parseFloat(l.lat),
                 lng: parseFloat(l.lng),
-                volunteers: parseInt(l.volunteers, 10) || 0
+                volunteers: parseInt(l.volunteers, 10) || 0,
+                children_count: parseInt(l.children_count, 10) || 0,
+                region: l.region || 'jabodetabek',
+                image: l.image || '',
+                focus_program: l.focus_program || '',
+                coordinator_name: l.coordinator_name || '',
+                coordinator_contact: l.coordinator_contact || ''
             })),
             partners: (resPartners.data || []).map(p => ({
                 id: p.id,
@@ -227,7 +233,13 @@ window.saveFirebaseData = async function(data) {
             name: l.name,
             lat: l.lat,
             lng: l.lng,
-            volunteers: l.volunteers || 0
+            volunteers: l.volunteers || 0,
+            children_count: l.children_count || 0,
+            region: l.region || 'jabodetabek',
+            image: l.image || '',
+            focus_program: l.focus_program || '',
+            coordinator_name: l.coordinator_name || '',
+            coordinator_contact: l.coordinator_contact || ''
         }));
 
         const partnerList = (data.partners || []).map(p => ({

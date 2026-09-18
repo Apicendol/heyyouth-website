@@ -166,6 +166,210 @@ body {
 }
 
 /* =========================================
+   CUSTOM LEAFLET POPUP FOR VOLUNTEER CHAPTER
+   ========================================= */
+.leaflet-popup-content-wrapper {
+    padding: 0 !important;
+    border-radius: 1.25rem !important;
+    overflow: hidden !important;
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    background: #ffffff !important;
+}
+
+html.dark .leaflet-popup-content-wrapper {
+    background: #0f172a !important;
+    border-color: rgba(51, 65, 85, 0.8) !important;
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.6) !important;
+}
+
+.leaflet-popup-content {
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    width: 270px !important;
+}
+
+.leaflet-popup-tip {
+    background: #ffffff !important;
+}
+
+html.dark .leaflet-popup-tip {
+    background: #0f172a !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+    top: 8px !important;
+    right: 8px !important;
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 9999px !important;
+    background: rgba(0, 0, 0, 0.45) !important;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px !important;
+    backdrop-filter: blur(4px) !important;
+    border: none !important;
+    transition: background-color 0.2s ease !important;
+    z-index: 30 !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+    background: rgba(220, 38, 38, 0.8) !important;
+}
+
+.volunteer-popup-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-family: inherit;
+}
+
+.volunteer-popup-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 120px;
+    background-color: #f1f5f9;
+    overflow: hidden;
+}
+
+.volunteer-popup-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.volunteer-popup-card:hover .volunteer-popup-img {
+    transform: scale(1.05);
+}
+
+.volunteer-popup-badge {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(15, 23, 42, 0.85);
+    color: #f8fafc;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 9999px;
+    backdrop-filter: blur(4px);
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.volunteer-popup-badge-children {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(21, 128, 61, 0.90);
+    color: #f0fdf4;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 9999px;
+    backdrop-filter: blur(4px);
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(134, 239, 172, 0.30);
+}
+
+.volunteer-popup-body {
+    padding: 12px 14px 14px;
+}
+
+.volunteer-popup-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    line-height: 1.2;
+}
+
+html.dark .volunteer-popup-title {
+    color: #f8fafc;
+}
+
+.volunteer-popup-focus {
+    font-size: 11px;
+    color: #64748b;
+    margin: 4px 0 8px;
+    line-height: 1.3;
+}
+
+html.dark .volunteer-popup-focus {
+    color: #94a3b8;
+}
+
+.volunteer-popup-coord {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #475569;
+    padding-top: 6px;
+    border-top: 1px dashed #e2e8f0;
+    margin-bottom: 10px;
+}
+
+html.dark .volunteer-popup-coord {
+    color: #cbd5e1;
+    border-top-color: #334155;
+}
+
+.volunteer-popup-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.volunteer-btn-wa {
+    flex: 1;
+    padding: 7px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    background-color: #22c55e;
+    color: white !important;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.volunteer-btn-wa:hover {
+    background-color: #16a34a;
+    transform: translateY(-1px);
+}
+
+.volunteer-btn-join {
+    flex: 1.4;
+    padding: 7px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    background-color: #1D4ED8;
+    color: white !important;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.volunteer-btn-join:hover {
+    background-color: #1e40af;
+    transform: translateY(-1px);
+}
+
+/* =========================================
    LANGUAGE SWITCH
    ========================================= */
 body.lang-en .lang-id { display: none !important; }

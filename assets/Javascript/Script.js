@@ -166,36 +166,158 @@ var _CMS_DEFAULT = {
         }
     ],
     locations: [
-        { id: 101, name: 'Jakarta', lat: -6.2088, lng: 106.8456, volunteers: 8 },
-        { id: 102, name: 'Karawang', lat: -6.3146, lng: 107.3094, volunteers: 1 },
-        { id: 103, name: 'Medan', lat: 3.5952, lng: 98.6722, volunteers: 1 },
-        { id: 104, name: 'Jakarta Timur', lat: -6.2307, lng: 106.8967, volunteers: 2 },
-        { id: 105, name: 'Malang', lat: -7.9826, lng: 112.6308, volunteers: 3 },
-        { id: 106, name: 'Jakarta Selatan', lat: -6.2615, lng: 106.8106, volunteers: 2 },
-        { id: 107, name: 'Arcamanik, Bandung', lat: -6.9175, lng: 107.6191, volunteers: 1 },
-        { id: 108, name: 'Depok', lat: -6.4025, lng: 106.8048, volunteers: 3 },
-        { id: 109, name: 'Bogor', lat: -6.5950, lng: 106.7997, volunteers: 4 },
-        { id: 110, name: 'Bangka', lat: -2.3216, lng: 106.1086, volunteers: 1 },
-        { id: 111, name: 'West Java', lat: -6.9034, lng: 107.6046, volunteers: 1 },
-        { id: 112, name: 'Palembang', lat: -2.9761, lng: 104.7754, volunteers: 1 },
-        { id: 113, name: 'Sunter, Jakarta Utara', lat: -6.1360, lng: 106.8778, volunteers: 1 },
-        { id: 114, name: 'Purwokerto', lat: -7.4239, lng: 109.2215, volunteers: 1 },
-        { id: 115, name: 'Cikarang', lat: -6.2737, lng: 107.1352, volunteers: 1 },
-        { id: 116, name: 'Bekasi', lat: -6.2369, lng: 106.9715, volunteers: 3 },
-        { id: 117, name: 'Tuban, East Java', lat: -6.9079, lng: 112.0560, volunteers: 1 },
-        { id: 118, name: 'Sumedang, Jatinangor', lat: -6.9329, lng: 107.7667, volunteers: 1 },
-        { id: 119, name: 'Gresik', lat: -7.1666, lng: 112.6568, volunteers: 1 },
-        { id: 120, name: 'Purbalingga', lat: -7.3707, lng: 109.3582, volunteers: 1 },
-        { id: 121, name: 'Jakarta Barat', lat: -6.1754, lng: 106.8272, volunteers: 1 },
-        { id: 122, name: 'Aceh', lat: 5.5524, lng: 95.3188, volunteers: 1 },
-        { id: 123, name: 'Batang, Jawa Tengah', lat: -7.0094, lng: 109.7368, volunteers: 1 },
-        { id: 124, name: 'Bandung', lat: -6.9175, lng: 107.6191, volunteers: 2 },
-        { id: 125, name: 'Surabaya', lat: -7.2504, lng: 112.7688, volunteers: 1 },
-        { id: 126, name: 'Bali', lat: -8.4095, lng: 115.1889, volunteers: 1 },
-        { id: 127, name: 'Surakarta', lat: -7.5559, lng: 110.8200, volunteers: 1 },
-        { id: 128, name: 'Pekanbaru', lat: 0.5071, lng: 101.4478, volunteers: 1 },
-        { id: 129, name: 'South Tangerang', lat: -6.2878, lng: 106.7323, volunteers: 1 },
-        { id: 130, name: 'Kendari', lat: -3.9806, lng: 122.5160, volunteers: 1 }
+        { 
+            id: 101, name: 'Jakarta Pusat', lat: -6.2088, lng: 106.8456, volunteers: 18, children_count: 245,
+            region: 'jabodetabek',
+            image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Edukasi Siswa & Literasi Baca',
+            coordinator_name: 'Kak Yuni Triandini',
+            coordinator_contact: '628123456789'
+        },
+        { 
+            id: 102, name: 'Karawang', lat: -6.3146, lng: 107.3094, volunteers: 5, children_count: 60,
+            region: 'jawa',
+            image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Taman Baca & Donasi Buku',
+            coordinator_name: 'Kak Dimas',
+            coordinator_contact: '628123456790'
+        },
+        { 
+            id: 103, name: 'Medan', lat: 3.5952, lng: 98.6722, volunteers: 7, children_count: 90,
+            region: 'luar_jawa',
+            image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Pemberdayaan Pemuda & Komunitas',
+            coordinator_name: 'Kak Sarah Siregar',
+            coordinator_contact: '628123456791'
+        },
+        { 
+            id: 104, name: 'Jakarta Timur', lat: -6.2307, lng: 106.8967, volunteers: 9, children_count: 120,
+            region: 'jabodetabek',
+            image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Mentoring Karir & Bimbingan Belajar',
+            coordinator_name: 'Kak Fikri',
+            coordinator_contact: '628123456792'
+        },
+        { 
+            id: 105, name: 'Malang', lat: -7.9826, lng: 112.6308, volunteers: 12, children_count: 155,
+            region: 'jawa',
+            image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Kelas Inspirasi & Literasi Digital',
+            coordinator_name: 'Kak Rizky Fauzi',
+            coordinator_contact: '628123456793'
+        },
+        { 
+            id: 106, name: 'Jakarta Selatan', lat: -6.2615, lng: 106.8106, volunteers: 14, children_count: 175,
+            region: 'jabodetabek',
+            image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Webinar & Podcast Kreatif',
+            coordinator_name: 'Kak Nadia',
+            coordinator_contact: '628123456794'
+        },
+        { 
+            id: 107, name: 'Bandung', lat: -6.9175, lng: 107.6191, volunteers: 15, children_count: 200,
+            region: 'jawa',
+            image: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Bimbingan Belajar SD & Softskills',
+            coordinator_name: 'Kak Dzikri',
+            coordinator_contact: '628123456795'
+        },
+        { 
+            id: 108, name: 'Depok', lat: -6.4025, lng: 106.8048, volunteers: 8, children_count: 95,
+            region: 'jabodetabek',
+            image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Kelas Bimbingan Matematika',
+            coordinator_name: 'Kak Aris',
+            coordinator_contact: '628123456796'
+        },
+        { 
+            id: 109, name: 'Bogor', lat: -6.5950, lng: 106.7997, volunteers: 11, children_count: 140,
+            region: 'jabodetabek',
+            image: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Edukasi Lingkungan & Kelas Alam',
+            coordinator_name: 'Kak Maya',
+            coordinator_contact: '628123456797'
+        },
+        { 
+            id: 110, name: 'Bangka', lat: -2.3216, lng: 106.1086, volunteers: 4, children_count: 45,
+            region: 'luar_jawa',
+            image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Pojok Baca & Donasi Buku Anak',
+            coordinator_name: 'Kak Hendra',
+            coordinator_contact: '628123456798'
+        },
+        { 
+            id: 112, name: 'Palembang', lat: -2.9761, lng: 104.7754, volunteers: 6, children_count: 75,
+            region: 'luar_jawa',
+            image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Pelatihan Literasi Bahasa Inggris',
+            coordinator_name: 'Kak Putri',
+            coordinator_contact: '628123456799'
+        },
+        { 
+            id: 115, name: 'Cikarang', lat: -6.2737, lng: 107.1352, volunteers: 5, children_count: 55,
+            region: 'jabodetabek',
+            image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Edukasi Karir Generasi Muda',
+            coordinator_name: 'Kak Bayu',
+            coordinator_contact: '628123456800'
+        },
+        { 
+            id: 116, name: 'Bekasi', lat: -6.2369, lng: 106.9715, volunteers: 10, children_count: 130,
+            region: 'jabodetabek',
+            image: 'https://images.unsplash.com/photo-1531545514256-b1400bc00f31?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Teacher Class & Bimbingan Belajar',
+            coordinator_name: 'Kak Shinta',
+            coordinator_contact: '628123456801'
+        },
+        { 
+            id: 124, name: 'Surabaya', lat: -7.2504, lng: 112.7688, volunteers: 14, children_count: 185,
+            region: 'jawa',
+            image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Youth Leadership & Mentoring',
+            coordinator_name: 'Kak Ilham',
+            coordinator_contact: '628123456802'
+        },
+        { 
+            id: 126, name: 'Bali', lat: -8.4095, lng: 115.1889, volunteers: 8, children_count: 100,
+            region: 'jawa',
+            image: 'https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Kelas Bahasa Asing & Budaya',
+            coordinator_name: 'Kak Wayan',
+            coordinator_contact: '628123456803'
+        },
+        { 
+            id: 127, name: 'Surakarta (Solo)', lat: -7.5559, lng: 110.8200, volunteers: 7, children_count: 85,
+            region: 'jawa',
+            image: 'https://images.unsplash.com/photo-1460518451282-c3a2e76a6d62?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Literasi Kreatif & Bimbingan Belajar',
+            coordinator_name: 'Kak Anisa',
+            coordinator_contact: '628123456804'
+        },
+        { 
+            id: 128, name: 'Pekanbaru', lat: 0.5071, lng: 101.4478, volunteers: 5, children_count: 65,
+            region: 'luar_jawa',
+            image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Pojok Baca & Edukasi Sains',
+            coordinator_name: 'Kak Faisal',
+            coordinator_contact: '628123456805'
+        },
+        { 
+            id: 129, name: 'Tangerang Selatan', lat: -6.2878, lng: 106.7323, volunteers: 9, children_count: 115,
+            region: 'jabodetabek',
+            image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Digital Skills for Youths',
+            coordinator_name: 'Kak Tiara',
+            coordinator_contact: '628123456806'
+        },
+        { 
+            id: 130, name: 'Kendari', lat: -3.9806, lng: 122.5160, volunteers: 4, children_count: 50,
+            region: 'luar_jawa',
+            image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=600&auto=format&fit=crop',
+            focus_program: 'Edukasi Literasi Pesisir',
+            coordinator_name: 'Kak La Ode',
+            coordinator_contact: '628123456807'
+        }
     ],
     partners: [
         { 
@@ -697,14 +819,24 @@ if (document.readyState === 'loading') {
 }
 
 /* =============================================
-   LEAFLET MAP
+   LEAFLET MAP — Dynamic Volunteer Chapters
    ============================================= */
+
+var _volunteerMapInstance = null;
+var _volunteerMarkerLayer = null;
+var _activeVolunteerFilter = 'all';
 
 function _initMap() {
     var el = document.getElementById('map');
     if (!el || typeof L === 'undefined') return;
 
+    if (_volunteerMapInstance) {
+        _volunteerMapInstance.remove();
+        _volunteerMapInstance = null;
+    }
+
     var map = L.map('map', { zoomControl: false }).setView([-2.5489, 118.0149], 5); 
+    _volunteerMapInstance = map;
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
@@ -713,16 +845,20 @@ function _initMap() {
         maxZoom: 19
     }).addTo(map);
 
-    function createPinIcon(volunteerCount) {
+    _volunteerMarkerLayer = L.layerGroup().addTo(map);
+
+    function createVolunteerPin(volunteerCount) {
         return L.divIcon({
             className: 'custom-div-icon',
             html: `
-                <div class="marker-pin-container">
+                <div class="marker-pin-container group cursor-pointer transition-transform duration-300 hover:scale-110">
                     <div class="marker-pin-body">
                         <div class="marker-icon">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                             </svg>
                         </div>
                     </div>
@@ -731,20 +867,112 @@ function _initMap() {
             `,
             iconSize: [40, 50],
             iconAnchor: [20, 50],
-            popupAnchor: [0, -55]
+            popupAnchor: [0, -50]
         });
     }
 
-    var locs = _cmsLocations || _CMS_DEFAULT.locations;
-    
-    for (var i = 0; i < locs.length; i++) {
-        var l = locs[i];
-        L.marker([l.lat, l.lng], { icon: createPinIcon(l.volunteers) })
-         .addTo(map)
-         .bindPopup('<strong>' + l.name + '</strong><br>Volunteers: ' + l.volunteers);
+    function renderVolunteerMarkers(filterRegion) {
+        if (!_volunteerMarkerLayer) return;
+        _volunteerMarkerLayer.clearLayers();
+
+        var locs = _cmsLocations || _CMS_DEFAULT.locations;
+        var filteredLocs = locs.filter(function(l) {
+            if (!filterRegion || filterRegion === 'all') return true;
+            var reg = (l.region || 'jabodetabek').toLowerCase();
+            if (filterRegion === 'jabodetabek') return reg === 'jabodetabek';
+            if (filterRegion === 'jawa') return reg === 'jawa';
+            if (filterRegion === 'luar_jawa') return reg === 'luar_jawa' || (!['jabodetabek', 'jawa'].includes(reg));
+            return true;
+        });
+
+        var bounds = [];
+
+        filteredLocs.forEach(function(l) {
+            var latLng = [l.lat, l.lng];
+            bounds.push(latLng);
+
+            var imgSrc = l.image ? window._resolveImgPath(l.image) : 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=600&auto=format&fit=crop';
+            var focus = l.focus_program || 'Edukasi Siswa & Literasi Pemuda';
+            var coordName = l.coordinator_name || 'Koordinator Chapter';
+            var coordContact = l.coordinator_contact ? String(l.coordinator_contact).replace(/\D/g, '') : '';
+            var waLink = coordContact ? 'https://wa.me/' + coordContact + '?text=' + encodeURIComponent('Halo ' + coordName + ', saya tertarik berkolaborasi dengan relawan Hey Youth di ' + l.name) : '';
+
+            var popupContent = `
+                <div class="volunteer-popup-card">
+                    <div class="volunteer-popup-img-wrapper">
+                        <img src="${_escA(imgSrc)}" class="volunteer-popup-img" alt="${_escA(l.name)}" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=600&auto=format&fit=crop'">
+                        <span class="volunteer-popup-badge"><i class="fas fa-users mr-1"></i> ${l.volunteers} Relawan Aktif</span>
+                        ${(l.children_count > 0) ? `<span class="volunteer-popup-badge-children"><i class="fas fa-child mr-1"></i> ${l.children_count} Anak Terbantu</span>` : ''}
+                    </div>
+                    <div class="volunteer-popup-body">
+                        <div class="flex items-center justify-between gap-2 mb-1">
+                            <h4 class="volunteer-popup-title">${_esc(l.name)}</h4>
+                            <span class="text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded-full bg-blue-100 text-primary dark:bg-blue-900/60 dark:text-blue-300">${_esc(l.region || 'Chapter')}</span>
+                        </div>
+                        <p class="volunteer-popup-focus"><i class="fas fa-bullseye text-accent mr-1"></i> ${_esc(focus)}</p>
+                        <div class="volunteer-popup-coord">
+                            <i class="fas fa-user-circle text-gray-400"></i>
+                            <span>Koordinator: <strong>${_esc(coordName)}</strong></span>
+                        </div>
+                        <div class="volunteer-popup-actions">
+                            ${waLink ? `<a href="${waLink}" target="_blank" rel="noopener noreferrer" class="volunteer-btn-wa"><i class="fab fa-whatsapp"></i> Kontak</a>` : ''}
+                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXvkYsaiPvhNHGPcUGUQ1tFoWGv5XxLuAQ32B_om95DRAEPg/viewform" target="_blank" rel="noopener noreferrer" class="volunteer-btn-join"><i class="fas fa-hand-holding-heart"></i> Gabung Relawan</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            var marker = L.marker(latLng, { icon: createVolunteerPin(l.volunteers) });
+            marker.bindPopup(popupContent, {
+                maxWidth: 300,
+                minWidth: 260,
+                className: 'custom-leaflet-popup'
+            });
+            _volunteerMarkerLayer.addLayer(marker);
+        });
+
+        // Update count badge in UI if present
+        var countEl = document.getElementById('map-chapter-count');
+        if (countEl) countEl.textContent = filteredLocs.length;
+
+        var volCountEl = document.getElementById('map-volunteer-sum');
+        if (volCountEl) {
+            var totalVols = filteredLocs.reduce(function(acc, curr) { return acc + (curr.volunteers || 0); }, 0);
+            volCountEl.textContent = totalVols;
+        }
+
+        if (bounds.length > 0 && filterRegion !== 'all') {
+            try {
+                map.fitBounds(bounds, { padding: [50, 50], maxZoom: 9 });
+            } catch(e) {}
+        } else if (filterRegion === 'all') {
+            map.setView([-2.5489, 118.0149], 5);
+        }
     }
-    
-    setTimeout(function() { map.invalidateSize(); }, 100);
+
+    window.filterVolunteerMap = function(region) {
+        _activeVolunteerFilter = region || 'all';
+
+        var btnContainer = document.getElementById('map-filter-buttons');
+        if (btnContainer) {
+            var buttons = btnContainer.querySelectorAll('[data-region-filter]');
+            buttons.forEach(function(btn) {
+                if (btn.getAttribute('data-region-filter') === _activeVolunteerFilter) {
+                    btn.classList.add('bg-primary', 'text-white', 'shadow-md', 'border-primary');
+                    btn.classList.remove('bg-white', 'text-gray-700', 'border-gray-200', 'hover:bg-gray-50');
+                } else {
+                    btn.classList.remove('bg-primary', 'text-white', 'shadow-md', 'border-primary');
+                    btn.classList.add('bg-white', 'text-gray-700', 'border-gray-200', 'hover:bg-gray-50');
+                }
+            });
+        }
+
+        renderVolunteerMarkers(_activeVolunteerFilter);
+    };
+
+    renderVolunteerMarkers('all');
+
+    setTimeout(function() { map.invalidateSize(); }, 200);
 }
 
 /* =============================================

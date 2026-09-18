@@ -449,13 +449,16 @@
                                 class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 text-sm">
                                 <i class="fas fa-map-marked-alt"></i>
                             </div>
-                            <h2 class="text-lg font-bold text-heading">Lokasi Peta</h2>
+                            <div>
+                                <h2 class="text-lg font-bold text-heading">Chapter Relawan</h2>
+                                <p class="text-[11px] text-gray-400 leading-tight">Kelola data chapter & peta sebaran relawan</p>
+                            </div>
                             <span id="count-locations"
                                 class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-medium">0</span>
                         </div>
                         <button onclick="openAddModal('locations')"
                             class="bg-primary hover:bg-primaryDark text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
-                            <i class="fas fa-plus text-[10px]"></i> Tambah
+                            <i class="fas fa-plus text-[10px]"></i> Tambah Chapter
                         </button>
                     </div>
                     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
@@ -474,10 +477,12 @@
                                 <thead class="bg-gray-50 border-b border-gray-200">
                                     <tr>
                                         <th class="text-left px-4 py-3 font-semibold text-heading">#</th>
-                                        <th class="text-left px-4 py-3 font-semibold text-heading">Lokasi</th>
-                                        <th class="text-left px-4 py-3 font-semibold text-heading">Latitude</th>
-                                        <th class="text-left px-4 py-3 font-semibold text-heading">Longitude</th>
+                                        <th class="text-left px-4 py-3 font-semibold text-heading">Nama Chapter</th>
+                                        <th class="text-left px-4 py-3 font-semibold text-heading">Wilayah</th>
+                                        <th class="text-left px-4 py-3 font-semibold text-heading">Fokus Program</th>
+                                        <th class="text-left px-4 py-3 font-semibold text-heading">Koordinator</th>
                                         <th class="text-left px-4 py-3 font-semibold text-heading">Relawan</th>
+                                        <th class="text-left px-4 py-3 font-semibold text-heading">Anak Terbantu</th>
                                         <th class="text-right px-4 py-3 font-semibold text-heading">Aksi</th>
                                     </tr>
                                 </thead>
@@ -2492,16 +2497,28 @@
                 var tbody = document.getElementById('list-locations');
                 items = items || [];
                 if (items.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-16 text-gray-400"><i class="fas fa-inbox text-4xl mb-3 block"></i><p>Belum ada data.</p></td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="8" class="text-center py-16 text-gray-400"><i class="fas fa-inbox text-4xl mb-3 block"></i><p>Belum ada data chapter relawan.</p></td></tr>';
                     return;
                 }
+                var regionLabels = {
+                    'jabodetabek': 'Jabodetabek',
+                    'jawa': 'Jawa & Bali',
+                    'luar_jawa': 'Luar Jawa',
+                    'internasional': 'Internasional'
+                };
                 tbody.innerHTML = items.map(function (item, idx) {
+                    var regText = regionLabels[item.region] || item.region || 'Jabodetabek';
+                    var coord = item.coordinator_name || '-';
+                    var focusProg = item.focus_program ? item.focus_program.substring(0, 35) + (item.focus_program.length > 35 ? '...' : '') : '-';
+                    var childrenCount = item.children_count !== undefined && item.children_count !== null ? item.children_count : '-';
                     return '<tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">' +
                         '<td class="px-4 py-3 text-gray-400">' + (idx + 1) + '</td>' +
                         '<td class="px-4 py-3 font-medium text-heading">' + escapeHtml(item.name) + '</td>' +
-                        '<td class="px-4 py-3 text-gray-500 font-mono text-xs">' + item.lat + '</td>' +
-                        '<td class="px-4 py-3 text-gray-500 font-mono text-xs">' + item.lng + '</td>' +
-                        '<td class="px-4 py-3"><span class="bg-accent/10 text-accent text-xs font-bold px-2 py-1 rounded-full">' + item.volunteers + '</span></td>' +
+                        '<td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-primary">' + escapeHtml(regText) + '</span></td>' +
+                        '<td class="px-4 py-3 text-gray-500 text-xs max-w-[160px] truncate" title="' + escapeHtml(item.focus_program || '') + '">' + escapeHtml(focusProg) + '</td>' +
+                        '<td class="px-4 py-3 text-gray-600 text-xs">' + escapeHtml(coord) + '</td>' +
+                        '<td class="px-4 py-3"><span class="bg-accent/10 text-accent text-xs font-bold px-2 py-1 rounded-full">' + (item.volunteers || 0) + ' Relawan</span></td>' +
+                        '<td class="px-4 py-3"><span class="bg-green-50 text-green-700 text-xs font-bold px-2 py-1 rounded-full">' + childrenCount + (childrenCount !== '-' ? ' Anak' : '') + '</span></td>' +
                         '<td class="px-4 py-3 text-right">' +
                         '<button onclick="openEditModal(\'locations\',' + item.id + ')" class="p-1.5 text-primary hover:bg-blue-50 rounded-lg transition-colors mr-1" title="Edit"><i class="fas fa-pen text-xs"></i></button>' +
                         '<button onclick="confirmDelete(\'locations\',' + item.id + ')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus"><i class="fas fa-trash text-xs"></i></button>' +
@@ -2677,8 +2694,13 @@
                 editingSection = section;
                 uploadedImage = null;
                 uploadedQrisImage = null;
-                renderModalForm(section, null);
-                openModal();
+                try {
+                    renderModalForm(section, null);
+                    openModal();
+                } catch (err) {
+                    console.error('Gagal membuka modal tambah:', err);
+                    showToast('Gagal membuka form tambah: ' + err.message, 'error');
+                }
             };
 
             window.openEditModal = function (section, id) {
@@ -2705,10 +2727,13 @@
                         case 'event': list = data.events; break;
                     }
                     list = list || [];
-                    item = list.find(function (i) { return i.id === id; });
+                    item = list.find(function (i) { return String(i.id) === String(id); });
                 }
 
-                if (!item) return;
+                if (!item) {
+                    showToast('Data tidak ditemukan. Coba muat ulang halaman.', 'error');
+                    return;
+                }
                 editingItem = item;
                 editingSection = section;
 
@@ -2723,8 +2748,13 @@
                     uploadedQrisImage = null;
                 }
 
-                renderModalForm(section, item);
-                openModal();
+                try {
+                    renderModalForm(section, item);
+                    openModal();
+                } catch (err) {
+                    console.error('Gagal membuka modal edit:', err);
+                    showToast('Gagal membuka form edit: ' + err.message, 'error');
+                }
             };
 
             /* =========================================
@@ -2884,7 +2914,18 @@
                     html += formTextarea('Jawaban', 'f-answer', item ? item.answer : '', 'Jawaban...');
                 }
                 else if (section === 'locations') {
-                    html += formField('Nama Lokasi', 'f-name', item ? item.name : '', 'text', 'Jakarta');
+                    html += formField('Nama Lokasi / Chapter', 'f-name', item ? item.name : '', 'text', 'Jakarta Pusat');
+
+                    var currentRegion = item ? (item.region || 'jabodetabek') : 'jabodetabek';
+                    html += '<div class="mb-4">' +
+                        '<label class="block text-sm font-semibold text-heading mb-1.5">Wilayah / Region</label>' +
+                        '<select id="f-region" class="w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary">' +
+                        '<option value="jabodetabek"' + (currentRegion === 'jabodetabek' ? ' selected' : '') + '>Jabodetabek</option>' +
+                        '<option value="jawa"' + (currentRegion === 'jawa' ? ' selected' : '') + '>Jawa & Bali</option>' +
+                        '<option value="luar_jawa"' + (currentRegion === 'luar_jawa' ? ' selected' : '') + '>Luar Jawa</option>' +
+                        '<option value="internasional"' + (currentRegion === 'internasional' ? ' selected' : '') + '>Internasional</option>' +
+                        '</select>' +
+                        '</div>';
 
                     html += '<div class="mb-4">' +
                         '<label class="block text-sm font-semibold text-heading mb-1.5">Pilih Lokasi di Peta (Geser Pin)</label>' +
@@ -2896,7 +2937,23 @@
                         formField('Latitude', 'f-lat', item ? item.lat : '', 'number', '-6.2088', 'step="any" readonly class="bg-gray-50"') +
                         formField('Longitude', 'f-lng', item ? item.lng : '', 'number', '106.8456', 'step="any" readonly class="bg-gray-50"') +
                         '</div>';
-                    html += formField('Jumlah Relawan', 'f-volunteers', item ? item.volunteers : '', 'number', '1', 'min="1"');
+                    html += '<div class="grid grid-cols-2 gap-3">' +
+                        formField('Jumlah Relawan Aktif', 'f-volunteers', item ? item.volunteers : '', 'number', '5', 'min="0"') +
+                        formField('Jumlah Anak Terbantu', 'f-children-count', item ? (item.children_count !== undefined ? item.children_count : '') : '', 'number', '0', 'min="0"') +
+                        '</div>';
+                    html += formField('Fokus Program Chapter', 'f-focus-program', item ? (item.focus_program || '') : '', 'text', 'Contoh: Edukasi Siswa & Literasi Baca');
+
+                    html += '<div class="grid grid-cols-2 gap-3">' +
+                        formField('Nama Koordinator', 'f-coordinator-name', item ? (item.coordinator_name || '') : '', 'text', 'Kak Yuni') +
+                        formField('Kontak WA Koordinator', 'f-coordinator-contact', item ? (item.coordinator_contact || '') : '', 'text', '08123456789') +
+                        '</div>';
+
+                    var existingSrc = '';
+                    if (item && item.image) existingSrc = _resolveImgPath(item.image);
+                    html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Foto Dokumentasi Kegiatan Chapter</label><div id="upload-zone" class="upload-zone rounded-xl p-4 text-center">';
+                    if (existingSrc) html += '<div class="relative"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Foto kegiatan tersedia</p>';
+                    else html += '<div class="py-6 text-center"><i class="fas fa-camera text-3xl text-gray-300 mb-2"></i><p class="text-sm text-gray-500">Upload Foto Kegiatan Relawan</p></div>';
+                    html += '</div></div>';
                 }
                 else if (section === 'team') {
                     html += formField('Nama', 'f-name', item ? item.name : '', 'text', 'Nama Lengkap');
@@ -3041,6 +3098,7 @@
                     initDragDrop('speaker');
                 } else if (section === 'locations') {
                     initCmsMap(item);
+                    initDragDrop('main');
                 }
             }
 
@@ -3147,10 +3205,32 @@
                     var name = document.getElementById('f-name').value.trim();
                     var lat = parseFloat(document.getElementById('f-lat').value);
                     var lng = parseFloat(document.getElementById('f-lng').value);
-                    var volunteers = parseInt(document.getElementById('f-volunteers').value) || 1;
-                    if (!name || isNaN(lat) || isNaN(lng)) { showToast('Data lokasi tidak lengkap.', 'error'); return; }
+                    var volunteers = parseInt(document.getElementById('f-volunteers').value) || 0;
+                    var childrenCount = parseInt(document.getElementById('f-children-count') ? document.getElementById('f-children-count').value : 0) || 0;
+                    var region = document.getElementById('f-region') ? document.getElementById('f-region').value : 'jabodetabek';
+                    var focusProgram = document.getElementById('f-focus-program') ? document.getElementById('f-focus-program').value.trim() : '';
+                    var coordinatorName = document.getElementById('f-coordinator-name') ? document.getElementById('f-coordinator-name').value.trim() : '';
+                    var coordinatorContact = document.getElementById('f-coordinator-contact') ? document.getElementById('f-coordinator-contact').value.trim() : '';
+                    
+                    var image = '';
+                    if (uploadedImage) image = uploadedImage;
+                    else if (isEdit && editingItem && editingItem.image) image = editingItem.image;
 
-                    var obj = { id: isEdit ? editingItem.id : Date.now(), name: name, lat: lat, lng: lng, volunteers: volunteers };
+                    if (!name || isNaN(lat) || isNaN(lng)) { showToast('Data chapter tidak lengkap. Pastikan nama dan koordinat sudah terisi.', 'error'); return; }
+
+                    var obj = { 
+                        id: isEdit ? editingItem.id : Date.now(), 
+                        name: name, 
+                        lat: lat, 
+                        lng: lng, 
+                        volunteers: volunteers,
+                        children_count: childrenCount,
+                        region: region,
+                        focus_program: focusProgram,
+                        coordinator_name: coordinatorName,
+                        coordinator_contact: coordinatorContact,
+                        image: image
+                    };
 
                     if (!data.locations) data.locations = [];
                     var list = data.locations;
@@ -3735,15 +3815,15 @@
             }
 
             function escapeHtml(str) {
-                if (!str) return '';
+                if (str === undefined || str === null || str === '') return '';
                 var div = document.createElement('div');
-                div.textContent = str;
+                div.textContent = String(str);
                 return div.innerHTML;
             }
 
             function escapeAttr(str) {
-                if (!str) return '';
-                return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                if (str === undefined || str === null || str === '') return '';
+                return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             }
 
             document.addEventListener('keydown', function (e) {
