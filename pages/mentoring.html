@@ -62,10 +62,10 @@
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4">
-              <a href="#class-catalog" class="inline-flex items-center justify-center px-8 py-4 bg-primary hover:bg-primaryDark text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-blue-250 hover:-translate-y-0.5 text-base">
-                <i class="fas fa-child mr-2 text-yellow-300"></i>
-                <span class="lang-id">Pilih Kelas Anak SD</span>
-                <span class="lang-en">Explore Kids Classes</span>
+              <a href="#class-catalog" class="inline-flex items-center justify-center px-10 py-4 bg-primary hover:bg-primaryDark text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-blue-250 hover:-translate-y-0.5 text-base gap-3 w-fit mx-auto lg:mx-0">
+                <i class="fas fa-child text-yellow-300 text-lg"></i>
+                <span class="lang-id whitespace-nowrap">Pilih Kelas Anak SD</span>
+                <span class="lang-en whitespace-nowrap">Explore Kids Classes</span>
               </a>
             </div>
           </div>
@@ -161,6 +161,23 @@
       </div>
     </section>
 
+    <!-- Mentor Profiles Section -->
+    <section class="py-16 lg:py-24 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800" id="mentor-profiles">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="inline-block py-1 px-3 rounded-full bg-yellow-100 text-yellow-800 text-sm font-bold tracking-wider uppercase mb-4 dark:bg-amber-900 dark:text-amber-200">
+            Profil Mentor
+          </span>
+          <h2 class="text-3xl md:text-4xl font-extrabold text-heading mb-4 font-serif">Kenalan dengan Kakak Mentor Kami</h2>
+          <p class="text-gray-600 dark:text-gray-400">Pengajar yang ramah, terdidik, dan kompeten siap mendampingi anak Anda belajar dengan nyaman.</p>
+        </div>
+
+        <div id="mentor-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Mentor Cards Rendered via JS -->
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- MODAL 1: FORM PENDAFTARAN PESERTA (ORANG TUA / SISWA SD) -->
@@ -245,6 +262,7 @@
       
       renderCategoryFilters();
       await loadAndRenderClasses();
+      await loadAndRenderMentors();
     });
 
     async function loadAndRenderClasses() {
@@ -375,7 +393,7 @@
             </div>
             
             <div class="border-t border-gray-150 pt-4 mt-auto">
-              <div class="grid grid-cols-2 gap-3 mb-5">
+              <div class="grid grid-cols-2 gap-3 mb-8">
                 <div class="text-xs font-semibold text-gray-600"><i class="far fa-calendar-alt text-primary/80 mr-1.5"></i> ${cls.date}</div>
                 <div class="text-xs font-semibold text-gray-600"><i class="far fa-clock text-primary/80 mr-1.5"></i> ${cls.time}</div>
                 <div class="col-span-2 text-xs font-semibold text-gray-600"><i class="fas fa-desktop text-primary/80 mr-1.5"></i> ${cls.platform}</div>
@@ -396,6 +414,66 @@
         `;
       });
       grid.innerHTML = html;
+    }
+
+    async function loadAndRenderMentors() {
+      try {
+        const data = await window.getFirebaseData({});
+        const mentors = data.mentors || [];
+        const activeMentors = mentors.filter(m => m.status === 'active');
+        
+        const grid = document.getElementById('mentor-grid');
+        if (!grid) return;
+
+        if (activeMentors.length === 0) {
+          grid.innerHTML = '<div class="col-span-full text-center text-gray-500 py-10">Belum ada mentor aktif.</div>';
+          return;
+        }
+
+        let html = '';
+        activeMentors.forEach(m => {
+          let imgSrc = m.image || 'https://via.placeholder.com/150';
+          let exps = (m.expertise || '').split(',').map(e => e.trim()).filter(e => e);
+          let expHtml = exps.map(e => `<span class="bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 px-2 py-1 rounded text-xs text-gray-600 dark:text-gray-300">${escapeAttr(e)}</span>`).join('');
+          
+          html += `
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 dark:border-slate-700 flex flex-col">
+              <div class="relative h-48 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center overflow-hidden group">
+                <img src="${escapeAttr(imgSrc)}" alt="${escapeAttr(m.name)}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                <div class="absolute bottom-4 left-4 text-white z-10">
+                  <h3 class="text-xl font-bold font-serif leading-tight mb-1">${escapeAttr(m.name)}</h3>
+                  <p class="text-xs font-medium opacity-90">${escapeAttr(m.role)}</p>
+                </div>
+              </div>
+              <div class="p-6 flex-1 flex flex-col">
+                <div class="flex items-center gap-2 mb-5">
+                  <span class="px-2.5 py-1 bg-yellow-100 text-yellow-800 dark:bg-amber-900/50 dark:text-amber-300 text-xs font-bold rounded-full flex items-center gap-1.5">
+                    <i class="fas fa-star text-[10px] text-yellow-500"></i> ${m.reviews || 0} Ulasan
+                  </span>
+                  <span class="px-2.5 py-1 bg-blue-100 text-primary dark:bg-blue-900/50 dark:text-blue-300 text-xs font-bold rounded-full flex items-center gap-1.5">
+                    <i class="fas fa-clock text-[10px]"></i> ${m.hours || 0}+ Jam
+                  </span>
+                </div>
+                <div class="mb-6">
+                  <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Bidang Keahlian</h4>
+                  <div class="flex flex-wrap gap-1.5">
+                    ${expHtml}
+                  </div>
+                </div>
+                <div class="mt-auto">
+                  <a href="#class-catalog" class="block w-full py-3 bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white dark:bg-slate-800 dark:hover:bg-primary text-center font-bold rounded-xl transition-colors text-sm shadow-sm hover:shadow-md">
+                    Daftar Kelas Bersama Kakak Ini
+                  </a>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        grid.innerHTML = html;
+      } catch (err) {
+        console.error("Error loading mentors:", err);
+      }
     }
 
     function openJoinModal(title, mentor, info) {

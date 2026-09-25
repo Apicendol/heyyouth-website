@@ -482,7 +482,6 @@
                                         <th class="text-left px-4 py-3 font-semibold text-heading">Fokus Program</th>
                                         <th class="text-left px-4 py-3 font-semibold text-heading">Koordinator</th>
                                         <th class="text-left px-4 py-3 font-semibold text-heading">Relawan</th>
-                                        <th class="text-left px-4 py-3 font-semibold text-heading">Anak Terbantu</th>
                                         <th class="text-right px-4 py-3 font-semibold text-heading">Aksi</th>
                                     </tr>
                                 </thead>
@@ -800,6 +799,44 @@
                                     </tr>
                                 </thead>
                                 <tbody id="list-teacher-classes" class="divide-y divide-gray-100"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-gray-200">
+
+                <!-- 2.5 Profil Mentor -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 text-sm">
+                                <i class="fas fa-id-card"></i>
+                            </div>
+                            <h2 class="text-lg font-bold text-heading">Profil Mentor</h2>
+                            <span id="count-mentors" class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-medium">0</span>
+                        </div>
+                        <button onclick="openAddMentorModal()" class="bg-primary hover:bg-primaryDark text-white px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+                            <i class="fas fa-plus text-[10px]"></i> Tambah Mentor
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-gray-50 border-b border-gray-200 text-heading">
+                                    <tr>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Profil</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Nama Mentor</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Latar Belakang</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Keahlian</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Jam Mengajar</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Rating</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Status</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase text-right">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-mentors" class="divide-y divide-gray-100"></tbody>
                             </table>
                         </div>
                     </div>
@@ -1501,6 +1538,8 @@
                         name: 'Alvin Wibowo',
                         role: 'Software Engineer at Google',
                         expertise: 'Web Development, System Design',
+                        hours: 120,
+                        reviews: 45,
                         image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=256&auto=format&fit=crop',
                         status: 'active'
                     }
@@ -1756,7 +1795,7 @@
                 if (mentorsTbody) {
                     var mentors = data.mentors || [];
                     if (mentors.length === 0) {
-                        mentorsTbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-gray-400">Belum ada mentor.</td></tr>';
+                        mentorsTbody.innerHTML = '<tr><td colspan="8" class="text-center py-8 text-gray-400">Belum ada mentor.</td></tr>';
                     } else {
                         mentorsTbody.innerHTML = mentors.map(function (item) {
                             var statusBadge = item.status === 'active'
@@ -1771,6 +1810,8 @@
                                 '<td class="px-4 py-2.5 font-bold text-xs text-heading">' + escapeHtml(item.name) + '</td>' +
                                 '<td class="px-4 py-2.5 text-xs">' + escapeHtml(item.role) + '</td>' +
                                 '<td class="px-4 py-2.5 text-xs text-gray-500 max-w-xs truncate">' + escapeHtml(item.expertise) + '</td>' +
+                                '<td class="px-4 py-2.5 text-xs font-semibold">' + (item.hours || 0) + ' Jam</td>' +
+                                '<td class="px-4 py-2.5 text-xs text-yellow-500"><i class="fas fa-star mr-1"></i> ' + (item.reviews || 0) + '</td>' +
                                 '<td class="px-4 py-2.5">' + statusBadge + '</td>' +
                                 '<td class="px-4 py-2.5 text-right space-x-2">' +
                                 '<button onclick="openEditMentorModal(' + item.id + ')" class="text-primary hover:text-primaryDark text-xs font-semibold"><i class="fas fa-edit"></i> Edit</button>' +
@@ -2497,7 +2538,7 @@
                 var tbody = document.getElementById('list-locations');
                 items = items || [];
                 if (items.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="8" class="text-center py-16 text-gray-400"><i class="fas fa-inbox text-4xl mb-3 block"></i><p>Belum ada data chapter relawan.</p></td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="7" class="text-center py-16 text-gray-400"><i class="fas fa-inbox text-4xl mb-3 block"></i><p>Belum ada data chapter relawan.</p></td></tr>';
                     return;
                 }
                 var regionLabels = {
@@ -2510,7 +2551,6 @@
                     var regText = regionLabels[item.region] || item.region || 'Jabodetabek';
                     var coord = item.coordinator_name || '-';
                     var focusProg = item.focus_program ? item.focus_program.substring(0, 35) + (item.focus_program.length > 35 ? '...' : '') : '-';
-                    var childrenCount = item.children_count !== undefined && item.children_count !== null ? item.children_count : '-';
                     return '<tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">' +
                         '<td class="px-4 py-3 text-gray-400">' + (idx + 1) + '</td>' +
                         '<td class="px-4 py-3 font-medium text-heading">' + escapeHtml(item.name) + '</td>' +
@@ -2518,7 +2558,6 @@
                         '<td class="px-4 py-3 text-gray-500 text-xs max-w-[160px] truncate" title="' + escapeHtml(item.focus_program || '') + '">' + escapeHtml(focusProg) + '</td>' +
                         '<td class="px-4 py-3 text-gray-600 text-xs">' + escapeHtml(coord) + '</td>' +
                         '<td class="px-4 py-3"><span class="bg-accent/10 text-accent text-xs font-bold px-2 py-1 rounded-full">' + (item.volunteers || 0) + ' Relawan</span></td>' +
-                        '<td class="px-4 py-3"><span class="bg-green-50 text-green-700 text-xs font-bold px-2 py-1 rounded-full">' + childrenCount + (childrenCount !== '-' ? ' Anak' : '') + '</span></td>' +
                         '<td class="px-4 py-3 text-right">' +
                         '<button onclick="openEditModal(\'locations\',' + item.id + ')" class="p-1.5 text-primary hover:bg-blue-50 rounded-lg transition-colors mr-1" title="Edit"><i class="fas fa-pen text-xs"></i></button>' +
                         '<button onclick="confirmDelete(\'locations\',' + item.id + ')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus"><i class="fas fa-trash text-xs"></i></button>' +
@@ -2937,10 +2976,7 @@
                         formField('Latitude', 'f-lat', item ? item.lat : '', 'number', '-6.2088', 'step="any" readonly class="bg-gray-50"') +
                         formField('Longitude', 'f-lng', item ? item.lng : '', 'number', '106.8456', 'step="any" readonly class="bg-gray-50"') +
                         '</div>';
-                    html += '<div class="grid grid-cols-2 gap-3">' +
-                        formField('Jumlah Relawan Aktif', 'f-volunteers', item ? item.volunteers : '', 'number', '5', 'min="0"') +
-                        formField('Jumlah Anak Terbantu', 'f-children-count', item ? (item.children_count !== undefined ? item.children_count : '') : '', 'number', '0', 'min="0"') +
-                        '</div>';
+                    html += formField('Jumlah Relawan Aktif', 'f-volunteers', item ? item.volunteers : '', 'number', '5', 'min="0"');
                     html += formField('Fokus Program Chapter', 'f-focus-program', item ? (item.focus_program || '') : '', 'text', 'Contoh: Edukasi Siswa & Literasi Baca');
 
                     html += '<div class="grid grid-cols-2 gap-3">' +
@@ -3206,7 +3242,6 @@
                     var lat = parseFloat(document.getElementById('f-lat').value);
                     var lng = parseFloat(document.getElementById('f-lng').value);
                     var volunteers = parseInt(document.getElementById('f-volunteers').value) || 0;
-                    var childrenCount = parseInt(document.getElementById('f-children-count') ? document.getElementById('f-children-count').value : 0) || 0;
                     var region = document.getElementById('f-region') ? document.getElementById('f-region').value : 'jabodetabek';
                     var focusProgram = document.getElementById('f-focus-program') ? document.getElementById('f-focus-program').value.trim() : '';
                     var coordinatorName = document.getElementById('f-coordinator-name') ? document.getElementById('f-coordinator-name').value.trim() : '';
@@ -3224,7 +3259,6 @@
                         lat: lat, 
                         lng: lng, 
                         volunteers: volunteers,
-                        children_count: childrenCount,
                         region: region,
                         focus_program: focusProgram,
                         coordinator_name: coordinatorName,
@@ -4641,6 +4675,10 @@
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Mentor</label><input type="text" id="m-name" required placeholder="Alvin Wibowo" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Peran / Pekerjaan</label><input type="text" id="m-role" required placeholder="Software Engineer at Google" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Keahlian (Separated by comma)</label><input type="text" id="m-expertise" required placeholder="Web Development, System Design" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<div class="grid grid-cols-2 gap-3">' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Total Jam Mengajar</label><input type="number" id="m-hours" placeholder="0" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm" min="0"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Ulasan Orang Tua</label><input type="number" id="m-reviews" placeholder="0" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm" min="0"></div>' +
+                    '</div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Foto (URL / Base64)</label><input type="text" id="m-image" placeholder="https://images.unsplash.com/..." class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Status</label><select id="m-status" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"><option value="active">Active</option><option value="inactive">Inactive</option></select></div>' +
                     '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Simpan</button>' +
@@ -4659,6 +4697,8 @@
                         name: nameVal,
                         role: document.getElementById('m-role').value.trim(),
                         expertise: document.getElementById('m-expertise').value.trim(),
+                        hours: parseInt(document.getElementById('m-hours').value) || 0,
+                        reviews: parseInt(document.getElementById('m-reviews').value) || 0,
                         image: document.getElementById('m-image').value.trim(),
                         status: document.getElementById('m-status').value
                     };
@@ -4689,6 +4729,10 @@
                     '<div><label class="block text-sm font-medium text-gray-700">Nama Mentor</label><input type="text" id="m-name" required value="' + escapeAttr(mentor.name) + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Peran / Pekerjaan</label><input type="text" id="m-role" required value="' + escapeAttr(mentor.role) + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Keahlian (Separated by comma)</label><input type="text" id="m-expertise" required value="' + escapeAttr(mentor.expertise) + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
+                    '<div class="grid grid-cols-2 gap-3">' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Total Jam Mengajar</label><input type="number" id="m-hours" value="' + (mentor.hours || 0) + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm" min="0"></div>' +
+                    '<div><label class="block text-sm font-medium text-gray-700">Ulasan Orang Tua</label><input type="number" id="m-reviews" value="' + (mentor.reviews || 0) + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm" min="0"></div>' +
+                    '</div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Foto (URL / Base64)</label><input type="text" id="m-image" value="' + escapeAttr(mentor.image || '') + '" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"></div>' +
                     '<div><label class="block text-sm font-medium text-gray-700">Status</label><select id="m-status" class="w-full mt-1 px-3 py-2 border rounded-lg text-sm"><option value="active"' + (mentor.status === 'active' ? ' selected' : '') + '>Active</option><option value="inactive"' + (mentor.status === 'inactive' ? ' selected' : '') + '>Inactive</option></select></div>' +
                     '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Simpan Perubahan</button>' +
@@ -4707,6 +4751,8 @@
                         name: nameVal,
                         role: document.getElementById('m-role').value.trim(),
                         expertise: document.getElementById('m-expertise').value.trim(),
+                        hours: parseInt(document.getElementById('m-hours').value) || 0,
+                        reviews: parseInt(document.getElementById('m-reviews').value) || 0,
                         image: document.getElementById('m-image').value.trim(),
                         status: document.getElementById('m-status').value
                     };
