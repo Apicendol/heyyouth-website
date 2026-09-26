@@ -818,6 +818,56 @@
         return eventDate < now ? 'completed' : 'upcoming';
       }
 
+          // Fungsi global untuk download file .ics (Apple Calendar / Outlook) dengan detail lengkap
+      window.downloadICS = function(title, location, descEncoded, startDateStr, endDateStr) {
+        var description = decodeURIComponent(descEncoded || '');
+        
+        var icsData = [
+          'BEGIN:VCALENDAR',
+          'VERSION:2.0',
+          'PRODID:-//Hey Youth//Event Calendar//ID',
+          'BEGIN:VEVENT',
+          'SUMMARY:' + title,
+          'DESCRIPTION:' + description.replace(/\r?\n/g, '\\n'),
+          'LOCATION:' + location,
+          (startDateStr ? 'DTSTART:' + startDateStr : ''),
+          (endDateStr ? 'DTEND:' + endDateStr : ''),
+          'END:VEVENT',
+          'END:VCALENDAR'
+        ].filter(Boolean).join('\r\n');
+
+        var blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8;' });
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.setAttribute('download', title.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.ics');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+
+        // Fungsi toggle untuk membuka/menutup dropdown Add to Calendar saat diklik
+      window.toggleCalendarMenu = function(event, btn) {
+        event.stopPropagation();
+        var currentMenu = btn.nextElementSibling;
+        
+        // Tutup dropdown lain yang sedang terbuka
+        document.querySelectorAll('.calendar-dropdown-menu').forEach(function(menu) {
+          if (menu !== currentMenu) menu.classList.add('hidden');
+        });
+
+        // Buka / tutup menu yang diklik
+        if (currentMenu) {
+          currentMenu.classList.toggle('hidden');
+        }
+      };
+
+      // Otomatis tutup dropdown jika pengguna mengklik area di luar tombol
+      document.addEventListener('click', function() {
+        document.querySelectorAll('.calendar-dropdown-menu').forEach(function(menu) {
+          menu.classList.add('hidden');
+        });
+      });
+
       /* =========================================
          ========================================= */
       function renderUpcomingEvents(events) {
@@ -826,6 +876,18 @@
 
         var list = events || [];
         var upcoming = list.filter(function (e) { return getEventStatus(e.date, e.time) === 'upcoming'; });
+
+        // Helper untuk mengubah JS Date ke format ISO UTC Calendar (YYYYMMDDTHHMMSSZ)
+        function formatCalDate(d) {
+          if (!d || isNaN(d.getTime())) return '';
+          var pad = function(n) { return n < 10 ? '0' + n : n; };
+          return d.getUTCFullYear() +
+            pad(d.getUTCMonth() + 1) +
+            pad(d.getUTCDate()) + 'T' +
+            pad(d.getUTCHours()) +
+            pad(d.getUTCMinutes()) +
+            pad(d.getUTCSeconds()) + 'Z';
+        }
 
         if (upcoming.length === 0) {
           container.innerHTML = '<div class="text-center py-10 text-gray-400">' +
@@ -838,10 +900,56 @@
             var imgSrc = item.image || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=300&auto=format&fit=crop';
             var escTitleId = _escA(item.title_id || item.title || '').replace(/'/g, "\\'");
             var escTitleEn = _escA(item.title_en || item.title || '').replace(/'/g, "\\'");
+            var escTitleClean = _escA(item.title_id || item.title || 'Hey Youth Event').replace(/'/g, "\\'");
+            var escLocClean = _escA(item.location || 'Zoom Meeting').replace(/'/g, "\\'");
+
+            var startDt = getEventDateTime(item.date, item.time);
+            var endDt = new Date(startDt.getTime() + (2 * 60 * 60 * 1000));
+            var startIso = formatCalDate(startDt);
+            var endIso = formatCalDate(endDt);
+
+            var rawDesc = (item.description_id || item.description_en || item.description || 'Pengingat Event dari Hey Youth!');
+            if (item.speaker) {
+              rawDesc += '\n\nPembicara: ' + item.speaker + (item.speakerRole ? ' (' + item.speakerRole + ')' : '');
+            }
+            if (item.link) {
+              rawDesc += '\n\nLink Akses/Zoom: ' + item.link;
+            }
+
+            var titleForCal = encodeURIComponent(item.title_id || item.title || 'Hey Youth Event');
+            var locForCal = encodeURIComponent(item.location || 'Zoom Meeting');
+            var detailsForCal = encodeURIComponent(rawDesc);
+            var dateParam = (startIso && endIso) ? '&dates=' + startIso + '/' + endIso : '';
+
+            var gCalUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+              '&text=' + titleForCal +
+              '&details=' + detailsForCal +
+              '&location=' + locForCal +
+              dateParam;
+
+            var calendarBtnHtml = '<div class="relative inline-block text-left z-20">' +
+              '<button type="button" onclick="toggleCalendarMenu(event, this)" class="inline-flex items-center px-3 py-2 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-xs font-bold rounded-xl transition-all gap-1.5 cursor-pointer">' +
+              '<i class="far fa-calendar-plus text-primary"></i>' +
+              '<span>Add to Calendar</span>' +
+              '<i class="fas fa-chevron-down text-[10px] ml-1"></i>' +
+              '</button>' +
+              '<div class="calendar-dropdown-menu absolute right-0 bottom-full mb-2 w-48 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl shadow-xl hidden z-50 overflow-hidden py-1.5">' +
+              '<a href="' + gCalUrl + '" target="_blank" class="flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">' +
+              '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg" class="w-4 h-4 flex-shrink-0 object-contain" alt="Google Calendar">' +
+              '<span>Google Calendar</span>' +
+              '</a>' +
+              '<button type="button" onclick="downloadICS(\'' + escTitleClean + '\', \'' + escLocClean + '\', \'' + detailsForCal + '\', \'' + startIso + '\', \'' + endIso + '\')" class="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors text-left">' +
+              '<i class="fab fa-apple text-gray-900 dark:text-white text-sm w-4 flex-shrink-0 text-center"></i>' +
+              '<span>Apple Calendar</span>' +
+              '</button>' +
+              '</div>' +
+              '</div>';
+
             var linkHtml = '<button onclick="openRegistrationModal(' + item.id + ', \'' + escTitleId + '\', \'' + escTitleEn + '\')" class="inline-flex items-center px-4 py-2 bg-primary hover:bg-primaryDark text-white text-xs font-bold rounded-xl transition-all shadow-md gap-1.5 self-start">' +
               '<span class="lang-id">Daftar Sekarang</span><span class="lang-en">Register Now</span>' +
               '<i class="fas fa-edit text-[10px]"></i>' +
               '</button>';
+
             return '<div class="bg-surface dark:bg-slate-900 p-5 rounded-2xl border border-gray-150 dark:border-slate-800 shadow-sm flex gap-4 hover:shadow-md transition-all duration-300">' +
               '<img src="' + _escA(imgSrc) + '" class="w-20 h-20 rounded-2xl object-cover flex-shrink-0 border border-gray-100" alt="Event Cover" onerror="this.src=\'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=300&auto=format&fit=crop\'">' +
               '<div class="flex-grow flex flex-col justify-between min-w-0">' +
@@ -868,9 +976,12 @@
                 '</div>' : ''
               ) +
               '</div>' +
-              '<div class="mt-4 flex items-center justify-between gap-4">' +
+              '<div class="mt-4 flex items-center justify-between gap-2 flex-wrap">' +
               '<span class="inline-block px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-blue-50 text-primary dark:bg-blue-950 dark:text-blue-300 uppercase tracking-wider">Upcoming</span>' +
+              '<div class="flex items-center gap-2 flex-wrap">' +
+              calendarBtnHtml +
               linkHtml +
+              '</div>' +
               '</div>' +
               '</div>' +
               '</div>';
