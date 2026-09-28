@@ -156,6 +156,8 @@
       activeId = 'partners';
     } else if (filename === 'donation.html') {
       activeId = 'donation';
+    } else if (filename === 'mentoring.html') {
+      activeId = 'teacher-class';
     }
 
     if (activeId) {
