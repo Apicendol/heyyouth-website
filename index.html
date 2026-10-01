@@ -30,6 +30,7 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,00&display=swap"
     rel="stylesheet">
 
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/Style/tailwind.css">
   <link rel="stylesheet" href="assets/Style/Style.css">
 </head>
@@ -56,7 +57,7 @@
               <span class="lang-id">Membangun Masa Depan Pendidikan</span><span class="lang-en">Building the Future of
                 Education</span>
             </div>
-            <h1
+            <h1 data-aos="fade-up"
               class="text-4xl md:text-5xl lg:text-7xl font-bold text-heading leading-[1.1] mb-6 sm:mb-8 tracking-tight">
               <span class="lang-id">Memberdayakan Komunitas <span class="text-primary relative inline-block">Melalui
                   Pendidikan<svg class="absolute w-full h-3 -bottom-1 left-0 text-yellow-400 -z-10" viewBox="0 0 100 10"
@@ -69,7 +70,7 @@
                     <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="8" fill="none" />
                   </svg></span></span>
             </h1>
-            <p class="text-base sm:text-lg lg:text-xl text-body mb-8 sm:mb-10 leading-relaxed max-w-lg">
+            <p data-aos="fade-up" data-aos-delay="100" class="text-base sm:text-lg lg:text-xl text-body mb-8 sm:mb-10 leading-relaxed max-w-lg">
               <span class="lang-id">Bergabunglah bersama kami dalam gerakan sosial untuk menyediakan akses pendidikan
                 yang setara bagi pemuda di seluruh pelosok negeri.</span>
               <span class="lang-en">Join us in the social movement to provide equal access to education for youth across
@@ -455,6 +456,15 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 800,
+      once: true,
+      offset: 100,
+      easing: 'ease-in-out-cubic'
+    });
+  </script>
   <script src="assets/Javascript/supabase-init.js"></script>
   <script src="assets/Javascript/components.js"></script>
   <script src="assets/Javascript/Script.js"></script>
