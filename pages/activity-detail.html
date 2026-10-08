@@ -15,7 +15,7 @@
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activity Detail - Hey Youth!</title>
-    <meta name="referrer" content="no-referrer">
+    
     <link rel="icon" type="image/webp" href="../assets/img/NEW HEY YOUTH Sep 2025.webp">
     <meta name="robots" content="noindex, follow">
 
@@ -228,6 +228,34 @@
                     };
 
                     document.getElementById('detail-title').innerHTML = bilEsc(activity.title_id, activity.title_en, activity.title);
+
+                    // Dynamic Open Graph Meta Tags
+                    const ogTitle = activity.title_id || activity.title || 'Hey Youth Activity';
+                    const ogImage = activity.image ? window._resolveImgPath(activity.image) : '';
+                    const ogDesc = activity.description_id || activity.description || 'Hey Youth - Gerakan Sosial Pemberdayaan Pemuda';
+                    
+                    document.title = ogTitle + " - Hey Youth!";
+                    
+                    const metaTags = {
+                        'og:title': ogTitle,
+                        'og:description': ogDesc,
+                        'og:image': ogImage,
+                        'twitter:card': 'summary_large_image',
+                        'twitter:title': ogTitle,
+                        'twitter:description': ogDesc,
+                        'twitter:image': ogImage
+                    };
+                    
+                    Object.keys(metaTags).forEach(key => {
+                        let meta = document.querySelector(`meta[property="${key}"]`) || document.querySelector(`meta[name="${key}"]`);
+                        if (!meta) {
+                            meta = document.createElement('meta');
+                            if(key.startsWith('twitter')) meta.setAttribute('name', key);
+                            else meta.setAttribute('property', key);
+                            document.head.appendChild(meta);
+                        }
+                        meta.setAttribute('content', metaTags[key]);
+                    });
                     document.getElementById('detail-category').innerHTML = bilEsc(activity.category_id, activity.category_en, activity.category);
                     document.getElementById('detail-date').textContent = activity.date;
                     document.getElementById('detail-description').innerHTML = bilEsc(activity.description_id, activity.description_en, activity.description);

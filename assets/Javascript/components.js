@@ -6,7 +6,11 @@
   'use strict';
 
   var navbarTemplate = `
-  <nav id="navbar" class="fixed w-full z-[500] transition-all duration-300 bg-white/70 backdrop-blur-lg border-b border-white/20 shadow-sm">
+  <nav id="navbar" class="fixed w-full z-[500] transition-all duration-300 bg-white/70 backdrop-blur-lg border-b border-white/20 shadow-sm dark-glass">
+    <div class="w-full bg-primary text-white text-xs py-1.5 px-4 text-center hidden md:block">
+      <span class="lang-id">Pengumuman: Pendaftaran Relawan Batch 2026 Segera Dibuka! Persiapkan dirimu! 🚀</span>
+      <span class="lang-en">Announcement: Volunteer Batch 2026 Registration Opens Soon! Get ready! 🚀</span>
+    </div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
         <a href="index.html" class="flex-shrink-0 flex items-center gap-2 group">
@@ -141,6 +145,15 @@
     }
     if (footerContainer) {
       footerContainer.outerHTML = processedFooter;
+    }
+
+    // Inject Global Loader
+    if (!document.getElementById('global-loader')) {
+      var loader = document.createElement('div');
+      loader.id = 'global-loader';
+      loader.style.cssText = 'position:fixed;inset:0;z-index:999999;background-color:#ffffff;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity 0.5s ease;';
+      loader.innerHTML = '<img src="' + basePath + 'assets/img/NEW HEY YOUTH Sep 2025.webp" alt="Loading..." style="width:80px;height:auto;animation:heartbeat 1.5s infinite ease-in-out;"><div style="margin-top:20px;width:40px;height:40px;border:3px solid rgba(29,78,216,0.2);border-top-color:#1D4ED8;border-radius:50%;animation:spin 1s linear infinite;"></div>';
+      document.body.appendChild(loader);
     }
 
     var filename = decodeURIComponent(pathname.split('/').pop().toLowerCase());

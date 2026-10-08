@@ -15,7 +15,7 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dokumentasi Kegiatan, Webinar & Podcast Inspiratif — Activities | Hey Youth!</title>
-  <meta name="referrer" content="no-referrer">
+  
   <link rel="icon" type="image/webp" href="../assets/img/NEW HEY YOUTH Sep 2025.webp">
   <meta name="description"
     content="Telusuri berbagai dokumentasi webinar pendidikan, aksi volunteering lapangan, serta dengarkan langsung episode podcast inspiratif dari Hey Youth!.">
@@ -579,6 +579,19 @@
           var titleHtml = _bilEsc(item.title_id, item.title_en, item.title);
           var descHtml = _bilEsc(item.description_id, item.description_en, item.description);
 
+          var displayDate = item.date || '';
+          // Convert Make.com Unix timestamps to readable dates
+          var strDate = String(displayDate).trim();
+          if (/^\d{10}$/.test(strDate)) {
+              var dateObj = new Date(parseInt(strDate) * 1000);
+              var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+              displayDate = dateObj.getDate() + ' ' + months[dateObj.getMonth()] + ' ' + dateObj.getFullYear();
+          } else if (/^\d{13}$/.test(strDate)) {
+              var dateObj = new Date(parseInt(strDate));
+              var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+              displayDate = dateObj.getDate() + ' ' + months[dateObj.getMonth()] + ' ' + dateObj.getFullYear();
+          }
+
           var isFirst = (index === 0);
           var cardBorder = isFirst
             ? 'border:2px solid #3b82f6;box-shadow:0 4px 24px rgba(59,130,246,0.13);'
@@ -596,7 +609,7 @@
             (isFirst ? '<div class="absolute top-2 right-2"><span style="background:#f59e0b;color:#fff;font-size:8px;font-weight:700;padding:2px 6px;border-radius:999px;">&#9733; Featured</span></div>' : '') +
             '</div>' +
             '<div class="flex flex-col justify-center flex-grow min-w-0 px-4 py-3 overflow-hidden">' +
-            '<div class="flex items-center text-gray-400 mb-1.5" style="font-size:10px;"><i class="far fa-calendar-alt mr-1"></i><span>' + _esc(item.date) + '</span></div>' +
+            '<div class="flex items-center text-gray-400 mb-1.5" style="font-size:10px;"><i class="far fa-calendar-alt mr-1"></i><span>' + _esc(displayDate) + '</span></div>' +
             '<h3 class="' + (isFirst ? 'text-base' : 'text-sm') + ' font-bold text-heading leading-snug line-clamp-3 group-hover:text-primary transition-colors">' + titleHtml + '</h3>' +
             '</div>' +
             '</div>' +

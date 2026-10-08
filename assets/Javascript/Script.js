@@ -805,11 +805,19 @@ async function _initMain() {
     } catch (e) {
         console.error('CMS error:', e);
     }
-    
     _initFAQ();
     _initNavbar();
     _initMap();
     trackVisitor();
+
+    setTimeout(() => {
+        var loader = document.getElementById('global-loader');
+        if (loader) {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.remove(), 500);
+        }
+        if (typeof AOS !== 'undefined') AOS.refresh();
+    }, 300);
 }
 
 if (document.readyState === 'loading') {
