@@ -640,9 +640,10 @@
                                     <h3 class="font-bold text-heading text-base">Daftar Registrasi Peserta Event</h3>
                                     <span id="count-registrations" class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-medium">0</span>
                                 </div>
-                                <div class="flex items-center gap-4">
-                                    <button onclick="exportRegistrationsToCSV()" class="text-green-600 hover:text-green-800 text-xs font-semibold"><i class="fas fa-file-excel mr-1"></i> Ekspor CSV</button>
-                                    <button onclick="clearAllRegistrations()" class="text-red-500 hover:text-red-700 text-xs font-semibold"><i class="fas fa-trash-alt mr-1"></i> Bersihkan Semua</button>
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <button onclick="openEventReminderModal()" class="bg-blue-50 hover:bg-blue-100 text-primary px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-xs"><i class="fas fa-bell text-[11px]"></i> Pengingat H-1 (WA/Email)</button>
+                                    <button onclick="exportRegistrationsToCSV()" class="bg-green-50 hover:bg-green-100 text-green-700 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-xs"><i class="fas fa-file-excel text-[11px]"></i> Ekspor CSV</button>
+                                    <button onclick="clearAllRegistrations()" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5 shadow-xs"><i class="fas fa-trash-alt text-[11px]"></i> Bersihkan Semua</button>
                                 </div>
                             </div>
                             
@@ -1093,8 +1094,8 @@
                             <button onclick="exportActivityLogToCSV()" class="bg-green-600 hover:bg-green-700 text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
                                 <i class="fas fa-file-excel"></i> Ekspor CSV
                             </button>
-                            <button onclick="clearActivityLog()" class="hidden bg-red-500 hover:bg-red-600 text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
-                                <i class="fas fa-trash"></i> Hapus Semua Log
+                            <button onclick="clearActivityLog()" class="bg-red-50 hover:bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/50 px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
+                                <i class="fas fa-trash-alt"></i> Bersihkan Log
                             </button>
                         </div>
                     </div>
@@ -1290,31 +1291,31 @@
                 ],
                 faqs: [
                     {
-                        id: 7,
-                        question: "Why don't we recruit people per batch?",
-                        question_id: 'Mengapa kami tidak merekrut anggota per batch?',
-                        question_en: "Why don't we recruit people per batch?",
-                        answer: 'Kami membuka pendaftaran secara terbuka (rolling recruitment) agar talenta terbaik dapat bergabung kapan saja tanpa harus menunggu jadwal batch tertentu. Ini memungkinkan fleksibilitas lebih tinggi.',
-                        answer_id: 'Kami membuka pendaftaran secara terbuka (rolling recruitment) agar talenta terbaik dapat bergabung kapan saja tanpa harus menunggu jadwal batch tertentu. Ini memungkinkan fleksibilitas lebih tinggi.',
-                        answer_en: 'We open registration through rolling recruitment so that the best talent can join at any time without waiting for a specific batch schedule, allowing higher flexibility.'
+                        id: 1,
+                        question: 'Apa itu komunitas Hey Youth! dan apa fokus program utamanya?',
+                        question_id: 'Apa itu komunitas Hey Youth! dan apa fokus program utamanya?',
+                        question_en: 'What is the Hey Youth! community and what are its primary program focuses?',
+                        answer: 'Hey Youth! adalah organisasi nirlaba kepemudaan yang berfokus pada pemberdayaan generasi muda melalui pendidikan inklusif, literasi digital, pendampingan belajar siswa SD (Teacher Class SD), workshop pengembangan karir & AI, serta aksi kerelawanan di berbagai chapter daerah di Indonesia.',
+                        answer_id: 'Hey Youth! adalah organisasi nirlaba kepemudaan yang berfokus pada pemberdayaan generasi muda melalui pendidikan inklusif, literasi digital, pendampingan belajar siswa SD (Teacher Class SD), workshop pengembangan karir & AI, serta aksi kerelawanan di berbagai chapter daerah di Indonesia.',
+                        answer_en: 'Hey Youth! is a youth-led non-profit organization dedicated to empowering the next generation through inclusive education, digital literacy, elementary mentoring (Teacher Class), career & AI workshops, and volunteer chapter initiatives across Indonesia.'
                     },
                     {
-                        id: 8,
-                        question: 'Do I need to have high English levels to join Hey Youth?',
-                        question_id: 'Apakah saya perlu memiliki kemampuan Bahasa Inggris tingkat tinggi untuk bergabung dengan Hey Youth?',
-                        question_en: 'Do I need to have high English levels to join Hey Youth?',
-                        answer: 'Tidak wajib. Meskipun beberapa program internasional membutuhkan kemampuan Bahasa Inggris, kami menyediakan banyak peran di mana Bahasa Indonesia adalah bahasa utama komunikasi. Yang terpenting adalah semangat berkontribusi.',
-                        answer_id: 'Tidak wajib. Meskipun beberapa program internasional membutuhkan kemampuan Bahasa Inggris, kami menyediakan banyak peran di mana Bahasa Indonesia adalah bahasa utama komunikasi. Yang terpenting adalah semangat berkontribusi.',
-                        answer_en: 'Not required. Although some international programs require English skills, we provide many roles where Indonesian is the primary language. The most important thing is the spirit to contribute.'
+                        id: 2,
+                        question: 'Bagaimana alur pendaftaran untuk menjadi relawan atau mengikuti webinar?',
+                        question_id: 'Bagaimana alur pendaftaran untuk menjadi relawan atau mengikuti webinar?',
+                        question_en: 'How does the registration process work for becoming a volunteer or joining webinars?',
+                        answer: 'Untuk bergabung sebagai relawan, Anda dapat mendaftar langsung melalui tombol "Gabung Hey Youth" di halaman beranda dengan sistem rolling recruitment. Untuk mengikuti webinar atau workshop, silakan kunjungi halaman Activities, pilih kegiatan terdekat yang diminati, dan isi formulir pendaftaran 1-klik untuk menerima link akses serta pengingat acara otomatis.',
+                        answer_id: 'Untuk bergabung sebagai relawan, Anda dapat mendaftar langsung melalui tombol "Gabung Hey Youth" di halaman beranda dengan sistem rolling recruitment. Untuk mengikuti webinar atau workshop, silakan kunjungi halaman Activities, pilih kegiatan terdekat yang diminati, dan isi formulir pendaftaran 1-klik untuk menerima link akses serta pengingat acara otomatis.',
+                        answer_en: 'To join as a volunteer, you can register anytime via the "Join Hey Youth" button on our homepage through our open rolling recruitment. To attend webinars or workshops, head to the Activities page, choose an upcoming event, and fill out the 1-click registration form to receive your access link and automated reminders.'
                     },
                     {
-                        id: 9,
-                        question: 'How can I donate to foundation?',
-                        question_id: 'Bagaimana cara berdonasi ke yayasan?',
-                        question_en: 'How can I donate to foundation?',
-                        answer: 'Anda dapat mendukung kami melalui transfer bank atau donasi barang. Silakan kunjungi halaman Donation untuk informasi rekening dan kebutuhan barang terkini.',
-                        answer_id: 'Anda dapat mendukung kami melalui transfer bank atau donasi barang. Silakan kunjungi halaman Donation untuk informasi rekening dan kebutuhan barang terkini.',
-                        answer_en: 'You can support us via bank transfer or item donations. Please visit our Donation page for current bank accounts and item needs.'
+                        id: 3,
+                        question: 'Apakah peserta kegiatan webinar akan mendapatkan E-Sertifikat resmi dan bagaimana cara mengunduhnya?',
+                        question_id: 'Apakah peserta kegiatan webinar akan mendapatkan E-Sertifikat resmi dan bagaimana cara mengunduhnya?',
+                        question_en: 'Do webinar attendees receive an official E-Certificate and how can it be downloaded?',
+                        answer: 'Ya, seluruh peserta webinar dan workshop yang telah menyelesaikan kegiatan berhak mendapatkan E-Sertifikat resmi terverifikasi Hey Youth. Anda dapat mencari dan mengunduh sertifikat kapan saja melalui fitur "Unduh E-Sertifikat" di halaman Activities hanya dengan memasukkan nama lengkap atau nomor sertifikat Anda.',
+                        answer_id: 'Ya, seluruh peserta webinar dan workshop yang telah menyelesaikan kegiatan berhak mendapatkan E-Sertifikat resmi terverifikasi Hey Youth. Anda dapat mencari dan mengunduh sertifikat kapan saja melalui fitur "Unduh E-Sertifikat" di halaman Activities hanya dengan memasukkan nama lengkap atau nomor sertifikat Anda.',
+                        answer_en: 'Yes, all participants who attend our webinars and workshops are entitled to an official, verified Hey Youth E-Certificate. You can verify and download your certificate anytime via the "Download E-Certificate" tool on the Activities page simply by entering your full name or certificate number.'
                     }
                 ],
                 locations: [
@@ -1558,6 +1559,142 @@
 
             /* =========================================
                ========================================= */
+            var cleanLangText = window.cleanLangText || function (str, preferredLang) {
+                if (!str || typeof str !== 'string') return '';
+                var lang = preferredLang || 'id';
+                var reg = new RegExp('<span class=[\"\']lang-' + lang + '[\"\']>([\\s\\S]*?)<\\/span>', 'i');
+                var match = str.match(reg);
+                if (match && match[1]) {
+                    return match[1].replace(/<[^>]+>/g, '').trim();
+                }
+                if (/<span class=[\"\']lang-/i.test(str)) {
+                    return str.replace(/<[^>]+>/g, '').trim();
+                }
+                return str;
+            };
+
+            var cleanLangHtml = window.cleanLangHtml || function (str, preferredLang) {
+                if (!str || typeof str !== 'string') return '';
+                var lang = preferredLang || 'id';
+                var reg = new RegExp('<span class=[\"\']lang-' + lang + '[\"\']>([\\s\\S]*?)<\\/span>', 'i');
+                var match = str.match(reg);
+                if (match && match[1]) {
+                    return match[1].trim();
+                }
+                if (/<span class=[\"\']lang-/i.test(str)) {
+                    return str.replace(/<\/?span[^>]*>/gi, '').trim();
+                }
+                return str;
+            };
+
+            var sanitizeCmsData = window.sanitizeCmsData || function (data) {
+                if (!data || typeof data !== 'object') return data;
+                try {
+                    var d = JSON.parse(JSON.stringify(data));
+                    if (Array.isArray(d.externalTestimonials)) {
+                        d.externalTestimonials.forEach(function (t) {
+                            t.title_id = cleanLangText(t.title_id || t.title, 'id');
+                            t.title_en = cleanLangText(t.title_en || t.title, 'en');
+                            t.title = t.title_id || t.title_en || '';
+                            t.quote_id = cleanLangText(t.quote_id || t.quote, 'id');
+                            t.quote_en = cleanLangText(t.quote_en || t.quote, 'en');
+                            t.quote = t.quote_id || t.quote_en || '';
+                        });
+                    }
+                    if (Array.isArray(d.internalTestimonials)) {
+                        d.internalTestimonials.forEach(function (t) {
+                            t.role_id = cleanLangText(t.role_id || t.role, 'id');
+                            t.role_en = cleanLangText(t.role_en || t.role, 'en');
+                            t.role = t.role_id || t.role_en || '';
+                            t.quote_id = cleanLangText(t.quote_id || t.quote, 'id');
+                            t.quote_en = cleanLangText(t.quote_en || t.quote, 'en');
+                            t.quote = t.quote_id || t.quote_en || '';
+                        });
+                    }
+                    if (Array.isArray(d.faqs)) {
+                        d.faqs.forEach(function (f) {
+                            f.question_id = cleanLangText(f.question_id || f.question, 'id');
+                            f.question_en = cleanLangText(f.question_en || f.question, 'en');
+                            f.question = f.question_id || f.question_en || '';
+                            f.answer_id = cleanLangText(f.answer_id || f.answer, 'id');
+                            f.answer_en = cleanLangText(f.answer_en || f.answer, 'en');
+                            f.answer = f.answer_id || f.answer_en || '';
+                        });
+                    }
+                    if (Array.isArray(d.partners)) {
+                        d.partners.forEach(function (p) {
+                            p.description_id = cleanLangText(p.description_id || p.description, 'id');
+                            p.description_en = cleanLangText(p.description_en || p.description, 'en');
+                            p.description = p.description_id || p.description_en || '';
+                        });
+                    }
+                    if (Array.isArray(d.team)) {
+                        d.team.forEach(function (t) {
+                            t.role_id = cleanLangText(t.role_id || t.role, 'id');
+                            t.role_en = cleanLangText(t.role_en || t.role, 'en');
+                            t.role = t.role_id || t.role_en || '';
+                        });
+                    }
+                    if (Array.isArray(d.activityCards)) {
+                        d.activityCards.forEach(function (a) {
+                            a.category_id = cleanLangText(a.category_id || a.category, 'id');
+                            a.category_en = cleanLangText(a.category_en || a.category, 'en');
+                            a.category = a.category_id || a.category_en || '';
+                            a.title_id = cleanLangText(a.title_id || a.title, 'id');
+                            a.title_en = cleanLangText(a.title_en || a.title, 'en');
+                            a.title = a.title_id || a.title_en || '';
+                            a.description_id = cleanLangText(a.description_id || a.description, 'id');
+                            a.description_en = cleanLangText(a.description_en || a.description, 'en');
+                            a.description = a.description_id || a.description_en || '';
+                            a.full_story_id = cleanLangHtml(a.full_story_id || a.fullStory, 'id');
+                            a.full_story_en = cleanLangHtml(a.full_story_en || a.fullStory, 'en');
+                            a.fullStory = a.full_story_id || a.full_story_en || '';
+                        });
+                    }
+                    if (Array.isArray(d.podcasts)) {
+                        d.podcasts.forEach(function (p) {
+                            p.episode_id = cleanLangText(p.episode_id || p.episode, 'id');
+                            p.episode_en = cleanLangText(p.episode_en || p.episode, 'en');
+                            p.episode = p.episode_id || p.episode_en || '';
+                            p.title_id = cleanLangText(p.title_id || p.title, 'id');
+                            p.title_en = cleanLangText(p.title_en || p.title, 'en');
+                            p.title = p.title_id || p.title_en || '';
+                        });
+                    }
+                    if (d.donationSettings) {
+                        var ds = d.donationSettings;
+                        ds.hero_title_id = cleanLangText(ds.hero_title_id || ds.heroTitle, 'id');
+                        ds.hero_title_en = cleanLangText(ds.hero_title_en || ds.heroTitle, 'en');
+                        ds.heroTitle = ds.hero_title_id || ds.hero_title_en || '';
+                        ds.hero_subtitle_id = cleanLangText(ds.hero_subtitle_id || ds.heroSubtitle, 'id');
+                        ds.hero_subtitle_en = cleanLangText(ds.hero_subtitle_en || ds.heroSubtitle, 'en');
+                        ds.heroSubtitle = ds.hero_subtitle_id || ds.hero_subtitle_en || '';
+                        ds.strip_text_id = cleanLangText(ds.strip_text_id || ds.stripText, 'id');
+                        ds.strip_text_en = cleanLangText(ds.strip_text_en || ds.stripText, 'en');
+                        ds.stripText = ds.strip_text_id || ds.strip_text_en || '';
+                    }
+                    if (d.aboutHero) {
+                        var ab = d.aboutHero;
+                        ab.subtitle_id = cleanLangText(ab.subtitle_id || ab.subtitle, 'id');
+                        ab.subtitle_en = cleanLangText(ab.subtitle_en || ab.subtitle, 'en');
+                        ab.subtitle = ab.subtitle_id || ab.subtitle_en || '';
+                    }
+                    if (Array.isArray(d.events)) {
+                        d.events.forEach(function (e) {
+                            e.title_id = cleanLangText(e.title_id || e.title, 'id');
+                            e.title_en = cleanLangText(e.title_en || e.title, 'en');
+                            e.title = e.title_id || e.title_en || '';
+                            e.description_id = cleanLangText(e.description_id || e.description, 'id');
+                            e.description_en = cleanLangText(e.description_en || e.description, 'en');
+                            e.description = e.description_id || e.description_en || '';
+                        });
+                    }
+                    return d;
+                } catch (e) {
+                    return data;
+                }
+            };
+
             var memoryData = null;
 
             function _resolveImgPath(path) {
@@ -1588,13 +1725,17 @@
                         }
                     }
                 }
-                return merged;
+                return sanitizeCmsData(merged);
             }
 
             async function saveData(data) {
-                memoryData = JSON.parse(JSON.stringify(data));
+                var cleanedData = sanitizeCmsData(data);
+                memoryData = JSON.parse(JSON.stringify(cleanedData));
                 try {
-                    await window.saveFirebaseData(data);
+                    localStorage.setItem('hey_youth_cms', JSON.stringify(cleanedData));
+                } catch (e) {}
+                try {
+                    await window.saveFirebaseData(cleanedData);
                     return true;
                 } catch (e) {
                     showToast('Gagal menyimpan ke database.', 'error');
@@ -2080,6 +2221,7 @@
                             }
                         });
                         localStorage.setItem(listKey, JSON.stringify(list));
+                        addActivityLog('TAMBAH', 'Sertifikat', 'Menerbitkan sertifikat ' + num + ' untuk: "' + nameVal + '" (' + eventVal + ')');
                         
                         var currentRegList = JSON.parse(localStorage.getItem('event_registrations') || '[]');
                         currentRegList = currentRegList.filter(function(r) { return r.id !== regId; });
@@ -2112,8 +2254,205 @@
             window.clearAllRegistrations = function () {
                 if (!confirm('Hapus semua pendaftaran event? Tindakan ini tidak dapat dibatalkan.')) return;
                 localStorage.setItem('event_registrations', '[]');
+                addActivityLog('HAPUS', 'Registrasi Event', 'Membersihkan semua data pendaftaran event');
                 renderRegistrationsList();
                 showToast('Semua pendaftaran berhasil dibersihkan.', 'success');
+            };
+
+            window.openEventReminderModal = function() {
+                var modal = document.getElementById('modal');
+                var modalTitle = document.getElementById('modal-title');
+                var modalBody = document.getElementById('modal-body');
+                if (!modal || !modalTitle || !modalBody) return;
+
+                var data = getData();
+                var events = data.events || [];
+                var regList = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+
+                // Build unique event options
+                var eventNames = [];
+                events.forEach(function(e) {
+                    var name = e.title_id || e.title || '';
+                    if (name && eventNames.indexOf(name) === -1) eventNames.push(name);
+                });
+                regList.forEach(function(r) {
+                    if (r.eventName && eventNames.indexOf(r.eventName) === -1) eventNames.push(r.eventName);
+                });
+
+                var eventOptionsHtml = eventNames.map(function(ev, idx) {
+                    return '<option value="' + escapeAttr(ev) + '"' + (idx === 0 ? ' selected' : '') + '>' + escapeHtml(ev) + '</option>';
+                }).join('');
+
+                modalTitle.innerHTML = '<div class="flex items-center gap-2 text-primary"><i class="fas fa-bell"></i> <span>Kirim Pengingat Acara (H-1 Webinar / Acara)</span></div>';
+                
+                modalBody.innerHTML = 
+                    '<div class="space-y-4 max-h-[75vh] overflow-y-auto pr-1">' +
+                    '  <div class="bg-blue-50/70 border border-blue-150 rounded-xl p-3.5 text-xs text-blue-800 leading-relaxed">' +
+                    '    <i class="fas fa-info-circle mr-1 text-primary"></i> Fitur ini membantu pengurus Hey Youth mengirimkan pengingat kepada peserta terdaftar baik secara 1-click via WhatsApp maupun broadcast email massal.' +
+                    '  </div>' +
+                    '  <div>' +
+                    '    <label class="block text-xs font-bold text-heading uppercase mb-1">Pilih Acara / Webinar</label>' +
+                    '    <select id="reminder-event-select" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs bg-white text-heading font-semibold focus:outline-none focus:border-primary">' +
+                    '      <option value="__ALL__">-- Kirim ke Semua Pendaftar (Seluruh Acara) --</option>' +
+                    eventOptionsHtml +
+                    '    </select>' +
+                    '  </div>' +
+                    '  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">' +
+                    '    <div>' +
+                    '      <label class="block text-xs font-bold text-heading uppercase mb-1">Tipe Template</label>' +
+                    '      <select id="reminder-type-select" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs bg-white text-heading focus:outline-none focus:border-primary">' +
+                    '        <option value="h-1" selected>Pengingat H-1 (Dimulai Besok)</option>' +
+                    '        <option value="h-0">Pengingat Hari-H (1 Jam Sebelum Mulai)</option>' +
+                    '        <option value="custom">Format Kustom</option>' +
+                    '      </select>' +
+                    '    </div>' +
+                    '    <div>' +
+                    '      <label class="block text-xs font-bold text-heading uppercase mb-1">Link Pertemuan / Zoom</label>' +
+                    '      <input type="text" id="reminder-link-input" placeholder="https://bit.ly/ZoomHeyYouth" value="https://bit.ly/ZoomHeyYouth" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs text-heading focus:outline-none focus:border-primary">' +
+                    '    </div>' +
+                    '  </div>' +
+                    '  <div>' +
+                    '    <label class="block text-xs font-bold text-heading uppercase mb-1">Subject Email</label>' +
+                    '    <input type="text" id="reminder-subject-input" value="[PENGINGAT] Webinar Hey Youth Akan Dimulai Besok!" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs text-heading focus:outline-none focus:border-primary font-medium">' +
+                    '  </div>' +
+                    '  <div>' +
+                    '    <label class="block text-xs font-bold text-heading uppercase mb-1">Format Pesan WhatsApp (Gunakan {nama}, {event}, {link})</label>' +
+                    '    <textarea id="reminder-wa-text" rows="4" class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs text-heading focus:outline-none focus:border-primary font-mono leading-relaxed">' +
+                    'Halo {nama}! 👋\n\nIni pengingat dari Hey Youth bahwa webinar "{event}" akan dimulai besok.\n\nJangan lupa siapkan pertanyaan terbaikmu dan bergabung tepat waktu melalui link berikut:\n🔗 {link}\n\nSampai jumpa besok! Semangat berdaya bersama Hey Youth! 🚀' +
+                    '    </textarea>' +
+                    '  </div>' +
+                    '  <div class="border-t border-gray-200 pt-3">' +
+                    '    <div class="flex items-center justify-between mb-2">' +
+                    '      <span class="text-xs font-bold text-heading uppercase">Daftar Penerima (<span id="reminder-recipient-count">0</span> Orang)</span>' +
+                    '      <div class="flex items-center gap-2">' +
+                    '        <button type="button" id="reminder-copy-wa-btn" class="text-[11px] font-bold text-green-700 bg-green-50 hover:bg-green-100 px-2.5 py-1 rounded-md border border-green-200 transition-colors"><i class="fas fa-copy mr-1"></i>Salin Nomor WA</button>' +
+                    '        <button type="button" id="reminder-open-email-btn" class="text-[11px] font-bold text-primary bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-md border border-blue-200 transition-colors"><i class="fas fa-envelope mr-1"></i>Buka Email Client (BCC)</button>' +
+                    '      </div>' +
+                    '    </div>' +
+                    '    <div id="reminder-participants-list" class="space-y-2 max-h-48 overflow-y-auto pr-1 border border-gray-150 rounded-xl p-2 bg-gray-50/50">' +
+                    '    </div>' +
+                    '  </div>' +
+                    '  <div class="flex gap-2 pt-2 border-t border-gray-100">' +
+                    '    <button type="button" onclick="closeModal()" class="flex-1 py-2 border border-gray-200 rounded-lg text-xs font-semibold text-heading hover:bg-gray-100 transition-colors">Tutup</button>' +
+                    '    <button type="button" id="reminder-mark-sent-btn" class="flex-1 py-2 bg-primary hover:bg-primaryDark text-white rounded-lg text-xs font-bold transition-colors"><i class="fas fa-check-circle mr-1"></i>Selesai & Catat Log Aktivitas</button>' +
+                    '  </div>' +
+                    '</div>';
+
+                modal.classList.remove('hidden');
+
+                function updateParticipantsList() {
+                    var selectedEvent = document.getElementById('reminder-event-select').value;
+                    var filtered = regList.filter(function(r) {
+                        if (selectedEvent === '__ALL__') return true;
+                        return r.eventName === selectedEvent;
+                    });
+
+                    document.getElementById('reminder-recipient-count').textContent = filtered.length;
+                    var container = document.getElementById('reminder-participants-list');
+                    
+                    if (filtered.length === 0) {
+                        container.innerHTML = '<div class="text-center py-4 text-gray-400 text-xs">Tidak ada pendaftar untuk event ini.</div>';
+                        return;
+                    }
+
+                    var templateText = document.getElementById('reminder-wa-text').value;
+                    var linkVal = document.getElementById('reminder-link-input').value.trim();
+
+                    container.innerHTML = filtered.map(function(item) {
+                        var cleanPhone = (item.phone || '').replace(/[^0-9]/g, '');
+                        if (cleanPhone.startsWith('0')) cleanPhone = '62' + cleanPhone.substring(1);
+                        else if (cleanPhone.startsWith('8')) cleanPhone = '62' + cleanPhone;
+
+                        var personalizedMsg = templateText
+                            .replace(/{nama}/g, item.name || 'Teman Hey Youth')
+                            .replace(/{event}/g, item.eventName || selectedEvent)
+                            .replace(/{link}/g, linkVal);
+
+                        var waUrl = 'https://api.whatsapp.com/send?phone=' + cleanPhone + '&text=' + encodeURIComponent(personalizedMsg);
+
+                        return '<div class="flex items-center justify-between p-2 rounded-lg bg-white border border-gray-150 text-xs">' +
+                               '  <div class="min-w-0 mr-2">' +
+                               '    <div class="font-bold text-heading truncate">' + escapeHtml(item.name) + ' <span class="font-normal text-gray-400 text-[10px]">(' + escapeHtml(item.instansi || '-') + ')</span></div>' +
+                               '    <div class="text-gray-500 text-[11px] truncate"><i class="fab fa-whatsapp text-green-500 mr-1"></i>' + escapeHtml(item.phone || '-') + ' • <i class="fas fa-envelope text-blue-400 mr-1"></i>' + escapeHtml(item.email || '-') + '</div>' +
+                               '  </div>' +
+                               '  <div class="flex-shrink-0">' +
+                               '    <a href="' + waUrl + '" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 bg-green-500 hover:bg-green-600 text-white rounded-md text-[11px] font-bold inline-flex items-center gap-1 shadow-xs transition-colors">' +
+                               '      <i class="fab fa-whatsapp"></i> Kirim WA' +
+                               '    </a>' +
+                               '  </div>' +
+                               '</div>';
+                    }).join('');
+                }
+
+                document.getElementById('reminder-event-select').addEventListener('change', function() {
+                    var selectedEvent = this.value;
+                    if (selectedEvent !== '__ALL__') {
+                        document.getElementById('reminder-subject-input').value = '[PENGINGAT] Webinar ' + selectedEvent + ' Akan Dimulai Besok!';
+                    }
+                    updateParticipantsList();
+                });
+
+                document.getElementById('reminder-type-select').addEventListener('change', function() {
+                    var t = this.value;
+                    var selectedEvent = document.getElementById('reminder-event-select').value;
+                    var evText = selectedEvent === '__ALL__' ? '{event}' : selectedEvent;
+
+                    if (t === 'h-1') {
+                        document.getElementById('reminder-subject-input').value = '[PENGINGAT] Webinar ' + evText + ' Akan Dimulai Besok!';
+                        document.getElementById('reminder-wa-text').value = 
+                            'Halo {nama}! 👋\n\nIni pengingat dari Hey Youth bahwa webinar "' + evText + '" akan dimulai besok.\n\nJangan lupa siapkan pertanyaan terbaikmu dan bergabung tepat waktu melalui link berikut:\n🔗 {link}\n\nSampai jumpa besok! Semangat berdaya bersama Hey Youth! 🚀';
+                    } else if (t === 'h-0') {
+                        document.getElementById('reminder-subject-input').value = '[DIMULAI SEBENTAR LAGI] Webinar ' + evText + ' Siap Dimulai!';
+                        document.getElementById('reminder-wa-text').value = 
+                            'Halo {nama}! ⏰\n\nWebinar "' + evText + '" akan dimulai dalam 1 jam lagi!\n\nRuang pertemuan virtual sudah dibuka. Silakan masuk lebih awal untuk mengecek audio & video:\n🔗 {link}\n\nSampai bertemu di dalam room! 👋✨';
+                    }
+                    updateParticipantsList();
+                });
+
+                document.getElementById('reminder-wa-text').addEventListener('input', updateParticipantsList);
+                document.getElementById('reminder-link-input').addEventListener('input', updateParticipantsList);
+
+                document.getElementById('reminder-copy-wa-btn').onclick = function() {
+                    var selectedEvent = document.getElementById('reminder-event-select').value;
+                    var filtered = regList.filter(function(r) {
+                        if (selectedEvent === '__ALL__') return true;
+                        return r.eventName === selectedEvent;
+                    });
+                    var numbers = filtered.map(function(r) { return r.phone; }).filter(Boolean).join(', ');
+                    if (!numbers) { showToast('Tidak ada nomor WhatsApp yang ditemukan.', 'error'); return; }
+                    navigator.clipboard.writeText(numbers).then(function() {
+                        showToast(filtered.length + ' nomor WhatsApp disalin ke clipboard.', 'success');
+                    });
+                };
+
+                document.getElementById('reminder-open-email-btn').onclick = function() {
+                    var selectedEvent = document.getElementById('reminder-event-select').value;
+                    var filtered = regList.filter(function(r) {
+                        if (selectedEvent === '__ALL__') return true;
+                        return r.eventName === selectedEvent;
+                    });
+                    var emails = filtered.map(function(r) { return r.email; }).filter(Boolean);
+                    if (!emails.length) { showToast('Tidak ada email pendaftar yang ditemukan.', 'error'); return; }
+                    var subject = document.getElementById('reminder-subject-input').value;
+                    var body = document.getElementById('reminder-wa-text').value;
+                    var mailtoUrl = 'mailto:hey.youth.id@gmail.com?bcc=' + encodeURIComponent(emails.join(',')) + '&subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+                    window.open(mailtoUrl, '_blank');
+                    showToast('Membuka email client dengan ' + emails.length + ' penerima BCC.', 'success');
+                };
+
+                document.getElementById('reminder-mark-sent-btn').onclick = function() {
+                    var selectedEvent = document.getElementById('reminder-event-select').value;
+                    var filtered = regList.filter(function(r) {
+                        if (selectedEvent === '__ALL__') return true;
+                        return r.eventName === selectedEvent;
+                    });
+                    var evTitle = selectedEvent === '__ALL__' ? 'Seluruh Acara' : selectedEvent;
+                    addActivityLog('PENGINGAT', 'Webinar Reminder', 'Mengirim pengingat acara "' + evTitle + '" kepada ' + filtered.length + ' peserta');
+                    closeModal();
+                    showToast('Pengingat acara berhasil diproses & dicatat ke log aktivitas.', 'success');
+                };
+
+                updateParticipantsList();
             };
 
             function renderEventsSettingsPreview(s) {
@@ -2628,14 +2967,17 @@
                 }
                 container.innerHTML = items.map(function (item) {
                     var imgSrc = item.image ? _resolveImgPath(item.image) : 'https://via.placeholder.com/400x250?text=No+Image';
-                    var badgeColor = item.category === 'Education' ? 'bg-primary/90' : 'bg-accent/90';
+                    var catText = cleanLangText(item.category_id || item.category, 'id');
+                    var isEdu = catText.toLowerCase() === 'education' || catText.toLowerCase() === 'pendidikan';
+                    var badgeColor = isEdu ? 'bg-primary/90' : 'bg-accent/90';
+                    var titleText = cleanLangText(item.title_id || item.title, 'id');
 
                     return '<div class="cms-card bg-white rounded-xl border border-gray-200 p-4 flex flex-col">' +
                         '<div class="relative h-32 w-full rounded-lg overflow-hidden mb-3 bg-gray-100">' +
                         '<img src="' + escapeAttr(imgSrc) + '" class="w-full h-full object-cover">' +
-                        '<span class="absolute top-2 left-2 ' + badgeColor + ' text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">' + escapeHtml(item.category) + '</span>' +
+                        '<span class="absolute top-2 left-2 ' + badgeColor + ' text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">' + escapeHtml(catText) + '</span>' +
                         '</div>' +
-                        '<h4 class="font-bold text-heading text-sm line-clamp-2 h-10">' + escapeHtml(item.title) + '</h4>' +
+                        '<h4 class="font-bold text-heading text-sm line-clamp-2 h-10">' + escapeHtml(titleText) + '</h4>' +
                         '<div class="mt-auto pt-3 flex gap-2">' +
                         '<button onclick="openEditModal(\'activity-card\',' + item.id + ')" class="flex-1 text-xs font-semibold text-primary hover:bg-blue-50 py-1.5 rounded transition-colors">Edit</button>' +
                         '<button onclick="confirmDelete(\'activity-card\',' + item.id + ')" class="flex-1 text-xs font-semibold text-red-500 hover:bg-red-50 py-1.5 rounded transition-colors">Hapus</button>' +
@@ -2654,14 +2996,16 @@
                 container.innerHTML = items.map(function (item) {
                     var imgSrc = item.thumbnail ? _resolveImgPath(item.thumbnail) : 'https://via.placeholder.com/150?text=No+Img';
                     var fallback = 'https://via.placeholder.com/150?text=No+Img';
+                    var epText = cleanLangText(item.episode_id || item.episode, 'id');
+                    var titleText = cleanLangText(item.title_id || item.title, 'id');
 
                     return '<div class="cms-card bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4">' +
                         '<div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0 relative">' +
                         '<img src="' + escapeAttr(imgSrc) + '" class="w-full h-full object-cover" onerror="this.src=\'' + fallback + '\'">' +
                         '</div>' +
                         '<div class="flex-grow min-w-0">' +
-                        '<div class="text-[10px] font-bold text-accent uppercase tracking-wide">' + escapeHtml(item.episode) + '</div>' +
-                        '<h4 class="font-bold text-heading text-sm truncate">' + escapeHtml(item.title) + '</h4>' +
+                        '<div class="text-[10px] font-bold text-accent uppercase tracking-wide">' + escapeHtml(epText) + '</div>' +
+                        '<h4 class="font-bold text-heading text-sm truncate">' + escapeHtml(titleText) + '</h4>' +
                         '<div class="text-[10px] text-gray-400 truncate mt-1"><i class="fas fa-link mr-1"></i>' + (item.spotifyLink ? item.spotifyLink : 'No Link') + '</div>' +
                         '</div>' +
                         '<div class="flex gap-2 flex-shrink-0">' +
@@ -2840,7 +3184,14 @@
                 document.getElementById('modal-title').textContent = (isEdit ? 'Edit ' : 'Tambah ') + label;
                 var html = '';
 
-                if (section === 'events-settings') {
+                if (section === 'faq') {
+                    html += '<h3 class="font-bold text-heading text-xs uppercase text-primary mb-2 border-b pb-1">Konten FAQ (Tanya Jawab)</h3>';
+                    html += formField('Pertanyaan (Bahasa Indonesia)', 'f-question', item ? (item.question_id || item.question || '') : '', 'text', 'Contoh: Apa itu Hey Youth?');
+                    html += formField('Pertanyaan (English)', 'f-question-en', item ? (item.question_en || '') : '', 'text', 'e.g. What is Hey Youth?');
+                    html += formTextarea('Jawaban (Bahasa Indonesia)', 'f-answer', item ? (item.answer_id || item.answer || '') : '', 'Jelaskan jawaban secara ringkas dan informatif...');
+                    html += formTextarea('Jawaban (English)', 'f-answer-en', item ? (item.answer_en || '') : '', 'Provide a clear and informative answer...');
+                }
+                else if (section === 'events-settings') {
                     html += '<h3 class="font-bold text-heading text-xs uppercase text-primary mb-2 border-b pb-1">Upcoming Events Header</h3>';
                     html += formField('Title (ID)', 'f-event-title-id', item ? item.eventTitle_id : '', 'text', 'Contoh: Ikuti Event Kami');
                     html += formField('Title (EN)', 'f-event-title-en', item ? item.eventTitle_en : '', 'text', 'Contoh: Join Our Events');
@@ -2961,9 +3312,19 @@
                 }
                 else if (section === 'external' || section === 'internal') {
                     html += formField('Nama', 'f-name', item ? item.name : '', 'text', 'Nama lengkap');
-                    if (section === 'external') html += formField('Jabatan / Title', 'f-title', item ? item.title : '', 'text', 'Co-Founder');
-                    else html += formField('Peran / Role', 'f-role', item ? item.role : '', 'text', 'Community Coordinator');
-                    html += formTextarea('Quote', 'f-quote', item ? item.quote : '', 'Kutipan...');
+                    if (section === 'external') {
+                        html += '<div class="grid grid-cols-2 gap-3">' +
+                            formField('Jabatan / Title (ID)', 'f-title', item ? cleanLangText(item.title_id || item.title, 'id') : '', 'text', 'Co-Founder') +
+                            formField('Jabatan / Title (EN)', 'f-title-en', item ? cleanLangText(item.title_en || item.title, 'en') : '', 'text', 'Co-Founder') +
+                            '</div>';
+                    } else {
+                        html += '<div class="grid grid-cols-2 gap-3">' +
+                            formField('Peran / Role (ID)', 'f-role', item ? cleanLangText(item.role_id || item.role, 'id') : '', 'text', 'Koordinator Komunitas') +
+                            formField('Peran / Role (EN)', 'f-role-en', item ? cleanLangText(item.role_en || item.role, 'en') : '', 'text', 'Community Coordinator') +
+                            '</div>';
+                    }
+                    html += formTextarea('Quote (ID)', 'f-quote', item ? cleanLangText(item.quote_id || item.quote, 'id') : '', 'Kutipan bahasa Indonesia...');
+                    html += formTextarea('Quote (EN - Opsional)', 'f-quote-en', item ? cleanLangText(item.quote_en || item.quote, 'en') : '', 'Quote in English...');
 
                     var existingSrc = '';
                     if (item && item.image) existingSrc = _resolveImgPath(item.image);
@@ -2971,10 +3332,6 @@
                     if (existingSrc) html += '<div class="relative"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-contain rounded-lg bg-gray-50"><button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Gambar tersedia</p>';
                     else html += '<div class="py-6 text-center"><i class="fas fa-cloud-upload-alt text-3xl text-gray-300 mb-2"></i><p class="text-sm text-gray-500">Upload Foto</p></div>';
                     html += '</div></div>';
-                }
-                else if (section === 'faq') {
-                    html += formField('Pertanyaan', 'f-question', item ? item.question : '', 'text', 'Pertanyaan...');
-                    html += formTextarea('Jawaban', 'f-answer', item ? item.answer : '', 'Jawaban...');
                 }
                 else if (section === 'locations') {
                     html += formField('Nama Lokasi / Chapter', 'f-name', item ? item.name : '', 'text', 'Jakarta Pusat');
@@ -3017,7 +3374,10 @@
                 }
                 else if (section === 'team') {
                     html += formField('Nama', 'f-name', item ? item.name : '', 'text', 'Nama Lengkap');
-                    html += formField('Role', 'f-role', item ? item.role : '', 'text', 'Founder');
+                    html += '<div class="grid grid-cols-2 gap-3">' +
+                        formField('Role / Peran (ID)', 'f-role', item ? cleanLangText(item.role_id || item.role, 'id') : '', 'text', 'Founder') +
+                        formField('Role / Peran (EN)', 'f-role-en', item ? cleanLangText(item.role_en || item.role, 'en') : '', 'text', 'Founder') +
+                        '</div>';
                     html += formField('LinkedIn', 'f-linkedin', item ? item.linkedin : '', 'text', 'URL LinkedIn');
                     html += formField('Instagram', 'f-instagram', item ? item.instagram : '', 'text', 'URL Instagram');
 
@@ -3029,14 +3389,27 @@
                     html += '</div></div>';
                 }
                 else if (section === 'activity-card') {
-                    html += formField('Judul Kegiatan', 'f-title', item ? item.title : '', 'text', 'Judul lengkap...');
-                    html += formField('Kategori', 'f-category', item ? item.category : '', 'text', 'Contoh: Education');
-                    html += formField('Tanggal', 'f-date', item ? item.date : '', 'text', '10 November 2025');
-                    html += formTextarea('Deskripsi Singkat (untuk Kartu)', 'f-desc', item ? item.description : '', 'Ringkasan...');
+                    var titleVal = cleanLangText(item ? (item.title_id || item.title) : '', 'id');
+                    var titleEnVal = cleanLangText(item ? (item.title_en || '') : '', 'en');
+                    var catVal = cleanLangText(item ? (item.category_id || item.category) : '', 'id');
+                    var catEnVal = cleanLangText(item ? (item.category_en || '') : '', 'en');
+                    var descVal = cleanLangText(item ? (item.description_id || item.description) : '', 'id');
+                    var descEnVal = cleanLangText(item ? (item.description_en || '') : '', 'en');
+                    var storyVal = cleanLangHtml(item ? (item.full_story_id || item.fullStory || '') : '', 'id');
+
+                    html += formField('Judul Kegiatan (ID)', 'f-title', titleVal, 'text', 'Judul lengkap bahasa Indonesia...');
+                    html += formField('Judul Kegiatan (EN - Opsional)', 'f-title-en', titleEnVal, 'text', 'Title in English...');
+                    html += '<div class="grid grid-cols-2 gap-3">' +
+                        formField('Kategori (ID)', 'f-category', catVal, 'text', 'Contoh: Pendidikan') +
+                        formField('Kategori (EN)', 'f-category-en', catEnVal, 'text', 'Contoh: Education') +
+                        '</div>';
+                    html += formField('Tanggal', 'f-date', item ? (item.date || '') : '', 'text', '10 November 2025');
+                    html += formTextarea('Deskripsi Singkat (ID)', 'f-desc', descVal, 'Ringkasan bahasa Indonesia...');
+                    html += formTextarea('Deskripsi Singkat (EN - Opsional)', 'f-desc-en', descEnVal, 'Summary in English...');
 
                     html += '<div class="mb-4">' +
                         '<label class="block text-sm font-semibold text-heading mb-1.5">Full Story (Detail Artikel)</label>' +
-                        '<div id="f-full-story-editor" class="h-64 bg-white dark:bg-slate-800 text-heading border border-gray-200 rounded-lg text-sm overflow-y-auto">' + (item ? (item.fullStory || '') : '') + '</div>' +
+                        '<div id="f-full-story-editor" class="h-64 bg-white dark:bg-slate-800 text-heading border border-gray-200 rounded-lg text-sm overflow-y-auto">' + storyVal + '</div>' +
                         '</div>';
 
                     var existingSrc = '';
@@ -3047,8 +3420,17 @@
                     html += '</div></div>';
                 }
                 else if (section === 'podcast') {
-                    html += formField('Judul Episode', 'f-title', item ? item.title : '', 'text', 'Judul Podcast...');
-                    html += formField('Nomor Episode', 'f-episode', item ? item.episode : '', 'text', 'Episode 1');
+                    var epVal = cleanLangText(item ? (item.episode_id || item.episode) : '', 'id');
+                    var epEnVal = cleanLangText(item ? (item.episode_en || '') : '', 'en');
+                    var titleVal = cleanLangText(item ? (item.title_id || item.title) : '', 'id');
+                    var titleEnVal = cleanLangText(item ? (item.title_en || '') : '', 'en');
+
+                    html += formField('Judul Episode (ID)', 'f-title', titleVal, 'text', 'Judul Podcast bahasa Indonesia...');
+                    html += formField('Judul Episode (EN - Opsional)', 'f-title-en', titleEnVal, 'text', 'Podcast title in English...');
+                    html += '<div class="grid grid-cols-2 gap-3">' +
+                        formField('Nomor Episode (ID)', 'f-episode', epVal, 'text', 'Episode 1') +
+                        formField('Nomor Episode (EN)', 'f-episode-en', epEnVal, 'text', 'Episode 1') +
+                        '</div>';
                     html += formField('Link Spotify', 'f-spotify-link', item ? item.spotifyLink : '', 'text', 'https://open.spotify.com/...');
 
                     var existingThumb = '';
@@ -3063,7 +3445,8 @@
                 }
                 else if (section === 'partner') {
                     html += formField('Nama Partner', 'f-name', item ? item.name : '', 'text', 'Contoh: Qatar HR Forum');
-                    html += formTextarea('Deskripsi Singkat', 'f-desc', item ? item.description : '', 'Deskripsi singkat...');
+                    html += formTextarea('Deskripsi Singkat (ID)', 'f-desc', item ? cleanLangText(item.description_id || item.description, 'id') : '', 'Deskripsi singkat bahasa Indonesia...');
+                    html += formTextarea('Deskripsi Singkat (EN - Opsional)', 'f-desc-en', item ? cleanLangText(item.description_en || item.description, 'en') : '', 'Short description in English...');
 
                     html += '<div class="mb-4">' +
                         '<label class="block text-sm font-semibold text-heading mb-1.5">Link Partner (URL)</label>' +
@@ -3220,23 +3603,38 @@
                 else if (section === 'external' || section === 'internal') {
                     var name = document.getElementById('f-name').value.trim();
                     var quote = document.getElementById('f-quote').value.trim();
+                    var quoteEn = document.getElementById('f-quote-en') ? document.getElementById('f-quote-en').value.trim() : '';
                     if (!name || !quote) { showToast('Nama dan quote wajib diisi.', 'error'); return; }
 
                     var image = '';
                     if (uploadedImage) image = uploadedImage;
                     else if (isEdit && editingItem.image && !editingItem.image.startsWith('data:')) image = editingItem.image;
 
-                    var obj = { id: isEdit ? editingItem.id : Date.now(), name: name, quote: quote, image: image };
+                    var obj = {
+                        id: isEdit ? editingItem.id : Date.now(),
+                        name: name,
+                        quote: quote,
+                        quote_id: quote,
+                        quote_en: quoteEn || quote,
+                        image: image
+                    };
 
                     if (section === 'external') {
                         if (!data.externalTestimonials) data.externalTestimonials = [];
+                        var titleVal = document.getElementById('f-title') ? document.getElementById('f-title').value.trim() : '';
+                        var titleEnVal = document.getElementById('f-title-en') ? document.getElementById('f-title-en').value.trim() : '';
+                        obj.title = titleVal;
+                        obj.title_id = titleVal;
+                        obj.title_en = titleEnVal || titleVal;
                     } else {
                         if (!data.internalTestimonials) data.internalTestimonials = [];
+                        var roleVal = document.getElementById('f-role') ? document.getElementById('f-role').value.trim() : '';
+                        var roleEnVal = document.getElementById('f-role-en') ? document.getElementById('f-role-en').value.trim() : '';
+                        obj.role = roleVal;
+                        obj.role_id = roleVal;
+                        obj.role_en = roleEnVal || roleVal;
                     }
                     var list = (section === 'external') ? data.externalTestimonials : data.internalTestimonials;
-
-                    if (section === 'external') obj.title = document.getElementById('f-title').value.trim() || '';
-                    else obj.role = document.getElementById('f-role').value.trim() || '';
 
                     if (isEdit) {
                         var idx = list.findIndex(function (i) { return i.id === editingItem.id; });
@@ -3246,11 +3644,21 @@
                     }
 
                 } else if (section === 'faq') {
-                    var question = document.getElementById('f-question').value.trim();
-                    var answer = document.getElementById('f-answer').value.trim();
-                    if (!question || !answer) { showToast('Pertanyaan dan jawaban wajib diisi.', 'error'); return; }
+                    var questionId = document.getElementById('f-question').value.trim();
+                    var questionEn = document.getElementById('f-question-en') ? document.getElementById('f-question-en').value.trim() : '';
+                    var answerId = document.getElementById('f-answer').value.trim();
+                    var answerEn = document.getElementById('f-answer-en') ? document.getElementById('f-answer-en').value.trim() : '';
+                    if (!questionId || !answerId) { showToast('Pertanyaan dan jawaban wajib diisi.', 'error'); return; }
 
-                    var obj = { id: isEdit ? editingItem.id : Date.now(), question: question, answer: answer };
+                    var obj = {
+                        id: isEdit ? editingItem.id : Date.now(),
+                        question: questionId,
+                        question_id: questionId,
+                        question_en: questionEn || questionId,
+                        answer: answerId,
+                        answer_id: answerId,
+                        answer_en: answerEn || answerId
+                    };
 
                     if (!data.faqs) data.faqs = [];
                     var list = data.faqs;
@@ -3302,6 +3710,7 @@
                 else if (section === 'team') {
                     var name = document.getElementById('f-name').value.trim();
                     var role = document.getElementById('f-role').value.trim();
+                    var roleEn = document.getElementById('f-role-en') ? document.getElementById('f-role-en').value.trim() : '';
                     if (!name || !role) { showToast('Nama dan role wajib diisi.', 'error'); return; }
 
                     var image = '';
@@ -3310,7 +3719,10 @@
 
                     var obj = {
                         id: isEdit ? editingItem.id : Date.now(),
-                        name: name, role: role,
+                        name: name,
+                        role: role,
+                        role_id: role,
+                        role_en: roleEn || role,
                         linkedin: document.getElementById('f-linkedin').value.trim() || '#',
                         instagram: document.getElementById('f-instagram').value.trim() || '#',
                         image: image
@@ -3327,7 +3739,11 @@
                 }
                 else if (section === 'activity-card') {
                     var title = document.getElementById('f-title').value.trim();
+                    var titleEn = document.getElementById('f-title-en') ? document.getElementById('f-title-en').value.trim() : '';
                     var category = document.getElementById('f-category').value.trim();
+                    var categoryEn = document.getElementById('f-category-en') ? document.getElementById('f-category-en').value.trim() : '';
+                    var desc = document.getElementById('f-desc').value.trim();
+                    var descEn = document.getElementById('f-desc-en') ? document.getElementById('f-desc-en').value.trim() : '';
                     if (!title) { showToast('Judul wajib diisi.', 'error'); return; }
 
                     var image = '';
@@ -3339,12 +3755,20 @@
                     var obj = {
                         id: isEdit ? editingItem.id : Date.now(),
                         title: title,
+                        title_id: title,
+                        title_en: titleEn || title,
                         category: category,
+                        category_id: category,
+                        category_en: categoryEn || category,
                         date: document.getElementById('f-date').value.trim(),
-                        description: document.getElementById('f-desc').value.trim(),
+                        description: desc,
+                        description_id: desc,
+                        description_en: descEn || desc,
                         image: image,
                         link: '#',
-                        fullStory: fullStoryVal
+                        fullStory: fullStoryVal,
+                        full_story_id: fullStoryVal,
+                        full_story_en: fullStoryVal
                     };
 
                     if (!data.activityCards) data.activityCards = [];
@@ -3358,7 +3782,9 @@
                 }
                 else if (section === 'podcast') {
                     var title = document.getElementById('f-title').value.trim();
+                    var titleEn = document.getElementById('f-title-en') ? document.getElementById('f-title-en').value.trim() : '';
                     var episode = document.getElementById('f-episode').value.trim();
+                    var episodeEn = document.getElementById('f-episode-en') ? document.getElementById('f-episode-en').value.trim() : '';
                     var spotifyLink = document.getElementById('f-spotify-link').value.trim();
 
                     if (!title) { showToast('Judul wajib diisi.', 'error'); return; }
@@ -3373,7 +3799,11 @@
                     var obj = {
                         id: isEdit ? editingItem.id : Date.now(),
                         episode: episode,
+                        episode_id: episode,
+                        episode_en: episodeEn || episode,
                         title: title,
+                        title_id: title,
+                        title_en: titleEn || title,
                         thumbnail: image,
                         spotifyLink: spotifyLink || '#'
                     };
@@ -3390,6 +3820,7 @@
                 else if (section === 'partner') {
                     var name = document.getElementById('f-name').value.trim();
                     var description = document.getElementById('f-desc').value.trim();
+                    var descEn = document.getElementById('f-desc-en') ? document.getElementById('f-desc-en').value.trim() : '';
                     if (!name) { showToast('Nama partner wajib diisi.', 'error'); return; }
 
                     var image = '';
@@ -3400,6 +3831,8 @@
                         id: isEdit ? editingItem.id : Date.now(),
                         name: name,
                         description: description,
+                        description_id: description,
+                        description_en: descEn || description,
                         icon: document.getElementById('f-icon').value,
                         color: document.getElementById('f-color').value,
                         image: image,
@@ -3874,14 +4307,16 @@
 
             function escapeHtml(str) {
                 if (str === undefined || str === null || str === '') return '';
+                var clean = (typeof cleanLangText === 'function') ? cleanLangText(String(str), 'id') : String(str);
                 var div = document.createElement('div');
-                div.textContent = String(str);
+                div.textContent = clean;
                 return div.innerHTML;
             }
 
             function escapeAttr(str) {
                 if (str === undefined || str === null || str === '') return '';
-                return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                var clean = (typeof cleanLangText === 'function') ? cleanLangText(String(str), 'id') : String(str);
+                return clean.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             }
 
             document.addEventListener('keydown', function (e) {
@@ -5587,59 +6022,123 @@
                 document.body.removeChild(link);
             }
 
-            window.exportRegistrationsToCSV = function() {
-                var list = JSON.parse(localStorage.getItem('event_registrations') || '[]');
-                if (!list.length) { showToast('Tidak ada data registrasi event untuk diekspor.', 'error'); return; }
-                var headers = ['Nama', 'Instansi', 'Email', 'No HP', 'Domisili', 'Nama Event', 'Tanggal Registrasi'];
-                var data = list.map(function(item) {
+            window.exportRegistrationsToCSV = async function() {
+                var list = [];
+                if (window.supabase) {
+                    try {
+                        const { data, error } = await window.supabase
+                            .from('event_registrations')
+                            .select('*')
+                            .order('created_at', { ascending: false });
+                        if (!error && data && data.length > 0) {
+                            list = data.map(function(d) {
+                                return {
+                                    id: d.id,
+                                    name: d.name,
+                                    instansi: d.instansi,
+                                    email: d.email,
+                                    phone: d.phone,
+                                    domisili: d.domisili,
+                                    eventName: d.event_name || d.eventName,
+                                    registeredAt: d.created_at || d.registeredAt
+                                };
+                            });
+                        } else {
+                            list = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+                        }
+                    } catch(e) {
+                        list = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+                    }
+                } else {
+                    list = JSON.parse(localStorage.getItem('event_registrations') || '[]');
+                }
+
+                if (!list.length) { 
+                    showToast('Tidak ada data registrasi event untuk diekspor.', 'error'); 
+                    return; 
+                }
+
+                var headers = ['No', 'Nama Peserta', 'Instansi / Kampus', 'Email', 'No. WhatsApp / HP', 'Domisili / Kota', 'Nama Acara / Webinar', 'Tanggal Registrasi'];
+                var data = list.map(function(item, idx) {
+                    var regDate = '';
+                    if (item.registeredAt) {
+                        var d = new Date(item.registeredAt);
+                        if (!isNaN(d.getTime())) {
+                            regDate = d.toLocaleString('id-ID');
+                        } else {
+                            regDate = String(item.registeredAt);
+                        }
+                    }
                     return [
-                        item.name,
-                        item.instansi,
-                        item.email,
-                        item.phone,
-                        item.domisili,
-                        item.eventName,
-                        item.registeredAt ? new Date(item.registeredAt).toLocaleString('id-ID') : ''
+                        idx + 1,
+                        item.name || '',
+                        item.instansi || '',
+                        item.email || '',
+                        item.phone || '',
+                        item.domisili || '',
+                        item.eventName || '',
+                        regDate
                     ];
                 });
-                downloadCSV(headers, data, 'registrasi-event.csv');
-                showToast('Data registrasi event berhasil diekspor.', 'success');
+
+                var timestamp = new Date().toISOString().slice(0, 10);
+                downloadCSV(headers, data, 'rekap-pendaftar-event-' + timestamp + '.csv');
+
+                // ===== ACTIVITY LOG =====
+                addActivityLog('EKSPOR', 'Registrasi Event', 'Mengekspor ' + list.length + ' data registrasi event ke CSV');
+                // ========================
+
+                showToast('Data registrasi ' + list.length + ' peserta berhasil diekspor.', 'success');
             };
 
             window.exportCertificatesToCSV = function() {
                 var list = JSON.parse(localStorage.getItem('mock_fb_list_certificates') || '[]');
                 if (!list.length) { showToast('Tidak ada data sertifikat untuk diekspor.', 'error'); return; }
-                var headers = ['No Sertifikat', 'Nama', 'Email', 'Nama Event', 'Tanggal Rilis', 'Deskripsi'];
-                var data = list.map(function(itemObj) {
-                    var item = itemObj.data;
+                var headers = ['No', 'No. Sertifikat', 'Nama Penerima', 'Email', 'Nama Acara / Webinar', 'Tanggal Rilis', 'Deskripsi'];
+                var data = list.map(function(itemObj, idx) {
+                    var item = itemObj.data || {};
                     return [
-                        item.certificateNumber,
-                        item.name,
-                        item.email,
-                        item.eventName,
-                        item.issueDate,
-                        item.description
+                        idx + 1,
+                        item.certificateNumber || '',
+                        item.name || '',
+                        item.email || '',
+                        item.eventName || '',
+                        item.issueDate || '',
+                        item.description || ''
                     ];
                 });
-                downloadCSV(headers, data, 'daftar-sertifikat.csv');
+                var timestamp = new Date().toISOString().slice(0, 10);
+                downloadCSV(headers, data, 'daftar-sertifikat-' + timestamp + '.csv');
+                
+                // ===== ACTIVITY LOG =====
+                addActivityLog('EKSPOR', 'Sertifikat', 'Mengekspor ' + list.length + ' data sertifikat ke CSV');
+                // ========================
+
                 showToast('Data sertifikat berhasil diekspor.', 'success');
             };
 
             window.exportTeacherRegistrationsToCSV = function() {
                 var list = JSON.parse(localStorage.getItem('teacher_class_registrations') || '[]');
                 if (!list.length) { showToast('Tidak ada data pendaftar Teacher Class untuk diekspor.', 'error'); return; }
-                var headers = ['Nama Siswa', 'Kelas SD', 'WhatsApp Ortu', 'Email Ortu', 'Kelas Diikuti', 'Catatan'];
-                var data = list.map(function(item) {
+                var headers = ['No', 'Nama Siswa', 'Kelas SD', 'WhatsApp Ortu', 'Email Ortu', 'Kelas Diikuti', 'Catatan'];
+                var data = list.map(function(item, idx) {
                     return [
-                        item.studentName,
-                        item.grade,
-                        item.phone,
-                        item.email,
-                        item.classTitle,
-                        item.notes
+                        idx + 1,
+                        item.studentName || '',
+                        item.grade || '',
+                        item.phone || '',
+                        item.email || '',
+                        item.classTitle || '',
+                        item.notes || ''
                     ];
                 });
-                downloadCSV(headers, data, 'pendaftaran-teacher-class.csv');
+                var timestamp = new Date().toISOString().slice(0, 10);
+                downloadCSV(headers, data, 'pendaftaran-teacher-class-' + timestamp + '.csv');
+
+                // ===== ACTIVITY LOG =====
+                addActivityLog('EKSPOR', 'Teacher Class', 'Mengekspor ' + list.length + ' data pendaftar Teacher Class ke CSV');
+                // ========================
+
                 showToast('Data pendaftar Teacher Class berhasil diekspor.', 'success');
             };
 
@@ -5653,7 +6152,10 @@
                     if (typeof window.getFirebaseData === 'function') {
                         var fetchedData = await window.getFirebaseData(DEFAULT_DATA);
                         if (fetchedData) {
-                            memoryData = fetchedData;
+                            memoryData = sanitizeCmsData(fetchedData);
+                            try {
+                                localStorage.setItem('hey_youth_cms', JSON.stringify(memoryData));
+                            } catch (e) {}
                         }
                     }
                     renderAllLists();

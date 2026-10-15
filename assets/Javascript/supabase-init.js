@@ -9,14 +9,154 @@ const SUPABASE_ANON_KEY = "sb_publishable_5Zot98NYLIpDWo9G-8VcQg_-xYXas87";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 window.supabase = supabaseClient;
 
+// Helpers to sanitize and clean bilingual span tags if present
+function cleanLangText(str, preferredLang) {
+    if (!str || typeof str !== 'string') return '';
+    var lang = preferredLang || 'id';
+    var reg = new RegExp('<span class=[\"\']lang-' + lang + '[\"\']>([\\s\\S]*?)<\\/span>', 'i');
+    var match = str.match(reg);
+    if (match && match[1]) {
+        return match[1].replace(/<[^>]+>/g, '').trim();
+    }
+    if (/<span class=[\"\']lang-/i.test(str)) {
+        return str.replace(/<[^>]+>/g, '').trim();
+    }
+    return str;
+}
+
+function cleanLangHtml(str, preferredLang) {
+    if (!str || typeof str !== 'string') return '';
+    var lang = preferredLang || 'id';
+    var reg = new RegExp('<span class=[\"\']lang-' + lang + '[\"\']>([\\s\\S]*?)<\\/span>', 'i');
+    var match = str.match(reg);
+    if (match && match[1]) {
+        return match[1].trim();
+    }
+    if (/<span class=[\"\']lang-/i.test(str)) {
+        return str.replace(/<\/?span[^>]*>/gi, '').trim();
+    }
+    return str;
+}
+
+function sanitizeCmsData(data) {
+    if (!data || typeof data !== 'object') return data;
+    try {
+        var d = JSON.parse(JSON.stringify(data));
+        if (Array.isArray(d.externalTestimonials)) {
+            d.externalTestimonials.forEach(function(t) {
+                t.title_id = cleanLangText(t.title_id || t.title, 'id');
+                t.title_en = cleanLangText(t.title_en || t.title, 'en');
+                t.title = t.title_id || t.title_en || '';
+                t.quote_id = cleanLangText(t.quote_id || t.quote, 'id');
+                t.quote_en = cleanLangText(t.quote_en || t.quote, 'en');
+                t.quote = t.quote_id || t.quote_en || '';
+            });
+        }
+        if (Array.isArray(d.internalTestimonials)) {
+            d.internalTestimonials.forEach(function(t) {
+                t.role_id = cleanLangText(t.role_id || t.role, 'id');
+                t.role_en = cleanLangText(t.role_en || t.role, 'en');
+                t.role = t.role_id || t.role_en || '';
+                t.quote_id = cleanLangText(t.quote_id || t.quote, 'id');
+                t.quote_en = cleanLangText(t.quote_en || t.quote, 'en');
+                t.quote = t.quote_id || t.quote_en || '';
+            });
+        }
+        if (Array.isArray(d.faqs)) {
+            d.faqs.forEach(function(f) {
+                f.question_id = cleanLangText(f.question_id || f.question, 'id');
+                f.question_en = cleanLangText(f.question_en || f.question, 'en');
+                f.question = f.question_id || f.question_en || '';
+                f.answer_id = cleanLangText(f.answer_id || f.answer, 'id');
+                f.answer_en = cleanLangText(f.answer_en || f.answer, 'en');
+                f.answer = f.answer_id || f.answer_en || '';
+            });
+        }
+        if (Array.isArray(d.partners)) {
+            d.partners.forEach(function(p) {
+                p.description_id = cleanLangText(p.description_id || p.description, 'id');
+                p.description_en = cleanLangText(p.description_en || p.description, 'en');
+                p.description = p.description_id || p.description_en || '';
+            });
+        }
+        if (Array.isArray(d.team)) {
+            d.team.forEach(function(t) {
+                t.role_id = cleanLangText(t.role_id || t.role, 'id');
+                t.role_en = cleanLangText(t.role_en || t.role, 'en');
+                t.role = t.role_id || t.role_en || '';
+            });
+        }
+        if (Array.isArray(d.activityCards)) {
+            d.activityCards.forEach(function(a) {
+                a.category_id = cleanLangText(a.category_id || a.category, 'id');
+                a.category_en = cleanLangText(a.category_en || a.category, 'en');
+                a.category = a.category_id || a.category_en || '';
+                a.title_id = cleanLangText(a.title_id || a.title, 'id');
+                a.title_en = cleanLangText(a.title_en || a.title, 'en');
+                a.title = a.title_id || a.title_en || '';
+                a.description_id = cleanLangText(a.description_id || a.description, 'id');
+                a.description_en = cleanLangText(a.description_en || a.description, 'en');
+                a.description = a.description_id || a.description_en || '';
+                a.full_story_id = cleanLangHtml(a.full_story_id || a.fullStory, 'id');
+                a.full_story_en = cleanLangHtml(a.full_story_en || a.fullStory, 'en');
+                a.fullStory = a.full_story_id || a.full_story_en || '';
+            });
+        }
+        if (Array.isArray(d.podcasts)) {
+            d.podcasts.forEach(function(p) {
+                p.episode_id = cleanLangText(p.episode_id || p.episode, 'id');
+                p.episode_en = cleanLangText(p.episode_en || p.episode, 'en');
+                p.episode = p.episode_id || p.episode_en || '';
+                p.title_id = cleanLangText(p.title_id || p.title, 'id');
+                p.title_en = cleanLangText(p.title_en || p.title, 'en');
+                p.title = p.title_id || p.title_en || '';
+            });
+        }
+        if (d.donationSettings) {
+            var ds = d.donationSettings;
+            ds.hero_title_id = cleanLangText(ds.hero_title_id || ds.heroTitle, 'id');
+            ds.hero_title_en = cleanLangText(ds.hero_title_en || ds.heroTitle, 'en');
+            ds.heroTitle = ds.hero_title_id || ds.hero_title_en || '';
+            ds.hero_subtitle_id = cleanLangText(ds.hero_subtitle_id || ds.heroSubtitle, 'id');
+            ds.hero_subtitle_en = cleanLangText(ds.hero_subtitle_en || ds.heroSubtitle, 'en');
+            ds.heroSubtitle = ds.hero_subtitle_id || ds.hero_subtitle_en || '';
+            ds.strip_text_id = cleanLangText(ds.strip_text_id || ds.stripText, 'id');
+            ds.strip_text_en = cleanLangText(ds.strip_text_en || ds.stripText, 'en');
+            ds.stripText = ds.strip_text_id || ds.strip_text_en || '';
+        }
+        if (d.aboutHero) {
+            var ab = d.aboutHero;
+            ab.subtitle_id = cleanLangText(ab.subtitle_id || ab.subtitle, 'id');
+            ab.subtitle_en = cleanLangText(ab.subtitle_en || ab.subtitle, 'en');
+            ab.subtitle = ab.subtitle_id || ab.subtitle_en || '';
+        }
+        if (Array.isArray(d.events)) {
+            d.events.forEach(function(e) {
+                e.title_id = cleanLangText(e.title_id || e.title, 'id');
+                e.title_en = cleanLangText(e.title_en || e.title, 'en');
+                e.title = e.title_id || e.title_en || '';
+                e.description_id = cleanLangText(e.description_id || e.description, 'id');
+                e.description_en = cleanLangText(e.description_en || e.description, 'en');
+                e.description = e.description_id || e.description_en || '';
+            });
+        }
+        return d;
+    } catch(e) {
+        return data;
+    }
+}
+window.cleanLangText = cleanLangText;
+window.cleanLangHtml = cleanLangHtml;
+window.sanitizeCmsData = sanitizeCmsData;
+
 // Backward Compatibility Adapter: replacing firebase-init helpers
 window.getFirebaseData = async function(defaultData) {
     let fallback = null;
     try {
         const raw = localStorage.getItem('hey_youth_cms');
-        if (raw) fallback = JSON.parse(raw);
+        if (raw) fallback = sanitizeCmsData(JSON.parse(raw));
     } catch(e) {}
-    if (!fallback) fallback = JSON.parse(JSON.stringify(defaultData || {}));
+    if (!fallback) fallback = sanitizeCmsData(JSON.parse(JSON.stringify(defaultData || {})));
 
     try {
         // Query all tables in parallel
@@ -46,19 +186,19 @@ window.getFirebaseData = async function(defaultData) {
 
         if (resTestimonials.error) throw resTestimonials.error;
 
-        // Reconstruct CMS data object
+        // Reconstruct CMS data object with clean, unpolluted data
         const cmsData = {
             externalTestimonials: (resTestimonials.data || [])
                 .filter(t => t.type === 'external')
                 .map(t => ({
                     id: t.id,
                     name: t.name,
-                    title: `<span class="lang-id">${t.title_id || ''}</span><span class="lang-en">${t.title_en || ''}</span>`,
-                    title_id: t.title_id,
-                    title_en: t.title_en,
-                    quote: `<span class="lang-id">${t.quote_id || ''}</span><span class="lang-en">${t.quote_en || ''}</span>`,
-                    quote_id: t.quote_id,
-                    quote_en: t.quote_en,
+                    title: cleanLangText(t.title_id) || cleanLangText(t.title_en) || cleanLangText(t.title) || '',
+                    title_id: cleanLangText(t.title_id) || cleanLangText(t.title, 'id'),
+                    title_en: cleanLangText(t.title_en) || cleanLangText(t.title, 'en'),
+                    quote: cleanLangText(t.quote_id) || cleanLangText(t.quote_en) || cleanLangText(t.quote) || '',
+                    quote_id: cleanLangText(t.quote_id) || cleanLangText(t.quote, 'id'),
+                    quote_en: cleanLangText(t.quote_en) || cleanLangText(t.quote, 'en'),
                     image: t.image
                 })),
             internalTestimonials: (resTestimonials.data || [])
@@ -66,22 +206,22 @@ window.getFirebaseData = async function(defaultData) {
                 .map(t => ({
                     id: t.id,
                     name: t.name,
-                    role: `<span class="lang-id">${t.role_id || ''}</span><span class="lang-en">${t.role_en || ''}</span>`,
-                    role_id: t.role_id,
-                    role_en: t.role_en,
-                    quote: `<span class="lang-id">${t.quote_id || ''}</span><span class="lang-en">${t.quote_en || ''}</span>`,
-                    quote_id: t.quote_id,
-                    quote_en: t.quote_en,
+                    role: cleanLangText(t.role_id) || cleanLangText(t.role_en) || cleanLangText(t.role) || '',
+                    role_id: cleanLangText(t.role_id) || cleanLangText(t.role, 'id'),
+                    role_en: cleanLangText(t.role_en) || cleanLangText(t.role, 'en'),
+                    quote: cleanLangText(t.quote_id) || cleanLangText(t.quote_en) || cleanLangText(t.quote) || '',
+                    quote_id: cleanLangText(t.quote_id) || cleanLangText(t.quote, 'id'),
+                    quote_en: cleanLangText(t.quote_en) || cleanLangText(t.quote, 'en'),
                     image: t.image
                 })),
             faqs: (resFaqs.data || []).map(f => ({
                 id: f.id,
-                question: `<span class="lang-id">${f.question_id || ''}</span><span class="lang-en">${f.question_en || ''}</span>`,
-                question_id: f.question_id,
-                question_en: f.question_en,
-                answer: `<span class="lang-id">${f.answer_id || ''}</span><span class="lang-en">${f.answer_en || ''}</span>`,
-                answer_id: f.answer_id,
-                answer_en: f.answer_en
+                question: cleanLangText(f.question_id) || cleanLangText(f.question_en) || cleanLangText(f.question) || '',
+                question_id: cleanLangText(f.question_id) || cleanLangText(f.question, 'id'),
+                question_en: cleanLangText(f.question_en) || cleanLangText(f.question, 'en'),
+                answer: cleanLangText(f.answer_id) || cleanLangText(f.answer_en) || cleanLangText(f.answer) || '',
+                answer_id: cleanLangText(f.answer_id) || cleanLangText(f.answer, 'id'),
+                answer_en: cleanLangText(f.answer_en) || cleanLangText(f.answer, 'en')
             })),
             locations: (resLocations.data || []).map(l => ({
                 id: l.id,
@@ -99,9 +239,9 @@ window.getFirebaseData = async function(defaultData) {
             partners: (resPartners.data || []).map(p => ({
                 id: p.id,
                 name: p.name,
-                description: `<span class="lang-id">${p.description_id || ''}</span><span class="lang-en">${p.description_en || ''}</span>`,
-                description_id: p.description_id,
-                description_en: p.description_en,
+                description: cleanLangText(p.description_id) || cleanLangText(p.description_en) || cleanLangText(p.description) || '',
+                description_id: cleanLangText(p.description_id) || cleanLangText(p.description, 'id'),
+                description_en: cleanLangText(p.description_en) || cleanLangText(p.description, 'en'),
                 icon: p.icon,
                 image: p.image,
                 color: p.color,
@@ -110,52 +250,52 @@ window.getFirebaseData = async function(defaultData) {
             team: (resTeam.data || []).map(t => ({
                 id: t.id,
                 name: t.name,
-                role: `<span class="lang-id">${t.role_id || ''}</span><span class="lang-en">${t.role_en || ''}</span>`,
-                role_id: t.role_id,
-                role_en: t.role_en,
+                role: cleanLangText(t.role_id) || cleanLangText(t.role_en) || cleanLangText(t.role) || '',
+                role_id: cleanLangText(t.role_id) || cleanLangText(t.role, 'id'),
+                role_en: cleanLangText(t.role_en) || cleanLangText(t.role, 'en'),
                 image: t.image,
                 linkedin: t.linkedin,
                 instagram: t.instagram
             })),
             activityCards: (resActivities.data || []).map(a => ({
                 id: a.id,
-                category: `<span class="lang-id">${a.category_id || ''}</span><span class="lang-en">${a.category_en || ''}</span>`,
-                category_id: a.category_id,
-                category_en: a.category_en,
+                category: cleanLangText(a.category_id) || cleanLangText(a.category_en) || cleanLangText(a.category) || '',
+                category_id: cleanLangText(a.category_id) || cleanLangText(a.category, 'id'),
+                category_en: cleanLangText(a.category_en) || cleanLangText(a.category, 'en'),
                 date: a.date_str,
-                title: `<span class="lang-id">${a.title_id || ''}</span><span class="lang-en">${a.title_en || ''}</span>`,
-                title_id: a.title_id,
-                title_en: a.title_en,
-                description: `<span class="lang-id">${a.description_id || ''}</span><span class="lang-en">${a.description_en || ''}</span>`,
-                description_id: a.description_id,
-                description_en: a.description_en,
+                title: cleanLangText(a.title_id) || cleanLangText(a.title_en) || cleanLangText(a.title) || '',
+                title_id: cleanLangText(a.title_id) || cleanLangText(a.title, 'id'),
+                title_en: cleanLangText(a.title_en) || cleanLangText(a.title, 'en'),
+                description: cleanLangText(a.description_id) || cleanLangText(a.description_en) || cleanLangText(a.description) || '',
+                description_id: cleanLangText(a.description_id) || cleanLangText(a.description, 'id'),
+                description_en: cleanLangText(a.description_en) || cleanLangText(a.description, 'en'),
                 image: a.image,
                 link: a.link,
-                fullStory: `<span class="lang-id">${a.full_story_id || ''}</span><span class="lang-en">${a.full_story_en || ''}</span>`,
-                fullStory_id: a.full_story_id,
-                fullStory_en: a.full_story_en
+                fullStory: cleanLangHtml(a.full_story_id) || cleanLangHtml(a.full_story_en) || cleanLangHtml(a.fullStory) || '',
+                fullStory_id: cleanLangHtml(a.full_story_id) || cleanLangHtml(a.fullStory, 'id'),
+                fullStory_en: cleanLangHtml(a.full_story_en) || cleanLangHtml(a.fullStory, 'en')
             })),
             podcasts: (resPodcasts.data || []).map(p => ({
                 id: p.id,
-                episode: `<span class="lang-id">${p.episode_id || ''}</span><span class="lang-en">${p.episode_en || ''}</span>`,
-                episode_id: p.episode_id,
-                episode_en: p.episode_en,
-                title: `<span class="lang-id">${p.title_id || ''}</span><span class="lang-en">${p.title_en || ''}</span>`,
-                title_id: p.title_id,
-                title_en: p.title_en,
+                episode: cleanLangText(p.episode_id) || cleanLangText(p.episode_en) || cleanLangText(p.episode) || '',
+                episode_id: cleanLangText(p.episode_id) || cleanLangText(p.episode, 'id'),
+                episode_en: cleanLangText(p.episode_en) || cleanLangText(p.episode, 'en'),
+                title: cleanLangText(p.title_id) || cleanLangText(p.title_en) || cleanLangText(p.title) || '',
+                title_id: cleanLangText(p.title_id) || cleanLangText(p.title, 'id'),
+                title_en: cleanLangText(p.title_en) || cleanLangText(p.title, 'en'),
                 thumbnail: p.thumbnail,
                 spotifyLink: p.spotify_link
             })),
             donationSettings: resDonation.data ? {
-                heroTitle: `<span class="lang-id">${resDonation.data.hero_title_id || ''}</span><span class="lang-en">${resDonation.data.hero_title_en || ''}</span>`,
-                heroTitle_id: resDonation.data.hero_title_id,
-                heroTitle_en: resDonation.data.hero_title_en,
-                heroSubtitle: `<span class="lang-id">${resDonation.data.hero_subtitle_id || ''}</span><span class="lang-en">${resDonation.data.hero_subtitle_en || ''}</span>`,
-                heroSubtitle_id: resDonation.data.hero_subtitle_id,
-                heroSubtitle_en: resDonation.data.hero_subtitle_en,
-                stripText: `<span class="lang-id">${resDonation.data.strip_text_id || ''}</span><span class="lang-en">${resDonation.data.strip_text_en || ''}</span>`,
-                stripText_id: resDonation.data.strip_text_id,
-                stripText_en: resDonation.data.strip_text_en,
+                heroTitle: cleanLangText(resDonation.data.hero_title_id) || cleanLangText(resDonation.data.hero_title_en) || '',
+                heroTitle_id: cleanLangText(resDonation.data.hero_title_id),
+                heroTitle_en: cleanLangText(resDonation.data.hero_title_en),
+                heroSubtitle: cleanLangText(resDonation.data.hero_subtitle_id) || cleanLangText(resDonation.data.hero_subtitle_en) || '',
+                heroSubtitle_id: cleanLangText(resDonation.data.hero_subtitle_id),
+                heroSubtitle_en: cleanLangText(resDonation.data.hero_subtitle_en),
+                stripText: cleanLangText(resDonation.data.strip_text_id) || cleanLangText(resDonation.data.strip_text_en) || '',
+                stripText_id: cleanLangText(resDonation.data.strip_text_id),
+                stripText_en: cleanLangText(resDonation.data.strip_text_en),
                 stripImage: resDonation.data.strip_image,
                 bankName: resDonation.data.bank_name,
                 accountName: resDonation.data.account_name,
@@ -163,26 +303,26 @@ window.getFirebaseData = async function(defaultData) {
                 qrisImage: resDonation.data.qris_image
             } : fallback.donationSettings,
             aboutHero: resAbout.data ? {
-                title: `<span class="lang-id">${resAbout.data.title_id || ''}</span><span class="lang-en">${resAbout.data.title_en || ''}</span>`,
+                title: resAbout.data.title_id || resAbout.data.title_en || '',
                 title_id: resAbout.data.title_id,
                 title_en: resAbout.data.title_en,
-                subtitle: `<span class="lang-id">${resAbout.data.subtitle_id || ''}</span><span class="lang-en">${resAbout.data.subtitle_en || ''}</span>`,
-                subtitle_id: resAbout.data.subtitle_id,
-                subtitle_en: resAbout.data.subtitle_en,
+                subtitle: cleanLangText(resAbout.data.subtitle_id) || cleanLangText(resAbout.data.subtitle_en) || '',
+                subtitle_id: cleanLangText(resAbout.data.subtitle_id),
+                subtitle_en: cleanLangText(resAbout.data.subtitle_en),
                 volunteerCount: resAbout.data.volunteer_count,
                 image: resAbout.data.image
             } : fallback.aboutHero,
             events: (resEvents.data || []).map(e => ({
                 id: e.id,
-                title: `<span class="lang-id">${e.title_id || ''}</span><span class="lang-en">${e.title_en || ''}</span>`,
-                title_id: e.title_id,
-                title_en: e.title_en,
+                title: cleanLangText(e.title_id) || cleanLangText(e.title_en) || '',
+                title_id: cleanLangText(e.title_id),
+                title_en: cleanLangText(e.title_en),
                 date: e.date,
                 time: e.time,
                 location: e.location,
-                description: `<span class="lang-id">${e.description_id || ''}</span><span class="lang-en">${e.description_en || ''}</span>`,
-                description_id: e.description_id,
-                description_en: e.description_en,
+                description: cleanLangText(e.description_id) || cleanLangText(e.description_en) || '',
+                description_id: cleanLangText(e.description_id),
+                description_en: cleanLangText(e.description_en),
                 speaker: e.speaker,
                 speakerRole: e.speaker_role,
                 image: e.image,
@@ -203,29 +343,31 @@ window.getFirebaseData = async function(defaultData) {
 
 window.saveFirebaseData = async function(data) {
     try {
+        data = sanitizeCmsData(data);
+
         const testimonialList = [
             ...(data.externalTestimonials || []).map(t => ({
                 id: t.id, type: 'external', name: t.name,
-                title_id: t.title_id || t.title || '', title_en: t.title_en || t.title || '',
+                title_id: cleanLangText(t.title_id || t.title, 'id'), title_en: cleanLangText(t.title_en || t.title, 'en'),
                 role_id: '', role_en: '',
-                quote_id: t.quote_id || t.quote || '', quote_en: t.quote_en || t.quote || '',
+                quote_id: cleanLangText(t.quote_id || t.quote, 'id'), quote_en: cleanLangText(t.quote_en || t.quote, 'en'),
                 image: t.image
             })),
             ...(data.internalTestimonials || []).map(t => ({
                 id: t.id, type: 'internal', name: t.name,
                 title_id: '', title_en: '',
-                role_id: t.role_id || t.role || '', role_en: t.role_en || t.role || '',
-                quote_id: t.quote_id || t.quote || '', quote_en: t.quote_en || t.quote || '',
+                role_id: cleanLangText(t.role_id || t.role, 'id'), role_en: cleanLangText(t.role_en || t.role, 'en'),
+                quote_id: cleanLangText(t.quote_id || t.quote, 'id'), quote_en: cleanLangText(t.quote_en || t.quote, 'en'),
                 image: t.image
             }))
         ];
 
         const faqList = (data.faqs || []).map(f => ({
             id: f.id,
-            question_id: f.question_id || f.question || '',
-            question_en: f.question_en || f.question || '',
-            answer_id: f.answer_id || f.answer || '',
-            answer_en: f.answer_en || f.answer || ''
+            question_id: cleanLangText(f.question_id || f.question, 'id'),
+            question_en: cleanLangText(f.question_en || f.question, 'en'),
+            answer_id: cleanLangText(f.answer_id || f.answer, 'id'),
+            answer_en: cleanLangText(f.answer_en || f.answer, 'en')
         }));
 
         const locationList = (data.locations || []).map(l => ({
@@ -244,50 +386,50 @@ window.saveFirebaseData = async function(data) {
 
         const partnerList = (data.partners || []).map(p => ({
             id: p.id, name: p.name,
-            description_id: p.description_id || p.description || '',
-            description_en: p.description_en || p.description || '',
+            description_id: cleanLangText(p.description_id || p.description, 'id'),
+            description_en: cleanLangText(p.description_en || p.description, 'en'),
             icon: p.icon, image: p.image, color: p.color, link: p.link
         }));
 
         const teamList = (data.team || []).map(t => ({
             id: t.id, name: t.name,
-            role_id: t.role_id || t.role || '',
-            role_en: t.role_en || t.role || '',
+            role_id: cleanLangText(t.role_id || t.role, 'id'),
+            role_en: cleanLangText(t.role_en || t.role, 'en'),
             image: t.image, linkedin: t.linkedin, instagram: t.instagram
         }));
 
         const activityList = (data.activityCards || []).map(a => ({
             id: a.id,
-            category_id: a.category_id || a.category || '',
-            category_en: a.category_en || a.category || '',
+            category_id: cleanLangText(a.category_id || a.category, 'id'),
+            category_en: cleanLangText(a.category_en || a.category, 'en'),
             date_str: a.date || '',
-            title_id: a.title_id || a.title || '',
-            title_en: a.title_en || a.title || '',
-            description_id: a.description_id || a.description || '',
-            description_en: a.description_en || a.description || '',
+            title_id: cleanLangText(a.title_id || a.title, 'id'),
+            title_en: cleanLangText(a.title_en || a.title, 'en'),
+            description_id: cleanLangText(a.description_id || a.description, 'id'),
+            description_en: cleanLangText(a.description_en || a.description, 'en'),
             image: a.image, link: a.link,
-            full_story_id: a.fullStory_id || a.fullStory || '',
-            full_story_en: a.full_story_en || a.fullStory || ''
+            full_story_id: cleanLangHtml(a.fullStory_id || a.fullStory, 'id'),
+            full_story_en: cleanLangHtml(a.fullStory_en || a.fullStory, 'en')
         }));
 
         const podcastList = (data.podcasts || []).map(p => ({
             id: p.id,
-            episode_id: p.episode_id || p.episode || '',
-            episode_en: p.episode_en || p.episode || '',
-            title_id: p.title_id || p.title || '',
-            title_en: p.title_en || p.title || '',
+            episode_id: cleanLangText(p.episode_id || p.episode, 'id'),
+            episode_en: cleanLangText(p.episode_en || p.episode, 'en'),
+            title_id: cleanLangText(p.title_id || p.title, 'id'),
+            title_en: cleanLangText(p.title_en || p.title, 'en'),
             thumbnail: p.thumbnail, spotify_link: p.spotifyLink
         }));
 
         const ds = data.donationSettings;
         const donationObj = {
             id: 1,
-            hero_title_id: ds.hero_title_id || ds.heroTitle || '',
-            hero_title_en: ds.hero_title_en || ds.heroTitle || '',
-            hero_subtitle_id: ds.hero_subtitle_id || ds.heroSubtitle || '',
-            hero_subtitle_en: ds.hero_subtitle_en || ds.heroSubtitle || '',
-            strip_text_id: ds.strip_text_id || ds.stripText || '',
-            strip_text_en: ds.strip_text_en || ds.stripText || '',
+            hero_title_id: cleanLangText(ds.hero_title_id || ds.heroTitle, 'id'),
+            hero_title_en: cleanLangText(ds.hero_title_en || ds.heroTitle, 'en'),
+            hero_subtitle_id: cleanLangText(ds.hero_subtitle_id || ds.heroSubtitle, 'id'),
+            hero_subtitle_en: cleanLangText(ds.hero_subtitle_en || ds.heroSubtitle, 'en'),
+            strip_text_id: cleanLangText(ds.strip_text_id || ds.stripText, 'id'),
+            strip_text_en: cleanLangText(ds.strip_text_en || ds.stripText, 'en'),
             strip_image: ds.stripImage, bank_name: ds.bankName,
             account_name: ds.accountName, account_number: ds.accountNumber, qris_image: ds.qrisImage
         };
@@ -297,20 +439,20 @@ window.saveFirebaseData = async function(data) {
             id: 1,
             title_id: ab.title_id || ab.title || '',
             title_en: ab.title_en || ab.title || '',
-            subtitle_id: ab.subtitle_id || ab.subtitle || '',
-            subtitle_en: ab.subtitle_en || ab.subtitle || '',
+            subtitle_id: cleanLangText(ab.subtitle_id || ab.subtitle, 'id'),
+            subtitle_en: cleanLangText(ab.subtitle_en || ab.subtitle, 'en'),
             volunteer_count: ab.volunteerCount, image: ab.image
         };
 
         const eventsList = (data.events || []).map(e => ({
             id: e.id,
-            title_id: e.title_id || e.title || '',
-            title_en: e.title_en || e.title || '',
+            title_id: cleanLangText(e.title_id || e.title, 'id'),
+            title_en: cleanLangText(e.title_en || e.title, 'en'),
             date: e.date || '',
             time: e.time || '',
             location: e.location || '',
-            description_id: e.description_id || e.description || '',
-            description_en: e.description_en || e.description || '',
+            description_id: cleanLangText(e.description_id || e.description, 'id'),
+            description_en: cleanLangText(e.description_en || e.description, 'en'),
             speaker: e.speaker || '',
             speaker_role: e.speakerRole || '',
             image: e.image || '',

@@ -50,20 +50,67 @@
         <!-- All Activities -->
         <section id="activities" class="py-20 bg-bg">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl font-bold text-heading mb-8 border-b-2 border-primary/20 pb-4 inline-block">All
-                    Activities</h2>
+                <!-- Section Header with Search Bar -->
+                <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
+                    <div>
+                        <span class="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-xs font-bold tracking-wider uppercase mb-3">
+                            <span class="lang-id">Dokumentasi & Aksi</span><span class="lang-en">Documentation & Actions</span>
+                        </span>
+                        <h2 class="text-3xl lg:text-4xl font-extrabold text-heading border-b-2 border-primary/30 pb-3 inline-block font-serif">
+                            <span class="lang-id">Semua Kegiatan</span><span class="lang-en">All Activities</span>
+                        </h2>
+                        <p class="text-sm text-gray-500 mt-2 flex items-center gap-2" id="activity-count-badge">
+                            <!-- Dynamic count inserted here -->
+                        </p>
+                    </div>
 
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+                    <!-- Live Search Bar -->
+                    <div class="w-full lg:w-96">
+                        <div class="search-box-wrapper relative" style="position: relative; display: flex; align-items: center; width: 100%;">
+                            <span class="search-box-icon" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #94a3b8; display: flex; align-items: center; justify-content: center; z-index: 10; line-height: 1;">
+                                <i class="fas fa-search text-sm"></i>
+                            </span>
+                            <input type="text" id="activity-search"
+                                placeholder="Cari kegiatan, topik, atau sekolah..."
+                                autocomplete="off"
+                                class="search-box-input w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-sm text-heading placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm"
+                                style="width: 100%; padding-left: 44px; padding-right: 40px; padding-top: 12px; padding-bottom: 12px; border-radius: 9999px; box-sizing: border-box;">
+                            <button id="activity-search-clear" type="button" aria-label="Clear search"
+                                class="search-box-clear hidden"
+                                style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94a3b8; align-items: center; justify-content: center; z-index: 10; line-height: 1;">
+                                <i class="fas fa-times-circle text-base hover:text-red-500 transition-colors"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Tags & Active Status -->
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-gray-100 dark:border-slate-800">
                     <!-- Category Filters -->
-                    <div class="flex flex-wrap gap-2" id="activity-filters">
-                        <button class="filter-btn active px-4 py-2 rounded-full text-sm font-semibold transition-all bg-primary text-white" data-category="all">
+                    <div class="flex flex-wrap gap-2.5" id="activity-filters">
+                        <button class="filter-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-primary text-white shadow-md shadow-blue-500/20" data-category="all">
+                            <i class="fas fa-th-large mr-1.5 text-xs"></i>
                             <span class="lang-id">Semua</span><span class="lang-en">All</span>
                         </button>
-                        <button class="filter-btn px-4 py-2 rounded-full text-sm font-semibold transition-all bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" data-category="education">
+                        <button class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" data-category="education">
+                            <i class="fas fa-graduation-cap mr-1.5 text-xs"></i>
                             <span class="lang-id">Pendidikan</span><span class="lang-en">Education</span>
                         </button>
-                        <button class="filter-btn px-4 py-2 rounded-full text-sm font-semibold transition-all bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" data-category="community">
+                        <button class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" data-category="community">
+                            <i class="fas fa-users mr-1.5 text-xs"></i>
                             <span class="lang-id">Komunitas</span><span class="lang-en">Community</span>
+                        </button>
+                    </div>
+
+                    <!-- Active Filter Chips / Reset Indicator -->
+                    <div id="active-filter-indicators" class="hidden flex items-center gap-2 flex-wrap">
+                        <span class="text-xs text-gray-400 font-medium">
+                            <span class="lang-id">Filter aktif:</span><span class="lang-en">Active filter:</span>
+                        </span>
+                        <span id="active-filter-tag" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/70 text-primary dark:text-blue-400 text-xs font-bold border border-blue-200 dark:border-blue-900"></span>
+                        <button id="btn-reset-filters" type="button" class="inline-flex items-center gap-1 px-2.5 py-1 text-xs text-red-500 hover:text-red-700 dark:hover:text-red-400 font-bold transition-colors">
+                            <i class="fas fa-undo-alt text-[10px]"></i>
+                            <span class="lang-id">Reset</span><span class="lang-en">Reset</span>
                         </button>
                     </div>
                 </div>
@@ -75,14 +122,41 @@
         </section>
 
         <!-- All Podcasts -->
-        <section id="podcasts" class="py-20 bg-white">
+        <section id="podcasts" class="py-20 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl font-bold text-heading mb-8 border-b-2 border-accent/20 pb-4 inline-block">All
-                    Podcasts</h2>
+                <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
+                    <div>
+                        <span class="inline-block py-1 px-3 rounded-full bg-green-100 text-green-700 text-xs font-bold tracking-wider uppercase mb-3">
+                            <span class="lang-id">Podcast & Audio</span><span class="lang-en">Podcast & Audio</span>
+                        </span>
+                        <h2 class="text-3xl lg:text-4xl font-extrabold text-heading border-b-2 border-accent/30 pb-3 inline-block font-serif">
+                            <span class="lang-id">Semua Podcast</span><span class="lang-en">All Podcasts</span>
+                        </h2>
+                        <p class="text-sm text-gray-500 mt-2 flex items-center gap-2" id="podcast-count-badge"></p>
+                    </div>
 
-
+                    <!-- Live Search Bar for Podcasts -->
+                    <div class="w-full lg:w-96">
+                        <div class="search-box-wrapper relative" style="position: relative; display: flex; align-items: center; width: 100%;">
+                            <span class="search-box-icon" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #94a3b8; display: flex; align-items: center; justify-content: center; z-index: 10; line-height: 1;">
+                                <i class="fas fa-search text-sm"></i>
+                            </span>
+                            <input type="text" id="podcast-search"
+                                placeholder="Cari episode podcast..."
+                                autocomplete="off"
+                                class="search-box-input w-full bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-sm text-heading placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all shadow-sm"
+                                style="width: 100%; padding-left: 44px; padding-right: 40px; padding-top: 12px; padding-bottom: 12px; border-radius: 9999px; box-sizing: border-box;">
+                            <button id="podcast-search-clear" type="button" aria-label="Clear podcast search"
+                                class="search-box-clear hidden"
+                                style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94a3b8; align-items: center; justify-content: center; z-index: 10; line-height: 1;">
+                                <i class="fas fa-times-circle text-base hover:text-red-500 transition-colors"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
                 <div id="podcast-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Podcasts will be injected here -->
                 </div>
             </div>
         </section>
@@ -164,10 +238,31 @@
             function renderActivityCards(items) {
                 var container = document.getElementById('activity-container');
                 if (!container) return;
-                if (items.length === 0) {
-                    container.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">Belum ada kegiatan yang ditampilkan.</div>';
+
+                if (!items || items.length === 0) {
+                    var searchNote = activitySearchQuery ? ' dengan kata kunci "<strong>' + _esc(activitySearchQuery) + '</strong>"' : '';
+                    var catNote = (activeCategory !== 'all') ? ' pada kategori ' + activeCategory : '';
+                    container.innerHTML = '<div class="col-span-full py-16 px-4 text-center bg-surface/50 dark:bg-slate-900/50 rounded-3xl border border-dashed border-gray-300 dark:border-slate-700 my-4">' +
+                        '<div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-blue-50 dark:bg-slate-800 text-primary dark:text-blue-400 flex items-center justify-center text-2xl shadow-sm">' +
+                            '<i class="fas fa-search-minus"></i>' +
+                        '</div>' +
+                        '<h3 class="text-xl font-bold text-heading mb-2">' +
+                            '<span class="lang-id">Tidak Ada Kegiatan Ditemukan</span>' +
+                            '<span class="lang-en">No Activities Found</span>' +
+                        '</h3>' +
+                        '<p class="text-sm text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-6 leading-relaxed">' +
+                            '<span class="lang-id">Tidak ditemukan kegiatan' + searchNote + catNote + '. Silakan coba kata kunci lain atau reset filter.</span>' +
+                            '<span class="lang-en">No activities matching your search or filter. Try a different query or reset filters.</span>' +
+                        '</p>' +
+                        '<button onclick="window.resetActivityFilters && window.resetActivityFilters()" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold bg-primary text-white hover:bg-primaryDark transition-all shadow-md hover:shadow-lg">' +
+                            '<i class="fas fa-rotate-left"></i>' +
+                            '<span class="lang-id">Reset Filter & Pencarian</span>' +
+                            '<span class="lang-en">Reset Filter & Search</span>' +
+                        '</button>' +
+                    '</div>';
                     return;
                 }
+
                 container.innerHTML = items.map(function (item) {
                     var imgSrc = item.image || '';
                     var displaySrc = imgSrc ? window._resolveImgPath(imgSrc) : '';
@@ -191,18 +286,18 @@
                         displayDate = dateObj.getDate() + ' ' + months[dateObj.getMonth()] + ' ' + dateObj.getFullYear();
                     }
 
-                    return '<div class="gallery-item flex flex-col group h-full" data-category="' + _esc(item.category_en).toLowerCase() + '">' +
-                        '<div class="border-t-2 border-black pt-2 mb-4 flex justify-between items-start">' +
-                            '<span class="text-xs font-bold uppercase tracking-widest text-black">' + categoryHtml + '</span>' +
+                    return '<div class="gallery-item flex flex-col group h-full" data-category="' + _esc(item.category_en || item.category || '').toLowerCase() + '">' +
+                        '<div class="border-t-2 border-black dark:border-slate-600 pt-2 mb-4 flex justify-between items-start">' +
+                            '<span class="text-xs font-bold uppercase tracking-widest text-black dark:text-slate-200">' + categoryHtml + '</span>' +
                             '<span class="text-xs font-bold uppercase tracking-widest text-gray-500">' + _esc(displayDate).toUpperCase() + '</span>' +
                         '</div>' +
-                        '<div class="relative overflow-hidden w-full mb-4 bg-gray-100 h-64 lg:h-72 flex-shrink-0">' +
+                        '<div class="relative overflow-hidden w-full mb-4 bg-gray-100 dark:bg-slate-800 h-64 lg:h-72 flex-shrink-0 rounded-2xl">' +
                             '<img src="' + _escA(displaySrc) + '" alt="' + _escA(item.title) + '" referrerpolicy="no-referrer" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-700" onerror="this.src=\'' + fallback + '\'">' +
                         '</div>' +
                         '<div class="flex flex-col flex-grow">' +
-                            '<h3 class="text-xl lg:text-2xl font-extrabold text-black mb-3 leading-tight tracking-tight hover:text-primary transition-colors font-sans line-clamp-3">' + titleHtml + '</h3>' +
-                            '<p class="text-black text-sm mb-6 font-medium leading-relaxed line-clamp-3">' + descHtml + '</p>' +
-                            '<a href="' + detailLink + '" target="_blank" class="inline-block text-black font-extrabold uppercase text-xs tracking-widest hover:underline mt-auto"><span class="lang-id">Baca Selengkapnya</span><span class="lang-en">Read Full Story</span></a>' +
+                            '<h3 class="text-xl lg:text-2xl font-extrabold text-heading mb-3 leading-tight tracking-tight hover:text-primary transition-colors font-sans line-clamp-3">' + titleHtml + '</h3>' +
+                            '<p class="text-body text-sm mb-6 font-medium leading-relaxed line-clamp-3">' + descHtml + '</p>' +
+                            '<a href="' + detailLink + '" target="_blank" class="inline-block text-heading font-extrabold uppercase text-xs tracking-widest hover:text-primary hover:underline mt-auto"><span class="lang-id">Baca Selengkapnya</span><span class="lang-en">Read Full Story</span></a>' +
                         '</div>' +
                         '</div>';
                 }).join('');
@@ -211,10 +306,30 @@
             function renderPodcasts(items) {
                 var container = document.getElementById('podcast-container');
                 if (!container) return;
-                if (items.length === 0) {
-                    container.innerHTML = '<div class="col-span-full text-center py-10 text-gray-400">Belum ada episode podcast tersedia.</div>';
+
+                if (!items || items.length === 0) {
+                    var searchNote = podcastSearchQuery ? ' dengan kata kunci "<strong>' + _esc(podcastSearchQuery) + '</strong>"' : '';
+                    container.innerHTML = '<div class="col-span-full py-16 px-4 text-center bg-gray-50 dark:bg-slate-800/50 rounded-3xl border border-dashed border-gray-300 dark:border-slate-700 my-4">' +
+                        '<div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-green-50 dark:bg-slate-800 text-green-600 dark:text-green-400 flex items-center justify-center text-2xl shadow-sm">' +
+                            '<i class="fas fa-headphones-simple"></i>' +
+                        '</div>' +
+                        '<h3 class="text-xl font-bold text-heading mb-2">' +
+                            '<span class="lang-id">Tidak Ada Podcast Ditemukan</span>' +
+                            '<span class="lang-en">No Podcasts Found</span>' +
+                        '</h3>' +
+                        '<p class="text-sm text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-6 leading-relaxed">' +
+                            '<span class="lang-id">Tidak ditemukan episode' + searchNote + '. Silakan coba kata kunci lain.</span>' +
+                            '<span class="lang-en">No podcast episodes matching your search. Try a different query.</span>' +
+                        '</p>' +
+                        '<button onclick="window.resetPodcastSearch && window.resetPodcastSearch()" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold bg-accent text-white hover:bg-yellow-600 transition-all shadow-md hover:shadow-lg">' +
+                            '<i class="fas fa-rotate-left"></i>' +
+                            '<span class="lang-id">Reset Pencarian Podcast</span>' +
+                            '<span class="lang-en">Reset Podcast Search</span>' +
+                        '</button>' +
+                    '</div>';
                     return;
                 }
+
                 container.innerHTML = items.map(function (item) {
                     var targetLink = item.spotifyLink || 'https://open.spotify.com/search/Hey%20Youth';
                     var imgSrc = item.thumbnail ? window._resolveImgPath(item.thumbnail) : 'https://via.placeholder.com/150?text=No+Image';
@@ -236,7 +351,7 @@
                         playBtnHtml = '<a href="' + _escA(targetLink) + '" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center text-sm font-bold text-white bg-green-500 hover:bg-green-600 px-4 py-3 rounded-full transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"><i class="fab fa-spotify mr-2"></i> <span class="lang-id">Dengarkan di Spotify</span><span class="lang-en">Listen on Spotify</span></a>';
                     }
 
-                    return '<div class="flex flex-col bg-surface border border-gray-100 rounded-2xl p-6 hover:shadow-xl transition-all duration-300">' +
+                    return '<div class="flex flex-col bg-surface border border-gray-100 dark:border-slate-800 rounded-2xl p-6 hover:shadow-xl transition-all duration-300">' +
                         '<div class="flex justify-center mb-6 relative group">' +
                         '<div class="w-28 h-28 rounded-xl flex-shrink-0 flex items-center justify-center shadow-lg overflow-hidden bg-gray-200">' +
                         '<img src="' + _escA(imgSrc) + '" alt="' + _escA(item.title) + '" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src=\'' + fallbackImg + '\'">' +
@@ -259,6 +374,157 @@
             var activitySearchQuery = '';
             var podcastSearchQuery = '';
 
+            /* ---- URL State Management ---- */
+            function readUrlState() {
+                var params = new URLSearchParams(window.location.search);
+                var cat = params.get('category') || params.get('cat') || 'all';
+                var q = params.get('q') || params.get('search') || '';
+                var pq = params.get('podcast') || params.get('pq') || '';
+                return {
+                    category: cat.toLowerCase(),
+                    search: q.trim(),
+                    podcast: pq.trim()
+                };
+            }
+
+            function syncUrlParams() {
+                var params = new URLSearchParams(window.location.search);
+
+                if (activeCategory && activeCategory !== 'all') {
+                    params.set('category', activeCategory);
+                    params.delete('cat');
+                } else {
+                    params.delete('category');
+                    params.delete('cat');
+                }
+
+                if (activitySearchQuery && activitySearchQuery.trim()) {
+                    params.set('q', activitySearchQuery.trim());
+                    params.delete('search');
+                } else {
+                    params.delete('q');
+                    params.delete('search');
+                }
+
+                if (podcastSearchQuery && podcastSearchQuery.trim()) {
+                    params.set('podcast', podcastSearchQuery.trim());
+                    params.delete('pq');
+                } else {
+                    params.delete('podcast');
+                    params.delete('pq');
+                }
+
+                var qs = params.toString();
+                var newUrl = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash;
+                if (newUrl !== (window.location.pathname + window.location.search + window.location.hash)) {
+                    window.history.replaceState({ category: activeCategory, q: activitySearchQuery, podcast: podcastSearchQuery }, '', newUrl);
+                }
+            }
+
+            function syncInputsFromState() {
+                var searchInput = document.getElementById('activity-search');
+                if (searchInput && searchInput.value !== activitySearchQuery) {
+                    searchInput.value = activitySearchQuery;
+                }
+
+                var podcastInput = document.getElementById('podcast-search');
+                if (podcastInput && podcastInput.value !== podcastSearchQuery) {
+                    podcastInput.value = podcastSearchQuery;
+                }
+
+                var filterButtons = document.querySelectorAll('#activity-filters .filter-btn');
+                filterButtons.forEach(function(btn) {
+                    var btnCat = (btn.getAttribute('data-category') || '').toLowerCase();
+                    if (btnCat === activeCategory) {
+                        btn.classList.add('active', 'bg-primary', 'text-white', 'shadow-md', 'shadow-blue-500/20');
+                        btn.classList.remove('bg-gray-100', 'text-gray-700', 'dark:bg-slate-800', 'dark:text-slate-200');
+                    } else {
+                        btn.classList.remove('active', 'bg-primary', 'text-white', 'shadow-md', 'shadow-blue-500/20');
+                        btn.classList.add('bg-gray-100', 'text-gray-700', 'dark:bg-slate-800', 'dark:text-slate-200');
+                    }
+                });
+            }
+
+            function updateActivityBadges(showing, total) {
+                var badge = document.getElementById('activity-count-badge');
+                if (badge) {
+                    if (total === 0) {
+                        badge.innerHTML = '<span class="lang-id">Memuat kegiatan...</span><span class="lang-en">Loading activities...</span>';
+                    } else if (showing === total && !activitySearchQuery && activeCategory === 'all') {
+                        badge.innerHTML = '<span class="inline-block w-2 h-2 rounded-full bg-green-500 mr-1.5"></span>' +
+                            '<span class="lang-id">Total <strong>' + total + '</strong> kegiatan</span>' +
+                            '<span class="lang-en">Total <strong>' + total + '</strong> activities</span>';
+                    } else {
+                        badge.innerHTML = '<span class="inline-block w-2 h-2 rounded-full bg-blue-500 mr-1.5"></span>' +
+                            '<span class="lang-id">Menampilkan <strong>' + showing + '</strong> dari <strong>' + total + '</strong> kegiatan</span>' +
+                            '<span class="lang-en">Showing <strong>' + showing + '</strong> of <strong>' + total + '</strong> activities</span>';
+                    }
+                }
+
+                var clearBtn = document.getElementById('activity-search-clear');
+                if (clearBtn) {
+                    if (activitySearchQuery) {
+                        clearBtn.classList.remove('hidden');
+                        clearBtn.style.display = 'flex';
+                    } else {
+                        clearBtn.classList.add('hidden');
+                        clearBtn.style.display = 'none';
+                    }
+                }
+
+                var indicator = document.getElementById('active-filter-indicators');
+                var tagEl = document.getElementById('active-filter-tag');
+                if (indicator && tagEl) {
+                    var hasFilter = (activeCategory !== 'all');
+                    var hasSearch = Boolean(activitySearchQuery);
+
+                    if (hasFilter || hasSearch) {
+                        var parts = [];
+                        if (hasFilter) {
+                            var catName = activeCategory === 'education' ? 'Pendidikan' : (activeCategory === 'community' ? 'Komunitas' : activeCategory);
+                            parts.push('Kategori: ' + catName);
+                        }
+                        if (hasSearch) {
+                            parts.push('Cari: "' + activitySearchQuery + '"');
+                        }
+                        tagEl.textContent = parts.join(' • ');
+                        indicator.classList.remove('hidden');
+                        indicator.classList.add('flex');
+                    } else {
+                        indicator.classList.add('hidden');
+                        indicator.classList.remove('flex');
+                    }
+                }
+            }
+
+            function updatePodcastBadges(showing, total) {
+                var badge = document.getElementById('podcast-count-badge');
+                if (badge) {
+                    if (total === 0) {
+                        badge.innerHTML = '<span class="lang-id">Memuat podcast...</span><span class="lang-en">Loading podcasts...</span>';
+                    } else if (showing === total && !podcastSearchQuery) {
+                        badge.innerHTML = '<span class="inline-block w-2 h-2 rounded-full bg-green-500 mr-1.5"></span>' +
+                            '<span class="lang-id">Total <strong>' + total + '</strong> episode</span>' +
+                            '<span class="lang-en">Total <strong>' + total + '</strong> episodes</span>';
+                    } else {
+                        badge.innerHTML = '<span class="inline-block w-2 h-2 rounded-full bg-accent mr-1.5"></span>' +
+                            '<span class="lang-id">Menampilkan <strong>' + showing + '</strong> dari <strong>' + total + '</strong> episode</span>' +
+                            '<span class="lang-en">Showing <strong>' + showing + '</strong> of <strong>' + total + '</strong> episodes</span>';
+                    }
+                }
+
+                var clearBtn = document.getElementById('podcast-search-clear');
+                if (clearBtn) {
+                    if (podcastSearchQuery) {
+                        clearBtn.classList.remove('hidden');
+                        clearBtn.style.display = 'flex';
+                    } else {
+                        clearBtn.classList.add('hidden');
+                        clearBtn.style.display = 'none';
+                    }
+                }
+            }
+
             function filterAndRenderActivities() {
                 var filtered = allActivities.filter(function(item) {
                     var matchesCategory = true;
@@ -270,6 +536,8 @@
                             matchesCategory = cat.includes('education') || cat.includes('pendidikan') || catId.includes('pendidikan') || catEn.includes('education');
                         } else if (activeCategory === 'community') {
                             matchesCategory = cat.includes('community') || cat.includes('komunitas') || catId.includes('komunitas') || catEn.includes('community');
+                        } else {
+                            matchesCategory = cat.includes(activeCategory) || catId.includes(activeCategory) || catEn.includes(activeCategory);
                         }
                     }
                     
@@ -282,14 +550,21 @@
                         var desc = (item.description || '').toLowerCase();
                         var descId = (item.description_id || '').toLowerCase();
                         var descEn = (item.description_en || '').toLowerCase();
+                        var dateStr = (item.date || '').toLowerCase();
+                        var cat = (item.category || '').toLowerCase();
+                        var catId = (item.category_id || '').toLowerCase();
+                        var catEn = (item.category_en || '').toLowerCase();
                         
                         matchesSearch = title.includes(q) || titleId.includes(q) || titleEn.includes(q) ||
-                                        desc.includes(q) || descId.includes(q) || descEn.includes(q);
+                                        desc.includes(q) || descId.includes(q) || descEn.includes(q) ||
+                                        dateStr.includes(q) || cat.includes(q) || catId.includes(q) || catEn.includes(q);
                     }
                     
                     return matchesCategory && matchesSearch;
                 });
+
                 renderActivityCards(filtered);
+                updateActivityBadges(filtered.length, allActivities.length);
             }
 
             function filterAndRenderPodcasts() {
@@ -307,10 +582,57 @@
                     }
                     return matchesSearch;
                 });
+
                 renderPodcasts(filtered);
+                updatePodcastBadges(filtered.length, allPodcasts.length);
+            }
+
+            /* ---- Global Reset Helpers ---- */
+            window.resetActivityFilters = function() {
+                activeCategory = 'all';
+                activitySearchQuery = '';
+                syncInputsFromState();
+                syncUrlParams();
+                filterAndRenderActivities();
+            };
+
+            window.resetPodcastSearch = function() {
+                podcastSearchQuery = '';
+                syncInputsFromState();
+                syncUrlParams();
+                filterAndRenderPodcasts();
+            };
+
+            /* ---- Debounce Handlers ---- */
+            var actTimer = null;
+            function debounceActivitySearch(val) {
+                clearTimeout(actTimer);
+                actTimer = setTimeout(function() {
+                    activitySearchQuery = val;
+                    syncUrlParams();
+                    filterAndRenderActivities();
+                }, 200);
+            }
+
+            var podTimer = null;
+            function debouncePodcastSearch(val) {
+                clearTimeout(podTimer);
+                podTimer = setTimeout(function() {
+                    podcastSearchQuery = val;
+                    syncUrlParams();
+                    filterAndRenderPodcasts();
+                }, 200);
             }
 
             async function initGallery() {
+                // Initialize State from URL
+                var initialUrlState = readUrlState();
+                activeCategory = initialUrlState.category || 'all';
+                activitySearchQuery = initialUrlState.search || '';
+                podcastSearchQuery = initialUrlState.podcast || '';
+
+                syncInputsFromState();
+
                 var data = await window.getFirebaseData(DEFAULT_DATA);
                 allActivities = data.activityCards || DEFAULT_DATA.activityCards;
                 allPodcasts = data.podcasts || DEFAULT_DATA.podcasts;
@@ -318,35 +640,77 @@
                 filterAndRenderActivities();
                 filterAndRenderPodcasts();
 
-                var filterButtons = document.querySelectorAll('.filter-btn');
+                // Setup Filter Buttons
+                var filterButtons = document.querySelectorAll('#activity-filters .filter-btn');
                 filterButtons.forEach(function(btn) {
                     btn.addEventListener('click', function(e) {
-                        filterButtons.forEach(function(b) { 
-                            b.classList.remove('active', 'bg-primary', 'text-white'); 
-                            b.classList.add('bg-gray-100', 'text-gray-700', 'dark:bg-slate-800', 'dark:text-slate-200'); 
-                        });
-                        e.currentTarget.classList.add('active', 'bg-primary', 'text-white');
-                        e.currentTarget.classList.remove('bg-gray-100', 'text-gray-700', 'dark:bg-slate-800', 'dark:text-slate-200');
-                        activeCategory = e.currentTarget.getAttribute('data-category');
+                        activeCategory = e.currentTarget.getAttribute('data-category') || 'all';
+                        syncInputsFromState();
+                        syncUrlParams();
                         filterAndRenderActivities();
                     });
                 });
 
+                // Setup Activity Search
                 var searchInput = document.getElementById('activity-search');
                 if (searchInput) {
                     searchInput.addEventListener('input', function(e) {
-                        activitySearchQuery = e.target.value.trim();
+                        debounceActivitySearch(e.target.value.trim());
+                    });
+                }
+
+                var clearBtn = document.getElementById('activity-search-clear');
+                if (clearBtn) {
+                    clearBtn.addEventListener('click', function() {
+                        if (searchInput) {
+                            searchInput.value = '';
+                            searchInput.focus();
+                        }
+                        activitySearchQuery = '';
+                        syncUrlParams();
                         filterAndRenderActivities();
                     });
                 }
 
+                // Setup Reset Filters Button
+                var btnReset = document.getElementById('btn-reset-filters');
+                if (btnReset) {
+                    btnReset.addEventListener('click', function() {
+                        window.resetActivityFilters();
+                    });
+                }
+
+                // Setup Podcast Search
                 var podcastSearchInput = document.getElementById('podcast-search');
                 if (podcastSearchInput) {
                     podcastSearchInput.addEventListener('input', function(e) {
-                        podcastSearchQuery = e.target.value.trim();
+                        debouncePodcastSearch(e.target.value.trim());
+                    });
+                }
+
+                var podcastClearBtn = document.getElementById('podcast-search-clear');
+                if (podcastClearBtn) {
+                    podcastClearBtn.addEventListener('click', function() {
+                        if (podcastSearchInput) {
+                            podcastSearchInput.value = '';
+                            podcastSearchInput.focus();
+                        }
+                        podcastSearchQuery = '';
+                        syncUrlParams();
                         filterAndRenderPodcasts();
                     });
                 }
+
+                // Browser Navigation Popstate (Back/Forward)
+                window.addEventListener('popstate', function() {
+                    var state = readUrlState();
+                    activeCategory = state.category;
+                    activitySearchQuery = state.search;
+                    podcastSearchQuery = state.podcast;
+                    syncInputsFromState();
+                    filterAndRenderActivities();
+                    filterAndRenderPodcasts();
+                });
             }
 
             if (document.readyState === 'loading') {

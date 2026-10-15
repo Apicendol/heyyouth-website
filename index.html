@@ -448,6 +448,101 @@
       </div>
     </section>
 
+    <!-- FAQ Section (Dynamic from CMS) -->
+    <section id="faq" class="py-20 bg-gray-50/70 dark:bg-slate-900/40 relative overflow-hidden transition-colors" data-aos="fade-up">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-12">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 text-primary dark:text-blue-400 text-xs font-bold uppercase tracking-wider mb-3">
+            <i class="fas fa-question-circle"></i>
+            <span class="lang-id">Pertanyaan Umum</span><span class="lang-en">Frequently Asked Questions</span>
+          </div>
+          <h2 class="text-3xl lg:text-4xl font-extrabold text-heading mb-4">
+            <span class="lang-id">Kerap Ditanyakan Seputar Hey Youth!</span>
+            <span class="lang-en">Got Questions? We've Got Answers</span>
+          </h2>
+          <p class="text-gray-600 dark:text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+            <span class="lang-id">Temukan jawaban cepat seputar program, keanggotaan relawan, sertifikat, dan kolaborasi bersama kami.</span>
+            <span class="lang-en">Find quick answers about our programs, volunteer membership, certificates, and partnership opportunities.</span>
+          </p>
+        </div>
+
+        <div id="faq-container" class="space-y-4">
+          <!-- Fallback items while loading from CMS -->
+          <div class="faq-item bg-white dark:bg-slate-800/90 rounded-2xl shadow-sm border border-gray-150 dark:border-slate-700/80 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <button type="button" class="faq-header w-full text-left p-5 sm:p-6 flex justify-between items-center focus:outline-none hover:bg-gray-50/70 dark:hover:bg-slate-800/50 transition-colors">
+              <span class="faq-header-text text-heading dark:text-white font-bold text-base sm:text-lg pr-4 transition-colors">
+                <span class="lang-id">Apa itu komunitas Hey Youth! dan apa fokus program utamanya?</span>
+                <span class="lang-en">What is the Hey Youth! community and what are its primary program focuses?</span>
+              </span>
+              <div class="faq-icon bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-slate-300 p-2 rounded-xl flex-shrink-0 transition-transform duration-300">
+                <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="18"><path d="M6 9l6 6 6-6"></path></svg>
+              </div>
+            </button>
+            <div class="faq-content">
+              <div class="faq-inner overflow-hidden">
+                <div class="px-5 sm:px-6 pb-6 pt-1 text-sm sm:text-base text-gray-600 dark:text-slate-300 leading-relaxed border-t border-gray-100 dark:border-slate-700/50">
+                  <span class="lang-id">Hey Youth! adalah organisasi nirlaba kepemudaan yang berfokus pada pemberdayaan generasi muda melalui pendidikan inklusif, literasi digital, pendampingan belajar siswa SD (Teacher Class SD), workshop pengembangan karir & AI, serta aksi kerelawanan di berbagai chapter daerah di Indonesia.</span>
+                  <span class="lang-en">Hey Youth! is a youth-led non-profit organization dedicated to empowering the next generation through inclusive education, digital literacy, elementary mentoring (Teacher Class), career & AI workshops, and volunteer chapter initiatives across Indonesia.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item bg-white dark:bg-slate-800/90 rounded-2xl shadow-sm border border-gray-150 dark:border-slate-700/80 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <button type="button" class="faq-header w-full text-left p-5 sm:p-6 flex justify-between items-center focus:outline-none hover:bg-gray-50/70 dark:hover:bg-slate-800/50 transition-colors">
+              <span class="faq-header-text text-heading dark:text-white font-bold text-base sm:text-lg pr-4 transition-colors">
+                <span class="lang-id">Bagaimana alur pendaftaran untuk menjadi relawan atau mengikuti webinar?</span>
+                <span class="lang-en">How does the registration process work for becoming a volunteer or joining webinars?</span>
+              </span>
+              <div class="faq-icon bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-slate-300 p-2 rounded-xl flex-shrink-0 transition-transform duration-300">
+                <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="18"><path d="M6 9l6 6 6-6"></path></svg>
+              </div>
+            </button>
+            <div class="faq-content">
+              <div class="faq-inner overflow-hidden">
+                <div class="px-5 sm:px-6 pb-6 pt-1 text-sm sm:text-base text-gray-600 dark:text-slate-300 leading-relaxed border-t border-gray-100 dark:border-slate-700/50">
+                  <span class="lang-id">Untuk bergabung sebagai relawan, Anda dapat mendaftar langsung melalui tombol "Gabung Hey Youth" di halaman beranda dengan sistem rolling recruitment. Untuk mengikuti webinar atau workshop, silakan kunjungi halaman Activities, pilih kegiatan terdekat yang diminati, dan isi formulir pendaftaran 1-klik untuk menerima link akses serta pengingat acara otomatis.</span>
+                  <span class="lang-en">To join as a volunteer, you can register anytime via the "Join Hey Youth" button on our homepage through our open rolling recruitment. To attend webinars or workshops, head to the Activities page, choose an upcoming event, and fill out the 1-click registration form to receive your access link and automated reminders.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item bg-white dark:bg-slate-800/90 rounded-2xl shadow-sm border border-gray-150 dark:border-slate-700/80 overflow-hidden transition-all duration-300 hover:shadow-md">
+            <button type="button" class="faq-header w-full text-left p-5 sm:p-6 flex justify-between items-center focus:outline-none hover:bg-gray-50/70 dark:hover:bg-slate-800/50 transition-colors">
+              <span class="faq-header-text text-heading dark:text-white font-bold text-base sm:text-lg pr-4 transition-colors">
+                <span class="lang-id">Apakah peserta kegiatan webinar akan mendapatkan E-Sertifikat resmi dan bagaimana cara mengunduhnya?</span>
+                <span class="lang-en">Do webinar attendees receive an official E-Certificate and how can it be downloaded?</span>
+              </span>
+              <div class="faq-icon bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-slate-300 p-2 rounded-xl flex-shrink-0 transition-transform duration-300">
+                <svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="18"><path d="M6 9l6 6 6-6"></path></svg>
+              </div>
+            </button>
+            <div class="faq-content">
+              <div class="faq-inner overflow-hidden">
+                <div class="px-5 sm:px-6 pb-6 pt-1 text-sm sm:text-base text-gray-600 dark:text-slate-300 leading-relaxed border-t border-gray-100 dark:border-slate-700/50">
+                  <span class="lang-id">Ya, seluruh peserta webinar dan workshop yang telah menyelesaikan kegiatan berhak mendapatkan E-Sertifikat resmi terverifikasi Hey Youth. Anda dapat mencari dan mengunduh sertifikat kapan saja melalui fitur "Unduh E-Sertifikat" di halaman Activities hanya dengan memasukkan nama lengkap atau nomor sertifikat Anda.</span>
+                  <span class="lang-en">Yes, all participants who attend our webinars and workshops are entitled to an official, verified Hey Youth E-Certificate. You can verify and download your certificate anytime via the "Download E-Certificate" tool on the Activities page simply by entering your full name or certificate number.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-10">
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-slate-400">
+            <span class="lang-id">Punya pertanyaan lain yang belum terjawab?</span>
+            <span class="lang-en">Have other questions not listed here?</span>
+            <a href="https://www.instagram.com/heyyouth_id/" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-accent font-bold ml-1 inline-flex items-center gap-1 transition-colors">
+              <span class="lang-id">Hubungi Admin di Instagram</span>
+              <span class="lang-en">Contact Admin on Instagram</span>
+              <i class="fas fa-arrow-right text-[10px]"></i>
+            </a>
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- CTA Footer Strip -->
     <section id="join" class="bg-primary py-20 relative overflow-hidden" data-aos="fade-up">
       <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10">

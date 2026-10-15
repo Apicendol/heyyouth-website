@@ -138,31 +138,31 @@ var _CMS_DEFAULT = {
     ],
     faqs: [
         { 
-            id: 7, 
-            question: "Why don't we recruit people per batch?", 
-            question_id: 'Mengapa kami tidak merekrut anggota per batch?',
-            question_en: "Why don't we recruit people per batch?",
-            answer: 'Kami membuka pendaftaran secara terbuka (rolling recruitment) agar talenta terbaik dapat bergabung kapan saja tanpa harus menunggu jadwal batch tertentu. Ini memungkinkan fleksibilitas lebih tinggi.', 
-            answer_id: 'Kami membuka pendaftaran secara terbuka (rolling recruitment) agar talenta terbaik dapat bergabung kapan saja tanpa harus menunggu jadwal batch tertentu. Ini memungkinkan fleksibilitas lebih tinggi.',
-            answer_en: 'We open registration through rolling recruitment so that the best talent can join at any time without waiting for a specific batch schedule, allowing higher flexibility.'
+            id: 1, 
+            question: 'Apa itu komunitas Hey Youth! dan apa fokus program utamanya?', 
+            question_id: 'Apa itu komunitas Hey Youth! dan apa fokus program utamanya?',
+            question_en: 'What is the Hey Youth! community and what are its primary program focuses?',
+            answer: 'Hey Youth! adalah organisasi nirlaba kepemudaan yang berfokus pada pemberdayaan generasi muda melalui pendidikan inklusif, literasi digital, pendampingan belajar siswa SD (Teacher Class SD), workshop pengembangan karir & AI, serta aksi kerelawanan di berbagai chapter daerah di Indonesia.', 
+            answer_id: 'Hey Youth! adalah organisasi nirlaba kepemudaan yang berfokus pada pemberdayaan generasi muda melalui pendidikan inklusif, literasi digital, pendampingan belajar siswa SD (Teacher Class SD), workshop pengembangan karir & AI, serta aksi kerelawanan di berbagai chapter daerah di Indonesia.',
+            answer_en: 'Hey Youth! is a youth-led non-profit organization dedicated to empowering the next generation through inclusive education, digital literacy, elementary mentoring (Teacher Class), career & AI workshops, and volunteer chapter initiatives across Indonesia.'
         },
         { 
-            id: 8, 
-            question: 'Do I need to have high English levels to join Hey Youth?', 
-            question_id: 'Apakah saya perlu memiliki kemampuan Bahasa Inggris tingkat tinggi untuk bergabung dengan Hey Youth?',
-            question_en: 'Do I need to have high English levels to join Hey Youth?',
-            answer: 'Tidak wajib. Meskipun beberapa program internasional membutuhkan kemampuan Bahasa Inggris, kami menyediakan banyak peran di mana Bahasa Indonesia adalah bahasa utama komunikasi. Yang terpenting adalah semangat berkontribusi.', 
-            answer_id: 'Tidak wajib. Meskipun beberapa program internasional membutuhkan kemampuan Bahasa Inggris, kami menyediakan banyak peran di mana Bahasa Indonesia adalah bahasa utama komunikasi. Yang terpenting adalah semangat berkontribusi.',
-            answer_en: 'Not required. Although some international programs require English skills, we provide many roles where Indonesian is the primary language. The most important thing is the spirit to contribute.'
+            id: 2, 
+            question: 'Bagaimana alur pendaftaran untuk menjadi relawan atau mengikuti webinar?', 
+            question_id: 'Bagaimana alur pendaftaran untuk menjadi relawan atau mengikuti webinar?',
+            question_en: 'How does the registration process work for becoming a volunteer or joining webinars?',
+            answer: 'Untuk bergabung sebagai relawan, Anda dapat mendaftar langsung melalui tombol "Gabung Hey Youth" di halaman beranda dengan sistem rolling recruitment. Untuk mengikuti webinar atau workshop, silakan kunjungi halaman Activities, pilih kegiatan terdekat yang diminati, dan isi formulir pendaftaran 1-klik untuk menerima link akses serta pengingat acara otomatis.', 
+            answer_id: 'Untuk bergabung sebagai relawan, Anda dapat mendaftar langsung melalui tombol "Gabung Hey Youth" di halaman beranda dengan sistem rolling recruitment. Untuk mengikuti webinar atau workshop, silakan kunjungi halaman Activities, pilih kegiatan terdekat yang diminati, dan isi formulir pendaftaran 1-klik untuk menerima link akses serta pengingat acara otomatis.',
+            answer_en: 'To join as a volunteer, you can register anytime via the "Join Hey Youth" button on our homepage through our open rolling recruitment. To attend webinars or workshops, head to the Activities page, choose an upcoming event, and fill out the 1-click registration form to receive your access link and automated reminders.'
         },
         { 
-            id: 9, 
-            question: 'How can I donate to foundation?', 
-            question_id: 'Bagaimana cara berdonasi ke yayasan?',
-            question_en: 'How can I donate to foundation?',
-            answer: 'Anda dapat mendukung kami melalui transfer bank atau donasi barang. Silakan kunjungi halaman Donation untuk informasi rekening dan kebutuhan barang terkini.', 
-            answer_id: 'Anda dapat mendukung kami melalui transfer bank atau donasi barang. Silakan kunjungi halaman Donation untuk informasi rekening dan kebutuhan barang terkini.',
-            answer_en: 'You can support us via bank transfer or item donations. Please visit our Donation page for current bank accounts and item needs.'
+            id: 3, 
+            question: 'Apakah peserta kegiatan webinar akan mendapatkan E-Sertifikat resmi dan bagaimana cara mengunduhnya?', 
+            question_id: 'Apakah peserta kegiatan webinar akan mendapatkan E-Sertifikat resmi dan bagaimana cara mengunduhnya?',
+            question_en: 'Do webinar attendees receive an official E-Certificate and how can it be downloaded?',
+            answer: 'Ya, seluruh peserta webinar dan workshop yang telah menyelesaikan kegiatan berhak mendapatkan E-Sertifikat resmi terverifikasi Hey Youth. Anda dapat mencari dan mengunduh sertifikat kapan saja melalui fitur "Unduh E-Sertifikat" di halaman Activities hanya dengan memasukkan nama lengkap atau nomor sertifikat Anda.', 
+            answer_id: 'Ya, seluruh peserta webinar dan workshop yang telah menyelesaikan kegiatan berhak mendapatkan E-Sertifikat resmi terverifikasi Hey Youth. Anda dapat mencari dan mengunduh sertifikat kapan saja melalui fitur "Unduh E-Sertifikat" di halaman Activities hanya dengan memasukkan nama lengkap atau nomor sertifikat Anda.',
+            answer_en: 'Yes, all participants who attend our webinars and workshops are entitled to an official, verified Hey Youth E-Certificate. You can verify and download your certificate anytime via the "Download E-Certificate" tool on the Activities page simply by entering your full name or certificate number.'
         }
     ],
     locations: [
@@ -541,12 +541,12 @@ function _renderFAQ(data) {
     var html = '';
     for (var i = 0; i < data.length; i++) {
         var f = data[i];
-        html += '<div class="faq-item bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300">'
-            + '<button class="faq-header w-full text-left p-6 flex justify-between items-center focus:outline-none hover:bg-gray-50 transition-colors">'
-            + '<span class="faq-header-text text-heading font-medium text-lg pr-4 transition-colors">' + _bilingualEsc(f.question_id, f.question_en, f.question) + '</span>'
-            + '<div class="faq-icon bg-gray-100 text-gray-500 p-1.5 rounded-full flex-shrink-0 transition-transform duration-300"><svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="20"><path d="M6 9l6 6 6-6"></path></svg></div>'
+        html += '<div class="faq-item bg-white dark:bg-slate-800/90 rounded-2xl shadow-sm border border-gray-150 dark:border-slate-700/80 overflow-hidden transition-all duration-300 hover:shadow-md">'
+            + '<button type="button" class="faq-header w-full text-left p-5 sm:p-6 flex justify-between items-center focus:outline-none hover:bg-gray-50/70 dark:hover:bg-slate-800/50 transition-colors">'
+            + '<span class="faq-header-text text-heading dark:text-white font-bold text-base sm:text-lg pr-4 transition-colors">' + _bilingualEsc(f.question_id, f.question_en, f.question) + '</span>'
+            + '<div class="faq-icon bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-slate-300 p-2 rounded-xl flex-shrink-0 transition-transform duration-300"><svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="18"><path d="M6 9l6 6 6-6"></path></svg></div>'
             + '</button>'
-            + '<div class="faq-content"><div class="faq-inner overflow-hidden"><div class="px-6 pb-6 pt-2 text-body text-gray-600 leading-relaxed border-t border-transparent">' + _bilingualEsc(f.answer_id, f.answer_en, f.answer) + '</div></div></div>'
+            + '<div class="faq-content"><div class="faq-inner overflow-hidden"><div class="px-5 sm:px-6 pb-6 pt-1 text-sm sm:text-base text-gray-600 dark:text-slate-300 leading-relaxed border-t border-gray-100 dark:border-slate-700/50">' + _bilingualEsc(f.answer_id, f.answer_en, f.answer) + '</div></div></div>'
             + '</div>';
     }
     el.innerHTML = html;

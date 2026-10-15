@@ -157,30 +157,75 @@
               </div>
             </div>
 
+            <!-- Activity Search & Count Badge -->
+            <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+              <div class="search-box-wrapper flex-grow max-w-md relative" style="position: relative; display: flex; align-items: center; width: 100%;">
+                <span class="search-box-icon" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #94a3b8; display: flex; align-items: center; justify-content: center; z-index: 10; line-height: 1;">
+                  <i class="fas fa-search text-xs"></i>
+                </span>
+                <input type="text" id="activity-search"
+                  placeholder="Cari kegiatan terbaru..."
+                  autocomplete="off"
+                  class="search-box-input w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-xs text-heading placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-sm"
+                  style="width: 100%; padding-left: 38px; padding-right: 36px; padding-top: 9px; padding-bottom: 9px; border-radius: 9999px; box-sizing: border-box;">
+                <button id="activity-search-clear" type="button" aria-label="Clear search"
+                  class="search-box-clear hidden"
+                  style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94a3b8; align-items: center; justify-content: center; z-index: 10; line-height: 1;">
+                  <i class="fas fa-times-circle text-sm hover:text-red-500 transition-colors"></i>
+                </button>
+              </div>
+              <span id="activity-count-badge" class="text-[11px] text-gray-400 whitespace-nowrap self-end sm:self-center"></span>
+            </div>
+
             <!-- Activity Cards Container -->
             <div id="activity-container" class="grid grid-cols-1 gap-6">
               <!-- Rendered dynamically by JS -->
             </div>
 
             <!-- View All Activities -->
-            <div class="text-left mt-auto pt-4">
-              <a href="gallery.html#activities"
+            <div class="text-left mt-auto pt-4 flex items-center justify-between">
+              <a href="gallery.html#activities" id="link-view-all-activities"
                 class="inline-flex items-center text-primary font-bold hover:text-primaryDark transition-colors">
                 <span class="lang-id">Lihat Semua Kegiatan</span><span class="lang-en">View All Activities</span>
                 <i class="fas fa-chevron-right ml-2 text-xs"></i>
               </a>
+              <button id="btn-reset-act-filters" type="button" class="hidden text-xs text-red-500 hover:text-red-700 font-bold transition-colors">
+                <i class="fas fa-undo-alt mr-1"></i><span class="lang-id">Reset Filter</span><span class="lang-en">Reset Filter</span>
+              </button>
             </div>
           </div>
 
           <!-- Right Column: Podcast -->
           <div class="flex flex-col gap-8">
-            <div>
-              <span
-                class="inline-block py-1 px-3 rounded-full bg-green-100 text-green-700 text-xs font-bold tracking-wider uppercase mb-2">
-                <span class="lang-id">Dengarkan & Belajar</span><span class="lang-en">Listen & Learn</span>
-              </span>
-              <h2 class="text-3xl font-bold text-heading"><span class="lang-id">Podcast Kami</span><span
-                  class="lang-en">Our Podcasts</span></h2>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <span
+                  class="inline-block py-1 px-3 rounded-full bg-green-100 text-green-700 text-xs font-bold tracking-wider uppercase mb-2">
+                  <span class="lang-id">Dengarkan & Belajar</span><span class="lang-en">Listen & Learn</span>
+                </span>
+                <h2 class="text-3xl font-bold text-heading"><span class="lang-id">Podcast Kami</span><span
+                    class="lang-en">Our Podcasts</span></h2>
+              </div>
+            </div>
+
+            <!-- Podcast Search & Count Badge -->
+            <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+              <div class="search-box-wrapper flex-grow max-w-md relative" style="position: relative; display: flex; align-items: center; width: 100%;">
+                <span class="search-box-icon" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #94a3b8; display: flex; align-items: center; justify-content: center; z-index: 10; line-height: 1;">
+                  <i class="fas fa-search text-xs"></i>
+                </span>
+                <input type="text" id="podcast-search"
+                  placeholder="Cari episode podcast..."
+                  autocomplete="off"
+                  class="search-box-input w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-xs text-heading placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all shadow-sm"
+                  style="width: 100%; padding-left: 38px; padding-right: 36px; padding-top: 9px; padding-bottom: 9px; border-radius: 9999px; box-sizing: border-box;">
+                <button id="podcast-search-clear" type="button" aria-label="Clear podcast search"
+                  class="search-box-clear hidden"
+                  style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94a3b8; align-items: center; justify-content: center; z-index: 10; line-height: 1;">
+                  <i class="fas fa-times-circle text-sm hover:text-red-500 transition-colors"></i>
+                </button>
+              </div>
+              <span id="podcast-count-badge" class="text-[11px] text-gray-400 whitespace-nowrap self-end sm:self-center"></span>
             </div>
 
             <!-- Podcast Episodes Container -->
@@ -189,8 +234,8 @@
             </div>
 
             <!-- View All Podcasts -->
-            <div class="text-left mt-auto pt-4">
-              <a href="gallery.html#podcasts"
+            <div class="text-left mt-auto pt-4 flex items-center justify-between">
+              <a href="gallery.html#podcasts" id="link-view-all-podcasts"
                 class="inline-flex items-center text-primary font-bold hover:text-primaryDark transition-colors">
                 <span class="lang-id">Lihat Semua Episode</span><span class="lang-en">View All Episodes</span>
                 <i class="fas fa-chevron-right ml-2 text-xs"></i>
@@ -562,7 +607,26 @@
         if (!container) return;
 
         if (!items || items.length === 0) {
-          container.innerHTML = '<div class="col-span-2 text-center py-10 text-gray-400"><span class="lang-id">Belum ada kegiatan yang ditampilkan.</span><span class="lang-en">No activities available yet.</span></div>';
+          var searchNote = activitySearchQuery ? ' dengan kata kunci "<strong>' + _esc(activitySearchQuery) + '</strong>"' : '';
+          var catNote = (activeCategory !== 'all') ? ' pada kategori ' + activeCategory : '';
+          container.innerHTML = '<div class="py-12 px-4 text-center bg-surface/50 dark:bg-slate-900/50 rounded-2xl border border-dashed border-gray-300 dark:border-slate-700 my-2">' +
+            '<div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-blue-50 dark:bg-slate-800 text-primary dark:text-blue-400 flex items-center justify-center text-xl shadow-sm">' +
+              '<i class="fas fa-search-minus"></i>' +
+            '</div>' +
+            '<h3 class="text-base font-bold text-heading mb-1">' +
+              '<span class="lang-id">Tidak Ada Kegiatan Ditemukan</span>' +
+              '<span class="lang-en">No Activities Found</span>' +
+            '</h3>' +
+            '<p class="text-xs text-gray-500 dark:text-gray-400 max-w-sm mx-auto mb-4 leading-relaxed">' +
+              '<span class="lang-id">Tidak ditemukan kegiatan' + searchNote + catNote + '.</span>' +
+              '<span class="lang-en">No activities matching your query or filter.</span>' +
+            '</p>' +
+            '<button onclick="window.resetActivitiesPageFilters && window.resetActivitiesPageFilters()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold bg-primary text-white hover:bg-primaryDark transition-all shadow-sm">' +
+              '<i class="fas fa-rotate-left text-[10px]"></i>' +
+              '<span class="lang-id">Reset Filter</span>' +
+              '<span class="lang-en">Reset Filter</span>' +
+            '</button>' +
+          '</div>';
           return;
         }
 
@@ -647,7 +711,25 @@
         if (!container) return;
 
         if (items.length === 0) {
-          container.innerHTML = '<div class="col-span-2 text-center py-10 text-gray-400">Belum ada episode podcast tersedia.</div>';
+          var searchNote = podcastSearchQuery ? ' dengan kata kunci "<strong>' + _esc(podcastSearchQuery) + '</strong>"' : '';
+          container.innerHTML = '<div class="py-12 px-4 text-center bg-gray-50 dark:bg-slate-800/50 rounded-2xl border border-dashed border-gray-300 dark:border-slate-700 my-2">' +
+            '<div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-green-50 dark:bg-slate-800 text-green-600 dark:text-green-400 flex items-center justify-center text-xl shadow-sm">' +
+              '<i class="fas fa-headphones-simple"></i>' +
+            '</div>' +
+            '<h3 class="text-base font-bold text-heading mb-1">' +
+              '<span class="lang-id">Tidak Ada Podcast Ditemukan</span>' +
+              '<span class="lang-en">No Podcasts Found</span>' +
+            '</h3>' +
+            '<p class="text-xs text-gray-500 dark:text-gray-400 max-w-sm mx-auto mb-4 leading-relaxed">' +
+              '<span class="lang-id">Tidak ditemukan episode' + searchNote + '.</span>' +
+              '<span class="lang-en">No episodes matching your query.</span>' +
+            '</p>' +
+            '<button onclick="window.resetActivitiesPodcastSearch && window.resetActivitiesPodcastSearch()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold bg-accent text-white hover:bg-yellow-600 transition-all shadow-sm">' +
+              '<i class="fas fa-rotate-left text-[10px]"></i>' +
+              '<span class="lang-id">Reset Pencarian</span>' +
+              '<span class="lang-en">Reset Search</span>' +
+            '</button>' +
+          '</div>';
           return;
         }
 
@@ -717,6 +799,151 @@
       var activitySearchQuery = '';
       var podcastSearchQuery = '';
 
+      /* ---- URL State Management for Activities Page ---- */
+      function readUrlState() {
+        var params = new URLSearchParams(window.location.search);
+        var cat = params.get('category') || params.get('cat') || 'all';
+        var q = params.get('q') || params.get('search') || '';
+        var pq = params.get('podcast') || params.get('pq') || '';
+        return {
+          category: cat.toLowerCase(),
+          search: q.trim(),
+          podcast: pq.trim()
+        };
+      }
+
+      function syncUrlParams() {
+        var params = new URLSearchParams(window.location.search);
+
+        if (activeCategory && activeCategory !== 'all') {
+          params.set('category', activeCategory);
+          params.delete('cat');
+        } else {
+          params.delete('category');
+          params.delete('cat');
+        }
+
+        if (activitySearchQuery && activitySearchQuery.trim()) {
+          params.set('q', activitySearchQuery.trim());
+          params.delete('search');
+        } else {
+          params.delete('q');
+          params.delete('search');
+        }
+
+        if (podcastSearchQuery && podcastSearchQuery.trim()) {
+          params.set('podcast', podcastSearchQuery.trim());
+          params.delete('pq');
+        } else {
+          params.delete('podcast');
+          params.delete('pq');
+        }
+
+        var qs = params.toString();
+        var newUrl = window.location.pathname + (qs ? '?' + qs : '') + window.location.hash;
+        if (newUrl !== (window.location.pathname + window.location.search + window.location.hash)) {
+          window.history.replaceState({ category: activeCategory, q: activitySearchQuery, podcast: podcastSearchQuery }, '', newUrl);
+        }
+      }
+
+      function syncInputsFromState() {
+        var searchInput = document.getElementById('activity-search');
+        if (searchInput && searchInput.value !== activitySearchQuery) {
+          searchInput.value = activitySearchQuery;
+        }
+
+        var podcastInput = document.getElementById('podcast-search');
+        if (podcastInput && podcastInput.value !== podcastSearchQuery) {
+          podcastInput.value = podcastSearchQuery;
+        }
+
+        var filterButtons = document.querySelectorAll('#activity-filters .filter-btn');
+        filterButtons.forEach(function (btn) {
+          var btnCat = (btn.getAttribute('data-category') || '').toLowerCase();
+          if (btnCat === activeCategory) {
+            btn.classList.add('active', 'bg-primary', 'text-white');
+            btn.classList.remove('bg-gray-100', 'text-gray-700', 'dark:bg-slate-800', 'dark:text-slate-200');
+          } else {
+            btn.classList.remove('active', 'bg-primary', 'text-white');
+            btn.classList.add('bg-gray-100', 'text-gray-700', 'dark:bg-slate-800', 'dark:text-slate-200');
+          }
+        });
+      }
+
+      function updateActivitiesBadges(showing, total) {
+        var badge = document.getElementById('activity-count-badge');
+        if (badge) {
+          if (total === 0) {
+            badge.textContent = '';
+          } else if (activeCategory === 'all' && !activitySearchQuery) {
+            badge.innerHTML = '<span class="lang-id">3 terbaru dari ' + total + '</span><span class="lang-en">3 latest of ' + total + '</span>';
+          } else {
+            badge.innerHTML = '<span class="lang-id">Hasil: <strong>' + showing + '</strong> dari ' + total + '</span><span class="lang-en">Showing: <strong>' + showing + '</strong> of ' + total + '</span>';
+          }
+        }
+
+        var clearBtn = document.getElementById('activity-search-clear');
+        if (clearBtn) {
+          if (activitySearchQuery) {
+            clearBtn.classList.remove('hidden');
+            clearBtn.style.display = 'flex';
+          } else {
+            clearBtn.classList.add('hidden');
+            clearBtn.style.display = 'none';
+          }
+        }
+
+        var resetBtn = document.getElementById('btn-reset-act-filters');
+        if (resetBtn) {
+          if (activeCategory !== 'all' || activitySearchQuery) {
+            resetBtn.classList.remove('hidden');
+          } else {
+            resetBtn.classList.add('hidden');
+          }
+        }
+
+        var viewAllLink = document.getElementById('link-view-all-activities');
+        if (viewAllLink) {
+          var targetParams = new URLSearchParams();
+          if (activeCategory && activeCategory !== 'all') targetParams.set('category', activeCategory);
+          if (activitySearchQuery) targetParams.set('q', activitySearchQuery);
+          var qs = targetParams.toString();
+          viewAllLink.href = 'gallery.html' + (qs ? '?' + qs : '') + '#activities';
+        }
+      }
+
+      function updatePodcastsBadges(showing, total) {
+        var badge = document.getElementById('podcast-count-badge');
+        if (badge) {
+          if (total === 0) {
+            badge.textContent = '';
+          } else if (!podcastSearchQuery) {
+            badge.innerHTML = '<span class="lang-id">3 terbaru dari ' + total + '</span><span class="lang-en">3 latest of ' + total + '</span>';
+          } else {
+            badge.innerHTML = '<span class="lang-id">Hasil: <strong>' + showing + '</strong> dari ' + total + '</span><span class="lang-en">Showing: <strong>' + showing + '</strong> of ' + total + '</span>';
+          }
+        }
+
+        var clearBtn = document.getElementById('podcast-search-clear');
+        if (clearBtn) {
+          if (podcastSearchQuery) {
+            clearBtn.classList.remove('hidden');
+            clearBtn.style.display = 'flex';
+          } else {
+            clearBtn.classList.add('hidden');
+            clearBtn.style.display = 'none';
+          }
+        }
+
+        var viewAllPodcasts = document.getElementById('link-view-all-podcasts');
+        if (viewAllPodcasts) {
+          var targetParams = new URLSearchParams();
+          if (podcastSearchQuery) targetParams.set('podcast', podcastSearchQuery);
+          var qs = targetParams.toString();
+          viewAllPodcasts.href = 'gallery.html' + (qs ? '?' + qs : '') + '#podcasts';
+        }
+      }
+
       function filterAndRenderActivities() {
         var filtered = allActivities.slice().reverse();
 
@@ -729,8 +956,9 @@
               return cat.includes('education') || cat.includes('pendidikan') || catId.includes('pendidikan') || catEn.includes('education');
             } else if (activeCategory === 'community') {
               return cat.includes('community') || cat.includes('komunitas') || catId.includes('komunitas') || catEn.includes('community');
+            } else {
+              return cat.includes(activeCategory) || catId.includes(activeCategory) || catEn.includes(activeCategory);
             }
-            return true;
           });
         }
 
@@ -743,14 +971,23 @@
             var desc = (item.description || '').toLowerCase();
             var descId = (item.description_id || '').toLowerCase();
             var descEn = (item.description_en || '').toLowerCase();
+            var dateStr = (item.date || '').toLowerCase();
+            var cat = (item.category || '').toLowerCase();
+            var catId = (item.category_id || '').toLowerCase();
+            var catEn = (item.category_en || '').toLowerCase();
             return title.includes(q) || titleId.includes(q) || titleEn.includes(q) ||
-              desc.includes(q) || descId.includes(q) || descEn.includes(q);
+              desc.includes(q) || descId.includes(q) || descEn.includes(q) ||
+              dateStr.includes(q) || cat.includes(q) || catId.includes(q) || catEn.includes(q);
           });
         } else if (activeCategory === 'all') {
-          filtered = filtered.slice(0, 3);
+          var totalCount = filtered.length;
+          renderActivityCards(filtered.slice(0, 3));
+          updateActivitiesBadges(Math.min(3, totalCount), totalCount);
+          return;
         }
 
         renderActivityCards(filtered);
+        updateActivitiesBadges(filtered.length, allActivities.length);
       }
 
       function filterAndRenderPodcasts() {
@@ -766,11 +1003,49 @@
             return title.includes(q) || titleId.includes(q) || titleEn.includes(q) ||
               episode.includes(q);
           });
+          renderPodcasts(filtered);
+          updatePodcastsBadges(filtered.length, allPodcasts.length);
         } else {
-          filtered = filtered.slice(0, 3);
+          var totalCount = filtered.length;
+          renderPodcasts(filtered.slice(0, 3));
+          updatePodcastsBadges(Math.min(3, totalCount), totalCount);
         }
+      }
 
-        renderPodcasts(filtered);
+      /* ---- Global Reset Helpers for Activities Page ---- */
+      window.resetActivitiesPageFilters = function () {
+        activeCategory = 'all';
+        activitySearchQuery = '';
+        syncInputsFromState();
+        syncUrlParams();
+        filterAndRenderActivities();
+      };
+
+      window.resetActivitiesPodcastSearch = function () {
+        podcastSearchQuery = '';
+        syncInputsFromState();
+        syncUrlParams();
+        filterAndRenderPodcasts();
+      };
+
+      var actTimer = null;
+      function debounceActivitySearch(val) {
+        clearTimeout(actTimer);
+        actTimer = setTimeout(function () {
+          activitySearchQuery = val;
+          syncUrlParams();
+          filterAndRenderActivities();
+        }, 200);
+      }
+
+      var podTimer = null;
+      function debouncePodcastSearch(val) {
+        clearTimeout(podTimer);
+        podTimer = setTimeout(function () {
+          podcastSearchQuery = val;
+          syncUrlParams();
+          filterAndRenderPodcasts();
+        }, 200);
       }
 
 
@@ -941,20 +1216,30 @@
               '&location=' + locForCal +
               dateParam;
 
+            var outlookUrl = 'https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent' +
+              '&subject=' + titleForCal +
+              '&body=' + detailsForCal +
+              '&location=' + locForCal +
+              (startIso ? '&startdt=' + startDt.toISOString() + '&enddt=' + endDt.toISOString() : '');
+
             var calendarBtnHtml = '<div class="relative inline-block text-left z-20">' +
               '<button type="button" onclick="toggleCalendarMenu(event, this)" class="inline-flex items-center px-3 py-2 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-xs font-bold rounded-xl transition-all gap-1.5 cursor-pointer">' +
               '<i class="far fa-calendar-plus text-primary"></i>' +
               '<span>Add to Calendar</span>' +
               '<i class="fas fa-chevron-down text-[10px] ml-1"></i>' +
               '</button>' +
-              '<div class="calendar-dropdown-menu absolute right-0 bottom-full mb-2 w-48 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl shadow-xl hidden z-50 overflow-hidden py-1.5">' +
+              '<div class="calendar-dropdown-menu absolute right-0 bottom-full mb-2 w-52 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl shadow-xl hidden z-50 overflow-hidden py-1.5 divide-y divide-gray-100 dark:divide-slate-800">' +
               '<a href="' + gCalUrl + '" target="_blank" class="flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">' +
               '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg" class="w-4 h-4 flex-shrink-0 object-contain" alt="Google Calendar">' +
               '<span>Google Calendar</span>' +
               '</a>' +
-              '<button type="button" onclick="downloadICS(\'' + escTitleClean + '\', \'' + escLocClean + '\', \'' + detailsForCal + '\', \'' + startIso + '\', \'' + endIso + '\')" class="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors text-left">' +
+              '<a href="' + outlookUrl + '" target="_blank" class="flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors">' +
+              '<i class="fab fa-microsoft text-blue-500 text-sm w-4 flex-shrink-0 text-center"></i>' +
+              '<span>Outlook Calendar</span>' +
+              '</a>' +
+              '<button type="button" onclick="downloadICS(\'' + escTitleClean + '\', \'' + escLocClean + '\', \'' + detailsForCal + '\', \'' + startIso + '\', \'' + endIso + '\')" class="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors text-left cursor-pointer">' +
               '<i class="fab fa-apple text-gray-900 dark:text-white text-sm w-4 flex-shrink-0 text-center"></i>' +
-              '<span>Apple Calendar</span>' +
+              '<span>Apple / Outlook (.ICS)</span>' +
               '</button>' +
               '</div>' +
               '</div>';
@@ -1123,21 +1408,46 @@
           if (submitBtn) submitBtn.disabled = false;
 
           if (alertEl) {
-            alertEl.className = 'rounded-xl p-4 text-sm font-medium flex items-center gap-3 border bg-green-50 border-green-200 text-green-700 dark:bg-green-950 dark:border-green-900 dark:text-green-300';
-            if (alertIcon) alertIcon.className = 'fas fa-check-circle text-lg flex-shrink-0 text-green-600';
-
+            alertEl.className = 'rounded-2xl p-5 text-sm font-medium flex flex-col gap-3 border bg-green-50 border-green-200 text-green-800 dark:bg-green-950 dark:border-green-900 dark:text-green-200';
+            
             var isEn = document.documentElement.lang === 'en' || document.body.classList.contains('lang-en');
-            if (alertText) {
-              alertText.textContent = isEn
-                ? 'Registration submitted successfully!'
-                : 'Pendaftaran berhasil dikirim!';
-            }
+            var successHeading = isEn ? 'Registration Submitted Successfully!' : 'Pendaftaran Berhasil Dikirim!';
+            var subText = isEn 
+              ? 'Thank you for registering. Sync this event to your calendar so you do not miss it:'
+              : 'Terima kasih telah mendaftar. Sinkronkan acara ini ke kalender Anda agar tidak ketinggalan:';
+            var closeText = isEn ? 'Tutup' : 'Tutup';
+
+            var eventObj = window._activeRegisterEvent || {};
+            var titleForCal = encodeURIComponent(eventObj.title_id || eventObj.title || regData.eventName || 'Hey Youth Event');
+            var locForCal = encodeURIComponent(eventObj.location || 'Zoom Meeting');
+            var descForCal = encodeURIComponent('Pengingat Event Hey Youth: ' + (regData.eventName || '') + '\n\nLink Akses: ' + (eventObj.link || ''));
+            var startDt = getEventDateTime(eventObj.date, eventObj.time);
+            var endDt = new Date(startDt.getTime() + (2 * 60 * 60 * 1000));
+            var startIso = formatCalDate(startDt);
+            var endIso = formatCalDate(endDt);
+            var dateParam = (startIso && endIso) ? '&dates=' + startIso + '/' + endIso : '';
+
+            var gCalUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + titleForCal + '&details=' + descForCal + '&location=' + locForCal + dateParam;
+
+            alertEl.innerHTML = 
+              '<div class="flex items-center gap-2.5 font-bold text-green-700 dark:text-green-300 text-base">' +
+                '<i class="fas fa-check-circle text-xl flex-shrink-0"></i>' +
+                '<span>' + successHeading + '</span>' +
+              '</div>' +
+              '<p class="text-xs text-green-700/90 dark:text-green-300/90 leading-relaxed">' + subText + '</p>' +
+              '<div class="flex flex-wrap items-center gap-2 pt-2">' +
+                '<a href="' + gCalUrl + '" target="_blank" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white dark:bg-slate-900 text-gray-700 dark:text-slate-200 border border-gray-200 dark:border-slate-700 text-xs font-bold shadow-sm hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors">' +
+                  '<img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg" class="w-3.5 h-3.5" alt="Google Calendar">' +
+                  '<span>Google Calendar</span>' +
+                '</a>' +
+                '<button type="button" onclick="downloadICS(\'' + (regData.eventName || 'Hey Youth Event').replace(/'/g, "\\'") + '\', \'' + (eventObj.location || 'Zoom Meeting').replace(/'/g, "\\'") + '\', \'' + descForCal + '\', \'' + startIso + '\', \'' + endIso + '\')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white dark:bg-slate-900 text-gray-700 dark:text-slate-200 border border-gray-200 dark:border-slate-700 text-xs font-bold shadow-sm hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer">' +
+                  '<i class="far fa-calendar-alt text-primary"></i>' +
+                  '<span>Unduh (.ICS)</span>' +
+                '</button>' +
+                '<button type="button" onclick="closeRegistrationModal()" class="ml-auto px-4 py-2 text-xs font-bold text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">' + closeText + '</button>' +
+              '</div>';
             alertEl.classList.remove('hidden');
           }
-
-          setTimeout(function () {
-            closeRegistrationModal();
-          }, 2000);
         }
 
         if (EMAILJS_CONFIG.publicKey && EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY' && EMAILJS_CONFIG.templateId && EMAILJS_CONFIG.templateId !== 'YOUR_TEMPLATE_ID') {
@@ -1165,6 +1475,14 @@
       });
 
       async function initActivities() {
+        // Initialize State from URL
+        var initialUrlState = readUrlState();
+        activeCategory = initialUrlState.category || 'all';
+        activitySearchQuery = initialUrlState.search || '';
+        podcastSearchQuery = initialUrlState.podcast || '';
+
+        syncInputsFromState();
+
         var data = await window.getFirebaseData(DEFAULT_DATA);
         allActivities = data.activityCards || DEFAULT_DATA.activityCards;
         allPodcasts = data.podcasts || DEFAULT_DATA.podcasts;
@@ -1193,16 +1511,12 @@
         if (ct) ct.innerHTML = '<span class="lang-id">' + _esc(s.certTitle_id) + '</span><span class="lang-en">' + _esc(s.certTitle_en) + '</span>';
         if (cs) cs.innerHTML = '<span class="lang-id">' + _esc(s.certSubtitle_id) + '</span><span class="lang-en">' + _esc(s.certSubtitle_en) + '</span>';
 
-        var filterButtons = document.querySelectorAll('.filter-btn');
+        var filterButtons = document.querySelectorAll('#activity-filters .filter-btn');
         filterButtons.forEach(function (btn) {
           btn.addEventListener('click', function (e) {
-            filterButtons.forEach(function (b) {
-              b.classList.remove('active', 'bg-primary', 'text-white');
-              b.classList.add('bg-gray-100', 'text-gray-700', 'dark:bg-slate-800', 'dark:text-slate-200');
-            });
-            e.currentTarget.classList.add('active', 'bg-primary', 'text-white');
-            e.currentTarget.classList.remove('bg-gray-100', 'text-gray-700', 'dark:bg-slate-800', 'dark:text-slate-200');
-            activeCategory = e.currentTarget.getAttribute('data-category');
+            activeCategory = e.currentTarget.getAttribute('data-category') || 'all';
+            syncInputsFromState();
+            syncUrlParams();
             filterAndRenderActivities();
           });
         });
@@ -1210,18 +1524,60 @@
         var searchInput = document.getElementById('activity-search');
         if (searchInput) {
           searchInput.addEventListener('input', function (e) {
-            activitySearchQuery = e.target.value.trim();
+            debounceActivitySearch(e.target.value.trim());
+          });
+        }
+
+        var clearBtn = document.getElementById('activity-search-clear');
+        if (clearBtn) {
+          clearBtn.addEventListener('click', function () {
+            if (searchInput) {
+              searchInput.value = '';
+              searchInput.focus();
+            }
+            activitySearchQuery = '';
+            syncUrlParams();
             filterAndRenderActivities();
+          });
+        }
+
+        var resetBtn = document.getElementById('btn-reset-act-filters');
+        if (resetBtn) {
+          resetBtn.addEventListener('click', function () {
+            window.resetActivitiesPageFilters();
           });
         }
 
         var podcastSearchInput = document.getElementById('podcast-search');
         if (podcastSearchInput) {
           podcastSearchInput.addEventListener('input', function (e) {
-            podcastSearchQuery = e.target.value.trim();
+            debouncePodcastSearch(e.target.value.trim());
+          });
+        }
+
+        var podcastClearBtn = document.getElementById('podcast-search-clear');
+        if (podcastClearBtn) {
+          podcastClearBtn.addEventListener('click', function () {
+            if (podcastSearchInput) {
+              podcastSearchInput.value = '';
+              podcastSearchInput.focus();
+            }
+            podcastSearchQuery = '';
+            syncUrlParams();
             filterAndRenderPodcasts();
           });
         }
+
+        // Browser navigation popstate
+        window.addEventListener('popstate', function () {
+          var state = readUrlState();
+          activeCategory = state.category;
+          activitySearchQuery = state.search;
+          podcastSearchQuery = state.podcast;
+          syncInputsFromState();
+          filterAndRenderActivities();
+          filterAndRenderPodcasts();
+        });
       }
 
       if (document.readyState === 'loading') {
