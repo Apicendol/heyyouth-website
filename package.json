@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build:css": "tailwindcss -i ./src/input.css -o ./assets/Style/tailwind.css --minify",
+    "build:css": "tailwindcss -i ./src/input.css -o ./assets/Style/tailwind.css --minify && node scripts/clean-css.js",
     "watch:css": "tailwindcss -i ./src/input.css -o ./assets/Style/tailwind.css --watch"
   },
   "repository": {
