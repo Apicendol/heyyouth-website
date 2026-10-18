@@ -1,0 +1,470 @@
+var DEFAULT_ACTIVITIES = [
+            {
+                id: 301,
+                category: 'Education',
+                category_id: 'Pendidikan',
+                category_en: 'Education',
+                date: '10 November 2025',
+                title: 'Dream Big, Learn Bigger: Inspiring the Next Generation at Yos Sudarso',
+                title_id: 'Dream Big, Learn Bigger: Menginspirasi Generasi Penerus di Yos Sudarso',
+                title_en: 'Dream Big, Learn Bigger: Inspiring the Next Generation at Yos Sudarso',
+                description: 'Kami mengunjungi sekolah di Yos Sudarso untuk berbagi inspirasi dan materi pendidikan interaktif kepada ratusan siswa, membantu mereka bermimpi lebih besar.',
+                description_id: 'Kami mengunjungi sekolah di Yos Sudarso untuk berbagi inspirasi dan materi pendidikan interaktif kepada ratusan siswa, membantu mereka bermimpi lebih besar.',
+                description_en: 'We visited the school in Yos Sudarso to share inspiration and interactive educational materials with hundreds of students, helping them dream bigger.',
+                image: 'assets/img/Donation.webp',
+                link: '#',
+                fullStory: '<p>Pada hari yang cerah, tim Hey Youth berkunjung ke SD Yos Sudarso. Antusiasme siswa-siswi sangat luar biasa ketika kami memperkenalkan program mentoring kami.</p><p>Kegiatan ini diawali dengan sesi ice breaking yang diikuti oleh seluruh siswa kelas 5 dan 6. Dilanjutkan dengan materi tentang "Membangun Mimpi Sejak Dini".</p><br><p>Kami berharap kunjungan ini dapat menjadi inspirasi bagi mereka untuk terus belajar dan giat meraih cita-cita.</p>',
+                fullStory_id: '<p>Pada hari yang cerah, tim Hey Youth berkunjung ke SD Yos Sudarso. Antusiasme siswa-siswi sangat luar biasa ketika kami memperkenalkan program mentoring kami.</p><p>Kegiatan ini diawali dengan sesi ice breaking yang diikuti oleh seluruh siswa kelas 5 dan 6. Dilanjutkan dengan materi tentang "Membangun Mimpi Sejak Dini".</p><br><p>Kami berharap kunjungan ini dapat menjadi inspirasi bagi mereka untuk terus belajar dan giat meraih cita-cita.</p>',
+                fullStory_en: '<p>On a bright day, the Hey Youth team visited Yos Sudarso Elementary School. The students showed tremendous enthusiasm as we introduced our mentoring program.</p><p>The session started with an engaging ice-breaking activity, followed by an inspiring workshop on "Building Dreams Early".</p><br><p>We hope this visit inspires them to keep learning and pursuing their ambitions with confidence.</p>'
+            },
+            {
+                id: 302,
+                category: 'Community',
+                category_id: 'Komunitas',
+                category_en: 'Community',
+                date: '14 April 2025',
+                title: 'Instilling Education, Igniting Dreams: Hey Youth\'s Visit to TBM Kolong',
+                title_id: 'Menanamkan Pendidikan, Menyalakan Mimpi: Kunjungan Hey Youth ke TBM Kolong',
+                title_en: 'Instilling Education, Igniting Dreams: Hey Youth\'s Visit to TBM Kolong',
+                description: 'Kunjungan spesial ke TBM Kolong untuk mendukung literasi di lingkungan sekitar, mendonasikan buku, dan mengadakan sesi membaca bersama anak-anak.',
+                description_id: 'Kunjungan spesial ke TBM Kolong untuk mendukung literasi di lingkungan sekitar, mendonasikan buku, dan mengadakan sesi membaca bersama anak-anak.',
+                description_en: 'A special visit to TBM Kolong to support community literacy, donate books, and host a collaborative storytelling session with local children.',
+                image: 'assets/img/Front Card.webp',
+                link: '#',
+                fullStory: '<p>TBM Kolong adalah salah satu tempat baca yang sangat bersemangat di daerah kami. Kami mendonasikan 100 eksemplar buku cerita dan ensiklopedia anak.</p><p>Selain donasi buku, relawan kami juga membacakan cerita rakyat Nusantara kepada anak-anak dengan penuh ekspresi.</p>',
+                fullStory_id: '<p>TBM Kolong adalah salah satu tempat baca yang sangat bersemangat di daerah kami. Kami mendonasikan 100 eksemplar buku cerita dan ensiklopedia anak.</p><p>Selain donasi buku, relawan kami juga membacakan cerita rakyat Nusantara kepada anak-anak dengan penuh ekspresi.</p>',
+                fullStory_en: '<p>TBM Kolong is an inspiring local reading hub. We donated 100 storybooks and encyclopedias to their library.</p><p>Our volunteers engaged the children with expressive folk storytelling and collaborative learning sessions.</p>'
+            }
+        ];
+
+        async function initActivityDetail() {
+            try {
+                const defaultData = { activityCards: DEFAULT_ACTIVITIES };
+                let data = null;
+                if (typeof window.getFirebaseData === 'function') {
+                    data = await window.getFirebaseData(defaultData);
+                }
+                if (!data || !data.activityCards || data.activityCards.length === 0) {
+                    try {
+                        const localCms = JSON.parse(localStorage.getItem('hey_youth_cms') || '{}');
+                        data = { activityCards: localCms.activityCards || DEFAULT_ACTIVITIES };
+                    } catch(e) {
+                        data = { activityCards: DEFAULT_ACTIVITIES };
+                    }
+                }
+                const urlParams = new URLSearchParams(window.location.search);
+                let activityId = urlParams.get('id');
+
+                const loadingState = document.getElementById('loading-state');
+                const articleContainer = document.getElementById('article-container');
+                const errorState = document.getElementById('error-state');
+
+                const cards = (data && data.activityCards && data.activityCards.length > 0) ? data.activityCards : DEFAULT_ACTIVITIES;
+                
+                // If no id or invalid id provided, default to the first available activity
+                if (!activityId && cards.length > 0) {
+                    activityId = String(cards[0].id);
+                }
+
+                let activity = cards.find(a => String(a.id) === String(activityId));
+                if (!activity && cards.length > 0) {
+                    activity = cards[0];
+                }
+
+                if (activity) {
+                    const bilEsc = (idVal, enVal, fallback) => {
+                        if (window._bilingualEsc) {
+                            return window._bilingualEsc(idVal, enVal, fallback);
+                        }
+                        const escape = (s) => {
+                            if (!s) return '';
+                            const d = document.createElement('div');
+                            d.textContent = s;
+                            return d.innerHTML;
+                        };
+                        const id = escape(idVal || fallback || '');
+                        const en = escape(enVal || fallback || '');
+                        return '<span class="lang-id">' + id + '</span><span class="lang-en">' + en + '</span>';
+                    };
+
+                    const bilHtml = (idVal, enVal, fallback) => {
+                        if (window._bilingualHtml) {
+                            return window._bilingualHtml(idVal, enVal, fallback);
+                        }
+                        const id = idVal || fallback || '';
+                        const en = enVal || fallback || '';
+                        return '<span class="lang-id">' + id + '</span><span class="lang-en">' + en + '</span>';
+                    };
+
+                    document.getElementById('detail-title').innerHTML = bilEsc(activity.title_id, activity.title_en, activity.title);
+
+                    // Dynamic Open Graph Meta Tags
+                    const ogTitle = activity.title_id || activity.title || 'Hey Youth Activity';
+                    const ogImage = activity.image ? window._resolveImgPath(activity.image) : '';
+                    const ogDesc = activity.description_id || activity.description || 'Hey Youth - Gerakan Sosial Pemberdayaan Pemuda';
+                    
+                    document.title = ogTitle + " - Hey Youth!";
+                    
+                    const metaTags = {
+                        'og:title': ogTitle,
+                        'og:description': ogDesc,
+                        'og:image': ogImage,
+                        'twitter:card': 'summary_large_image',
+                        'twitter:title': ogTitle,
+                        'twitter:description': ogDesc,
+                        'twitter:image': ogImage
+                    };
+                    
+                    Object.keys(metaTags).forEach(key => {
+                        let meta = document.querySelector(`meta[property="${key}"]`) || document.querySelector(`meta[name="${key}"]`);
+                        if (!meta) {
+                            meta = document.createElement('meta');
+                            if(key.startsWith('twitter')) meta.setAttribute('name', key);
+                            else meta.setAttribute('property', key);
+                            document.head.appendChild(meta);
+                        }
+                        meta.setAttribute('content', metaTags[key]);
+                    });
+                    document.getElementById('detail-category').innerHTML = bilEsc(activity.category_id, activity.category_en, activity.category);
+                    document.getElementById('detail-date').textContent = activity.date;
+                    document.getElementById('detail-description').innerHTML = bilEsc(activity.description_id, activity.description_en, activity.description);
+                    
+                    const fullContent = document.getElementById('detail-full-content');
+                    const story_id = activity.fullStory_id || activity.fullStory || '';
+                    const story_en = activity.fullStory_en || activity.fullStory || '';
+                    
+                    if (story_id.trim() !== '' || story_en.trim() !== '') {
+                        fullContent.innerHTML = bilHtml(story_id, story_en);
+                    } else {
+                        const desc_id = activity.description_id || activity.description || '';
+                        const desc_en = activity.description_en || activity.description || '';
+                        fullContent.innerHTML = bilHtml('<p>' + desc_id + '</p>', '<p>' + desc_en + '</p>');
+                    }
+                    
+                    if (activity.link && activity.link.trim() !== '') {
+                        fullContent.innerHTML += `<div class="mt-8"><a href="${activity.link}" target="_blank" class="inline-flex items-center bg-primary hover:bg-primaryDark text-white px-6 py-3 rounded-xl font-bold transition-colors"><span class="lang-id">Kunjungi Postingan Asli</span><span class="lang-en">Visit Original Post</span> <i class="fas fa-external-link-alt ml-2 text-sm"></i></a></div>`;
+                    }
+
+                    const detailHero = document.getElementById('detail-hero');
+                    let imgSrc = (activity.image && activity.image.trim() !== '') ? window._resolveImgPath(activity.image) : 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000&auto=format&fit=crop';
+                    detailHero.style.backgroundImage = 'url("' + imgSrc + '")';
+
+                    const updatePageTitle = () => {
+                        const currentLang = localStorage.getItem('heyyouth_lang') || 'en';
+                        const pageTitleText = (currentLang === 'id') ? (activity.title_id || activity.title) : (activity.title_en || activity.title);
+                        document.title = pageTitleText + ' - Hey Youth!';
+                    };
+
+                    updatePageTitle();
+
+                    document.querySelectorAll('.lang-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            setTimeout(updatePageTitle, 100);
+                        });
+                    });
+
+                    const category = (activity.category || '').toLowerCase();
+                    const categoryId = (activity.category_id || '').toLowerCase();
+                    const categoryEn = (activity.category_en || '').toLowerCase();
+                    if (category.includes('education') || category.includes('pendidikan') || category.includes('webinar') ||
+                        categoryId.includes('pendidikan') || categoryEn.includes('education')) {
+                        document.getElementById('event-registration-section').classList.remove('hidden');
+                        initRegistrationForm(activity.id, activity.title);
+                    }
+
+                    loadingState.classList.add('hidden');
+                    articleContainer.classList.remove('hidden');
+                    initAudioNarration(activity);
+                } else {
+                    loadingState.classList.add('hidden');
+                    errorState.classList.remove('hidden');
+                }
+            } catch (err) {
+                console.error("Error loading activity details:", err);
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('error-state').classList.remove('hidden');
+            }
+        }
+
+        /* =============================================
+           TEXT-TO-SPEECH (TTS) NARRATION CONTROLLER
+           ============================================= */
+        let _ttsUtterance = null;
+        let _ttsChunks = [];
+        let _ttsCurrentChunk = 0;
+        let _ttsState = 'idle'; // 'idle' | 'playing' | 'paused'
+        let _ttsAvailableVoices = [];
+
+        function _loadVoices() {
+            if ('speechSynthesis' in window) {
+                _ttsAvailableVoices = window.speechSynthesis.getVoices();
+            }
+        }
+        if ('speechSynthesis' in window) {
+            _loadVoices();
+            window.speechSynthesis.onvoiceschanged = _loadVoices;
+        }
+
+        function initAudioNarration(activity) {
+            const widget = document.getElementById('tts-audio-widget');
+            const playBtn = document.getElementById('tts-play-btn');
+            const playIcon = document.getElementById('tts-play-icon');
+            const playText = document.getElementById('tts-play-text');
+            const stopBtn = document.getElementById('tts-stop-btn');
+            const speedSelect = document.getElementById('tts-speed');
+            const statusBadge = document.getElementById('tts-status-badge');
+            const metaInfo = document.getElementById('tts-meta-info');
+
+            if (!widget || !('speechSynthesis' in window)) {
+                if (widget) widget.classList.add('hidden');
+                return;
+            }
+
+            function updateUI(state) {
+                _ttsState = state;
+                const lang = localStorage.getItem('heyyouth_lang') || 'en';
+                const isId = lang === 'id';
+
+                if (state === 'playing') {
+                    widget.classList.add('tts-playing');
+                    playIcon.className = 'fas fa-pause text-xs';
+                    playText.textContent = isId ? 'Jeda' : 'Pause';
+                    playBtn.className = 'px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-all transform active:scale-95';
+                    stopBtn.disabled = false;
+                    stopBtn.className = 'p-2 bg-red-100 hover:bg-red-200 dark:bg-red-900/40 dark:hover:bg-red-900/60 text-red-600 dark:text-red-400 rounded-xl text-xs flex items-center justify-center transition-all cursor-pointer';
+                    statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300';
+                    statusBadge.innerHTML = isId ? 'Sedang diputar' : 'Playing...';
+                } else if (state === 'paused') {
+                    widget.classList.remove('tts-playing');
+                    playIcon.className = 'fas fa-play text-xs';
+                    playText.textContent = isId ? 'Lanjutkan' : 'Resume';
+                    playBtn.className = 'px-4 py-2 bg-primary hover:bg-primaryDark text-white font-bold rounded-xl text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-all transform active:scale-95';
+                    stopBtn.disabled = false;
+                    stopBtn.className = 'p-2 bg-red-100 hover:bg-red-200 dark:bg-red-900/40 dark:hover:bg-red-900/60 text-red-600 dark:text-red-400 rounded-xl text-xs flex items-center justify-center transition-all cursor-pointer';
+                    statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300';
+                    statusBadge.innerHTML = isId ? 'Dijeda' : 'Paused';
+                } else {
+                    widget.classList.remove('tts-playing');
+                    playIcon.className = 'fas fa-play text-xs';
+                    playText.textContent = isId ? 'Putar' : 'Play';
+                    playBtn.className = 'px-4 py-2 bg-primary hover:bg-primaryDark text-white font-bold rounded-xl text-xs sm:text-sm flex items-center gap-2 shadow-sm transition-all transform active:scale-95';
+                    stopBtn.disabled = true;
+                    stopBtn.className = 'p-2 bg-gray-200 dark:bg-slate-700 text-gray-400 dark:text-slate-500 rounded-xl text-xs flex items-center justify-center transition-all cursor-not-allowed';
+                    statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300';
+                    statusBadge.innerHTML = isId ? 'Siap diputar' : 'Ready';
+                }
+            }
+
+            function getCleanTextToSpeak() {
+                const lang = localStorage.getItem('heyyouth_lang') || 'en';
+                const isId = lang === 'id';
+
+                const title = isId ? (activity.title_id || activity.title || '') : (activity.title_en || activity.title || '');
+                const desc = isId ? (activity.description_id || activity.description || '') : (activity.description_en || activity.description || '');
+                
+                let story = isId ? (activity.fullStory_id || activity.fullStory || '') : (activity.fullStory_en || activity.fullStory || '');
+                if (!story.trim()) {
+                    story = desc;
+                }
+
+                // Strip HTML tags and entities
+                const tmp = document.createElement('div');
+                tmp.innerHTML = story;
+                const cleanStory = tmp.textContent || tmp.innerText || '';
+
+                const combined = `${title}. ${desc}. ${cleanStory}`;
+                return combined.replace(/\s+/g, ' ').trim();
+            }
+
+            function chunkText(text) {
+                // Split by sentences or punctuation to maintain natural pauses
+                const sentences = text.match(/[^.!?]+[.!?]+|\s*[^.!?]+$/g) || [text];
+                const chunks = [];
+                let currentChunk = '';
+
+                sentences.forEach(s => {
+                    const cleanSentence = s.trim();
+                    if (!cleanSentence) return;
+                    if ((currentChunk + ' ' + cleanSentence).length < 180) {
+                        currentChunk = (currentChunk ? currentChunk + ' ' : '') + cleanSentence;
+                    } else {
+                        if (currentChunk) chunks.push(currentChunk);
+                        currentChunk = cleanSentence;
+                    }
+                });
+                if (currentChunk) chunks.push(currentChunk);
+                return chunks;
+            }
+
+            function speakNextChunk() {
+                if (_ttsCurrentChunk >= _ttsChunks.length) {
+                    stopSpeaking();
+                    return;
+                }
+
+                const chunk = _ttsChunks[_ttsCurrentChunk];
+                const utterance = new SpeechSynthesisUtterance(chunk);
+                _ttsUtterance = utterance;
+
+                const lang = localStorage.getItem('heyyouth_lang') || 'en';
+                const langCode = lang === 'id' ? 'id-ID' : 'en-US';
+                utterance.lang = langCode;
+
+                const rate = parseFloat(speedSelect.value) || 1.0;
+                utterance.rate = rate;
+
+                // Select preferred voice
+                if (_ttsAvailableVoices.length > 0) {
+                    const match = _ttsAvailableVoices.find(v => v.lang === langCode || v.lang.startsWith(lang));
+                    if (match) utterance.voice = match;
+                }
+
+                utterance.onend = function() {
+                    _ttsCurrentChunk++;
+                    if (_ttsState === 'playing') {
+                        speakNextChunk();
+                    }
+                };
+
+                utterance.onerror = function(e) {
+                    console.warn('TTS chunk error:', e);
+                    _ttsCurrentChunk++;
+                    if (_ttsState === 'playing') {
+                        speakNextChunk();
+                    }
+                };
+
+                window.speechSynthesis.speak(utterance);
+            }
+
+            function startSpeaking() {
+                window.speechSynthesis.cancel();
+                const text = getCleanTextToSpeak();
+                if (!text) return;
+
+                _ttsChunks = chunkText(text);
+                _ttsCurrentChunk = 0;
+                updateUI('playing');
+                speakNextChunk();
+            }
+
+            function pauseSpeaking() {
+                if (window.speechSynthesis.speaking) {
+                    window.speechSynthesis.pause();
+                    updateUI('paused');
+                }
+            }
+
+            function resumeSpeaking() {
+                if (window.speechSynthesis.paused) {
+                    window.speechSynthesis.resume();
+                    updateUI('playing');
+                } else {
+                    speakNextChunk();
+                    updateUI('playing');
+                }
+            }
+
+            function stopSpeaking() {
+                window.speechSynthesis.cancel();
+                _ttsCurrentChunk = 0;
+                _ttsChunks = [];
+                _ttsUtterance = null;
+                updateUI('idle');
+            }
+
+            playBtn.onclick = function() {
+                if (_ttsState === 'idle') {
+                    startSpeaking();
+                } else if (_ttsState === 'playing') {
+                    pauseSpeaking();
+                } else if (_ttsState === 'paused') {
+                    resumeSpeaking();
+                }
+            };
+
+            stopBtn.onclick = function() {
+                stopSpeaking();
+            };
+
+            speedSelect.onchange = function() {
+                if (_ttsState === 'playing') {
+                    window.speechSynthesis.cancel();
+                    speakNextChunk();
+                }
+            };
+
+            // Calculate estimated reading time
+            const fullText = getCleanTextToSpeak();
+            const wordsCount = fullText.split(/\s+/).length;
+            const readingTimeMin = Math.max(1, Math.ceil(wordsCount / 140));
+            metaInfo.innerHTML = `<span class="lang-id">Estimasi durasi narasi ~${readingTimeMin} menit</span><span class="lang-en">Estimated duration ~${readingTimeMin} min</span>`;
+
+            // Clean up on page leave
+            window.addEventListener('beforeunload', () => {
+                window.speechSynthesis.cancel();
+            });
+        }
+
+        function initRegistrationForm(eventId, eventTitle) {
+            const form = document.getElementById('event-registration-form');
+            if (!form) return;
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('reg-name').value.trim();
+                const email = document.getElementById('reg-email').value.trim();
+                
+                const successMsg = document.getElementById('reg-success-msg');
+                const errorMsg = document.getElementById('reg-error-msg');
+                const errorText = document.getElementById('reg-error-text');
+                const submitBtn = document.getElementById('reg-submit-btn');
+                const btnText = document.getElementById('reg-btn-text');
+                const spinner = document.getElementById('reg-btn-spinner');
+                
+                successMsg.classList.add('hidden');
+                errorMsg.classList.add('hidden');
+                
+                submitBtn.disabled = true;
+                spinner.classList.remove('hidden');
+                btnText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Mendaftar...' : 'Registering...';
+                
+                try {
+                    var listKey = 'mock_fb_list_registrations';
+                    var list = localStorage.getItem(listKey) ? JSON.parse(localStorage.getItem(listKey)) : [];
+                    list.push({
+                        id: 'reg_' + Date.now(),
+                        data: {
+                            eventId: String(eventId),
+                            eventTitle: eventTitle,
+                            name: name,
+                            email: email,
+                            registeredAt: new Date().toISOString()
+                        }
+                    });
+                    localStorage.setItem(listKey, JSON.stringify(list));
+                    
+                    submitBtn.disabled = false;
+                    spinner.classList.add('hidden');
+                    btnText.innerHTML = localStorage.getItem('heyyouth_lang') === 'id' ? 'Daftar Sekarang' : 'Register Now';
+                    
+                    form.reset();
+                    successMsg.classList.remove('hidden');
+                } catch (err) {
+                    console.error('Registration error:', err);
+                    submitBtn.disabled = false;
+                    spinner.classList.add('hidden');
+                    btnText.innerHTML = localStorage.getItem('heyyouth_lang') === 'id' ? 'Daftar Sekarang' : 'Register Now';
+                    
+                    errorText.textContent = localStorage.getItem('heyyouth_lang') === 'id' ? 'Gagal mendaftar. Silakan coba lagi.' : 'Registration failed. Try again.';
+                    errorMsg.classList.remove('hidden');
+                }
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initActivityDetail);
+        } else {
+            initActivityDetail();
+        }
