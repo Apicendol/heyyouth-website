@@ -32,7 +32,7 @@
           <a href="CMS/Login.html" class="text-body hover:text-primary px-3 py-2.5 rounded-lg font-medium transition-colors text-sm flex items-center gap-1.5">
             <i class="fas fa-lock text-xs"></i> Dashboard
           </a>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXvkYsaiPvhNHGPcUGUQ1tFoWGv5XxLuAQ32B_om95DRAEPg/viewform" target="_blank" class="bg-primary hover:bg-primaryDark text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+          <a href="pages/register.html" class="bg-primary hover:bg-primaryDark text-white px-6 py-2.5 rounded-full font-semibold transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 focus:ring-2 focus:ring-offset-2 focus:ring-primary">
             Join Us!
           </a>
           <button type="button" class="theme-toggle-btn ml-1 p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all focus:outline-none dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-yellow-400 w-9 h-9 flex items-center justify-center cursor-pointer" aria-label="Toggle Theme">
@@ -75,7 +75,7 @@
           <a href="CMS/Login.html" class="block w-full text-center border-2 border-gray-200 dark:border-slate-700 text-heading dark:text-slate-200 font-semibold px-4 py-3 rounded-xl hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
             <i class="fas fa-lock text-sm"></i> Dashboard
           </a>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXvkYsaiPvhNHGPcUGUQ1tFoWGv5XxLuAQ32B_om95DRAEPg/viewform" target="_blank" class="block w-full text-center bg-accent text-white px-4 py-3 rounded-xl font-bold hover:bg-yellow-600 transition-colors shadow-md">Join Us Now!</a>
+          <a href="pages/register.html" class="block w-full text-center bg-accent text-white px-4 py-3 rounded-xl font-bold hover:bg-yellow-600 transition-colors shadow-md">Join Us Now!</a>
           <div class="flex justify-center mt-4 pt-2 gap-3 items-center">
             <div class="btn-group lang-toggle-group bg-gray-200 rounded-full p-1 relative flex items-center w-[84px] h-9 dark:bg-slate-800" role="group" aria-label="Language Switch">
               <div class="absolute left-1 bg-white h-7 w-9 rounded-full shadow-sm transition-transform duration-300 lang-slider-bg dark:bg-slate-900" style="transform: translateX(0);"></div>
@@ -143,6 +143,7 @@
       .replace(/href="mentoring\.html"/g, 'href="' + basePath + 'pages/mentoring.html"')
       .replace(/href="partner\.html"/g, 'href="' + basePath + 'pages/partner.html"')
       .replace(/href="donation\.html"/g, 'href="' + basePath + 'pages/donation.html"')
+      .replace(/href="pages\/register\.html"/g, 'href="' + (isSubFolder ? 'register.html' : 'pages/register.html') + '"')
       .replace(/href="CMS\/Login\.html"/g, 'href="' + basePath + 'CMS/Login.html"')
       .replace(/src="assets\//g, 'src="' + basePath + 'assets/');
 
@@ -274,12 +275,13 @@ window.closeSpotifyPlayer = function() {
             if (btn) btn.click();
         }},
         { id: 'act-cert', type: 'link', title: 'Unduh E-Sertifikat Event', title_en: 'Claim E-Certificate', icon: 'fas fa-certificate', category: 'Aksi Cepat', url: basePath + 'pages/activities.html#download-certificate' },
-        { id: 'act-join', type: 'link', title: 'Pendaftaran Relawan Hey Youth', title_en: 'Join Hey Youth as Volunteer', icon: 'fas fa-hand-holding-heart', category: 'Aksi Cepat', url: 'https://docs.google.com/forms/d/e/1FAIpQLSfXvkYsaiPvhNHGPcUGUQ1tFoWGv5XxLuAQ32B_om95DRAEPg/viewform', external: true },
+        { id: 'act-join', type: 'link', title: 'Pendaftaran Relawan Hey Youth', title_en: 'Join Hey Youth as Volunteer', icon: 'fas fa-hand-holding-heart', category: 'Aksi Cepat', url: (isSubFolder ? 'register.html' : 'pages/register.html'), external: false },
         
         // Navigation Pages
         { id: 'nav-home', type: 'link', title: 'Beranda (Home)', title_en: 'Home Page', icon: 'fas fa-home', category: 'Halaman', url: basePath + 'index.html' },
         { id: 'nav-about', type: 'link', title: 'Tentang Kami & Tim (About Us)', title_en: 'About Us & Team', icon: 'fas fa-users', category: 'Halaman', url: basePath + 'pages/about-us.html' },
         { id: 'nav-activities', type: 'link', title: 'Kegiatan, Webinar & Podcast Terbaru', title_en: 'Latest Activities & Podcasts', icon: 'fas fa-bolt', category: 'Halaman', url: basePath + 'pages/activities.html' },
+        { id: 'nav-register', type: 'link', title: 'Formulir Pendaftaran Relawan', title_en: 'Volunteer Application Form', icon: 'fas fa-user-plus', category: 'Halaman', url: (isSubFolder ? 'register.html' : 'pages/register.html') },
         { id: 'nav-gallery', type: 'link', title: 'Galeri Semua Dokumentasi Kegiatan', title_en: 'Full Activities Gallery', icon: 'fas fa-images', category: 'Halaman', url: basePath + 'pages/gallery.html' },
         { id: 'nav-mentoring', type: 'link', title: 'Teacher Class / Mentoring', title_en: 'Teacher Class / Mentorship', icon: 'fas fa-chalkboard-teacher', category: 'Halaman', url: basePath + 'pages/mentoring.html' },
         { id: 'nav-partner', type: 'link', title: 'Kemitraan & Kolaborasi (Partners)', title_en: 'Partnership & Collaboration', icon: 'fas fa-handshake', category: 'Halaman', url: basePath + 'pages/partner.html' },

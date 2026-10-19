@@ -924,7 +924,7 @@ function _initMap() {
                         </div>
                         <div class="volunteer-popup-actions">
                             ${waLink ? `<a href="${waLink}" target="_blank" rel="noopener noreferrer" class="volunteer-btn-wa"><i class="fab fa-whatsapp"></i> Kontak</a>` : ''}
-                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXvkYsaiPvhNHGPcUGUQ1tFoWGv5XxLuAQ32B_om95DRAEPg/viewform" target="_blank" rel="noopener noreferrer" class="volunteer-btn-join"><i class="fas fa-hand-holding-heart"></i> Gabung Relawan</a>
+                            <a href="pages/register.html" class="volunteer-btn-join"><i class="fas fa-hand-holding-heart"></i> Gabung Relawan</a>
                         </div>
                     </div>
                 </div>
@@ -1008,6 +1008,10 @@ function initLanguageToggle() {
                 }
             }
         });
+
+        try {
+            window.dispatchEvent(new CustomEvent('heyyouth:languageChange', { detail: { lang: lang } }));
+        } catch (e) {}
     }
 
     setLang(currentLang);

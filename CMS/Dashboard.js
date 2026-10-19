@@ -579,6 +579,8 @@
                 document.getElementById('view-donation').classList.add('hidden');
                 var viewCertificates = document.getElementById('view-certificates');
                 if (viewCertificates) viewCertificates.classList.add('hidden');
+                var viewRegistrasi = document.getElementById('view-registrasi');
+                if (viewRegistrasi) viewRegistrasi.classList.add('hidden');
 
                 if (tab === 'homepage') {
                     document.getElementById('view-homepage').classList.remove('hidden');
@@ -614,6 +616,11 @@
                     document.getElementById('page-title').textContent = 'Sertifikat';
                     document.getElementById('page-desc').textContent = 'Desain layout e-sertifikat dan kelola log data sertifikat yang terbit';
                     if (typeof loadAndRenderCertificateDesigns === 'function') loadAndRenderCertificateDesigns();
+                } else if (tab === 'registrasi') {
+                    if (viewRegistrasi) viewRegistrasi.classList.remove('hidden');
+                    document.getElementById('page-title').textContent = 'Registrasi Relawan';
+                    document.getElementById('page-desc').textContent = 'Kelola seluruh data pendaftar relawan dari formulir website, tinjau alasan, dan perbarui status';
+                    if (typeof loadAndRenderVolunteerRegistrations === 'function') loadAndRenderVolunteerRegistrations();
                 } else if (tab === 'activity-log') {
                     var viewActivityLog = document.getElementById('view-activity-log');
                     if (viewActivityLog) viewActivityLog.classList.remove('hidden');
@@ -622,9 +629,10 @@
                     renderActivityLog();
                 }
 
-                // Sembunyikan view-activity-log kecuali tab-nya aktif
+                // Sembunyikan view-activity-log dan view-registrasi kecuali tab-nya aktif
                 var viewActivityLog = document.getElementById('view-activity-log');
                 if (viewActivityLog && tab !== 'activity-log') viewActivityLog.classList.add('hidden');
+                if (viewRegistrasi && tab !== 'registrasi') viewRegistrasi.classList.add('hidden');
 
                 renderAllLists();
                 closeSidebar();
@@ -700,6 +708,374 @@
             }
             window.deleteCertificateDesign = deleteCertificateDesign;
 
+            // ========================================================
+            // MODUL KELOLA REGISTRASI RELAWAN WEBSITE
+            // ========================================================
+            var volunteerRegistrationsCache = [];
+
+            function getStoredVolunteerRegistrations() {
+                try {
+                    return JSON.parse(localStorage.getItem('heyyouth_volunteer_registrations') || '[]');
+                } catch(e) {
+                    return [];
+                }
+            }
+
+            function saveStoredVolunteerRegistrations(list) {
+                try {
+                    localStorage.setItem('heyyouth_volunteer_registrations', JSON.stringify(list));
+                } catch(e) {}
+            }
+
+            async function loadAndRenderVolunteerRegistrations() {
+                var tbody = document.getElementById('list-volunteer-registrations');
+                var countBadge = document.getElementById('badge-registrations-count');
+                var totalEl = document.getElementById('stat-reg-total');
+                var pendingEl = document.getElementById('stat-reg-pending');
+                var acceptedEl = document.getElementById('stat-reg-accepted');
+                var sidebarCount = document.getElementById('count-registrations');
+
+                if (!tbody) return;
+
+                var localList = getStoredVolunteerRegistrations();
+                var mergedList = [].concat(localList);
+
+                // Coba sinkronisasi data dari Supabase tabel volunteers
+                if (window.supabaseClient) {
+                    try {
+                        var sbRes = await window.supabaseClient
+                            .from('volunteers')
+                            .select('*')
+                            .order('created_at', { ascending: false });
+
+                        if (sbRes && !sbRes.error && Array.isArray(sbRes.data)) {
+                            sbRes.data.forEach(function(sbItem) {
+                                var exists = mergedList.some(function(item) {
+                                    return item.email === sbItem.email || item.id === sbItem.id;
+                                });
+                                if (!exists) {
+                                    mergedList.push({
+                                        id: sbItem.id || ('HY-REL-' + (sbItem.created_at ? new Date(sbItem.created_at).getFullYear() : '2026') + '-' + Math.floor(1000 + Math.random() * 9000)),
+                                        name: sbItem.full_name || sbItem.name || '-',
+                                        email: sbItem.email || '-',
+                                        whatsapp: sbItem.whatsapp_number || sbItem.whatsapp || '-',
+                                        institution: sbItem.city || sbItem.institution || '-',
+                                        division_1: sbItem.chapter_choice || sbItem.division_1 || '-',
+                                        division_2: sbItem.division_choice || sbItem.division_2 || '-',
+                                        reason_1: sbItem.reason || '-',
+                                        reason_2: '',
+                                        status: sbItem.status || 'pending',
+                                        submittedAt: sbItem.created_at || new Date().toISOString()
+                                    });
+                                }
+                            });
+                        }
+                    } catch(e) {
+                        console.info("[Hey Youth CMS] Info Supabase volunteers:", e);
+                    }
+                }
+
+                volunteerRegistrationsCache = mergedList;
+
+                // Update Counters
+                var total = mergedList.length;
+                var pendingCount = mergedList.filter(function(r) { return !r.status || r.status === 'pending'; }).length;
+                var acceptedCount = mergedList.filter(function(r) { return r.status === 'accepted'; }).length;
+
+                if (totalEl) totalEl.textContent = total;
+                if (pendingEl) pendingEl.textContent = pendingCount;
+                if (acceptedEl) acceptedEl.textContent = acceptedCount;
+                if (countBadge) countBadge.textContent = total + ' pelamar';
+                if (sidebarCount) sidebarCount.textContent = total;
+
+                renderFilteredVolunteerRegistrations();
+            }
+            window.loadAndRenderVolunteerRegistrations = loadAndRenderVolunteerRegistrations;
+
+            function updateVolunteerRegistrationBadge() {
+                var localList = getStoredVolunteerRegistrations();
+                var sidebarCount = document.getElementById('count-registrations');
+                if (sidebarCount) sidebarCount.textContent = localList.length;
+            }
+            window.updateVolunteerRegistrationBadge = updateVolunteerRegistrationBadge;
+
+            function renderFilteredVolunteerRegistrations() {
+                var tbody = document.getElementById('list-volunteer-registrations');
+                if (!tbody) return;
+
+                var searchInput = document.getElementById('search-volunteer-registrations');
+                var divisionSelect = document.getElementById('filter-reg-division');
+                var statusSelect = document.getElementById('filter-reg-status');
+
+                var query = searchInput ? (searchInput.value || '').toLowerCase().trim() : '';
+                var divisionFilter = divisionSelect ? divisionSelect.value : 'all';
+                var statusFilter = statusSelect ? statusSelect.value : 'all';
+
+                var filtered = volunteerRegistrationsCache.filter(function(item) {
+                    var text = (
+                        (item.name || '') + ' ' + 
+                        (item.email || '') + ' ' + 
+                        (item.whatsapp || '') + ' ' + 
+                        (item.institution || '') + ' ' +
+                        (item.id || '')
+                    ).toLowerCase();
+
+                    var matchesQuery = !query || text.indexOf(query) !== -1;
+                    var matchesDivision = divisionFilter === 'all' || 
+                        (item.division_1 === divisionFilter) || 
+                        (item.division_2 === divisionFilter);
+                    var itemStatus = item.status || 'pending';
+                    var matchesStatus = statusFilter === 'all' || itemStatus === statusFilter;
+
+                    return matchesQuery && matchesDivision && matchesStatus;
+                });
+
+                if (filtered.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="text-center py-10 text-gray-400">' +
+                        '<i class="fas fa-inbox text-3xl mb-2 block opacity-30"></i>' +
+                        'Tidak ada data pendaftar yang sesuai kriteria.' +
+                        '</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = filtered.map(function(item, idx) {
+                    var status = item.status || 'pending';
+                    var statusBadgeClass = '';
+                    if (status === 'accepted') {
+                        statusBadgeClass = 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300';
+                    } else if (status === 'rejected') {
+                        statusBadgeClass = 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300';
+                    } else {
+                        statusBadgeClass = 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300';
+                    }
+
+                    var cleanPhone = (item.whatsapp || '').replace(/[^0-9]/g, '');
+                    if (cleanPhone.indexOf('08') === 0) {
+                        cleanPhone = '628' + cleanPhone.substring(2);
+                    }
+
+                    var dateStr = '-';
+                    if (item.submittedAt) {
+                        try {
+                            dateStr = new Date(item.submittedAt).toLocaleDateString('id-ID', {
+                                day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                            });
+                        } catch(e) {}
+                    }
+
+                    var waLink = cleanPhone ? 'https://wa.me/' + cleanPhone + '?text=' + encodeURIComponent('Halo ' + item.name + ', salam dari Tim Rekrutmen Hey Youth! Kami ingin mengonfirmasi pendaftaran relawan Anda dengan nomor ' + (item.id || '')) : '';
+
+                    return '<tr class="hover:bg-gray-50 dark:hover:bg-slate-800/60 transition-colors">' +
+                        '<td class="px-4 py-3">' +
+                            '<span class="font-mono font-bold text-xs text-primary dark:text-blue-400 block">' + escapeHtml(item.id || ('HY-REL-' + (idx + 1))) + '</span>' +
+                            '<span class="text-[11px] text-gray-400 block">' + dateStr + '</span>' +
+                        '</td>' +
+                        '<td class="px-4 py-3">' +
+                            '<span class="font-bold text-xs text-heading block">' + escapeHtml(item.name) + '</span>' +
+                            '<span class="text-[11px] text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-0.5"><i class="fas fa-graduation-cap text-[10px]"></i> ' + escapeHtml(item.institution || '-') + '</span>' +
+                        '</td>' +
+                        '<td class="px-4 py-3">' +
+                            '<span class="text-xs text-gray-600 dark:text-gray-300 block mb-1">' + escapeHtml(item.email) + '</span>' +
+                            (waLink ? '<a href="' + waLink + '" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 hover:bg-green-200 text-green-700 dark:bg-green-900/40 dark:text-green-300 text-[11px] font-semibold transition-colors"><i class="fab fa-whatsapp"></i> ' + escapeHtml(item.whatsapp) + '</a>' : '<span class="text-xs text-gray-400">' + escapeHtml(item.whatsapp) + '</span>') +
+                        '</td>' +
+                        '<td class="px-4 py-3 text-xs">' +
+                            '<span class="inline-block px-2 py-0.5 rounded bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 font-semibold mb-1 border border-blue-100 dark:border-blue-900/50">1: ' + escapeHtml(item.division_1 || '-') + '</span><br>' +
+                            '<span class="text-gray-500 dark:text-gray-400 text-[11px]">2: ' + escapeHtml(item.division_2 || '-') + '</span>' +
+                        '</td>' +
+                        '<td class="px-4 py-3">' +
+                            '<button onclick="openVolunteerDetailModal(\'' + escapeAttr(item.id) + '\')" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-semibold text-heading transition-colors cursor-pointer">' +
+                                '<i class="fas fa-eye text-primary text-[10px]"></i> Lihat Alasan' +
+                            '</button>' +
+                        '</td>' +
+                        '<td class="px-4 py-3">' +
+                            '<select onchange="updateVolunteerStatus(\'' + escapeAttr(item.id) + '\', this.value)" class="text-xs font-bold rounded-lg px-2.5 py-1 border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 cursor-pointer focus:ring-1 focus:ring-primary outline-none ' + statusBadgeClass + '">' +
+                                '<option value="pending"' + (status === 'pending' ? ' selected' : '') + '>⏳ Pending</option>' +
+                                '<option value="accepted"' + (status === 'accepted' ? ' selected' : '') + '>✅ Diterima</option>' +
+                                '<option value="rejected"' + (status === 'rejected' ? ' selected' : '') + '>❌ Ditolak</option>' +
+                            '</select>' +
+                        '</td>' +
+                        '<td class="px-4 py-3 text-right">' +
+                            '<button onclick="deleteVolunteerRegistration(\'' + escapeAttr(item.id) + '\')" class="text-red-500 hover:text-red-700 p-1.5 rounded hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer" title="Hapus Data">' +
+                                '<i class="fas fa-trash-alt text-xs"></i>' +
+                            '</button>' +
+                        '</td>' +
+                    '</tr>';
+                }).join('');
+            }
+            window.renderFilteredVolunteerRegistrations = renderFilteredVolunteerRegistrations;
+
+            async function updateVolunteerStatus(id, newStatus) {
+                var localList = getStoredVolunteerRegistrations();
+                var item = localList.find(function(x) { return x.id === id; });
+                if (item) {
+                    item.status = newStatus;
+                    saveStoredVolunteerRegistrations(localList);
+                }
+
+                if (window.supabaseClient) {
+                    try {
+                        await window.supabaseClient.from('volunteers').update({ status: newStatus }).eq('id', id);
+                    } catch(e) {}
+                }
+
+                try {
+                    addActivityLog('EDIT', 'Status Relawan', 'Memperbarui status pendaftar ' + id + ' menjadi "' + newStatus + '"');
+                } catch(e) {}
+
+                showToast('Status pendaftar berhasil diperbarui.', 'success');
+                loadAndRenderVolunteerRegistrations();
+            }
+            window.updateVolunteerStatus = updateVolunteerStatus;
+
+            async function deleteVolunteerRegistration(id) {
+                if (!confirm('Apakah Anda yakin ingin menghapus data pendaftar ini?')) return;
+
+                var localList = getStoredVolunteerRegistrations();
+                var filtered = localList.filter(function(x) { return x.id !== id; });
+                saveStoredVolunteerRegistrations(filtered);
+
+                if (window.supabaseClient) {
+                    try {
+                        await window.supabaseClient.from('volunteers').delete().eq('id', id);
+                    } catch(e) {}
+                }
+
+                try {
+                    addActivityLog('HAPUS', 'Data Relawan', 'Menghapus pendaftaran relawan ID: ' + id);
+                } catch(e) {}
+
+                showToast('Data pendaftar berhasil dihapus.', 'success');
+                loadAndRenderVolunteerRegistrations();
+            }
+            window.deleteVolunteerRegistration = deleteVolunteerRegistration;
+
+            function clearAllVolunteerRegistrations() {
+                if (!confirm('PERINGATAN: Apakah Anda yakin ingin membersihkan SEMUA data pendaftar relawan? Tindakan ini tidak dapat dibatalkan.')) return;
+
+                saveStoredVolunteerRegistrations([]);
+
+                try {
+                    addActivityLog('HAPUS', 'Data Relawan', 'Membersihkan semua data pendaftar relawan');
+                } catch(e) {}
+
+                showToast('Semua data pendaftar relawan dibersihkan.', 'success');
+                loadAndRenderVolunteerRegistrations();
+            }
+            window.clearAllVolunteerRegistrations = clearAllVolunteerRegistrations;
+
+            function openVolunteerDetailModal(id) {
+                var modal = document.getElementById('modal-volunteer-detail');
+                var body = document.getElementById('modal-volunteer-detail-body');
+                if (!modal || !body) return;
+
+                var item = volunteerRegistrationsCache.find(function(x) { return x.id === id; });
+                if (!item) return;
+
+                var cleanPhone = (item.whatsapp || '').replace(/[^0-9]/g, '');
+                if (cleanPhone.indexOf('08') === 0) cleanPhone = '628' + cleanPhone.substring(2);
+                var waLink = cleanPhone ? 'https://wa.me/' + cleanPhone : '';
+
+                body.innerHTML = 
+                    '<div class="bg-blue-50 dark:bg-slate-800/80 p-4 rounded-xl border border-blue-100 dark:border-slate-700/60 flex items-center justify-between flex-wrap gap-2">' +
+                        '<div>' +
+                            '<span class="text-xs text-gray-500 dark:text-gray-400">Nomor Registrasi:</span>' +
+                            '<span class="font-mono font-bold text-sm text-primary dark:text-blue-400 block">' + escapeHtml(item.id) + '</span>' +
+                        '</div>' +
+                        '<div class="text-right">' +
+                            '<span class="text-xs text-gray-500 dark:text-gray-400">Status Saat Ini:</span>' +
+                            '<span class="inline-block px-2.5 py-0.5 rounded-full font-bold text-xs uppercase bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 block">' + escapeHtml(item.status || 'pending') + '</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">' +
+                        '<div class="p-3 bg-gray-50 dark:bg-slate-800/50 rounded-xl">' +
+                            '<span class="text-xs text-gray-400 block mb-0.5">Nama Lengkap</span>' +
+                            '<span class="font-bold text-heading">' + escapeHtml(item.name) + '</span>' +
+                        '</div>' +
+                        '<div class="p-3 bg-gray-50 dark:bg-slate-800/50 rounded-xl">' +
+                            '<span class="text-xs text-gray-400 block mb-0.5">Universitas / Institusi</span>' +
+                            '<span class="font-bold text-heading">' + escapeHtml(item.institution || '-') + '</span>' +
+                        '</div>' +
+                        '<div class="p-3 bg-gray-50 dark:bg-slate-800/50 rounded-xl">' +
+                            '<span class="text-xs text-gray-400 block mb-0.5">Alamat Email</span>' +
+                            '<a href="mailto:' + escapeAttr(item.email) + '" class="font-semibold text-primary hover:underline">' + escapeHtml(item.email) + '</a>' +
+                        '</div>' +
+                        '<div class="p-3 bg-gray-50 dark:bg-slate-800/50 rounded-xl">' +
+                            '<span class="text-xs text-gray-400 block mb-0.5">WhatsApp</span>' +
+                            (waLink ? '<a href="' + waLink + '" target="_blank" class="font-bold text-green-600 hover:underline flex items-center gap-1"><i class="fab fa-whatsapp"></i> ' + escapeHtml(item.whatsapp) + '</a>' : '<span class="font-bold text-heading">' + escapeHtml(item.whatsapp) + '</span>') +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="space-y-3 pt-2">' +
+                        '<div class="p-4 bg-gray-50 dark:bg-slate-800/50 rounded-xl border border-gray-200 dark:border-slate-700">' +
+                            '<div class="flex items-center gap-2 mb-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 uppercase">' +
+                                '<i class="fas fa-star"></i> Pilihan Pertama: ' + escapeHtml(item.division_1 || '-') +
+                            '</div>' +
+                            '<p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">' + escapeHtml(item.reason_1 || '-') + '</p>' +
+                        '</div>' +
+                        '<div class="p-4 bg-gray-50 dark:bg-slate-800/50 rounded-xl border border-gray-200 dark:border-slate-700">' +
+                            '<div class="flex items-center gap-2 mb-1.5 text-xs font-bold text-amber-600 dark:text-amber-400 uppercase">' +
+                                '<i class="fas fa-star-half-alt"></i> Pilihan Kedua: ' + escapeHtml(item.division_2 || '-') +
+                            '</div>' +
+                            '<p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">' + escapeHtml(item.reason_2 || '-') + '</p>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="pt-3 flex gap-2">' +
+                        (waLink ? '<a href="' + waLink + '?text=' + encodeURIComponent('Halo ' + item.name + ', salam dari Tim Rekrutmen Hey Youth!') + '" target="_blank" class="flex-1 py-2.5 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors"><i class="fab fa-whatsapp"></i> Hubungi di WhatsApp</a>' : '') +
+                        '<button onclick="closeVolunteerDetailModal()" class="px-5 py-2.5 rounded-xl bg-gray-200 hover:bg-gray-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-heading font-semibold text-xs transition-colors cursor-pointer">Tutup</button>' +
+                    '</div>';
+
+                modal.classList.remove('hidden');
+            }
+            window.openVolunteerDetailModal = openVolunteerDetailModal;
+
+            function closeVolunteerDetailModal() {
+                var modal = document.getElementById('modal-volunteer-detail');
+                if (modal) modal.classList.add('hidden');
+            }
+            window.closeVolunteerDetailModal = closeVolunteerDetailModal;
+
+            function exportVolunteerRegistrationsCSV() {
+                if (volunteerRegistrationsCache.length === 0) {
+                    showToast('Tidak ada data pendaftar untuk diekspor.', 'error');
+                    return;
+                }
+
+                var headers = ['No Registrasi', 'Tanggal Masuk', 'Nama Lengkap', 'Email', 'WhatsApp', 'Universitas / Institusi', 'Pilihan Divisi 1', 'Alasan Divisi 1', 'Pilihan Divisi 2', 'Alasan Divisi 2', 'Status'];
+                var csvRows = [headers.join(',')];
+
+                volunteerRegistrationsCache.forEach(function(item) {
+                    var row = [
+                        item.id || '',
+                        item.submittedAt || '',
+                        item.name || '',
+                        item.email || '',
+                        item.whatsapp || '',
+                        item.institution || '',
+                        item.division_1 || '',
+                        (item.reason_1 || '').replace(/(\r\n|\n|\r)/gm, ' '),
+                        item.division_2 || '',
+                        (item.reason_2 || '').replace(/(\r\n|\n|\r)/gm, ' '),
+                        item.status || 'pending'
+                    ].map(function(val) {
+                        return '"' + String(val).replace(/"/g, '""') + '"';
+                    });
+                    csvRows.push(row.join(','));
+                });
+
+                var csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csvRows.join('\n'));
+                var link = document.createElement('a');
+                var timestamp = new Date().toISOString().slice(0, 10);
+                link.setAttribute('href', csvContent);
+                link.setAttribute('download', 'Pendaftaran_Relawan_HeyYouth_' + timestamp + '.csv');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                try {
+                    addActivityLog('TAMBAH', 'Ekspor Data', 'Mengekspor ' + volunteerRegistrationsCache.length + ' data relawan ke file CSV');
+                } catch(e) {}
+            }
+            window.exportVolunteerRegistrationsCSV = exportVolunteerRegistrationsCSV;
+
             function renderAllLists() {
                 try {
                     var data = getData();
@@ -718,6 +1094,7 @@
                     try { renderEventsSettingsPreview(data.eventsSettings || DEFAULT_DATA.eventsSettings); } catch(e){}
                     try { updateCounts(data); } catch(e){}
                     try { renderRegistrationsList(); } catch(e){}
+                    try { updateVolunteerRegistrationBadge(); } catch(e){}
                     try { if (typeof loadAndRenderCertificates === 'function') loadAndRenderCertificates(); } catch(e){}
                     try { loadAndRenderCertificateDesigns(); } catch(e){}
                 } catch(globalErr) {
@@ -5088,5 +5465,12 @@
                 initTableControls('search-list-certificate-designs', 'list-certificate-designs', 'filter-list-certificate-designs', undefined);
                 initTableControls('search-list-certificates', 'list-certificates', 'filter-list-certificates', 3);
                 initTableControls('search-list-activity-log', 'list-activity-log', 'filter-list-activity-log', 2);
+
+                var searchReg = document.getElementById('search-volunteer-registrations');
+                var filterDiv = document.getElementById('filter-reg-division');
+                var filterStat = document.getElementById('filter-reg-status');
+                if (searchReg) searchReg.addEventListener('input', renderFilteredVolunteerRegistrations);
+                if (filterDiv) filterDiv.addEventListener('change', renderFilteredVolunteerRegistrations);
+                if (filterStat) filterStat.addEventListener('change', renderFilteredVolunteerRegistrations);
             });
             // === END INIT TABLE CONTROLS ===

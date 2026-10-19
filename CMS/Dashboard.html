@@ -338,6 +338,12 @@
                 <i class="fas fa-certificate w-5 text-center text-xs text-amber-500"></i>
                 <span>Sertifikat</span>
             </button>
+            <button onclick="switchTab('registrasi')" data-tab="registrasi"
+                class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
+                <i class="fas fa-id-card w-5 text-center text-xs text-blue-400"></i>
+                <span>Registrasi</span>
+                <span id="count-registrations" class="ml-auto bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
+            </button>
             <button onclick="switchTab('activity-log')" data-tab="activity-log"
                 class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
                 <i class="fas fa-history w-5 text-center text-xs text-emerald-400"></i>
@@ -1079,6 +1085,122 @@
                 </div>
             </div>
 
+            <!-- ===== VIEW: REGISTRASI RELAWAN ===== -->
+            <div id="view-registrasi" class="hidden space-y-6">
+                <div>
+                    <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-blue-100 dark:bg-blue-950/50 rounded-lg flex items-center justify-center text-blue-600 dark:text-blue-400 text-sm">
+                                <i class="fas fa-id-card"></i>
+                            </div>
+                            <h2 class="text-lg font-bold text-heading">Pendaftaran Relawan Website</h2>
+                            <span id="badge-registrations-count" class="text-xs bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full font-medium">0 pelamar</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="exportVolunteerRegistrationsCSV()" class="bg-green-600 hover:bg-green-700 text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5 cursor-pointer">
+                                <i class="fas fa-file-excel"></i> Ekspor CSV
+                            </button>
+                            <button onclick="clearAllVolunteerRegistrations()" class="bg-red-50 hover:bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/50 px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5 cursor-pointer">
+                                <i class="fas fa-trash-alt"></i> Bersihkan Semua
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Statistik Cepat -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm flex items-center gap-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-primary dark:text-blue-400 flex items-center justify-center text-lg">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Total Pendaftar</p>
+                                <p id="stat-reg-total" class="text-xl font-bold text-heading">0</p>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm flex items-center gap-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Pending Review</p>
+                                <p id="stat-reg-pending" class="text-xl font-bold text-amber-600 dark:text-amber-400">0</p>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm flex items-center gap-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Diterima</p>
+                                <p id="stat-reg-accepted" class="text-xl font-bold text-emerald-600 dark:text-emerald-400">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Tabel Pendaftar -->
+                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                        
+                        <!-- Search & Filter Bar -->
+                        <div class="px-4 py-3 border-b border-gray-200 dark:border-slate-800 bg-gray-50/50 dark:bg-slate-800/50 flex flex-col sm:flex-row items-center gap-3 flex-wrap">
+                            <div class="relative w-full sm:w-72">
+                                <i class="fas fa-search absolute left-3.5 top-1/2 transform -translate-y-1/2 text-gray-400 text-[11px] pointer-events-none"></i>
+                                <input type="text" id="search-volunteer-registrations" placeholder="Cari nama, email, kampus, WA..." 
+                                    class="w-full pl-9 pr-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg text-xs text-gray-700 dark:text-slate-200 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all shadow-sm">
+                            </div>
+                            <div class="flex items-center gap-2 w-full sm:w-auto">
+                                <i class="fas fa-filter text-gray-400 text-[11px]"></i>
+                                <select id="filter-reg-division" class="w-full sm:w-auto px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg text-xs bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-300 focus:outline-none focus:border-primary transition-colors cursor-pointer shadow-sm">
+                                    <option value="all">Semua Pilihan Divisi</option>
+                                    <option value="Community Coordinator">Community Coordinator</option>
+                                    <option value="Content Writer">Content Writer</option>
+                                    <option value="EO">EO (Event Organizer)</option>
+                                    <option value="Graphic Designer">Graphic Designer</option>
+                                    <option value="HR">HR (Human Resources)</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Social Media Specialist">Social Media Specialist</option>
+                                    <option value="Teacher">Teacher</option>
+                                    <option value="Video Editor">Video Editor</option>
+                                    <option value="Web Developer">Web Developer</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center gap-2 w-full sm:w-auto">
+                                <select id="filter-reg-status" class="w-full sm:w-auto px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg text-xs bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-300 focus:outline-none focus:border-primary transition-colors cursor-pointer shadow-sm">
+                                    <option value="all">Semua Status</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="accepted">Diterima</option>
+                                    <option value="rejected">Ditolak</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-gray-100 dark:bg-slate-800 border-b border-gray-200 dark:border-slate-800 text-heading">
+                                    <tr>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">No / ID</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Nama & Institusi</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Kontak</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Pilihan Divisi</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Alasan</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase">Status</th>
+                                        <th class="px-4 py-3 text-xs font-bold uppercase text-right">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-volunteer-registrations" class="divide-y divide-gray-100 dark:divide-slate-800">
+                                    <tr>
+                                        <td colspan="7" class="text-center py-10 text-gray-400">
+                                            <i class="fas fa-user-plus text-3xl mb-2 block opacity-30"></i>
+                                            Belum ada data pendaftar relawan.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- ===== VIEW: LOG AKTIVITAS ===== -->
             <div id="view-activity-log" class="hidden space-y-6">
                 <div>
@@ -1165,6 +1287,25 @@
                 </button>
             </div>
             <div id="modal-body" class="px-6 py-5"></div>
+        </div>
+    </div>
+
+    <!-- ===== MODAL DETAIL PENDAFTAR RELAWAN ===== -->
+    <div id="modal-volunteer-detail" class="fixed inset-0 z-[105] hidden flex items-center justify-center p-4">
+        <div class="modal-overlay absolute inset-0" onclick="closeVolunteerDetailModal()"></div>
+        <div class="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto z-10 border border-gray-100 dark:border-slate-800">
+            <div class="sticky top-0 bg-white dark:bg-slate-900 px-6 py-4 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between rounded-t-2xl z-10">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/40 text-primary dark:text-blue-400 flex items-center justify-center text-sm font-bold">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="font-bold text-heading text-base">Detail Calon Relawan</h3>
+                </div>
+                <button onclick="closeVolunteerDetailModal()" class="text-gray-400 hover:text-heading transition-colors p-1 cursor-pointer">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="modal-volunteer-detail-body" class="px-6 py-5 space-y-4 text-xs sm:text-sm"></div>
         </div>
     </div>
 
