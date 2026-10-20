@@ -2084,13 +2084,13 @@
                     var coord = item.coordinator_name || '-';
                     var focusProg = item.focus_program ? item.focus_program.substring(0, 35) + (item.focus_program.length > 35 ? '...' : '') : '-';
                     return '<tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">' +
-                        '<td class="px-4 py-3 text-gray-400">' + (idx + 1) + '</td>' +
-                        '<td class="px-4 py-3 font-medium text-heading">' + escapeHtml(item.name) + '</td>' +
-                        '<td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-primary">' + escapeHtml(regText) + '</span></td>' +
+                        '<td class="px-4 py-3 text-gray-400 whitespace-nowrap">' + (idx + 1) + '</td>' +
+                        '<td class="px-4 py-3 font-medium text-heading whitespace-nowrap">' + escapeHtml(item.name) + '</td>' +
+                        '<td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-primary whitespace-nowrap">' + escapeHtml(regText) + '</span></td>' +
                         '<td class="px-4 py-3 text-gray-500 text-xs max-w-[160px] truncate" title="' + escapeHtml(item.focus_program || '') + '">' + escapeHtml(focusProg) + '</td>' +
-                        '<td class="px-4 py-3 text-gray-600 text-xs">' + escapeHtml(coord) + '</td>' +
-                        '<td class="px-4 py-3"><span class="bg-accent/10 text-accent text-xs font-bold px-2 py-1 rounded-full">' + (item.volunteers || 0) + ' Relawan</span></td>' +
-                        '<td class="px-4 py-3 text-right">' +
+                        '<td class="px-4 py-3 text-gray-600 text-xs whitespace-nowrap">' + escapeHtml(coord) + '</td>' +
+                        '<td class="px-4 py-3 whitespace-nowrap"><span class="bg-accent/10 text-accent text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap inline-flex items-center gap-1 leading-none">' + (item.volunteers || 0) + ' Relawan</span></td>' +
+                        '<td class="px-4 py-3 text-right whitespace-nowrap">' +
                         '<button onclick="openEditModal(\'locations\',' + item.id + ')" class="p-1.5 text-primary hover:bg-blue-50 rounded-lg transition-colors mr-1" title="Edit"><i class="fas fa-pen text-xs"></i></button>' +
                         '<button onclick="confirmDelete(\'locations\',' + item.id + ')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus"><i class="fas fa-trash text-xs"></i></button>' +
                         '</td>' +
