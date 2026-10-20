@@ -158,7 +158,7 @@
         if (btnCloseModal && successModal) {
             btnCloseModal.addEventListener('click', function () {
                 successModal.classList.add('hidden');
-                window.location.href = '../index.html';
+                window.location.href = '../';
             });
         }
 

@@ -2,6 +2,16 @@
    HEY YOUTH! — Global Script
    ============================================= */
 
+/* Clean URL helper: Automatically strip /index.html from the browser address bar */
+(function () {
+    if (typeof window !== 'undefined' && window.location && window.location.pathname) {
+        if (window.location.pathname.endsWith('/index.html')) {
+            var cleanPath = window.location.pathname.replace(/\/index\.html$/, '/') + window.location.search + window.location.hash;
+            window.history.replaceState(null, '', cleanPath);
+        }
+    }
+})();
+
 var _cmsLocations = null;
 
 /* =============================================

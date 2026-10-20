@@ -135,9 +135,10 @@
     var pathname = window.location.pathname.toLowerCase();
     var isSubFolder = pathname.includes('/pages/') || pathname.includes('/cms/');
     var basePath = isSubFolder ? '../' : '';
+    var homeUrl = isSubFolder ? '../' : './';
 
     var processedNavbar = navbarTemplate
-      .replace(/href="index\.html"/g, 'href="' + basePath + 'index.html"')
+      .replace(/href="index\.html"/g, 'href="' + homeUrl + '"')
       .replace(/href="about us\.html"/g, 'href="' + basePath + 'pages/about-us.html"')
       .replace(/href="activities\.html"/g, 'href="' + basePath + 'pages/activities.html"')
       .replace(/href="mentoring\.html"/g, 'href="' + basePath + 'pages/mentoring.html"')
@@ -148,7 +149,7 @@
       .replace(/src="assets\//g, 'src="' + basePath + 'assets/');
 
     var processedFooter = footerTemplate
-      .replace(/href="index\.html"/g, 'href="' + basePath + 'index.html"')
+      .replace(/href="index\.html"/g, 'href="' + homeUrl + '"')
       .replace(/src="assets\//g, 'src="' + basePath + 'assets/');
 
     if (navbarContainer) {
@@ -278,7 +279,7 @@ window.closeSpotifyPlayer = function() {
         { id: 'act-join', type: 'link', title: 'Pendaftaran Relawan Hey Youth', title_en: 'Join Hey Youth as Volunteer', icon: 'fas fa-hand-holding-heart', category: 'Aksi Cepat', url: (isSubFolder ? 'register.html' : 'pages/register.html'), external: false },
         
         // Navigation Pages
-        { id: 'nav-home', type: 'link', title: 'Beranda (Home)', title_en: 'Home Page', icon: 'fas fa-home', category: 'Halaman', url: basePath + 'index.html' },
+        { id: 'nav-home', type: 'link', title: 'Beranda (Home)', title_en: 'Home Page', icon: 'fas fa-home', category: 'Halaman', url: isSubFolder ? '../' : './' },
         { id: 'nav-about', type: 'link', title: 'Tentang Kami & Tim (About Us)', title_en: 'About Us & Team', icon: 'fas fa-users', category: 'Halaman', url: basePath + 'pages/about-us.html' },
         { id: 'nav-activities', type: 'link', title: 'Kegiatan, Webinar & Podcast Terbaru', title_en: 'Latest Activities & Podcasts', icon: 'fas fa-bolt', category: 'Halaman', url: basePath + 'pages/activities.html' },
         { id: 'nav-register', type: 'link', title: 'Formulir Pendaftaran Relawan', title_en: 'Volunteer Application Form', icon: 'fas fa-user-plus', category: 'Halaman', url: (isSubFolder ? 'register.html' : 'pages/register.html') },
