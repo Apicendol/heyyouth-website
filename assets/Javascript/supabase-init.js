@@ -140,6 +140,23 @@ function sanitizeCmsData(data) {
                 e.description = e.description_id || e.description_en || '';
             });
         }
+        if (Array.isArray(d.fieldStories)) {
+            d.fieldStories.forEach(function(s) {
+                s.title_id = cleanLangText(s.title_id || s.title, 'id');
+                s.title_en = cleanLangText(s.title_en || s.title, 'en');
+                s.title = s.title_id || s.title_en || '';
+                s.excerpt_id = cleanLangText(s.excerpt_id || s.excerpt, 'id');
+                s.excerpt_en = cleanLangText(s.excerpt_en || s.excerpt, 'en');
+                s.excerpt = s.excerpt_id || s.excerpt_en || '';
+                s.quote_id = cleanLangText(s.quote_id || s.quote, 'id');
+                s.quote_en = cleanLangText(s.quote_en || s.quote, 'en');
+                s.quote = s.quote_id || s.quote_en || '';
+                s.category_label_id = cleanLangText(s.category_label_id, 'id');
+                s.category_label_en = cleanLangText(s.category_label_en, 'en');
+                s.author_role_id = cleanLangText(s.author_role_id, 'id');
+                s.author_role_en = cleanLangText(s.author_role_en, 'en');
+            });
+        }
         return d;
     } catch(e) {
         return data;
@@ -170,7 +187,8 @@ window.getFirebaseData = async function(defaultData) {
             resPodcasts,
             resDonation,
             resAbout,
-            resEvents
+            resEvents,
+            resFieldStories
         ] = await Promise.all([
             supabaseClient.from('testimonials').select('*'),
             supabaseClient.from('faqs').select('*'),
@@ -181,7 +199,8 @@ window.getFirebaseData = async function(defaultData) {
             supabaseClient.from('podcasts').select('*'),
             supabaseClient.from('donation_settings').select('*').eq('id', 1).single(),
             supabaseClient.from('about_settings').select('*').eq('id', 1).single(),
-            supabaseClient.from('events').select('*')
+            supabaseClient.from('events').select('*'),
+            supabaseClient.from('field_stories').select('*').order('id', { ascending: true }).catch ? supabaseClient.from('field_stories').select('*').order('id', { ascending: true }) : Promise.resolve({ data: null, error: null })
         ]);
 
         if (resTestimonials.error) throw resTestimonials.error;
@@ -327,7 +346,34 @@ window.getFirebaseData = async function(defaultData) {
                 speakerRole: e.speaker_role,
                 image: e.image,
                 link: e.link
-            }))
+            })),
+            fieldStories: (resFieldStories && resFieldStories.data && resFieldStories.data.length > 0)
+                ? resFieldStories.data.map(s => ({
+                    id: s.id,
+                    category: s.category || 'kolong',
+                    category_label_id: cleanLangText(s.category_label_id) || 'Sekolah Kolong',
+                    category_label_en: cleanLangText(s.category_label_en) || 'Street Schools',
+                    read_time_id: cleanLangText(s.read_time_id) || '3 min baca',
+                    read_time_en: cleanLangText(s.read_time_en) || '3 min read',
+                    date_id: cleanLangText(s.date_id) || '',
+                    date_en: cleanLangText(s.date_en) || '',
+                    author_name: s.author_name || '',
+                    author_role_id: cleanLangText(s.author_role_id) || '',
+                    author_role_en: cleanLangText(s.author_role_en) || '',
+                    author_avatar: s.author_avatar || '',
+                    image: s.image || '',
+                    title_id: cleanLangText(s.title_id) || '',
+                    title_en: cleanLangText(s.title_en) || '',
+                    excerpt_id: cleanLangText(s.excerpt_id) || '',
+                    excerpt_en: cleanLangText(s.excerpt_en) || '',
+                    quote_id: cleanLangText(s.quote_id) || '',
+                    quote_en: cleanLangText(s.quote_en) || '',
+                    content_id: s.content_id || '',
+                    content_en: s.content_en || '',
+                    paragraphs_id: s.content_id ? s.content_id.split(/\n\s*\n/).filter(Boolean) : [],
+                    paragraphs_en: s.content_en ? s.content_en.split(/\n\s*\n/).filter(Boolean) : []
+                }))
+                : (fallback.fieldStories || (defaultData && defaultData.fieldStories) || [])
         };
 
         try {
@@ -483,6 +529,47 @@ window.saveFirebaseData = async function(data) {
             supabaseClient.from('donation_settings').upsert(donationObj),
             supabaseClient.from('about_settings').upsert(aboutObj)
         ]);
+
+        if (data.fieldStories && Array.isArray(data.fieldStories)) {
+            try {
+                const storyList = data.fieldStories.map(function(s) {
+                    var item = {
+                        category: s.category || 'kolong',
+                        category_label_id: cleanLangText(s.category_label_id, 'id') || 'Sekolah Kolong',
+                        category_label_en: cleanLangText(s.category_label_en, 'en') || 'Street Schools',
+                        read_time_id: cleanLangText(s.read_time_id, 'id') || '3 min baca',
+                        read_time_en: cleanLangText(s.read_time_en, 'en') || '3 min read',
+                        date_id: cleanLangText(s.date_id, 'id') || '',
+                        date_en: cleanLangText(s.date_en, 'en') || '',
+                        author_name: s.author_name || '',
+                        author_role_id: cleanLangText(s.author_role_id, 'id') || '',
+                        author_role_en: cleanLangText(s.author_role_en, 'en') || '',
+                        author_avatar: s.author_avatar || '',
+                        image: s.image || '',
+                        title_id: cleanLangText(s.title_id || s.title, 'id'),
+                        title_en: cleanLangText(s.title_en || s.title, 'en'),
+                        excerpt_id: cleanLangText(s.excerpt_id || s.excerpt, 'id'),
+                        excerpt_en: cleanLangText(s.excerpt_en || s.excerpt, 'en'),
+                        quote_id: cleanLangText(s.quote_id || s.quote, 'id'),
+                        quote_en: cleanLangText(s.quote_en || s.quote, 'en'),
+                        content_id: s.content_id || (Array.isArray(s.paragraphs_id) ? s.paragraphs_id.join('\n\n') : ''),
+                        content_en: s.content_en || (Array.isArray(s.paragraphs_en) ? s.paragraphs_en.join('\n\n') : '')
+                    };
+                    var parsedId = parseInt(s.id, 10);
+                    if (!isNaN(parsedId) && parsedId > 0) {
+                        item.id = parsedId;
+                    }
+                    return item;
+                });
+
+                await supabaseClient.from('field_stories').delete().neq('id', 0);
+                if (storyList.length > 0) {
+                    await supabaseClient.from('field_stories').insert(storyList);
+                }
+            } catch (storyErr) {
+                console.warn("Could not write to field_stories table on Supabase (saved locally):", storyErr);
+            }
+        }
 
         return true;
     } catch (error) {

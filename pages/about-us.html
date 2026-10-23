@@ -340,14 +340,14 @@
     </section>
 
     <!-- Leadership Team Section (DINAMIS) -->
-    <section class="py-20 bg-white">
+    <section id="leadership-team" class="py-20 bg-white dark:bg-slate-900 scroll-mt-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-base text-primary font-bold tracking-wide uppercase mb-2"><span class="lang-id">Orang-Orang di
               Balik Layar</span><span class="lang-en">People Behind The Scene</span></h2>
-          <h3 class="text-3xl lg:text-4xl font-extrabold text-heading"><span class="lang-id">Tim Kepemimpinan
+          <h3 class="text-3xl lg:text-4xl font-extrabold text-heading dark:text-white"><span class="lang-id">Tim Kepemimpinan
               Kami</span><span class="lang-en">Our Leadership Team</span></h3>
-          <p class="mt-4 text-body"><span class="lang-id">Kenali individu-individu bersemangat yang menggerakkan misi
+          <p class="mt-4 text-body dark:text-slate-300"><span class="lang-id">Kenali individu-individu bersemangat yang menggerakkan misi
               kami untuk mengubah pendidikan di seluruh Indonesia.</span><span class="lang-en">Meet the passionate
               individuals driving our mission to transform education across Indonesia.</span></p>
         </div>
@@ -358,6 +358,135 @@
         </div>
       </div>
     </section>
+
+    <!-- Cerita Jejak Relawan / Field Notes Section (DIBAWAH LEADERSHIP TEAM) -->
+    <section id="field-stories" class="py-20 lg:py-24 bg-surface dark:bg-slate-950 relative overflow-hidden border-t border-gray-150/60 dark:border-slate-800 scroll-mt-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <!-- Section Header -->
+        <div class="text-center mb-12 max-w-3xl mx-auto animate-fade-in-up">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/70 text-primary dark:text-blue-400 text-xs font-bold uppercase tracking-wider mb-3 shadow-xs border border-blue-100 dark:border-blue-900/50">
+            <i class="fas fa-heart text-accent"></i>
+            <span class="lang-id">Catatan Lapangan &amp; Inspirasi</span>
+            <span class="lang-en">Field Notes &amp; Real Stories</span>
+          </div>
+          <h2 class="text-3xl lg:text-4xl font-extrabold text-heading dark:text-white tracking-tight mb-4">
+            <span class="lang-id">Cerita Jejak Relawan</span>
+            <span class="lang-en">Hey Youth Stories &amp; Field Notes</span>
+          </h2>
+          <p class="text-body dark:text-slate-300 text-base lg:text-lg leading-relaxed">
+            <span class="lang-id">Kisah nyata, momen haru, dan refleksi mendalam dari pemuda-pemudi yang mendedikasikan waktu mereka untuk anak-anak Indonesia.</span>
+            <span class="lang-en">Real stories, heartfelt moments, and candid reflections from young changemakers dedicating their time to Indonesian children.</span>
+          </p>
+
+          <!-- Category Filter Pills -->
+          <div class="flex flex-wrap items-center justify-center gap-2 mt-8" id="story-filter-container">
+            <button type="button" class="story-filter-btn px-4 py-2 rounded-full text-xs font-bold transition-all shadow-sm bg-primary text-white cursor-pointer" data-filter="all">
+              <span class="lang-id">Semua Cerita</span><span class="lang-en">All Stories</span>
+            </button>
+            <button type="button" class="story-filter-btn px-4 py-2 rounded-full text-xs font-bold transition-all bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer" data-filter="kolong">
+              <span class="lang-id">Sekolah Kolong</span><span class="lang-en">Street Schools</span>
+            </button>
+            <button type="button" class="story-filter-btn px-4 py-2 rounded-full text-xs font-bold transition-all bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer" data-filter="mentoring">
+              <span class="lang-id">Mentoring &amp; Karir</span><span class="lang-en">Mentorship</span>
+            </button>
+            <button type="button" class="story-filter-btn px-4 py-2 rounded-full text-xs font-bold transition-all bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer" data-filter="bts">
+              <span class="lang-id">Di Balik Layar</span><span class="lang-en">Behind The Scenes</span>
+            </button>
+            <button type="button" class="story-filter-btn px-4 py-2 rounded-full text-xs font-bold transition-all bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer" data-filter="expedition">
+              <span class="lang-id">Ekspedisi Daerah</span><span class="lang-en">Regional Expedition</span>
+            </button>
+            <button type="button" class="story-filter-btn px-4 py-2 rounded-full text-xs font-bold transition-all bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer" data-filter="testimonial">
+              <span class="lang-id">Testimonial</span><span class="lang-en">Testimonial</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Stories Grid Cards -->
+        <div id="stories-cards-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+          <!-- Rendered dynamically via JS -->
+        </div>
+
+        <!-- Volunteer Callout / Share Story Banner -->
+        <div class="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-blue-900 via-primary to-blue-800 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="relative z-10 max-w-2xl text-center md:text-left">
+            <span class="text-xs font-bold tracking-widest uppercase text-accent mb-2 block">
+              <span class="lang-id">Suara Komunitas</span><span class="lang-en">Community Voices</span>
+            </span>
+            <h3 class="text-xl sm:text-2xl font-bold mb-2">
+              <span class="lang-id">Punya Cerita Mengajar Berkesan Bersama Hey Youth?</span>
+              <span class="lang-en">Have a Memorable Teaching Story With Hey Youth?</span>
+            </h3>
+            <p class="text-sm text-blue-100 leading-relaxed">
+              <span class="lang-id">Kirimkan catatan lapangan atau momen inspiratifmu untuk diterbitkan di sini dan menginspirasi ribuan calon relawan muda lainnya.</span>
+              <span class="lang-en">Share your field notes and inspiring moments to be published here and motivate thousands of prospective youth volunteers.</span>
+            </p>
+          </div>
+          <div class="relative z-10 flex-shrink-0">
+            <a href="https://wa.me/6281283626296?text=Halo%20Tim%20Redaksi%20Hey%20Youth%2C%20saya%20ingin%20berbagi%20cerita%20catatan%20lapangan%20relawan..." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-accent hover:bg-yellow-500 text-heading font-bold px-6 py-3.5 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all text-sm">
+              <i class="fab fa-whatsapp text-lg text-emerald-800"></i>
+              <span class="lang-id">Bagikan Ceritamu</span><span class="lang-en">Share Your Story</span>
+            </a>
+          </div>
+          <!-- Decorative background circles -->
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+          <div class="absolute left-1/3 top-0 w-36 h-36 bg-accent/20 rounded-full blur-2xl pointer-events-none"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Story Detail Modal -->
+    <div id="story-detail-modal" class="fixed inset-0 z-[999999] hidden flex items-center justify-center p-4 bg-black/60 backdrop-blur-md transition-opacity duration-200" role="dialog" aria-modal="true">
+      <div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden border border-gray-150 dark:border-slate-800 flex flex-col max-h-[90vh] animate-fade-in-up" onclick="event.stopPropagation()">
+        <!-- Modal Top Bar -->
+        <div class="p-4 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between bg-gray-50/70 dark:bg-slate-950/70">
+          <div class="flex items-center gap-2" id="modal-story-badges">
+            <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-blue-50 text-primary dark:bg-blue-950/70 dark:text-blue-400" id="modal-category-badge">Kategori</span>
+            <span class="text-xs text-gray-400 flex items-center gap-1"><i class="far fa-clock"></i> <span id="modal-read-time">3 min baca</span></span>
+          </div>
+          <button type="button" onclick="window.closeStoryModal()" class="text-gray-400 hover:text-red-500 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 cursor-pointer transition-colors" title="Tutup (ESC)">
+            <i class="fas fa-times text-sm"></i>
+          </button>
+        </div>
+        <!-- Modal Body Content -->
+        <div class="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1 text-left" id="modal-story-content">
+          <div class="rounded-2xl overflow-hidden shadow-sm max-h-[420px] relative bg-gray-900/5 dark:bg-slate-800/60 flex items-center justify-center p-1 sm:p-2">
+            <img id="modal-story-image" src="" alt="Field Documentation" class="max-h-[390px] w-auto max-w-full rounded-xl object-contain shadow-xs">
+          </div>
+          <div>
+            <h3 id="modal-story-title" class="text-2xl sm:text-3xl font-extrabold text-heading dark:text-white leading-tight mb-3"></h3>
+            <!-- Author Card -->
+            <div class="flex items-center gap-3 pt-2 pb-4 border-b border-gray-100 dark:border-slate-800">
+              <img id="modal-author-avatar" src="" alt="Author" class="w-11 h-11 rounded-full object-cover border-2 border-primary/20">
+              <div>
+                <h4 id="modal-author-name" class="font-bold text-heading dark:text-white text-sm"></h4>
+                <p id="modal-author-role" class="text-xs text-primary dark:text-blue-400 font-medium"></p>
+              </div>
+              <span id="modal-story-date" class="ml-auto text-xs text-gray-400"></span>
+            </div>
+          </div>
+          <!-- Quote Callout (hidden if empty) -->
+          <blockquote id="modal-story-quote-box" class="p-4 rounded-r-2xl rounded-l-none bg-blue-50/70 dark:bg-blue-950/40 border-l-4 border-primary text-sm sm:text-base italic text-heading dark:text-slate-200 hidden">
+            <span id="modal-story-quote"></span>
+          </blockquote>
+          <!-- Full Article Narrative -->
+          <div id="modal-story-body" class="text-body dark:text-slate-300 text-sm sm:text-base leading-relaxed space-y-4"></div>
+        </div>
+        <!-- Modal Footer Actions -->
+        <div class="p-4 bg-gray-50 dark:bg-slate-950 border-t border-gray-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <a id="modal-share-wa" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-xs">
+              <i class="fab fa-whatsapp"></i> <span class="lang-id">Bagikan ke WhatsApp</span><span class="lang-en">Share on WhatsApp</span>
+            </a>
+            <button type="button" id="modal-copy-link" onclick="window.copyStoryLink()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer">
+              <i class="fas fa-link"></i> <span id="copy-btn-text" class="lang-id">Salin Tautan</span><span class="lang-en hidden">Copy Link</span>
+            </button>
+          </div>
+          <button type="button" onclick="window.closeStoryModal()" class="px-5 py-2 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-heading dark:text-slate-200 text-xs font-bold transition-all cursor-pointer">
+            <span class="lang-id">Tutup</span><span class="lang-en">Close</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Secondary CTA Section -->
     <section class="py-20 bg-bg text-center">
@@ -413,6 +542,370 @@
         ]
       };
 
+      var _DEFAULT_STORIES = [
+        {
+          id: 501,
+          category: 'kolong',
+          category_label_id: 'Sekolah Kolong',
+          category_label_en: 'Street Schools',
+          read_time_id: '3 min baca',
+          read_time_en: '3 min read',
+          date_id: '14 Okt 2025',
+          date_en: 'Oct 14, 2025',
+          author_name: 'Salsabila Azzahra',
+          author_role_id: 'Teacher Volunteer • Batch 4 (Chapter Jakarta)',
+          author_role_en: 'Teacher Volunteer • Batch 4 (Jakarta Chapter)',
+          author_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face',
+          image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=800&auto=format&fit=crop',
+          title_id: 'Melihat Binar Harapan di Kolong Jembatan Ciputat',
+          title_en: 'Seeing Glimmers of Hope Under the Ciputat Flyover',
+          excerpt_id: 'Hari pertama mengajar diiringi gemuruh suara knalpot dan kepulan asap. Tapi ketika adik-adik berebut mengangkat tangan menjawab soal perkalian, rasa lelah seketika sirna.',
+          excerpt_en: 'Teaching on the first day was accompanied by loud engine roars and exhaust smoke. But the moment the children eagerly raised their hands to solve math, all exhaustion disappeared.',
+          quote_id: '"Bagi adik-adik di sini, kehadiran relawan adalah bukti nyata bahwa mimpi-mimpi mereka tidak pernah dilupakan."',
+          quote_en: '"For these kids, our volunteer presence is living proof that their dreams are never forgotten."',
+          paragraphs_id: [
+            'Pagi itu di TBM Kolong Ciputat, debu jalanan beterbangan tertiup angin lalu lintas. Sekitar 25 adik-adik duduk beralaskan terpal tipis dengan pensil pendek yang sudah diraut berkali-kali.',
+            'Awalnya kami khawatir materi matematika dasar akan membosankan bagi mereka. Namun begitu kami mengubahnya menjadi permainan kuis interaktif dengan tepuk tangan berirama, suasana berubah 180 derajat. Seorang adik bernama Alif (9 tahun) menarik ujung baju saya dan berbisik: "Kak Salsa, minggu depan datang lagi ya? Aku mau diajarin baca dongeng petualangan."',
+            'Di saat itulah saya menyadari: pendidikan bukan sekadar angka di atas lembar raport. Bagi anak-anak di sini, kehadiran relawan adalah jendela bahwa dunia luar begitu luas dan impian mereka patut diperjuangkan.'
+          ],
+          paragraphs_en: [
+            'That morning at TBM Kolong Ciputat, street dust blew across the busy highway traffic. About 25 young children sat on thin tarpaulins holding short pencils sharpened many times over.',
+            'Initially, we worried basic mathematics would bore them. But as soon as we gamified it into an energetic rhythm quiz with cheerful claps, the atmosphere shifted completely. A young boy named Alif (9 years old) tugged my sleeve and whispered: "Teacher Salsa, please come back next week? I want to learn adventure storytelling."',
+            'That was when I truly realized: education isn\'t just grades on a report card. For these kids, our volunteer presence is a wide open window proving that the world is limitless and their dreams are worth fighting for.'
+          ]
+        },
+        {
+          id: 502,
+          category: 'bts',
+          category_label_id: 'Di Balik Layar',
+          category_label_en: 'Behind The Scenes',
+          read_time_id: '2 min baca',
+          read_time_en: '2 min read',
+          date_id: '28 Sep 2025',
+          date_en: 'Sep 28, 2025',
+          author_name: 'Rian Pratama',
+          author_role_id: 'Graphic Designer & Media (Chapter Bandung)',
+          author_role_en: 'Graphic Designer & Media (Bandung Chapter)',
+          author_avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+          image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop',
+          title_id: 'Dari Kanvas Digital ke Senyum Nyata: Cerita Tim Kreatif',
+          title_en: 'From Digital Canvas to Pure Smiles: The Creative Journey',
+          excerpt_id: 'Sering dikira hanya berkutat dengan laptop dan revisi warna. Tapi saat turun langsung memotret tawa adik-adik saat menerima buku baru, setiap desain poster terasa punya nyawa.',
+          excerpt_en: 'People often assume creative volunteers just sit behind laptops dealing with color revisions. But documenting the raw joy of children receiving brand new books gave our designs true heartbeat.',
+          quote_id: '"Satu desain visual yang dikerjakan dengan tulus bisa menggerakkan ratusan hati untuk ikut peduli dan berbagi."',
+          quote_en: '"A single visual design crafted with genuine empathy can inspire hundreds of hearts to care and contribute."',
+          paragraphs_id: [
+            'Sebagai relawan divisi kreatif, rutinitas kami biasanya berkisar pada deadline poster Instagram, pemilihan tipografi, dan render video di larut malam. Kadang muncul rasa jenuh: apakah karya-karya ini benar-benar membawa perubahan nyata?',
+            'Semua keraguan itu terjawab ketika saya ikut turun langsung ke lapangan saat pembagian donasi buku dan perlengkapan sekolah di Bandung Timur. Kamera saya menangkap momen seorang anak perempuan memeluk buku cerita bergambar dengan mata berbinar.',
+            'Wajah polosnya mengingatkan saya mengapa kami begadang mendesain konten kampanye: karena satu desain yang menggugah bisa mendatangkan ratusan donatur yang mengubah masa depan anak-anak ini.'
+          ],
+          paragraphs_en: [
+            'As creative volunteers, our routine usually revolves around Instagram deadlines, font pairing, and late-night video renders. Sometimes self-doubt creeps in: do these visuals truly make a tangible difference?',
+            'That doubt evaporated when I joined the field team distributing books and stationery sets in East Bandung. Through my camera lens, I captured a young girl clutching an illustrated storybook with sparkling eyes.',
+            'Her innocent smile reminded me why we burned the midnight oil crafting campaign visuals: because one touching design can rally hundreds of donors who transform these kids\' futures.'
+          ]
+        },
+        {
+          id: 503,
+          category: 'mentoring',
+          category_label_id: 'Mentoring & Karir',
+          category_label_en: 'Mentorship',
+          read_time_id: '3 min baca',
+          read_time_en: '3 min read',
+          date_id: '19 Agt 2025',
+          date_en: 'Aug 19, 2025',
+          author_name: 'Dimas Wahyudi',
+          author_role_id: 'Mentoring Tutor (Chapter Depok)',
+          author_role_en: 'Mentoring Tutor (Depok Chapter)',
+          author_avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
+          image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=800&auto=format&fit=crop',
+          title_id: 'Mendampingi Mimpi Pertama: Dari Pemalu Menjadi Juara Kelas',
+          title_en: 'Mentoring the First Dream: From Shy Corner to Top of the Class',
+          excerpt_id: 'Riko (11 tahun) awalnya selalu menunduk saat diajak bicara. Lewat 3 bulan bimbingan personal yang sabar, minggu lalu ia berani maju dan berkata: "Kak, aku mau jadi programmer!".',
+          excerpt_en: 'Riko (11) used to stare at the floor whenever spoken to. After 3 months of patient 1-on-1 mentorship, he stood tall in front of the class: "Kak, I want to be a software developer!".',
+          quote_id: '"Terkadang seorang anak hanya membutuhkan satu orang dewasa yang benar-benar percaya pada potensi mereka."',
+          quote_en: '"Sometimes a child only needs one caring mentor who genuinely believes in their hidden potential."',
+          paragraphs_id: [
+            'Dalam program Teacher Class & Mentoring Hey Youth, setiap relawan memegang 3 sampai 4 adik asuh untuk didampingi secara intensif. Salah satu adik asuh saya, Riko, mengalami krisis percaya diri karena sering diejek lambat membaca di sekolah asalnya.',
+            'Kuncinya bukan memaksanya menghafal rumus, melainkan mendengarkan apa yang sebenarnya ia sukai. Ketika saya mengetahui ia suka mobil-mobilan dan puzzle, kami belajar logika matematika melalui analogi lintasan balap dan susun balok.',
+            'Tiga bulan kemudian, ibunya menghubungi saya sambil menangis haru: Riko meraih peringkat 3 besar di kelasnya dan terpilih menjadi perwakilan lomba cerdas cermat tingkat kelurahan.'
+          ],
+          paragraphs_en: [
+            'In Hey Youth\'s Teacher Class & Mentorship program, each volunteer mentors 3 to 4 students intensively. One of my mentees, Riko, struggled with self-esteem because classmates teased him for reading slowly.',
+            'The breakthrough didn\'t come from forcing formulas, but by listening to his passions. When I discovered he loved toy cars and logic puzzles, we learned math principles through race track analogies and puzzle building.',
+            'Three months later, his mother called me in tears of joy: Riko earned top 3 in his class and was chosen for the inter-district quiz competition.'
+          ]
+        },
+        {
+          id: 504,
+          category: 'expedition',
+          category_label_id: 'Ekspedisi Daerah',
+          category_label_en: 'Regional Expedition',
+          read_time_id: '4 min baca',
+          read_time_en: '4 min read',
+          date_id: '05 Jul 2025',
+          date_en: 'Jul 05, 2025',
+          author_name: 'Amanda Nurul & Tim Koordinator',
+          author_role_id: 'Community Coordinator (Chapter Banten)',
+          author_role_en: 'Community Coordinator (Banten Chapter)',
+          author_avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face',
+          image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop',
+          title_id: 'Menembus Pelosok: Menyalakan Lentera Literasi di Banten Selatan',
+          title_en: 'Reaching Remote Corners: Igniting Literacy in South Banten',
+          excerpt_id: 'Jalan tanah terjal sepanjang 5 jam seketika terlupakan saat melihat 40 pasang kaki kecil berlari riang menyambut mobil logistik kami. Mereka tidak kekurangan mimpi, mereka hanya butuh akses yang setara.',
+          excerpt_en: 'A 5-hour bumpy dirt road trek was instantly forgotten upon seeing 40 pairs of little bare feet running ecstatically to greet our logistics van. They never lacked ambition; they just needed equal access.',
+          quote_id: '"Batas geografis dan jalan terjal tidak boleh menjadi penghalang bagi tingginya impian anak-anak Indonesia."',
+          quote_en: '"Geographical borders and rugged trails must never cap the aspirations of our nation\'s children."',
+          paragraphs_id: [
+            'Desa Cikadu di Banten Selatan terletak cukup jauh dari pusat kota dengan fasilitas perpustakaan yang hampir tidak ada. Listrik masih sering padam bergantian dan sinyal ponsel sangat minim. Bersama 12 relawan Hey Youth, kami membawa 5 kardus buku ensiklopedia, proyektor tenaga baterai, dan alat-alat peraga sains sederhana.',
+            'Selama dua hari di sana, balai desa disulap menjadi laboratorium sains mini. Anak-anak melihat reaksi gunung meletus dari baking soda dan cuka untuk pertama kalinya dengan mata terbelalak kagum.',
+            'Malam harinya, di bawah langit berbintang, kami memutar film dokumenter luar angkasa. Salah satu anak, Deden, berkata: "Ternyata bumi itu bulat dan ada bintang sebesar matahari ya Kak? Aku mau belajar yang rajin biar bisa naik pesawat luar angkasa." Pengalaman ini membuktikan bahwa batas geografis tidak boleh membatasi tingginya impian seorang anak Indonesia.'
+          ],
+          paragraphs_en: [
+            'Cikadu village in South Banten lies tucked deep away with virtually zero library access. Electricity experiences frequent blackouts and cellular signals are scarce. Together with 12 Hey Youth volunteers, we brought 5 boxes of illustrated encyclopedias, a battery-powered projector, and simple science props.',
+            'Over two days, the village hall became a buzzing science laboratory. The kids watched a baking soda volcano erupt with pure awe and wonder.',
+            'That evening under the starry sky, we screened an astronomy documentary. A boy named Deden smiled: "So the earth is round and there are stars bigger than the sun? I will study hard so one day I can ride a spacecraft." This trip proved that geographic boundaries must never limit the heights of an Indonesian child\'s dream.'
+          ]
+        },
+        {
+          id: 505,
+          category: 'testimonial',
+          category_label_id: 'Testimonial',
+          category_label_en: 'Testimonial',
+          read_time_id: '2 min baca',
+          read_time_en: '2 min read',
+          date_id: '22 Okt 2025',
+          date_en: 'Oct 22, 2025',
+          author_name: 'Nadia Safitri',
+          author_role_id: 'Volunteer Alumni & Mentor Batch 3',
+          author_role_en: 'Volunteer Alumni & Mentor Batch 3',
+          author_avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face',
+          image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=800&auto=format&fit=crop',
+          title_id: 'Testimonial Relawan: Menemukan Makna dan Sahabat Seperjuangan',
+          title_en: 'Volunteer Testimonial: Finding Purpose and Lifelong Comrades',
+          excerpt_id: 'Bergabung dengan Hey Youth mengubah cara pandang saya tentang kepemimpinan. Di sini saya tidak hanya memberi, tetapi justru belajar banyak tentang ketulusan dan empati.',
+          excerpt_en: 'Joining Hey Youth fundamentally transformed how I view leadership. Here I didn\'t just give, but learned so much about genuine sincerity and empathy.',
+          quote_id: '"Hey Youth adalah ruang bertumbuh terbaik bagi pemuda yang ingin aksi nyata, bukan sekadar wacana."',
+          quote_en: '"Hey Youth is the ultimate growth hub for young people who crave real action, not just talk."',
+          paragraphs_id: [
+            'Saat pertama kali mendaftar sebagai relawan, saya hanya berniat mengisi waktu luang semester akhir kuliah. Namun atmosfer kekeluargaan dan dedikasi rekan-rekan relawan di Hey Youth sangat menular. Setiap minggunya kami berdiskusi, merancang kurikulum kreatif, dan terjun bersama ke lapangan.',
+            'Pengalaman ini mengasah kepemimpinan, komunikasi, dan resiliensi saya jauh lebih dalam dibandingkan materi kuliah di kelas. Hey Youth membuktikan bahwa pemuda memiliki kekuatan luar biasa jika bergerak bersama demi masa depan pendidikan Indonesia.'
+          ],
+          paragraphs_en: [
+            'When I first applied as a volunteer, I merely intended to spend my spare final semester time. But the warm camaraderie and relentless dedication of the Hey Youth team was deeply contagious. Every single week we brainstormed, designed creative curriculum, and ventured to the field together.',
+            'This journey sharpened my leadership, communication, and resilience far deeper than any textbook lecture could. Hey Youth proves that youth possess extraordinary power when united for the future of education.'
+          ]
+        }
+      ];
+
+      var activeStoriesList = _DEFAULT_STORIES;
+      var activeStoryFilter = 'all';
+      var currentStoryInModal = null;
+
+      function renderStories(stories) {
+        var list = stories || activeStoriesList;
+        var grid = document.getElementById('stories-cards-grid');
+        if (!grid) return;
+
+        var filtered = list.filter(function(st) {
+          if (activeStoryFilter === 'all') return true;
+          return st.category === activeStoryFilter;
+        });
+
+        if (filtered.length === 0) {
+          grid.innerHTML = '<div class="col-span-full py-12 text-center text-gray-400 text-sm">' +
+            '<i class="fas fa-book-open text-3xl mb-3 block opacity-30"></i>' +
+            '<span class="lang-id">Belum ada cerita untuk kategori ini.</span>' +
+            '<span class="lang-en">No stories found in this category yet.</span>' +
+          '</div>';
+          return;
+        }
+
+        var html = '';
+        for (var i = 0; i < filtered.length; i++) {
+          var s = filtered[i];
+          html += '<div class="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border border-gray-150/70 dark:border-slate-800 flex flex-col group">' +
+            '<!-- Card Media -->' +
+            '<div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-slate-800">' +
+              '<img src="' + s.image + '" alt="' + _esc(s.title_id) + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">' +
+              '<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>' +
+              '<span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[11px] font-bold bg-white/90 dark:bg-slate-900/90 text-primary dark:text-blue-400 backdrop-blur-xs shadow-xs">' +
+                '<span class="lang-id">' + _esc(s.category_label_id) + '</span><span class="lang-en">' + _esc(s.category_label_en) + '</span>' +
+              '</span>' +
+              '<span class="absolute bottom-3 right-3 text-[11px] font-medium text-white/90 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md flex items-center gap-1">' +
+                '<i class="far fa-clock text-[10px]"></i> <span class="lang-id">' + _esc(s.read_time_id) + '</span><span class="lang-en">' + _esc(s.read_time_en) + '</span>' +
+              '</span>' +
+            '</div>' +
+            '<!-- Card Content -->' +
+            '<div class="p-5 flex flex-col flex-1 text-left justify-between">' +
+              '<div>' +
+                '<h4 class="font-bold text-base sm:text-lg text-heading dark:text-white mb-2 leading-snug group-hover:text-primary dark:group-hover:text-blue-400 transition-colors line-clamp-2">' +
+                  '<span class="lang-id">' + _esc(s.title_id) + '</span><span class="lang-en">' + _esc(s.title_en) + '</span>' +
+                '</h4>' +
+                '<p class="text-xs text-body dark:text-slate-400 line-clamp-3 leading-relaxed mb-4">' +
+                  '<span class="lang-id">' + _esc(s.excerpt_id) + '</span><span class="lang-en">' + _esc(s.excerpt_en) + '</span>' +
+                '</p>' +
+              '</div>' +
+              '<!-- Card Footer Author -->' +
+              '<div class="pt-4 border-t border-gray-100 dark:border-slate-800/80 flex items-center justify-between mt-auto">' +
+                '<div class="flex items-center gap-2 min-w-0">' +
+                  '<img src="' + s.author_avatar + '" alt="' + _esc(s.author_name) + '" class="w-8 h-8 rounded-full object-cover border border-primary/20 shrink-0">' +
+                  '<div class="truncate text-left">' +
+                    '<div class="text-xs font-bold text-heading dark:text-white truncate">' + _esc(s.author_name) + '</div>' +
+                    '<div class="text-[10px] text-gray-400 truncate">' +
+                      '<span class="lang-id">' + _esc(s.date_id) + '</span><span class="lang-en">' + _esc(s.date_en) + '</span>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
+                '<button type="button" onclick="window.openStoryModal(\'' + s.id + '\')" class="w-8 h-8 rounded-full bg-blue-50 hover:bg-primary text-primary hover:text-white dark:bg-slate-800 dark:text-blue-400 dark:hover:bg-primary dark:hover:text-white flex items-center justify-center transition-all shrink-0 cursor-pointer shadow-xs" title="Baca Kisah Lengkap">' +
+                  '<i class="fas fa-arrow-right text-xs"></i>' +
+                '</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        }
+
+        grid.innerHTML = html;
+      }
+
+      function setupStoryFilters() {
+        var container = document.getElementById('story-filter-container');
+        if (!container) return;
+        var btns = container.querySelectorAll('.story-filter-btn');
+        btns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            btns.forEach(function(b) {
+              b.classList.remove('bg-primary', 'text-white', 'shadow-sm');
+              b.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200', 'dark:bg-slate-800', 'dark:text-slate-300');
+            });
+            btn.classList.add('bg-primary', 'text-white', 'shadow-sm');
+            btn.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200', 'dark:bg-slate-800', 'dark:text-slate-300');
+            activeStoryFilter = btn.getAttribute('data-filter') || 'all';
+            renderStories(activeStoriesList);
+          });
+        });
+      }
+
+      window.openStoryModal = function(storyId) {
+        var story = activeStoriesList.find(function(s) { return String(s.id) === String(storyId); });
+        if (!story) return;
+        currentStoryInModal = story;
+
+        var modal = document.getElementById('story-detail-modal');
+        var catBadge = document.getElementById('modal-category-badge');
+        var readTime = document.getElementById('modal-read-time');
+        var imgEl = document.getElementById('modal-story-image');
+        var titleEl = document.getElementById('modal-story-title');
+        var avatarEl = document.getElementById('modal-author-avatar');
+        var nameEl = document.getElementById('modal-author-name');
+        var roleEl = document.getElementById('modal-author-role');
+        var dateEl = document.getElementById('modal-story-date');
+        var quoteEl = document.getElementById('modal-story-quote');
+        var bodyEl = document.getElementById('modal-story-body');
+        var shareWaEl = document.getElementById('modal-share-wa');
+
+        if (catBadge) {
+          catBadge.innerHTML = '<span class="lang-id">' + _esc(story.category_label_id) + '</span><span class="lang-en">' + _esc(story.category_label_en) + '</span>';
+        }
+        if (readTime) {
+          readTime.innerHTML = '<span class="lang-id">' + _esc(story.read_time_id) + '</span><span class="lang-en">' + _esc(story.read_time_en) + '</span>';
+        }
+        if (imgEl) imgEl.src = story.image;
+        if (titleEl) {
+          titleEl.innerHTML = '<span class="lang-id">' + _esc(story.title_id) + '</span><span class="lang-en">' + _esc(story.title_en) + '</span>';
+        }
+        if (avatarEl) avatarEl.src = story.author_avatar;
+        if (nameEl) nameEl.textContent = story.author_name;
+        if (roleEl) {
+          roleEl.innerHTML = '<span class="lang-id">' + _esc(story.author_role_id) + '</span><span class="lang-en">' + _esc(story.author_role_en) + '</span>';
+        }
+        if (dateEl) {
+          dateEl.innerHTML = '<span class="lang-id">' + _esc(story.date_id) + '</span><span class="lang-en">' + _esc(story.date_en) + '</span>';
+        }
+        var quoteBox = document.getElementById('modal-story-quote-box');
+        var quoteId = (story.quote_id || '').trim();
+        var quoteEn = (story.quote_en || '').trim();
+        if (quoteBox && quoteEl) {
+          if (quoteId || quoteEn) {
+            quoteEl.innerHTML = '<span class="lang-id">' + _esc(quoteId || quoteEn) + '</span><span class="lang-en">' + _esc(quoteEn || quoteId) + '</span>';
+            quoteBox.classList.remove('hidden');
+          } else {
+            quoteBox.classList.add('hidden');
+          }
+        }
+
+        if (bodyEl) {
+          var paras = (story.paragraphs_id && story.paragraphs_id.length > 0)
+            ? story.paragraphs_id
+            : (story.content_id ? story.content_id.split(/\n\s*\n/).filter(Boolean) : []);
+          var parasEn = (story.paragraphs_en && story.paragraphs_en.length > 0)
+            ? story.paragraphs_en
+            : (story.content_en ? story.content_en.split(/\n\s*\n/).filter(Boolean) : []);
+
+          var parasHtml = '';
+          if (paras.length > 0 || parasEn.length > 0) {
+            var maxLen = Math.max(paras.length, parasEn.length);
+            for (var p = 0; p < maxLen; p++) {
+              var pId = paras[p] || parasEn[p] || '';
+              var pEn = parasEn[p] || paras[p] || '';
+              parasHtml += '<p class="leading-relaxed"><span class="lang-id">' + _esc(pId) + '</span><span class="lang-en">' + _esc(pEn) + '</span></p>';
+            }
+          } else if (story.excerpt_id || story.excerpt_en) {
+            parasHtml = '<p class="leading-relaxed text-gray-700 dark:text-slate-300"><span class="lang-id">' + _esc(story.excerpt_id || story.excerpt_en) + '</span><span class="lang-en">' + _esc(story.excerpt_en || story.excerpt_id) + '</span></p>';
+          } else {
+            parasHtml = '<p class="text-sm text-gray-400 italic">Cerita selengkapnya akan segera diperbarui.</p>';
+          }
+          bodyEl.innerHTML = parasHtml;
+        }
+
+        // WhatsApp Share pre-filled text
+        if (shareWaEl) {
+          var shareText = 'Baca cerita inspiratif relawan Hey Youth: "' + story.title_id + '"\n' + window.location.href.split('#')[0] + '#field-stories';
+          shareWaEl.href = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(shareText);
+        }
+
+        if (modal) {
+          modal.classList.remove('hidden');
+          document.body.classList.add('overflow-hidden');
+        }
+      };
+
+      window.closeStoryModal = function() {
+        var modal = document.getElementById('story-detail-modal');
+        if (modal) {
+          modal.classList.add('hidden');
+        }
+        document.body.classList.remove('overflow-hidden');
+      };
+
+      window.copyStoryLink = function() {
+        var link = window.location.href.split('#')[0] + '#field-stories';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(link).then(function() {
+            var btnText = document.getElementById('copy-btn-text');
+            if (btnText) {
+              btnText.textContent = 'Tersalin!';
+              setTimeout(function() {
+                btnText.textContent = 'Salin Tautan';
+              }, 2000);
+            }
+          });
+        }
+      };
+
+      // Close modal on escape key and outside click
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          window.closeStoryModal();
+        }
+      });
+      var storyModalEl = document.getElementById('story-detail-modal');
+      if (storyModalEl) {
+        storyModalEl.addEventListener('click', function(e) {
+          if (e.target === storyModalEl) window.closeStoryModal();
+        });
+      }
+
       function renderHero(heroData) {
         var titleEl = document.getElementById('hero-title');
         var subEl = document.getElementById('hero-subtitle');
@@ -450,12 +943,12 @@
             ? '<span class="lang-id">' + _esc(member.role_id || member.role || '') + '</span><span class="lang-en">' + _esc(member.role_en || member.role || '') + '</span>'
             : _esc(member.role || '');
 
-          html += '<div class="bg-bg rounded-3xl p-6 text-center hover:shadow-xl transition-all duration-300 border border-gray-100">' +
+          html += '<div class="bg-bg dark:bg-slate-800 rounded-3xl p-6 text-center hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-slate-700">' +
             '<div class="w-32 h-32 mx-auto rounded-full p-1 bg-gradient-to-tr from-primary to-accent mb-4">' +
-            '<img src="' + _esc(displaySrc) + '" alt="' + _esc(member.name) + '" class="w-full h-full rounded-full object-cover border-4 border-white" onerror="this.src=\'' + fallback + '\'">' +
+            '<img src="' + _esc(displaySrc) + '" alt="' + _esc(member.name) + '" class="w-full h-full rounded-full object-cover border-4 border-white dark:border-slate-800" onerror="this.src=\'' + fallback + '\'">' +
             '</div>' +
-            '<h4 class="text-xl font-bold text-heading">' + _esc(member.name) + '</h4>' +
-            '<p class="text-primary font-semibold text-sm mb-4">' + roleHtml + '</p>' +
+            '<h4 class="text-xl font-bold text-heading dark:text-white">' + _esc(member.name) + '</h4>' +
+            '<p class="text-primary dark:text-blue-400 font-semibold text-sm mb-4">' + roleHtml + '</p>' +
             '<div class="flex justify-center space-x-3">' +
             '<a href="' + _esc(member.linkedin) + '" class="text-gray-400 hover:text-primary"><i class="fab fa-linkedin-in"></i></a>' +
             '<a href="' + _esc(member.instagram) + '" class="text-gray-400 hover:text-primary"><i class="fab fa-instagram"></i></a>' +
@@ -466,9 +959,38 @@
       }
 
       async function initAbout() {
-        var data = await window.getFirebaseData({ aboutHero: _DEFAULT_ABOUT.hero, team: _DEFAULT_ABOUT.team });
+        var data = await window.getFirebaseData({ aboutHero: _DEFAULT_ABOUT.hero, team: _DEFAULT_ABOUT.team, fieldStories: _DEFAULT_STORIES });
         renderHero(data.aboutHero || _DEFAULT_ABOUT.hero);
         renderTeam(data.team || _DEFAULT_ABOUT.team);
+        if (data.fieldStories && data.fieldStories.length > 0) {
+          activeStoriesList = data.fieldStories.map(function(s) {
+            return {
+              id: String(s.id),
+              category: s.category || 'kolong',
+              category_label_id: s.category_label_id || 'Cerita',
+              category_label_en: s.category_label_en || 'Story',
+              read_time_id: s.read_time_id || '3 min baca',
+              read_time_en: s.read_time_en || '3 min read',
+              date_id: s.date_id || '',
+              date_en: s.date_en || '',
+              author_name: s.author_name || '',
+              author_role_id: s.author_role_id || '',
+              author_role_en: s.author_role_en || '',
+              author_avatar: s.author_avatar || '',
+              image: s.image || '',
+              title_id: s.title_id || s.title || '',
+              title_en: s.title_en || s.title || '',
+              excerpt_id: s.excerpt_id || s.excerpt || '',
+              excerpt_en: s.excerpt_en || s.excerpt || '',
+              quote_id: s.quote_id || s.quote || '',
+              quote_en: s.quote_en || s.quote || '',
+              paragraphs_id: (s.paragraphs_id && s.paragraphs_id.length > 0) ? s.paragraphs_id : (s.content_id ? s.content_id.split(/\n\s*\n/).filter(Boolean) : []),
+              paragraphs_en: (s.paragraphs_en && s.paragraphs_en.length > 0) ? s.paragraphs_en : (s.content_en ? s.content_en.split(/\n\s*\n/).filter(Boolean) : [])
+            };
+          });
+        }
+        renderStories(activeStoriesList);
+        setupStoryFilters();
       }
 
       if (document.readyState === 'loading') {

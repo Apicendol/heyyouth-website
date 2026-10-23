@@ -346,7 +346,139 @@
                     certTitle_en: 'Download Your E-Certificate',
                     certSubtitle_id: 'Masukkan email yang Anda gunakan saat mendaftar acara untuk mengklaim sertifikat partisipasi Anda.',
                     certSubtitle_en: 'Enter the email address you used during event registration to claim your certificate.'
-                }
+                },
+                fieldStories: [
+                    {
+                        id: 501,
+                        category: 'kolong',
+                        category_label_id: 'Sekolah Kolong',
+                        category_label_en: 'Street Schools',
+                        read_time_id: '3 min baca',
+                        read_time_en: '3 min read',
+                        date_id: '14 Okt 2025',
+                        date_en: 'Oct 14, 2025',
+                        author_name: 'Salsabila Azzahra',
+                        author_role_id: 'Teacher Volunteer • Batch 4 (Chapter Jakarta)',
+                        author_role_en: 'Teacher Volunteer • Batch 4 (Jakarta Chapter)',
+                        author_avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face',
+                        image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=800&auto=format&fit=crop',
+                        title: 'Melihat Binar Harapan di Kolong Jembatan Ciputat',
+                        title_id: 'Melihat Binar Harapan di Kolong Jembatan Ciputat',
+                        title_en: 'Seeing Glimmers of Hope Under the Ciputat Flyover',
+                        excerpt: 'Hari pertama mengajar diiringi gemuruh suara knalpot dan kepulan asap. Tapi ketika adik-adik berebut mengangkat tangan menjawab soal perkalian, rasa lelah seketika sirna.',
+                        excerpt_id: 'Hari pertama mengajar diiringi gemuruh suara knalpot dan kepulan asap. Tapi ketika adik-adik berebut mengangkat tangan menjawab soal perkalian, rasa lelah seketika sirna.',
+                        excerpt_en: 'Teaching on the first day was accompanied by loud engine roars and exhaust smoke. But the moment the children eagerly raised their hands to solve math, all exhaustion disappeared.',
+                        quote: '"Bagi adik-adik di sini, kehadiran relawan adalah bukti nyata bahwa mimpi-mimpi mereka tidak pernah dilupakan."',
+                        quote_id: '"Bagi adik-adik di sini, kehadiran relawan adalah bukti nyata bahwa mimpi-mimpi mereka tidak pernah dilupakan."',
+                        quote_en: '"For these kids, our volunteer presence is living proof that their dreams are never forgotten."',
+                        content_id: 'Pagi itu di TBM Kolong Ciputat, debu jalanan beterbangan tertiup angin lalu lintas. Sekitar 25 adik-adik duduk beralaskan terpal tipis dengan pensil pendek yang sudah diraut berkali-kali.\n\nAwalnya kami khawatir materi matematika dasar akan membosankan bagi mereka. Namun begitu kami mengubahnya menjadi permainan kuis interaktif dengan tepuk tangan berirama, suasana berubah 180 derajat. Seorang adik bernama Alif (9 tahun) menarik ujung baju saya dan berbisik: "Kak Salsa, minggu depan datang lagi ya? Aku mau diajarin baca dongeng petualangan."\n\nDi saat itulah saya menyadari: pendidikan bukan sekadar angka di atas lembar raport. Bagi anak-anak di sini, kehadiran relawan adalah jendela bahwa dunia luar begitu luas dan impian mereka patut diperjuangkan.',
+                        content_en: 'That morning at TBM Kolong Ciputat, street dust blew across the busy highway traffic. About 25 young children sat on thin tarpaulins holding short pencils sharpened many times over.\n\nInitially, we worried basic mathematics would bore them. But as soon as we gamified it into an energetic rhythm quiz with cheerful claps, the atmosphere shifted completely. A young boy named Alif (9 years old) tugged my sleeve and whispered: "Teacher Salsa, please come back next week? I want to learn adventure storytelling."\n\nThat was when I truly realized: education isn\'t just grades on a report card. For these kids, our volunteer presence is a wide open window proving that the world is limitless and their dreams are worth fighting for.'
+                    },
+                    {
+                        id: 502,
+                        category: 'bts',
+                        category_label_id: 'Di Balik Layar',
+                        category_label_en: 'Behind The Scenes',
+                        read_time_id: '2 min baca',
+                        read_time_en: '2 min read',
+                        date_id: '28 Sep 2025',
+                        date_en: 'Sep 28, 2025',
+                        author_name: 'Rian Pratama',
+                        author_role_id: 'Graphic Designer & Media (Chapter Bandung)',
+                        author_role_en: 'Graphic Designer & Media (Bandung Chapter)',
+                        author_avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+                        image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=800&auto=format&fit=crop',
+                        title: 'Dari Kanvas Digital ke Senyum Nyata: Cerita Tim Kreatif',
+                        title_id: 'Dari Kanvas Digital ke Senyum Nyata: Cerita Tim Kreatif',
+                        title_en: 'From Digital Canvas to Pure Smiles: The Creative Journey',
+                        excerpt: 'Sering dikira hanya berkutat dengan laptop dan revisi warna. Tapi saat turun langsung memotret tawa adik-adik saat menerima buku baru, setiap desain poster terasa punya nyawa.',
+                        excerpt_id: 'Sering dikira hanya berkutat dengan laptop dan revisi warna. Tapi saat turun langsung memotret tawa adik-adik saat menerima buku baru, setiap desain poster terasa punya nyawa.',
+                        excerpt_en: 'People often assume creative volunteers just sit behind laptops dealing with color revisions. But documenting the raw joy of children receiving brand new books gave our designs true heartbeat.',
+                        quote: '"Satu desain visual yang dikerjakan dengan tulus bisa menggerakkan ratusan hati untuk ikut peduli dan berbagi."',
+                        quote_id: '"Satu desain visual yang dikerjakan dengan tulus bisa menggerakkan ratusan hati untuk ikut peduli dan berbagi."',
+                        quote_en: '"A single visual design crafted with genuine empathy can inspire hundreds of hearts to care and contribute."',
+                        content_id: 'Sebagai relawan divisi kreatif, rutinitas kami biasanya berkisar pada deadline poster Instagram, pemilihan tipografi, dan render video di larut malam. Kadang muncul rasa jenuh: apakah karya-karya ini benar-benar membawa perubahan nyata?\n\nSemua keraguan itu terjawab ketika saya ikut turun langsung ke lapangan saat pembagian donasi buku dan perlengkapan sekolah di Bandung Timur. Kamera saya menangkap momen seorang anak perempuan memeluk buku cerita bergambar dengan mata berbinar.\n\nWajah polosnya mengingatkan saya mengapa kami begadang mendesain konten kampanye: karena satu desain yang menggugah bisa mendatangkan ratusan donatur yang mengubah masa depan anak-anak ini.',
+                        content_en: 'As creative volunteers, our routine usually revolves around Instagram deadlines, font pairing, and late-night video renders. Sometimes self-doubt creeps in: do these visuals truly make a tangible difference?\n\nThat doubt evaporated when I joined the field team distributing books and stationery sets in East Bandung. Through my camera lens, I captured a young girl clutching an illustrated storybook with sparkling eyes.\n\nHer innocent smile reminded me why we burned the midnight oil crafting campaign visuals: because one touching design can rally hundreds of donors who transform these kids\' futures.'
+                    },
+                    {
+                        id: 503,
+                        category: 'mentoring',
+                        category_label_id: 'Mentoring & Karir',
+                        category_label_en: 'Mentorship',
+                        read_time_id: '3 min baca',
+                        read_time_en: '3 min read',
+                        date_id: '19 Agt 2025',
+                        date_en: 'Aug 19, 2025',
+                        author_name: 'Dimas Wahyudi',
+                        author_role_id: 'Mentoring Tutor (Chapter Depok)',
+                        author_role_en: 'Mentoring Tutor (Depok Chapter)',
+                        author_avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
+                        image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=800&auto=format&fit=crop',
+                        title: 'Mendampingi Mimpi Pertama: Dari Pemalu Menjadi Juara Kelas',
+                        title_id: 'Mendampingi Mimpi Pertama: Dari Pemalu Menjadi Juara Kelas',
+                        title_en: 'Mentoring the First Dream: From Shy Corner to Top of the Class',
+                        excerpt: 'Riko (11 tahun) awalnya selalu menunduk saat diajak bicara. Lewat 3 bulan bimbingan personal yang sabar, minggu lalu ia berani maju dan berkata: "Kak, aku mau jadi programmer!".',
+                        excerpt_id: 'Riko (11 tahun) awalnya selalu menunduk saat diajak bicara. Lewat 3 bulan bimbingan personal yang sabar, minggu lalu ia berani maju dan berkata: "Kak, aku mau jadi programmer!".',
+                        excerpt_en: 'Riko (11) used to stare at the floor whenever spoken to. After 3 months of patient 1-on-1 mentorship, he stood tall in front of the class: "Kak, I want to be a software developer!".',
+                        quote: '"Terkadang seorang anak hanya membutuhkan satu orang dewasa yang benar-benar percaya pada potensi mereka."',
+                        quote_id: '"Terkadang seorang anak hanya membutuhkan satu orang dewasa yang benar-benar percaya pada potensi mereka."',
+                        quote_en: '"Sometimes a child only needs one caring mentor who genuinely believes in their hidden potential."',
+                        content_id: 'Dalam program Teacher Class & Mentoring Hey Youth, setiap relawan memegang 3 sampai 4 adik asuh untuk didampingi secara intensif. Salah satu adik asuh saya, Riko, mengalami krisis percaya diri karena sering diejek lambat membaca di sekolah asalnya.\n\nKuncinya bukan memaksanya menghafal rumus, melainkan mendengarkan apa yang sebenarnya ia sukai. Ketika saya mengetahui ia suka mobil-mobilan dan puzzle, kami belajar logika matematika melalui analogi lintasan balap dan susun balok.\n\nTiga bulan kemudian, ibunya menghubungi saya sambil menangis haru: Riko meraih peringkat 3 besar di kelasnya dan terpilih menjadi perwakilan lomba cerdas cermat tingkat kelurahan.',
+                        content_en: 'In Hey Youth\'s Teacher Class & Mentorship program, each volunteer mentors 3 to 4 students intensively. One of my mentees, Riko, struggled with self-esteem because classmates teased him for reading slowly.\n\nThe breakthrough didn\'t come from forcing formulas, but by listening to his passions. When I discovered he loved toy cars and logic puzzles, we learned math principles through race track analogies and puzzle building.\n\nThree months later, his mother called me in tears of joy: Riko earned top 3 in his class and was chosen for the inter-district quiz competition.'
+                    },
+                    {
+                        id: 504,
+                        category: 'expedition',
+                        category_label_id: 'Ekspedisi Daerah',
+                        category_label_en: 'Regional Expedition',
+                        read_time_id: '4 min baca',
+                        read_time_en: '4 min read',
+                        date_id: '05 Jul 2025',
+                        date_en: 'Jul 05, 2025',
+                        author_name: 'Amanda Nurul & Tim Koordinator',
+                        author_role_id: 'Community Coordinator (Chapter Banten)',
+                        author_role_en: 'Community Coordinator (Banten Chapter)',
+                        author_avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face',
+                        image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop',
+                        title: 'Menembus Pelosok: Menyalakan Lentera Literasi di Banten Selatan',
+                        title_id: 'Menembus Pelosok: Menyalakan Lentera Literasi di Banten Selatan',
+                        title_en: 'Reaching Remote Corners: Igniting Literacy in South Banten',
+                        excerpt: 'Jalan tanah terjal sepanjang 5 jam seketika terlupakan saat melihat 40 pasang kaki kecil berlari riang menyambut mobil logistik kami. Mereka tidak kekurangan mimpi, mereka hanya butuh akses yang setara.',
+                        excerpt_id: 'Jalan tanah terjal sepanjang 5 jam seketika terlupakan saat melihat 40 pasang kaki kecil berlari riang menyambut mobil logistik kami. Mereka tidak kekurangan mimpi, mereka hanya butuh akses yang setara.',
+                        excerpt_en: 'A 5-hour bumpy dirt road trek was instantly forgotten upon seeing 40 pairs of little bare feet running ecstatically to greet our logistics van. They never lacked ambition; they just needed equal access.',
+                        quote: '"Batas geografis dan jalan terjal tidak boleh menjadi penghalang bagi tingginya impian anak-anak Indonesia."',
+                        quote_id: '"Batas geografis dan jalan terjal tidak boleh menjadi penghalang bagi tingginya impian anak-anak Indonesia."',
+                        quote_en: '"Geographical borders and rugged trails must never cap the aspirations of our nation\'s children."',
+                        content_id: 'Desa Cikadu di Banten Selatan terletak cukup jauh dari pusat kota dengan fasilitas perpustakaan yang hampir tidak ada. Listrik masih sering padam bergantian dan sinyal ponsel sangat minim. Bersama 12 relawan Hey Youth, kami membawa 5 kardus buku ensiklopedia, proyektor tenaga baterai, dan alat-alat peraga sains sederhana.\n\nSelama dua hari di sana, balai desa disulap menjadi laboratorium sains mini. Anak-anak melihat reaksi gunung meletus dari baking soda dan cuka untuk pertama kalinya dengan mata terbelalak kagum.\n\nMalam harinya, di bawah langit berbintang, kami memutar film dokumenter luar angkasa. Salah satu anak, Deden, berkata: "Ternyata bumi itu bulat dan ada bintang sebesar matahari ya Kak? Aku mau belajar yang rajin biar bisa naik pesawat luar angkasa." Pengalaman ini membuktikan bahwa batas geografis tidak boleh membatasi tingginya impian seorang anak Indonesia.',
+                        content_en: 'Cikadu village in South Banten lies tucked deep away with virtually zero library access. Electricity experiences frequent blackouts and cellular signals are scarce. Together with 12 Hey Youth volunteers, we brought 5 boxes of illustrated encyclopedias, a battery-powered projector, and simple science props.\n\nOver two days, the village hall became a buzzing science laboratory. The kids watched a baking soda volcano erupt with pure awe and wonder.\n\nThat evening under the starry sky, we screened an astronomy documentary. A boy named Deden smiled: "So the earth is round and there are stars bigger than the sun? I will study hard so one day I can ride a spacecraft." This trip proved that geographic boundaries must never limit the heights of an Indonesian child\'s dream.'
+                    },
+                    {
+                        id: 505,
+                        category: 'testimonial',
+                        category_label_id: 'Testimonial',
+                        category_label_en: 'Testimonial',
+                        read_time_id: '2 min baca',
+                        read_time_en: '2 min read',
+                        date_id: '22 Okt 2025',
+                        date_en: 'Oct 22, 2025',
+                        author_name: 'Nadia Safitri',
+                        author_role_id: 'Volunteer Alumni & Mentor Batch 3',
+                        author_role_en: 'Volunteer Alumni & Mentor Batch 3',
+                        author_avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face',
+                        image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=800&auto=format&fit=crop',
+                        title: 'Testimonial Relawan: Menemukan Makna dan Sahabat Seperjuangan',
+                        title_id: 'Testimonial Relawan: Menemukan Makna dan Sahabat Seperjuangan',
+                        title_en: 'Volunteer Testimonial: Finding Purpose and Lifelong Comrades',
+                        excerpt: 'Bergabung dengan Hey Youth mengubah cara pandang saya tentang kepemimpinan. Di sini saya tidak hanya memberi, tetapi justru belajar banyak tentang ketulusan dan empati.',
+                        excerpt_id: 'Bergabung dengan Hey Youth mengubah cara pandang saya tentang kepemimpinan. Di sini saya tidak hanya memberi, tetapi justru belajar banyak tentang ketulusan dan empati.',
+                        excerpt_en: 'Joining Hey Youth fundamentally transformed how I view leadership. Here I didn\'t just give, but learned so much about genuine sincerity and empathy.',
+                        quote: '"Hey Youth adalah ruang bertumbuh terbaik bagi pemuda yang ingin aksi nyata, bukan sekadar wacana."',
+                        quote_id: '"Hey Youth adalah ruang bertumbuh terbaik bagi pemuda yang ingin aksi nyata, bukan sekadar wacana."',
+                        quote_en: '"Hey Youth is the ultimate growth hub for young people who crave real action, not just talk."',
+                        content_id: 'Saat pertama kali mendaftar sebagai relawan, saya hanya berniat mengisi waktu luang semester akhir kuliah. Namun atmosfer kekeluargaan dan dedikasi rekan-rekan relawan di Hey Youth sangat menular. Setiap minggunya kami berdiskusi, merancang kurikulum kreatif, dan terjun bersama ke lapangan.\n\nPengalaman ini mengasah kepemimpinan, komunikasi, dan resiliensi saya jauh lebih dalam dibandingkan materi kuliah di kelas. Hey Youth membuktikan bahwa pemuda memiliki kekuatan luar biasa jika bergerak bersama demi masa depan pendidikan Indonesia.',
+                        content_en: 'When I first applied as a volunteer, I merely intended to spend my spare final semester time. But the warm camaraderie and relentless dedication of the Hey Youth team was deeply contagious. Every single week we brainstormed, designed creative curriculum, and ventured to the field together.\n\nThis journey sharpened my leadership, communication, and resilience far deeper than any textbook lecture could. Hey Youth proves that youth possess extraordinary power when united for the future of education.'
+                    }
+                ]
             };
 
             /* =========================================
@@ -1084,6 +1216,7 @@
                     try { renderFaqs(data.faqs); } catch(e){}
                     try { renderLocations(data.locations); } catch(e){}
                     try { renderTeam(data.team); } catch(e){}
+                    try { renderFieldStories(data.fieldStories); } catch(e){}
                     try { renderActivityCards(data.activityCards); } catch(e){}
                     try { renderPodcasts(data.podcasts); } catch(e){}
                     try { renderPartners(data.partners); } catch(e){}
@@ -1164,8 +1297,8 @@
                         '<td class="px-4 py-2.5 text-xs text-gray-500 max-w-xs truncate">' + escapeHtml(item.location) + '</td>' +
                         '<td class="px-4 py-2.5">' + statusBadge + '</td>' +
                         '<td class="px-4 py-2.5 text-right space-x-2">' +
-                        '  <button onclick="openEditModal(\'event\',' + item.id + ')" class="text-primary hover:text-primaryDark text-xs font-semibold"><i class="fas fa-edit"></i> Edit</button>' +
-                        '  <button onclick="confirmDelete(\'event\',' + item.id + ')" class="text-red-500 hover:text-red-700 text-xs font-semibold"><i class="fas fa-trash-alt"></i> Hapus</button>' +
+                        '  <button onclick="openEditModal(\'event\',\'' + escapeAttr(String(item.id)) + '\')" class="text-primary hover:text-primaryDark text-xs font-semibold"><i class="fas fa-edit"></i> Edit</button>' +
+                        '  <button onclick="confirmDelete(\'event\',\'' + escapeAttr(String(item.id)) + '\')" class="text-red-500 hover:text-red-700 text-xs font-semibold"><i class="fas fa-trash-alt"></i> Hapus</button>' +
                         '</td>' +
                         '</tr>';
                 }).join('');
@@ -1669,12 +1802,16 @@
                 var pods = (data.podcasts || []).length;
                 var partners = (data.partners || []).length;
                 var eventsCount = (data.events || []).length;
+                var storiesCount = (data.fieldStories || []).length;
 
                 document.getElementById('count-external').textContent = ext;
                 document.getElementById('count-internal').textContent = int;
                 document.getElementById('count-faq').textContent = faq;
                 document.getElementById('count-locations').textContent = loc;
                 document.getElementById('count-team').textContent = team;
+                if (document.getElementById('count-field-stories')) {
+                    document.getElementById('count-field-stories').textContent = storiesCount;
+                }
 
                 document.getElementById('count-activity-cards').textContent = actCards;
                 document.getElementById('count-podcasts').textContent = pods;
@@ -1685,7 +1822,7 @@
                 }
 
                 document.getElementById('count-homepage').textContent = ext + int + faq + loc;
-                document.getElementById('count-about').textContent = team + 1;
+                document.getElementById('count-about').textContent = team + storiesCount + 1;
                 document.getElementById('count-activities').textContent = actCards + pods + eventsCount;
             }
 
@@ -1812,20 +1949,20 @@
                 var zone = document.getElementById('upload-zone');
                 if (!zone) return;
                 zone.innerHTML =
-                    '<div class="relative">' +
+                    '<div class="relative w-full">' +
                     '<img src="' + src + '" alt="Preview" class="w-full h-40 object-contain rounded-lg bg-gray-50">' +
-                    '<button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center text-xs shadow-md transition-colors"><i class="fas fa-times"></i></button>' +
+                    '<button type="button" onclick="event.stopPropagation(); removeUpload();" class="upload-remove-btn" title="Hapus Gambar"><i class="fas fa-times"></i></button>' +
                     '</div>' +
-                    '<p class="text-xs text-green-600 font-medium mt-2"><i class="fas fa-check-circle mr-1"></i>Gambar berhasil diupload</p>';
+                    '<p class="text-xs text-green-600 font-medium mt-2 text-center"><i class="fas fa-check-circle mr-1"></i>Gambar berhasil diupload</p>';
             }
 
             function updateUploadPreviewQris(src) {
                 var zone = document.getElementById('upload-zone-qris');
                 if (!zone) return;
                 zone.innerHTML =
-                    '<div class="relative">' +
+                    '<div class="relative inline-block mx-auto">' +
                     '<img src="' + src + '" alt="Preview QRIS" class="w-24 h-24 object-contain mx-auto bg-gray-50 rounded">' +
-                    '<button type="button" onclick="removeUploadQris()" class="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full text-xs shadow-md"><i class="fas fa-times"></i></button>' +
+                    '<button type="button" onclick="event.stopPropagation(); removeUploadQris();" class="upload-remove-btn" style="top: -6px; right: -6px; width: 24px; height: 24px;" title="Hapus QRIS"><i class="fas fa-times"></i></button>' +
                     '</div>' +
                     '<p class="text-xs text-green-600 font-medium mt-2 text-center">QRIS Uploaded</p>';
             }
@@ -1834,9 +1971,9 @@
                 var zone = document.getElementById('upload-zone-speaker');
                 if (!zone) return;
                 zone.innerHTML =
-                    '<div class="relative">' +
+                    '<div class="relative inline-block mx-auto">' +
                     '<img src="' + src + '" alt="Preview Speaker" class="w-24 h-24 object-contain mx-auto bg-gray-50 rounded-full">' +
-                    '<button type="button" onclick="removeUploadSpeaker()" class="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full text-xs shadow-md"><i class="fas fa-times"></i></button>' +
+                    '<button type="button" onclick="event.stopPropagation(); removeUploadSpeaker();" class="upload-remove-btn" style="top: -4px; right: -4px; width: 24px; height: 24px;" title="Hapus Foto Speaker"><i class="fas fa-times"></i></button>' +
                     '</div>' +
                     '<p class="text-xs text-green-600 font-medium mt-2 text-center">Foto Speaker Uploaded</p>';
             }
@@ -2036,8 +2173,8 @@
                         '</div>' +
                         '<p class="text-sm text-gray-600 italic flex-grow line-clamp-3">"' + escapeHtml(item.quote) + '"</p>' +
                         '<div class="flex gap-2 mt-4 pt-3 border-t border-gray-100">' +
-                        '<button onclick="openEditModal(\'' + type + '\',' + item.id + ')" class="flex-1 text-xs font-semibold text-primary hover:bg-blue-50 py-2 rounded-lg transition-colors"><i class="fas fa-pen mr-1"></i> Edit</button>' +
-                        '<button onclick="confirmDelete(\'' + type + '\',' + item.id + ')" class="flex-1 text-xs font-semibold text-red-500 hover:bg-red-50 py-2 rounded-lg transition-colors"><i class="fas fa-trash mr-1"></i> Hapus</button>' +
+                        '<button onclick="openEditModal(\'' + type + '\',\'' + escapeAttr(String(item.id)) + '\')" class="flex-1 text-xs font-semibold text-primary hover:bg-blue-50 py-2 rounded-lg transition-colors"><i class="fas fa-pen mr-1"></i> Edit</button>' +
+                        '<button onclick="confirmDelete(\'' + type + '\',\'' + escapeAttr(String(item.id)) + '\')" class="flex-1 text-xs font-semibold text-red-500 hover:bg-red-50 py-2 rounded-lg transition-colors"><i class="fas fa-trash mr-1"></i> Hapus</button>' +
                         '</div>' +
                         '</div>';
                 }).join('');
@@ -2058,8 +2195,8 @@
                         '<p class="text-xs text-gray-500 line-clamp-2">' + escapeHtml(item.answer) + '</p>' +
                         '</div>' +
                         '<div class="flex gap-1 flex-shrink-0">' +
-                        '<button onclick="openEditModal(\'faq\',' + item.id + ')" class="p-2 text-primary hover:bg-blue-50 rounded-lg transition-colors" title="Edit"><i class="fas fa-pen text-xs"></i></button>' +
-                        '<button onclick="confirmDelete(\'faq\',' + item.id + ')" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus"><i class="fas fa-trash text-xs"></i></button>' +
+                        '<button onclick="openEditModal(\'faq\',\'' + escapeAttr(String(item.id)) + '\')" class="p-2 text-primary hover:bg-blue-50 rounded-lg transition-colors" title="Edit"><i class="fas fa-pen text-xs"></i></button>' +
+                        '<button onclick="confirmDelete(\'faq\',\'' + escapeAttr(String(item.id)) + '\')" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus"><i class="fas fa-trash text-xs"></i></button>' +
                         '</div>' +
                         '</div>' +
                         '</div>';
@@ -2091,8 +2228,8 @@
                         '<td class="px-4 py-3 text-gray-600 text-xs whitespace-nowrap">' + escapeHtml(coord) + '</td>' +
                         '<td class="px-4 py-3 whitespace-nowrap"><span class="bg-accent/10 text-accent text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap inline-flex items-center gap-1 leading-none">' + (item.volunteers || 0) + ' Relawan</span></td>' +
                         '<td class="px-4 py-3 text-right whitespace-nowrap">' +
-                        '<button onclick="openEditModal(\'locations\',' + item.id + ')" class="p-1.5 text-primary hover:bg-blue-50 rounded-lg transition-colors mr-1" title="Edit"><i class="fas fa-pen text-xs"></i></button>' +
-                        '<button onclick="confirmDelete(\'locations\',' + item.id + ')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus"><i class="fas fa-trash text-xs"></i></button>' +
+                        '<button onclick="openEditModal(\'locations\',\'' + escapeAttr(String(item.id)) + '\')" class="p-1.5 text-primary hover:bg-blue-50 rounded-lg transition-colors mr-1" title="Edit"><i class="fas fa-pen text-xs"></i></button>' +
+                        '<button onclick="confirmDelete(\'locations\',\'' + escapeAttr(String(item.id)) + '\')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus"><i class="fas fa-trash text-xs"></i></button>' +
                         '</td>' +
                         '</tr>';
                 }).join('');
@@ -2120,10 +2257,63 @@
                         '<h4 class="font-bold text-heading text-sm truncate w-full">' + escapeHtml(item.name) + '</h4>' +
                         '<p class="text-xs text-primary font-semibold mb-3">' + escapeHtml(item.role) + '</p>' +
                         '<div class="flex gap-2 mt-auto w-full">' +
-                        '<button onclick="openEditModal(\'team\',' + item.id + ')" class="flex-1 text-xs font-semibold text-primary hover:bg-blue-50 py-2 rounded-lg transition-colors"><i class="fas fa-pen mr-1"></i> Edit</button>' +
-                        '<button onclick="confirmDelete(\'team\',' + item.id + ')" class="flex-1 text-xs font-semibold text-red-500 hover:bg-red-50 py-2 rounded-lg transition-colors"><i class="fas fa-trash mr-1"></i> Hapus</button>' +
+                        '<button onclick="openEditModal(\'team\',\'' + escapeAttr(String(item.id)) + '\')" class="flex-1 text-xs font-semibold text-primary hover:bg-blue-50 py-2 rounded-lg transition-colors"><i class="fas fa-pen mr-1"></i> Edit</button>' +
+                        '<button onclick="confirmDelete(\'team\',\'' + escapeAttr(String(item.id)) + '\')" class="flex-1 text-xs font-semibold text-red-500 hover:bg-red-50 py-2 rounded-lg transition-colors"><i class="fas fa-trash mr-1"></i> Hapus</button>' +
                         '</div>' +
                         '</div>';
+                }).join('');
+            }
+
+            function renderFieldStories(items) {
+                var container = document.getElementById('list-field-stories');
+                if (!container) return;
+                items = items || [];
+                if (items.length === 0) {
+                    container.innerHTML = '<div class="col-span-full text-center py-16 text-gray-400"><i class="fas fa-book-open text-4xl mb-3 block opacity-30"></i><p>Belum ada cerita jejak relawan.</p></div>';
+                    return;
+                }
+                container.innerHTML = items.map(function (item) {
+                    var imgSrc = item.image ? _resolveImgPath(item.image) : 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=800&auto=format&fit=crop';
+                    var avatarSrc = item.author_avatar ? _resolveImgPath(item.author_avatar) : ('https://ui-avatars.com/api/?name=' + encodeURIComponent(item.author_name || 'Volunteer') + '&size=80&background=random&color=fff');
+                    var cat = item.category || 'kolong';
+                    var catBadgeClass = 'bg-blue-50 text-blue-600 border border-blue-200';
+                    var catLabel = item.category_label_id || 'Sekolah Kolong';
+                    if (cat === 'mentoring') { catBadgeClass = 'bg-purple-50 text-purple-600 border border-purple-200'; catLabel = item.category_label_id || 'Mentoring'; }
+                    else if (cat === 'bts') { catBadgeClass = 'bg-amber-50 text-amber-600 border border-amber-200'; catLabel = item.category_label_id || 'Di Balik Layar'; }
+                    else if (cat === 'expedition') { catBadgeClass = 'bg-emerald-50 text-emerald-600 border border-emerald-200'; catLabel = item.category_label_id || 'Ekspedisi'; }
+                    else if (cat === 'testimonial') { catBadgeClass = 'bg-rose-50 text-rose-600 border border-rose-200'; catLabel = item.category_label_id || 'Testimonial'; }
+
+                    var titleText = cleanLangText(item.title_id || item.title, 'id');
+                    var excerptText = cleanLangText(item.excerpt_id || item.excerpt, 'id');
+
+                    return '<div class="cms-card bg-white rounded-xl border border-gray-200 overflow-hidden flex flex-col justify-between shadow-xs hover:shadow-md transition-all">' +
+                        '<div>' +
+                            '<div class="relative h-36 w-full bg-gray-100 overflow-hidden">' +
+                                '<img src="' + escapeAttr(imgSrc) + '" alt="' + escapeAttr(titleText) + '" class="w-full h-full object-cover">' +
+                                '<span class="absolute top-2 left-2 text-[10px] font-bold px-2.5 py-0.5 rounded-full backdrop-blur-xs ' + catBadgeClass + '">' +
+                                    escapeHtml(catLabel) +
+                                '</span>' +
+                                '<span class="absolute bottom-2 right-2 text-[10px] text-white/90 bg-black/50 backdrop-blur-xs px-2 py-0.5 rounded font-medium">' +
+                                    escapeHtml(item.read_time_id || '3 min baca') +
+                                '</span>' +
+                            '</div>' +
+                            '<div class="p-4">' +
+                                '<h4 class="font-bold text-heading text-sm mb-1.5 line-clamp-2 leading-snug" title="' + escapeAttr(titleText) + '">' + escapeHtml(titleText) + '</h4>' +
+                                '<p class="text-xs text-gray-500 line-clamp-2 mb-3 leading-relaxed">' + escapeHtml(excerptText) + '</p>' +
+                                '<div class="flex items-center gap-2 pt-2.5 border-t border-gray-100">' +
+                                    '<img src="' + escapeAttr(avatarSrc) + '" class="w-7 h-7 rounded-full object-cover border border-gray-200 shrink-0">' +
+                                    '<div class="truncate text-left min-w-0">' +
+                                        '<p class="text-xs font-semibold text-heading truncate">' + escapeHtml(item.author_name || 'Relawan') + '</p>' +
+                                        '<p class="text-[10px] text-gray-400 truncate">' + escapeHtml(item.date_id || '') + '</p>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="p-3 bg-gray-50 border-t border-gray-100 flex gap-2">' +
+                            '<button onclick="openEditModal(\'field-story\',\'' + escapeAttr(String(item.id)) + '\')" class="flex-1 text-xs font-semibold text-primary hover:bg-blue-50 py-1.5 rounded-lg transition-colors text-center cursor-pointer"><i class="fas fa-pen mr-1"></i> Edit</button>' +
+                            '<button onclick="confirmDelete(\'field-story\',\'' + escapeAttr(String(item.id)) + '\')" class="flex-1 text-xs font-semibold text-red-500 hover:bg-red-50 py-1.5 rounded-lg transition-colors text-center cursor-pointer"><i class="fas fa-trash mr-1"></i> Hapus</button>' +
+                        '</div>' +
+                    '</div>';
                 }).join('');
             }
 
@@ -2148,8 +2338,8 @@
                         '</div>' +
                         '<h4 class="font-bold text-heading text-sm line-clamp-2 h-10">' + escapeHtml(titleText) + '</h4>' +
                         '<div class="mt-auto pt-3 flex gap-2">' +
-                        '<button onclick="openEditModal(\'activity-card\',' + item.id + ')" class="flex-1 text-xs font-semibold text-primary hover:bg-blue-50 py-1.5 rounded transition-colors">Edit</button>' +
-                        '<button onclick="confirmDelete(\'activity-card\',' + item.id + ')" class="flex-1 text-xs font-semibold text-red-500 hover:bg-red-50 py-1.5 rounded transition-colors">Hapus</button>' +
+                        '<button onclick="openEditModal(\'activity-card\',\'' + escapeAttr(String(item.id)) + '\')" class="flex-1 text-xs font-semibold text-primary hover:bg-blue-50 py-1.5 rounded transition-colors">Edit</button>' +
+                        '<button onclick="confirmDelete(\'activity-card\',\'' + escapeAttr(String(item.id)) + '\')" class="flex-1 text-xs font-semibold text-red-500 hover:bg-red-50 py-1.5 rounded transition-colors">Hapus</button>' +
                         '</div>' +
                         '</div>';
                 }).join('');
@@ -2178,8 +2368,8 @@
                         '<div class="text-[10px] text-gray-400 truncate mt-1"><i class="fas fa-link mr-1"></i>' + (item.spotifyLink ? item.spotifyLink : 'No Link') + '</div>' +
                         '</div>' +
                         '<div class="flex gap-2 flex-shrink-0">' +
-                        '<button onclick="openEditModal(\'podcast\',' + item.id + ')" class="p-1.5 text-primary hover:bg-blue-50 rounded-lg transition-colors"><i class="fas fa-pen text-xs"></i></button>' +
-                        '<button onclick="confirmDelete(\'podcast\',' + item.id + ')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"><i class="fas fa-trash text-xs"></i></button>' +
+                        '<button onclick="openEditModal(\'podcast\',\'' + escapeAttr(String(item.id)) + '\')" class="p-1.5 text-primary hover:bg-blue-50 rounded-lg transition-colors"><i class="fas fa-pen text-xs"></i></button>' +
+                        '<button onclick="confirmDelete(\'podcast\',\'' + escapeAttr(String(item.id)) + '\')" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"><i class="fas fa-trash text-xs"></i></button>' +
                         '</div>' +
                         '</div>';
                 }).join('');
@@ -2221,8 +2411,8 @@
                         '<h4 class="font-bold text-heading text-lg mb-2">' + escapeHtml(item.name) + '</h4>' +
                         '<p class="text-sm text-gray-500 mb-6 flex-grow line-clamp-2">' + escapeHtml(item.description) + '</p>' +
                         '<div class="flex gap-2 w-full mt-auto">' +
-                        '<button onclick="openEditModal(\'partner\',' + item.id + ')" class="flex-1 text-xs font-semibold text-primary hover:bg-blue-50 py-2 rounded-lg transition-colors"><i class="fas fa-pen mr-1"></i> Edit</button>' +
-                        '<button onclick="confirmDelete(\'partner\',' + item.id + ')" class="flex-1 text-xs font-semibold text-red-500 hover:bg-red-50 py-2 rounded-lg transition-colors"><i class="fas fa-trash mr-1"></i> Hapus</button>' +
+                        '<button onclick="openEditModal(\'partner\',\'' + escapeAttr(String(item.id)) + '\')" class="flex-1 text-xs font-semibold text-primary hover:bg-blue-50 py-2 rounded-lg transition-colors"><i class="fas fa-pen mr-1"></i> Edit</button>' +
+                        '<button onclick="confirmDelete(\'partner\',\'' + escapeAttr(String(item.id)) + '\')" class="flex-1 text-xs font-semibold text-red-500 hover:bg-red-50 py-2 rounded-lg transition-colors"><i class="fas fa-trash mr-1"></i> Hapus</button>' +
                         '</div>' +
                         '</div>';
                 }).join('');
@@ -2301,6 +2491,7 @@
                         case 'podcast': list = data.podcasts; break;
                         case 'partner': list = data.partners; break;
                         case 'event': list = data.events; break;
+                        case 'field-story': list = data.fieldStories; break;
                     }
                     list = list || [];
                     item = list.find(function (i) { return String(i.id) === String(id); });
@@ -2315,6 +2506,9 @@
 
                 uploadedImage = (item.image && item.image.startsWith('data:')) ? item.image : null;
                 uploadedSpeakerImage = (item.speakerImage && item.speakerImage.startsWith('data:')) ? item.speakerImage : null;
+                if (section === 'field-story' && item.author_avatar && item.author_avatar.startsWith('data:')) {
+                    uploadedSpeakerImage = item.author_avatar;
+                }
                 if (section === 'podcast' && item.thumbnail) {
                     uploadedImage = (item.thumbnail && item.thumbnail.startsWith('data:')) ? item.thumbnail : null;
                 }
@@ -2349,6 +2543,7 @@
                 else if (section === 'donation-settings') label = 'Pengaturan Donation';
                 else if (section === 'event') label = 'Event';
                 else if (section === 'events-settings') label = 'Pengaturan Header Event & Sertifikat';
+                else if (section === 'field-story') label = 'Cerita Jejak Relawan';
 
                 document.getElementById('modal-title').textContent = (isEdit ? 'Edit ' : 'Tambah ') + label;
                 var html = '';
@@ -2421,14 +2616,14 @@
                     var existingSrc = '';
                     if (item && item.image) existingSrc = _resolveImgPath(item.image);
                     html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Gambar Cover/Banner</label><div id="upload-zone" class="upload-zone rounded-xl p-4 text-center border border-dashed border-gray-300">';
-                    if (existingSrc) html += '<div class="relative"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Gambar tersedia</p>';
+                    if (existingSrc) html += '<div class="relative w-full"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="event.stopPropagation(); removeUpload();" class="upload-remove-btn" title="Hapus Gambar"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Gambar tersedia</p>';
                     else html += '<div class="py-6 text-center"><i class="fas fa-image text-3xl text-gray-300 mb-2"></i><p class="text-sm text-gray-500">Upload Gambar</p></div>';
                     html += '</div></div>';
 
                     var existingSpeakerSrc = '';
                     if (item && item.speakerImage) existingSpeakerSrc = _resolveImgPath(item.speakerImage);
                     html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Foto Pembicara / Speaker Photo</label><div id="upload-zone-speaker" class="upload-zone rounded-xl p-4 text-center border border-dashed border-gray-300">';
-                    if (existingSpeakerSrc) html += '<div class="relative"><img src="' + escapeAttr(existingSpeakerSrc) + '" class="w-24 h-24 object-contain mx-auto bg-gray-50 rounded-full"><button type="button" onclick="removeUploadSpeaker()" class="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full text-xs shadow-md"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2 text-center">Foto Speaker tersedia</p>';
+                    if (existingSpeakerSrc) html += '<div class="relative inline-block mx-auto"><img src="' + escapeAttr(existingSpeakerSrc) + '" class="w-24 h-24 object-contain mx-auto bg-gray-50 rounded-full"><button type="button" onclick="event.stopPropagation(); removeUploadSpeaker();" class="upload-remove-btn" style="top: -4px; right: -4px; width: 24px; height: 24px;" title="Hapus Foto Speaker"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2 text-center">Foto Speaker tersedia</p>';
                     else html += '<div class="py-4 text-center text-gray-400 text-sm"><i class="fas fa-user text-2xl mb-1"></i><p>Upload Foto Speaker</p></div>';
                     html += '</div></div>';
                 }
@@ -2441,7 +2636,7 @@
                     var existingStrip = '';
                     if (item && item.stripImage) existingStrip = _resolveImgPath(item.stripImage);
                     if (existingStrip) {
-                        html += '<div class="relative"><img src="' + escapeAttr(existingStrip) + '" class="w-full h-32 object-cover rounded-lg"><button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full"><i class="fas fa-times"></i></button></div>';
+                        html += '<div class="relative w-full"><img src="' + escapeAttr(existingStrip) + '" class="w-full h-32 object-cover rounded-lg"><button type="button" onclick="event.stopPropagation(); removeUpload();" class="upload-remove-btn" title="Hapus Banner Strip"><i class="fas fa-times"></i></button></div>';
                     } else {
                         html += '<div class="py-4 text-center text-gray-400 text-sm">Klik untuk upload gambar strip</div>';
                     }
@@ -2456,7 +2651,7 @@
                     var existingQris = '';
                     if (item && item.qrisImage) existingQris = _resolveImgPath(item.qrisImage);
                     if (existingQris) {
-                        html += '<div class="relative"><img src="' + escapeAttr(existingQris) + '" class="w-24 h-24 object-contain mx-auto bg-gray-50 rounded"><button type="button" onclick="removeUploadQris()" class="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full text-xs">X</button></div>';
+                        html += '<div class="relative inline-block mx-auto"><img src="' + escapeAttr(existingQris) + '" class="w-24 h-24 object-contain mx-auto bg-gray-50 rounded"><button type="button" onclick="event.stopPropagation(); removeUploadQris();" class="upload-remove-btn" style="top: -6px; right: -6px; width: 24px; height: 24px;" title="Hapus QRIS"><i class="fas fa-times"></i></button></div>';
                     } else {
                         html += '<div class="py-4 text-center text-gray-400 text-sm border border-dashed border-gray-300 rounded">Upload QRIS</div>';
                     }
@@ -2473,7 +2668,7 @@
                     var existingHeroSrc = '';
                     if (item && item.image) existingHeroSrc = _resolveImgPath(item.image);
                     if (existingHeroSrc) {
-                        html += '<div class="relative"><img src="' + escapeAttr(existingHeroSrc) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Gambar Hero tersedia</p>';
+                        html += '<div class="relative w-full"><img src="' + escapeAttr(existingHeroSrc) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="event.stopPropagation(); removeUpload();" class="upload-remove-btn" title="Hapus Gambar Hero"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Gambar Hero tersedia</p>';
                     } else {
                         html += '<div class="py-6 text-center"><i class="fas fa-image text-3xl text-gray-300 mb-2"></i><p class="text-sm text-gray-500">Klik untuk ganti gambar</p></div>';
                     }
@@ -2498,7 +2693,7 @@
                     var existingSrc = '';
                     if (item && item.image) existingSrc = _resolveImgPath(item.image);
                     html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Foto</label><div id="upload-zone" class="upload-zone rounded-xl p-4 text-center">';
-                    if (existingSrc) html += '<div class="relative"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-contain rounded-lg bg-gray-50"><button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Gambar tersedia</p>';
+                    if (existingSrc) html += '<div class="relative w-full"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-contain rounded-lg bg-gray-50"><button type="button" onclick="event.stopPropagation(); removeUpload();" class="upload-remove-btn" title="Hapus Foto"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Gambar tersedia</p>';
                     else html += '<div class="py-6 text-center"><i class="fas fa-cloud-upload-alt text-3xl text-gray-300 mb-2"></i><p class="text-sm text-gray-500">Upload Foto</p></div>';
                     html += '</div></div>';
                 }
@@ -2537,7 +2732,7 @@
                     var existingSrc = '';
                     if (item && item.image) existingSrc = _resolveImgPath(item.image);
                     html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Foto Dokumentasi Kegiatan Chapter</label><div id="upload-zone" class="upload-zone rounded-xl p-4 text-center">';
-                    if (existingSrc) html += '<div class="relative"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Foto kegiatan tersedia</p>';
+                    if (existingSrc) html += '<div class="relative w-full"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="event.stopPropagation(); removeUpload();" class="upload-remove-btn" title="Hapus Foto Kegiatan"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Foto kegiatan tersedia</p>';
                     else html += '<div class="py-6 text-center"><i class="fas fa-camera text-3xl text-gray-300 mb-2"></i><p class="text-sm text-gray-500">Upload Foto Kegiatan Relawan</p></div>';
                     html += '</div></div>';
                 }
@@ -2553,7 +2748,7 @@
                     var existingSrc = '';
                     if (item && item.image) existingSrc = _resolveImgPath(item.image);
                     html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Foto Profil</label><div id="upload-zone" class="upload-zone rounded-xl p-4 text-center">';
-                    if (existingSrc) html += '<div class="relative"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-contain rounded-lg bg-gray-50"><button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Foto tersedia</p>';
+                    if (existingSrc) html += '<div class="relative w-full"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-contain rounded-lg bg-gray-50"><button type="button" onclick="event.stopPropagation(); removeUpload();" class="upload-remove-btn" title="Hapus Foto Profil"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Foto tersedia</p>';
                     else html += '<div class="py-6 text-center"><i class="fas fa-cloud-upload-alt text-3xl text-gray-300 mb-2"></i><p class="text-sm text-gray-500">Upload Foto</p></div>';
                     html += '</div></div>';
                 }
@@ -2584,7 +2779,7 @@
                     var existingSrc = '';
                     if (item && item.image) existingSrc = _resolveImgPath(item.image);
                     html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Gambar Cover</label><div id="upload-zone" class="upload-zone rounded-xl p-4 text-center">';
-                    if (existingSrc) html += '<div class="relative"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Gambar tersedia</p>';
+                    if (existingSrc) html += '<div class="relative w-full"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="event.stopPropagation(); removeUpload();" class="upload-remove-btn" title="Hapus Cover"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Gambar tersedia</p>';
                     else html += '<div class="py-6 text-center"><i class="fas fa-image text-3xl text-gray-300 mb-2"></i><p class="text-sm text-gray-500">Upload Gambar</p></div>';
                     html += '</div></div>';
                 }
@@ -2606,7 +2801,7 @@
                     if (item && item.thumbnail) existingThumb = _resolveImgPath(item.thumbnail);
                     html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Thumbnail Cover</label><div id="upload-zone" class="upload-zone rounded-xl p-4 text-center">';
                     if (existingThumb) {
-                        html += '<div class="relative"><img src="' + escapeAttr(existingThumb) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Thumbnail tersedia</p>';
+                        html += '<div class="relative w-full"><img src="' + escapeAttr(existingThumb) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="event.stopPropagation(); removeUpload();" class="upload-remove-btn" title="Hapus Thumbnail"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Thumbnail tersedia</p>';
                     } else {
                         html += '<div class="py-6 text-center"><i class="fas fa-image text-3xl text-gray-300 mb-2"></i><p class="text-sm text-gray-500">Upload Thumbnail</p></div>';
                     }
@@ -2656,8 +2851,66 @@
                     var existingSrc = '';
                     if (item && item.image) existingSrc = _resolveImgPath(item.image);
                     html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Logo Partner (Opsional)</label><p class="text-[10px] text-gray-400 mb-2">Jika diupload, akan menggantikan icon di atas.</p><div id="upload-zone" class="upload-zone rounded-xl p-4 text-center">';
-                    if (existingSrc) html += '<div class="relative"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-contain rounded-lg bg-gray-50"><button type="button" onclick="removeUpload()" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Logo tersedia</p>';
+                    if (existingSrc) html += '<div class="relative w-full"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-contain rounded-lg bg-gray-50"><button type="button" onclick="event.stopPropagation(); removeUpload();" class="upload-remove-btn" title="Hapus Logo"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Logo tersedia</p>';
                     else html += '<div class="py-6 text-center"><i class="fas fa-cloud-upload-alt text-3xl text-gray-300 mb-2"></i><p class="text-sm text-gray-500">Upload Logo</p></div>';
+                    html += '</div></div>';
+                }
+                else if (section === 'field-story') {
+                    var curCat = item ? (item.category || 'kolong') : 'kolong';
+                    html += '<div class="mb-4">' +
+                        '<label class="block text-sm font-semibold text-heading mb-1.5">Kategori Cerita</label>' +
+                        '<select id="f-story-category" class="w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary">' +
+                        '<option value="kolong"' + (curCat === 'kolong' ? ' selected' : '') + '>Sekolah Kolong</option>' +
+                        '<option value="mentoring"' + (curCat === 'mentoring' ? ' selected' : '') + '>Mentoring & Karir</option>' +
+                        '<option value="bts"' + (curCat === 'bts' ? ' selected' : '') + '>Di Balik Layar</option>' +
+                        '<option value="expedition"' + (curCat === 'expedition' ? ' selected' : '') + '>Ekspedisi Daerah</option>' +
+                        '<option value="testimonial"' + (curCat === 'testimonial' ? ' selected' : '') + '>Testimonial</option>' +
+                        '</select>' +
+                        '</div>';
+
+                    html += '<div class="grid grid-cols-2 gap-3">' +
+                        formField('Judul Kisah (ID)', 'f-title', item ? cleanLangText(item.title_id || item.title, 'id') : '', 'text', 'Melihat Binar Harapan...') +
+                        formField('Judul Kisah (EN)', 'f-title-en', item ? cleanLangText(item.title_en || item.title, 'en') : '', 'text', 'Seeing Glimmers of Hope...') +
+                        '</div>';
+
+                    html += '<div class="grid grid-cols-2 gap-3">' +
+                        formField('Nama Penulis / Relawan', 'f-author-name', item ? (item.author_name || '') : '', 'text', 'Salsabila Azzahra') +
+                        formField('Estimasi Baca (Contoh: 3 min baca)', 'f-read-time', item ? (item.read_time_id || '3 min baca') : '3 min baca', 'text', '3 min baca') +
+                        '</div>';
+
+                    html += '<div class="grid grid-cols-2 gap-3">' +
+                        formField('Peran / Jabatan Penulis (ID)', 'f-author-role', item ? cleanLangText(item.author_role_id, 'id') : '', 'text', 'Teacher Volunteer • Batch 4') +
+                        formField('Peran / Jabatan Penulis (EN)', 'f-author-role-en', item ? cleanLangText(item.author_role_en, 'en') : '', 'text', 'Teacher Volunteer • Batch 4') +
+                        '</div>';
+
+                    html += '<div class="grid grid-cols-2 gap-3">' +
+                        formField('Tanggal Terbit (ID)', 'f-date', item ? (item.date_id || '') : '', 'text', '14 Okt 2025') +
+                        formField('Tanggal Terbit (EN)', 'f-date-en', item ? (item.date_en || '') : '', 'text', 'Oct 14, 2025') +
+                        '</div>';
+
+                    html += formTextarea('Kutipan Berkesan / Highlight Quote (ID)', 'f-quote', item ? cleanLangText(item.quote_id || item.quote, 'id') : '', '"Bagi adik-adik di sini..."');
+                    html += formTextarea('Kutipan Berkesan / Highlight Quote (EN)', 'f-quote-en', item ? cleanLangText(item.quote_en || item.quote, 'en') : '', '"For these kids..."');
+
+                    html += formTextarea('Ringkasan Singkat / Excerpt (ID)', 'f-excerpt', item ? cleanLangText(item.excerpt_id || item.excerpt, 'id') : '', 'Hari pertama mengajar...');
+                    html += formTextarea('Ringkasan Singkat / Excerpt (EN)', 'f-excerpt-en', item ? cleanLangText(item.excerpt_en || item.excerpt, 'en') : '', 'Teaching on the first day...');
+
+                    var contentIdVal = item ? (item.content_id || (Array.isArray(item.paragraphs_id) ? item.paragraphs_id.join('\n\n') : '')) : '';
+                    var contentEnVal = item ? (item.content_en || (Array.isArray(item.paragraphs_en) ? item.paragraphs_en.join('\n\n') : '')) : '';
+                    html += formTextarea('Isi Narasi Lengkap (ID - pisahkan paragraf dengan baris baru)', 'f-content-id', contentIdVal, 'Pagi itu di TBM Kolong Ciputat...\n\nAwalnya kami khawatir...');
+                    html += formTextarea('Isi Narasi Lengkap (EN - pisahkan paragraf dengan baris baru)', 'f-content-en', contentEnVal, 'That morning at TBM Kolong Ciputat...\n\nInitially we worried...');
+
+                    var existingSrc = '';
+                    if (item && item.image) existingSrc = _resolveImgPath(item.image);
+                    html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Foto Dokumentasi Kegiatan (Cover Cerita)</label><div id="upload-zone" class="upload-zone rounded-xl p-4 text-center border border-dashed border-gray-300">';
+                    if (existingSrc) html += '<div class="relative w-full"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-40 object-cover rounded-lg bg-gray-50"><button type="button" onclick="event.stopPropagation(); removeUpload();" class="upload-remove-btn" title="Hapus Cover Cerita"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Cover cerita tersedia</p>';
+                    else html += '<div class="py-6 text-center"><i class="fas fa-image text-3xl text-gray-300 mb-2"></i><p class="text-sm text-gray-500">Upload Foto Dokumentasi Cerita</p></div>';
+                    html += '</div></div>';
+
+                    var existingAvatarSrc = '';
+                    if (item && item.author_avatar) existingAvatarSrc = _resolveImgPath(item.author_avatar);
+                    html += '<div class="mb-4"><label class="block text-sm font-semibold text-heading mb-1.5">Foto Avatar Penulis</label><div id="upload-zone-speaker" class="upload-zone rounded-xl p-4 text-center border border-dashed border-gray-300">';
+                    if (existingAvatarSrc) html += '<div class="relative inline-block mx-auto"><img src="' + escapeAttr(existingAvatarSrc) + '" class="w-20 h-20 object-cover mx-auto bg-gray-50 rounded-full"><button type="button" onclick="event.stopPropagation(); removeUploadSpeaker();" class="upload-remove-btn" style="top: -4px; right: -4px; width: 24px; height: 24px;" title="Hapus Avatar Penulis"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2 text-center">Avatar Penulis tersedia</p>';
+                    else html += '<div class="py-4 text-center text-gray-400 text-sm"><i class="fas fa-user-circle text-2xl mb-1"></i><p>Upload Avatar Penulis</p></div>';
                     html += '</div></div>';
                 }
 
@@ -2705,7 +2958,7 @@
                             }
                         });
                     }
-                } else if (section === 'event') {
+                } else if (section === 'event' || section === 'field-story') {
                     initDragDrop('main');
                     initDragDrop('speaker');
                 } else if (section === 'locations') {
@@ -3138,6 +3391,86 @@
                     data.eventsSettings.certSubtitle_id = document.getElementById('f-cert-sub-id').value.trim();
                     data.eventsSettings.certSubtitle_en = document.getElementById('f-cert-sub-en').value.trim();
                 }
+                else if (section === 'field-story') {
+                    var titleVal = document.getElementById('f-title') ? document.getElementById('f-title').value.trim() : '';
+                    var titleEnVal = document.getElementById('f-title-en') ? document.getElementById('f-title-en').value.trim() : '';
+                    if (!titleVal) { showToast('Judul cerita wajib diisi.', 'error'); return; }
+
+                    var cat = document.getElementById('f-story-category') ? document.getElementById('f-story-category').value : 'kolong';
+                    var catLabelMap = {
+                        'kolong': { id: 'Sekolah Kolong', en: 'Street Schools' },
+                        'mentoring': { id: 'Mentoring & Karir', en: 'Mentorship' },
+                        'bts': { id: 'Di Balik Layar', en: 'Behind The Scenes' },
+                        'expedition': { id: 'Ekspedisi Daerah', en: 'Regional Expedition' },
+                        'testimonial': { id: 'Testimonial', en: 'Testimonial' }
+                    };
+                    var catLabel = catLabelMap[cat] || { id: 'Cerita', en: 'Story' };
+
+                    var authorName = document.getElementById('f-author-name') ? document.getElementById('f-author-name').value.trim() : '';
+                    var authorRoleId = document.getElementById('f-author-role') ? document.getElementById('f-author-role').value.trim() : '';
+                    var authorRoleEn = document.getElementById('f-author-role-en') ? document.getElementById('f-author-role-en').value.trim() : '';
+                    var dateId = document.getElementById('f-date') ? document.getElementById('f-date').value.trim() : '';
+                    var dateEn = document.getElementById('f-date-en') ? document.getElementById('f-date-en').value.trim() : '';
+                    var readTimeId = document.getElementById('f-read-time') ? document.getElementById('f-read-time').value.trim() : '3 min baca';
+                    var readTimeEn = (readTimeId.indexOf('min') !== -1) ? readTimeId.replace('baca', 'read') : '3 min read';
+                    var quoteId = document.getElementById('f-quote') ? document.getElementById('f-quote').value.trim() : '';
+                    var quoteEn = document.getElementById('f-quote-en') ? document.getElementById('f-quote-en').value.trim() : '';
+                    var excerptId = document.getElementById('f-excerpt') ? document.getElementById('f-excerpt').value.trim() : '';
+                    var excerptEn = document.getElementById('f-excerpt-en') ? document.getElementById('f-excerpt-en').value.trim() : '';
+                    var contentId = document.getElementById('f-content-id') ? document.getElementById('f-content-id').value.trim() : '';
+                    var contentEn = document.getElementById('f-content-en') ? document.getElementById('f-content-en').value.trim() : '';
+
+                    var image = '';
+                    if (uploadedImage) image = uploadedImage;
+                    else if (isEdit && editingItem && editingItem.image && !editingItem.image.startsWith('data:')) image = editingItem.image;
+                    else if (isEdit && editingItem && editingItem.image) image = editingItem.image;
+                    else image = 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=800&auto=format&fit=crop';
+
+                    var authorAvatar = '';
+                    if (uploadedSpeakerImage) authorAvatar = uploadedSpeakerImage;
+                    else if (isEdit && editingItem && editingItem.author_avatar && !editingItem.author_avatar.startsWith('data:')) authorAvatar = editingItem.author_avatar;
+                    else if (isEdit && editingItem && editingItem.author_avatar) authorAvatar = editingItem.author_avatar;
+                    else authorAvatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(authorName || 'Volunteer') + '&size=150&background=random&color=fff';
+
+                    var obj = {
+                        id: isEdit ? editingItem.id : Date.now(),
+                        category: cat,
+                        category_label_id: catLabel.id,
+                        category_label_en: catLabel.en,
+                        read_time_id: readTimeId || '3 min baca',
+                        read_time_en: readTimeEn || '3 min read',
+                        date_id: dateId,
+                        date_en: dateEn || dateId,
+                        author_name: authorName,
+                        author_role_id: authorRoleId,
+                        author_role_en: authorRoleEn || authorRoleId,
+                        author_avatar: authorAvatar,
+                        image: image,
+                        title: titleVal,
+                        title_id: titleVal,
+                        title_en: titleEnVal || titleVal,
+                        excerpt: excerptId,
+                        excerpt_id: excerptId,
+                        excerpt_en: excerptEn || excerptId,
+                        quote: quoteId,
+                        quote_id: quoteId,
+                        quote_en: quoteEn || quoteId,
+                        content_id: contentId,
+                        content_en: contentEn || contentId,
+                        paragraphs_id: contentId ? contentId.split(/\n\s*\n/).filter(Boolean) : [],
+                        paragraphs_en: contentEn ? contentEn.split(/\n\s*\n/).filter(Boolean) : []
+                    };
+
+                    if (!data.fieldStories) data.fieldStories = [];
+                    var list = data.fieldStories;
+                    if (isEdit) {
+                        var idx = list.findIndex(function (i) { return String(i.id) === String(editingItem.id); });
+                        if (idx !== -1) list[idx] = obj;
+                        else list.push(obj);
+                    } else {
+                        list.push(obj);
+                    }
+                }
 
                 if (!saveData(data)) return;
                 // ===== ACTIVITY LOG: Catat event TAMBAH / EDIT =====
@@ -3148,7 +3481,8 @@
                         'activity-card': 'Activity Card', 'podcast': 'Podcast',
                         'partner': 'Partner', 'event': 'Event',
                         'about-hero': 'About Hero', 'donation-settings': 'Donasi',
-                        'events-settings': 'Pengaturan Event'
+                        'events-settings': 'Pengaturan Event',
+                        'field-story': 'Cerita Jejak Relawan'
                     };
                     var logCat = logCategoryMap[section] || section;
                     var logAction = isEdit ? 'EDIT' : 'TAMBAH';
@@ -3160,7 +3494,7 @@
                         else if (section === 'faq') itemName = document.getElementById('f-question') ? document.getElementById('f-question').value : '';
                         else if (section === 'locations') itemName = document.getElementById('f-name') ? document.getElementById('f-name').value : '';
                         else if (section === 'team') itemName = document.getElementById('f-name') ? document.getElementById('f-name').value : '';
-                        else if (section === 'activity-card' || section === 'podcast') itemName = document.getElementById('f-title') ? document.getElementById('f-title').value : '';
+                        else if (section === 'activity-card' || section === 'podcast' || section === 'field-story') itemName = document.getElementById('f-title') ? document.getElementById('f-title').value : '';
                         else if (section === 'partner') itemName = document.getElementById('f-name') ? document.getElementById('f-name').value : '';
                         else if (section === 'event') itemName = document.getElementById('f-title-id') ? document.getElementById('f-title-id').value : '';
                         if (itemName) logDetail += ': "' + itemName + '"';
@@ -3204,23 +3538,25 @@
                         'external': data.externalTestimonials, 'internal': data.internalTestimonials,
                         'faq': data.faqs, 'locations': data.locations, 'team': data.team,
                         'activity-card': data.activityCards, 'podcast': data.podcasts,
-                        'partner': data.partners, 'event': data.events
+                        'partner': data.partners, 'event': data.events,
+                        'field-story': data.fieldStories
                     }[section] || [];
-                    var foundItem = itemList.find(function(i) { return i.id === id; });
+                    var foundItem = itemList.find(function(i) { return String(i.id) === String(id); });
                     if (foundItem) {
                         deletedItemName = foundItem.name || foundItem.title || foundItem.title_id || foundItem.question || '';
                     }
                 } catch(e) {}
                 switch (section) {
-                    case 'external': data.externalTestimonials = (data.externalTestimonials || []).filter(function (i) { return i.id !== id; }); break;
-                    case 'internal': data.internalTestimonials = (data.internalTestimonials || []).filter(function (i) { return i.id !== id; }); break;
-                    case 'faq': data.faqs = (data.faqs || []).filter(function (i) { return i.id !== id; }); break;
-                    case 'locations': data.locations = (data.locations || []).filter(function (i) { return i.id !== id; }); break;
-                    case 'team': data.team = (data.team || []).filter(function (i) { return i.id !== id; }); break;
-                    case 'activity-card': data.activityCards = (data.activityCards || []).filter(function (i) { return i.id !== id; }); break;
-                    case 'podcast': data.podcasts = (data.podcasts || []).filter(function (i) { return i.id !== id; }); break;
-                    case 'partner': data.partners = (data.partners || []).filter(function (i) { return i.id !== id; }); break;
-                    case 'event': data.events = (data.events || []).filter(function (i) { return i.id !== id; }); break;
+                    case 'external': data.externalTestimonials = (data.externalTestimonials || []).filter(function (i) { return String(i.id) !== String(id); }); break;
+                    case 'internal': data.internalTestimonials = (data.internalTestimonials || []).filter(function (i) { return String(i.id) !== String(id); }); break;
+                    case 'faq': data.faqs = (data.faqs || []).filter(function (i) { return String(i.id) !== String(id); }); break;
+                    case 'locations': data.locations = (data.locations || []).filter(function (i) { return String(i.id) !== String(id); }); break;
+                    case 'team': data.team = (data.team || []).filter(function (i) { return String(i.id) !== String(id); }); break;
+                    case 'activity-card': data.activityCards = (data.activityCards || []).filter(function (i) { return String(i.id) !== String(id); }); break;
+                    case 'podcast': data.podcasts = (data.podcasts || []).filter(function (i) { return String(i.id) !== String(id); }); break;
+                    case 'partner': data.partners = (data.partners || []).filter(function (i) { return String(i.id) !== String(id); }); break;
+                    case 'event': data.events = (data.events || []).filter(function (i) { return String(i.id) !== String(id); }); break;
+                    case 'field-story': data.fieldStories = (data.fieldStories || []).filter(function (i) { return String(i.id) !== String(id); }); break;
                 }
                 if (!saveData(data)) return;
                 // ===== ACTIVITY LOG: Catat event HAPUS =====
@@ -3229,7 +3565,8 @@
                         'external': 'Testimoni Eksternal', 'internal': 'Testimoni Internal',
                         'faq': 'FAQ', 'locations': 'Lokasi', 'team': 'Tim',
                         'activity-card': 'Activity Card', 'podcast': 'Podcast',
-                        'partner': 'Partner', 'event': 'Event'
+                        'partner': 'Partner', 'event': 'Event',
+                        'field-story': 'Cerita Jejak Relawan'
                     };
                     var logCat = logCatMap[section] || section;
                     var logDetail = 'Menghapus ' + logCat + (deletedItemName ? ': "' + deletedItemName + '"' : '');
@@ -4956,7 +5293,7 @@
                     '<div>' +
                     '<label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Foto Pengajar / Mentor</label>' +
                     '<div id="upload-zone" onclick="triggerUpload(\'main\')" class="upload-zone p-4 rounded-xl text-center border-2 border-dashed border-gray-300 hover:border-primary transition-colors cursor-pointer bg-gray-50 dark:bg-slate-900">' +
-                    (existingSrc ? '<div class="relative"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-36 object-contain rounded-lg bg-gray-50"><button type="button" onclick="event.stopPropagation(); removeUpload();" class="absolute top-1 right-1 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center text-xs shadow-md"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Foto pengajar tersedia</p>' : '<i class="fas fa-cloud-upload-alt text-2xl text-gray-400 mb-1 block"></i><span class="text-xs text-gray-500 font-semibold block">Klik untuk Upload Foto Pengajar</span>') +
+                    (existingSrc ? '<div class="relative w-full"><img src="' + escapeAttr(existingSrc) + '" class="w-full h-36 object-contain rounded-lg bg-gray-50"><button type="button" onclick="event.stopPropagation(); removeUpload();" class="upload-remove-btn" title="Hapus Foto Pengajar"><i class="fas fa-times"></i></button></div><p class="text-xs text-green-600 mt-2">Foto pengajar tersedia</p>' : '<i class="fas fa-cloud-upload-alt text-2xl text-gray-400 mb-1 block"></i><span class="text-xs text-gray-500 font-semibold block">Klik untuk Upload Foto Pengajar</span>') +
                     '</div>' +
                     '</div>' +
                     '<button type="submit" class="w-full bg-primary hover:bg-primaryDark text-white font-bold py-2 rounded-lg text-sm transition-colors">Simpan Perubahan</button>' +

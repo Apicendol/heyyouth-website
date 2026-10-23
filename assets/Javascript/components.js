@@ -265,29 +265,49 @@ window.closeSpotifyPlayer = function() {
 
     var DEFAULT_COMMAND_ITEMS = [
         // Quick Actions
-        { id: 'act-theme', type: 'action', title: 'Ganti Tema (Gelap / Terang)', title_en: 'Toggle Dark / Light Theme', icon: 'fas fa-moon', category: 'Aksi Cepat', action: function() {
+        { id: 'act-theme', type: 'action', title: 'Ganti Tema (Gelap / Terang)', title_en: 'Toggle Dark / Light Theme', icon: 'fas fa-moon', category: 'Aksi Cepat', category_en: 'Quick Actions', action: function() {
             var themeBtn = document.querySelector('.theme-toggle-btn');
             if (themeBtn) themeBtn.click();
         }},
-        { id: 'act-lang', type: 'action', title: 'Ganti Bahasa (Indonesia / English)', title_en: 'Switch Language (ID / EN)', icon: 'fas fa-language', category: 'Aksi Cepat', action: function() {
+        { id: 'act-lang', type: 'action', title: 'Ganti Bahasa (Indonesia / English)', title_en: 'Switch Language (ID / EN)', icon: 'fas fa-language', category: 'Aksi Cepat', category_en: 'Quick Actions', action: function() {
             var currentLang = localStorage.getItem('heyyouth_lang') || 'en';
             var nextLang = currentLang === 'id' ? 'en' : 'id';
             var btn = document.querySelector('.lang-btn[data-lang="' + nextLang + '"]');
             if (btn) btn.click();
         }},
-        { id: 'act-cert', type: 'link', title: 'Unduh E-Sertifikat Event', title_en: 'Claim E-Certificate', icon: 'fas fa-certificate', category: 'Aksi Cepat', url: basePath + 'pages/activities.html#download-certificate' },
-        { id: 'act-join', type: 'link', title: 'Pendaftaran Relawan Hey Youth', title_en: 'Join Hey Youth as Volunteer', icon: 'fas fa-hand-holding-heart', category: 'Aksi Cepat', url: (isSubFolder ? 'register.html' : 'pages/register.html'), external: false },
+        { id: 'act-cert', type: 'link', title: 'Unduh E-Sertifikat Event & Webinar', title_en: 'Claim E-Certificate for Event / Webinar', icon: 'fas fa-certificate', category: 'Aksi Cepat', category_en: 'Quick Actions', url: basePath + 'pages/activities.html#download-certificate' },
+        { id: 'act-wa', type: 'link', title: 'Hubungi WhatsApp Admin Hey Youth (Official)', title_en: 'Chat Hey Youth Admin on WhatsApp', icon: 'fab fa-whatsapp', category: 'Aksi Cepat', category_en: 'Quick Actions', url: 'https://wa.me/6281283626296?text=Halo%20Admin%20Hey%20Youth%2C%20saya%20ingin%20bertanya%20informasi...', external: true },
+        { id: 'act-ig', type: 'link', title: 'Kunjungi Instagram Resmi (@heyyouth_id)', title_en: 'Visit Official Instagram (@heyyouth_id)', icon: 'fab fa-instagram', category: 'Aksi Cepat', category_en: 'Quick Actions', url: 'https://www.instagram.com/heyyouth_id/', external: true },
+
+        // Volunteer Divisions (10 Divisions)
+        { id: 'div-teacher', type: 'link', title: 'Divisi Relawan: Teacher (Pengajar Kolong & Pelosok)', title_en: 'Volunteer Division: Teacher (Educator)', icon: 'fas fa-chalkboard-teacher', category: 'Divisi Relawan', category_en: 'Divisions', url: (isSubFolder ? 'register.html' : 'pages/register.html') + '#divisions-grid' },
+        { id: 'div-comm', type: 'link', title: 'Divisi Relawan: Community Coordinator', title_en: 'Volunteer Division: Community Coordinator', icon: 'fas fa-users-cog', category: 'Divisi Relawan', category_en: 'Divisions', url: (isSubFolder ? 'register.html' : 'pages/register.html') + '#divisions-grid' },
+        { id: 'div-writer', type: 'link', title: 'Divisi Relawan: Content Writer', title_en: 'Volunteer Division: Content Writer', icon: 'fas fa-pen-nib', category: 'Divisi Relawan', category_en: 'Divisions', url: (isSubFolder ? 'register.html' : 'pages/register.html') + '#divisions-grid' },
+        { id: 'div-eo', type: 'link', title: 'Divisi Relawan: Event Organizer (EO)', title_en: 'Volunteer Division: Event Organizer (EO)', icon: 'fas fa-calendar-check', category: 'Divisi Relawan', category_en: 'Divisions', url: (isSubFolder ? 'register.html' : 'pages/register.html') + '#divisions-grid' },
+        { id: 'div-gd', type: 'link', title: 'Divisi Relawan: Graphic Designer', title_en: 'Volunteer Division: Graphic Designer', icon: 'fas fa-palette', category: 'Divisi Relawan', category_en: 'Divisions', url: (isSubFolder ? 'register.html' : 'pages/register.html') + '#divisions-grid' },
+        { id: 'div-hr', type: 'link', title: 'Divisi Relawan: Human Resources (HR)', title_en: 'Volunteer Division: Human Resources (HR)', icon: 'fas fa-user-tie', category: 'Divisi Relawan', category_en: 'Divisions', url: (isSubFolder ? 'register.html' : 'pages/register.html') + '#divisions-grid' },
+        { id: 'div-mkt', type: 'link', title: 'Divisi Relawan: Marketing & Partnership', title_en: 'Volunteer Division: Marketing & Partnership', icon: 'fas fa-bullhorn', category: 'Divisi Relawan', category_en: 'Divisions', url: (isSubFolder ? 'register.html' : 'pages/register.html') + '#divisions-grid' },
+        { id: 'div-socmed', type: 'link', title: 'Divisi Relawan: Social Media Specialist', title_en: 'Volunteer Division: Social Media Specialist', icon: 'fas fa-hashtag', category: 'Divisi Relawan', category_en: 'Divisions', url: (isSubFolder ? 'register.html' : 'pages/register.html') + '#divisions-grid' },
+        { id: 'div-video', type: 'link', title: 'Divisi Relawan: Video Editor', title_en: 'Volunteer Division: Video Editor', icon: 'fas fa-video', category: 'Divisi Relawan', category_en: 'Divisions', url: (isSubFolder ? 'register.html' : 'pages/register.html') + '#divisions-grid' },
+        { id: 'div-web', type: 'link', title: 'Divisi Relawan: Web Developer', title_en: 'Volunteer Division: Web Developer', icon: 'fas fa-code', category: 'Divisi Relawan', category_en: 'Divisions', url: (isSubFolder ? 'register.html' : 'pages/register.html') + '#divisions-grid' },
         
-        // Navigation Pages
-        { id: 'nav-home', type: 'link', title: 'Beranda (Home)', title_en: 'Home Page', icon: 'fas fa-home', category: 'Halaman', url: isSubFolder ? '../' : './' },
-        { id: 'nav-about', type: 'link', title: 'Tentang Kami & Tim (About Us)', title_en: 'About Us & Team', icon: 'fas fa-users', category: 'Halaman', url: basePath + 'pages/about-us.html' },
-        { id: 'nav-activities', type: 'link', title: 'Kegiatan, Webinar & Podcast Terbaru', title_en: 'Latest Activities & Podcasts', icon: 'fas fa-bolt', category: 'Halaman', url: basePath + 'pages/activities.html' },
-        { id: 'nav-register', type: 'link', title: 'Formulir Pendaftaran Relawan', title_en: 'Volunteer Application Form', icon: 'fas fa-user-plus', category: 'Halaman', url: (isSubFolder ? 'register.html' : 'pages/register.html') },
-        { id: 'nav-gallery', type: 'link', title: 'Galeri Semua Dokumentasi Kegiatan', title_en: 'Full Activities Gallery', icon: 'fas fa-images', category: 'Halaman', url: basePath + 'pages/gallery.html' },
-        { id: 'nav-mentoring', type: 'link', title: 'Teacher Class / Mentoring', title_en: 'Teacher Class / Mentorship', icon: 'fas fa-chalkboard-teacher', category: 'Halaman', url: basePath + 'pages/mentoring.html' },
-        { id: 'nav-partner', type: 'link', title: 'Kemitraan & Kolaborasi (Partners)', title_en: 'Partnership & Collaboration', icon: 'fas fa-handshake', category: 'Halaman', url: basePath + 'pages/partner.html' },
-        { id: 'nav-donation', type: 'link', title: 'Donasi Program Pendidikan (Donation)', title_en: 'Donation Program', icon: 'fas fa-donate', category: 'Halaman', url: basePath + 'pages/donation.html' },
-        { id: 'nav-cms', type: 'link', title: 'CMS Admin Dashboard', title_en: 'CMS Admin Dashboard', icon: 'fas fa-lock', category: 'Admin', url: basePath + 'CMS/Login.html' }
+        // Navigation Pages & Key Sections
+        { id: 'nav-home', type: 'link', title: 'Beranda (Home)', title_en: 'Home Page', icon: 'fas fa-home', category: 'Halaman', category_en: 'Pages', url: isSubFolder ? '../' : './' },
+        { id: 'nav-about', type: 'link', title: 'Tentang Kami & Tim (About Us)', title_en: 'About Us & Team', icon: 'fas fa-users', category: 'Halaman', category_en: 'Pages', url: basePath + 'pages/about-us.html' },
+        { id: 'nav-stories', type: 'link', title: 'Cerita Jejak Relawan & Catatan Lapangan', title_en: 'Hey Youth Stories & Field Notes', icon: 'fas fa-book-reader', category: 'Halaman', category_en: 'Pages', url: basePath + 'pages/about-us.html#field-stories' },
+        { id: 'nav-activities', type: 'link', title: 'Kegiatan, Webinar & Podcast Terbaru', title_en: 'Latest Activities & Podcasts', icon: 'fas fa-bolt', category: 'Halaman', category_en: 'Pages', url: basePath + 'pages/activities.html' },
+        { id: 'nav-register', type: 'link', title: 'Formulir Pendaftaran Relawan (Join Us)', title_en: 'Volunteer Application Form (Join Us)', icon: 'fas fa-user-plus', category: 'Halaman', category_en: 'Pages', url: (isSubFolder ? 'register.html' : 'pages/register.html') },
+        { id: 'nav-gallery', type: 'link', title: 'Galeri Semua Dokumentasi Kegiatan', title_en: 'Full Activities Gallery', icon: 'fas fa-images', category: 'Halaman', category_en: 'Pages', url: basePath + 'pages/gallery.html' },
+        { id: 'nav-mentoring', type: 'link', title: 'Teacher Class / Program Mentoring', title_en: 'Teacher Class / Mentorship Program', icon: 'fas fa-graduation-cap', category: 'Halaman', category_en: 'Pages', url: basePath + 'pages/mentoring.html' },
+        { id: 'nav-partner', type: 'link', title: 'Kemitraan & Kolaborasi (Partners)', title_en: 'Partnership & Collaboration', icon: 'fas fa-handshake', category: 'Halaman', category_en: 'Pages', url: basePath + 'pages/partner.html' },
+        { id: 'nav-donation', type: 'link', title: 'Donasi Program Pendidikan (Donation)', title_en: 'Donation Program', icon: 'fas fa-donate', category: 'Halaman', category_en: 'Pages', url: basePath + 'pages/donation.html' },
+        { id: 'nav-cms', type: 'link', title: 'CMS Admin Dashboard', title_en: 'CMS Admin Dashboard', icon: 'fas fa-lock', category: 'Admin', category_en: 'Admin', url: basePath + 'CMS/Login.html' },
+
+        // Stories & Field Notes Quick Items
+        { id: 'story-sal', type: 'link', title: 'Cerita Lapangan: Melihat Binar Harapan di Kolong Jembatan Ciputat', title_en: 'Field Notes: Glimmers of Hope Under Ciputat Flyover', icon: 'fas fa-heart', category: 'Cerita Lapangan', category_en: 'Stories', url: basePath + 'pages/about-us.html#field-stories' },
+        { id: 'story-rian', type: 'link', title: 'Cerita Lapangan: Dari Kanvas Digital ke Senyum Nyata', title_en: 'Field Notes: From Digital Canvas to Pure Smiles', icon: 'fas fa-heart', category: 'Cerita Lapangan', category_en: 'Stories', url: basePath + 'pages/about-us.html#field-stories' },
+        { id: 'story-dimas', type: 'link', title: 'Cerita Lapangan: Mendampingi Mimpi Pertama Adik Asuh', title_en: 'Field Notes: Mentoring the First Dream', icon: 'fas fa-heart', category: 'Cerita Lapangan', category_en: 'Stories', url: basePath + 'pages/about-us.html#field-stories' },
+        { id: 'story-amanda', type: 'link', title: 'Cerita Lapangan: Menembus Pelosok Banten Selatan', title_en: 'Field Notes: Reaching Remote Corners of South Banten', icon: 'fas fa-heart', category: 'Cerita Lapangan', category_en: 'Stories', url: basePath + 'pages/about-us.html#field-stories' }
     ];
 
     function getDynamicItems() {
@@ -305,6 +325,7 @@ window.closeSpotifyPlayer = function() {
                             title_en: card.title_en || card.title || 'Hey Youth Activity',
                             icon: 'fas fa-file-alt',
                             category: 'Kegiatan & Artikel',
+                            category_en: 'Activities',
                             url: basePath + 'pages/activity-detail.html?id=' + card.id
                         });
                     });
@@ -318,6 +339,7 @@ window.closeSpotifyPlayer = function() {
                             title_en: (pod.episode || '') + ': ' + (pod.title || ''),
                             icon: 'fas fa-podcast',
                             category: 'Podcast',
+                            category_en: 'Podcasts',
                             url: basePath + 'pages/gallery.html#podcasts'
                         });
                     });
@@ -327,10 +349,10 @@ window.closeSpotifyPlayer = function() {
 
         if (items.length === 0) {
             items.push(
-                { id: 'act-sample-1', type: 'link', title: 'Dream Big, Learn Bigger at SD Yos Sudarso', title_en: 'Dream Big, Learn Bigger at Yos Sudarso', icon: 'fas fa-file-alt', category: 'Kegiatan & Artikel', url: basePath + 'pages/activity-detail.html?id=301' },
-                { id: 'act-sample-2', type: 'link', title: 'Instilling Education, Igniting Dreams di TBM Kolong', title_en: 'Visit to TBM Kolong', icon: 'fas fa-file-alt', category: 'Kegiatan & Artikel', url: basePath + 'pages/activity-detail.html?id=302' },
-                { id: 'pod-sample-1', type: 'link', title: 'Episode 1: The Power of Self-Affirmation', title_en: 'Episode 1: The Power of Self-Affirmation', icon: 'fas fa-podcast', category: 'Podcast', url: basePath + 'pages/gallery.html#podcasts' },
-                { id: 'pod-sample-2', type: 'link', title: 'Episode 2: Suicide Is Not The Answer', title_en: 'Episode 2: Suicide Is Not The Answer', icon: 'fas fa-podcast', category: 'Podcast', url: basePath + 'pages/gallery.html#podcasts' }
+                { id: 'act-sample-1', type: 'link', title: 'Dream Big, Learn Bigger at SD Yos Sudarso', title_en: 'Dream Big, Learn Bigger at Yos Sudarso', icon: 'fas fa-file-alt', category: 'Kegiatan & Artikel', category_en: 'Activities', url: basePath + 'pages/activity-detail.html?id=301' },
+                { id: 'act-sample-2', type: 'link', title: 'Instilling Education, Igniting Dreams di TBM Kolong', title_en: 'Visit to TBM Kolong', icon: 'fas fa-file-alt', category: 'Kegiatan & Artikel', category_en: 'Activities', url: basePath + 'pages/activity-detail.html?id=302' },
+                { id: 'pod-sample-1', type: 'link', title: 'Episode 1: The Power of Self-Affirmation', title_en: 'Episode 1: The Power of Self-Affirmation', icon: 'fas fa-podcast', category: 'Podcast', category_en: 'Podcasts', url: basePath + 'pages/gallery.html#podcasts' },
+                { id: 'pod-sample-2', type: 'link', title: 'Episode 2: Suicide Is Not The Answer', title_en: 'Episode 2: Suicide Is Not The Answer', icon: 'fas fa-podcast', category: 'Podcast', category_en: 'Podcasts', url: basePath + 'pages/gallery.html#podcasts' }
             );
         }
         return items;
@@ -338,30 +360,48 @@ window.closeSpotifyPlayer = function() {
 
     var selectedIndex = 0;
     var currentFilteredItems = [];
+    var activeCategoryFilter = 'all';
 
     function renderCommandPalette() {
         var modal = document.getElementById('global-command-palette');
         if (!modal) {
             modal = document.createElement('div');
             modal.id = 'global-command-palette';
-            modal.className = 'fixed inset-0 z-[999999] hidden flex items-start justify-center pt-14 sm:pt-20 px-4 bg-black/60 backdrop-blur-sm transition-opacity duration-200';
+            modal.className = 'fixed inset-0 z-[999999] hidden flex items-start justify-center pt-10 sm:pt-16 px-4 bg-black/60 backdrop-blur-md transition-opacity duration-200';
             modal.setAttribute('role', 'dialog');
             modal.setAttribute('aria-modal', 'true');
+            
+            var isMac = typeof navigator !== 'undefined' && /Mac|iPod|iPhone|iPad/.test(navigator.platform);
+            var shortcutKbd = isMac ? '⌘K' : 'Ctrl K';
+
             modal.innerHTML = 
-                '<div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-xl shadow-2xl overflow-hidden border border-gray-150 dark:border-slate-800 flex flex-col max-h-[82vh] animate-fade-in-up" onclick="event.stopPropagation()">' +
-                    '<div class="p-3.5 sm:p-4 border-b border-gray-100 dark:border-slate-800 flex items-center gap-3 bg-gray-50/50 dark:bg-slate-950/50">' +
-                        '<i class="fas fa-search text-gray-400 text-sm pl-2"></i>' +
-                        '<input type="text" id="cmd-palette-input" placeholder="Cari halaman, artikel, podcast, atau aksi cepat..." class="w-full bg-transparent text-sm text-heading dark:text-white placeholder-gray-400 focus:outline-none" autocomplete="off">' +
-                        '<kbd class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono bg-gray-200 dark:bg-slate-800 text-gray-500 dark:text-gray-400 rounded-md border border-gray-300 dark:border-slate-700">ESC</kbd>' +
-                        '<button type="button" onclick="window.closeCommandPalette()" class="text-gray-400 hover:text-red-500 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 cursor-pointer"><i class="fas fa-times text-xs"></i></button>' +
+                '<div class="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden border border-gray-150 dark:border-slate-800 flex flex-col max-h-[85vh] animate-fade-in-up" onclick="event.stopPropagation()">' +
+                    '<!-- Input Header -->' +
+                    '<div class="p-3.5 sm:p-4 border-b border-gray-150 dark:border-slate-800 flex items-center gap-3 bg-gray-50/70 dark:bg-slate-950/70">' +
+                        '<i class="fas fa-search text-primary dark:text-blue-400 text-sm pl-2"></i>' +
+                        '<input type="text" id="cmd-palette-input" placeholder="Cari halaman, divisi relawan, cerita, artikel, aksi cepat..." class="w-full bg-transparent text-sm text-heading dark:text-white placeholder-gray-400 focus:outline-none" autocomplete="off">' +
+                        '<button type="button" id="cmd-palette-clear" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-1 hidden cursor-pointer" title="Bersihkan input"><i class="fas fa-times-circle text-xs"></i></button>' +
+                        '<kbd class="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-mono font-bold bg-gray-200 dark:bg-slate-800 text-gray-600 dark:text-gray-300 rounded-md border border-gray-300 dark:border-slate-700 shadow-xs">' + shortcutKbd + '</kbd>' +
+                        '<button type="button" onclick="window.closeCommandPalette()" class="text-gray-400 hover:text-red-500 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 cursor-pointer transition-colors" title="Tutup (ESC)"><i class="fas fa-times text-xs"></i></button>' +
                     '</div>' +
-                    '<div id="cmd-palette-results" class="p-2.5 overflow-y-auto space-y-1 flex-1 divide-y divide-gray-50 dark:divide-slate-850" style="max-height: 55vh;"></div>' +
+                    '<!-- Category Filter Chips -->' +
+                    '<div class="px-3.5 py-2.5 bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 flex items-center gap-1.5 overflow-x-auto hide-scroll text-xs">' +
+                        '<button type="button" class="cmd-filter-chip active px-3 py-1 rounded-full font-semibold transition-all whitespace-nowrap bg-primary text-white cursor-pointer shadow-xs" data-cat="all">Semua</button>' +
+                        '<button type="button" class="cmd-filter-chip px-3 py-1 rounded-full font-semibold transition-all whitespace-nowrap bg-gray-100 hover:bg-gray-200 text-gray-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer" data-cat="Divisi Relawan">Divisi Relawan</button>' +
+                        '<button type="button" class="cmd-filter-chip px-3 py-1 rounded-full font-semibold transition-all whitespace-nowrap bg-gray-100 hover:bg-gray-200 text-gray-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer" data-cat="Aksi Cepat">Aksi Cepat</button>' +
+                        '<button type="button" class="cmd-filter-chip px-3 py-1 rounded-full font-semibold transition-all whitespace-nowrap bg-gray-100 hover:bg-gray-200 text-gray-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer" data-cat="Halaman">Halaman</button>' +
+                        '<button type="button" class="cmd-filter-chip px-3 py-1 rounded-full font-semibold transition-all whitespace-nowrap bg-gray-100 hover:bg-gray-200 text-gray-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 cursor-pointer" data-cat="Cerita & Kegiatan">Cerita & Kegiatan</button>' +
+                    '</div>' +
+                    '<!-- Results List -->' +
+                    '<div id="cmd-palette-results" class="p-2 sm:p-2.5 overflow-y-auto space-y-1 flex-1 divide-y divide-gray-50 dark:divide-slate-850" style="max-height: 52vh;"></div>' +
+                    '<!-- Keyboard Navigation Footer -->' +
                     '<div class="p-3 bg-gray-50 dark:bg-slate-950 border-t border-gray-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-gray-400">' +
                         '<div class="flex items-center gap-3">' +
                             '<span><kbd class="font-mono bg-white dark:bg-slate-800 px-1 py-0.5 rounded border border-gray-200 dark:border-slate-700 text-[10px]">↑</kbd> <kbd class="font-mono bg-white dark:bg-slate-800 px-1 py-0.5 rounded border border-gray-200 dark:border-slate-700 text-[10px]">↓</kbd> Navigasi</span>' +
-                            '<span><kbd class="font-mono bg-white dark:bg-slate-800 px-1 py-0.5 rounded border border-gray-200 dark:border-slate-700 text-[10px]">↵</kbd> Pilih</span>' +
+                            '<span><kbd class="font-mono bg-white dark:bg-slate-800 px-1 py-0.5 rounded border border-gray-200 dark:border-slate-700 text-[10px]">↵</kbd> Buka</span>' +
+                            '<span><kbd class="font-mono bg-white dark:bg-slate-800 px-1 py-0.5 rounded border border-gray-200 dark:border-slate-700 text-[10px]">ESC</kbd> Tutup</span>' +
                         '</div>' +
-                        '<span class="font-bold text-primary dark:text-blue-400 flex items-center gap-1"><i class="fas fa-bolt text-[10px]"></i> Quick Search</span>' +
+                        '<span class="font-bold text-primary dark:text-blue-400 flex items-center gap-1"><i class="fas fa-bolt text-[10px]"></i> Hey Youth Spotlight</span>' +
                     '</div>' +
                 '</div>';
 
@@ -372,12 +412,43 @@ window.closeSpotifyPlayer = function() {
             document.body.appendChild(modal);
 
             var input = document.getElementById('cmd-palette-input');
+            var clearBtn = document.getElementById('cmd-palette-clear');
             if (input) {
                 input.addEventListener('input', function(e) {
-                    filterAndRenderResults(e.target.value.trim());
+                    var val = e.target.value;
+                    if (clearBtn) {
+                        if (val) clearBtn.classList.remove('hidden');
+                        else clearBtn.classList.add('hidden');
+                    }
+                    filterAndRenderResults(val.trim());
                 });
                 input.addEventListener('keydown', handleKeyNavigation);
             }
+            if (clearBtn) {
+                clearBtn.addEventListener('click', function() {
+                    if (input) {
+                        input.value = '';
+                        clearBtn.classList.add('hidden');
+                        filterAndRenderResults('');
+                        input.focus();
+                    }
+                });
+            }
+
+            // Category Filter Chip click handlers
+            modal.querySelectorAll('.cmd-filter-chip').forEach(function(chip) {
+                chip.addEventListener('click', function() {
+                    modal.querySelectorAll('.cmd-filter-chip').forEach(function(c) {
+                        c.classList.remove('active', 'bg-primary', 'text-white', 'shadow-xs');
+                        c.classList.add('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200', 'dark:bg-slate-800', 'dark:text-slate-300');
+                    });
+                    chip.classList.add('active', 'bg-primary', 'text-white', 'shadow-xs');
+                    chip.classList.remove('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200', 'dark:bg-slate-800', 'dark:text-slate-300');
+                    activeCategoryFilter = chip.getAttribute('data-cat') || 'all';
+                    var currQ = input ? input.value.trim() : '';
+                    filterAndRenderResults(currQ);
+                });
+            });
         }
     }
 
@@ -438,19 +509,31 @@ window.closeSpotifyPlayer = function() {
         var q = (query || '').toLowerCase();
 
         var filtered = all.filter(function(item) {
+            // Check Category filter chip first
+            if (activeCategoryFilter !== 'all') {
+                if (activeCategoryFilter === 'Cerita & Kegiatan') {
+                    if (item.category !== 'Cerita Lapangan' && item.category !== 'Kegiatan & Artikel' && item.category !== 'Podcast') {
+                        return false;
+                    }
+                } else if (item.category !== activeCategoryFilter) {
+                    return false;
+                }
+            }
+
             if (!q) return true;
             return (item.title && item.title.toLowerCase().includes(q)) ||
                    (item.title_en && item.title_en.toLowerCase().includes(q)) ||
-                   (item.category && item.category.toLowerCase().includes(q));
+                   (item.category && item.category.toLowerCase().includes(q)) ||
+                   (item.category_en && item.category_en.toLowerCase().includes(q));
         });
 
         currentFilteredItems = filtered;
         selectedIndex = 0;
 
         if (filtered.length === 0) {
-            container.innerHTML = '<div class="py-8 text-center text-gray-400 text-xs">' +
-                '<i class="fas fa-search-minus text-2xl mb-2 block opacity-40"></i>' +
-                'Tidak ada hasil untuk "' + query.replace(/</g, '&lt;') + '". Coba kata kunci lain.' +
+            container.innerHTML = '<div class="py-10 text-center text-gray-400 text-xs">' +
+                '<i class="fas fa-search-minus text-3xl mb-2.5 block opacity-40"></i>' +
+                'Tidak ada hasil untuk "' + query.replace(/</g, '&lt;') + '". Coba kata kunci lain atau pilih kategori Semua.' +
             '</div>';
             return;
         }
@@ -460,21 +543,29 @@ window.closeSpotifyPlayer = function() {
         var currentCategory = '';
 
         filtered.forEach(function(item, idx) {
+            var catLabel = currentLang === 'id' ? (item.category || item.category_en) : (item.category_en || item.category);
             if (item.category !== currentCategory) {
                 currentCategory = item.category;
-                html += '<div class="pt-2 pb-1 px-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">' + currentCategory + '</div>';
+                html += '<div class="pt-2.5 pb-1 px-3 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider flex items-center justify-between">' +
+                    '<span>' + catLabel + '</span>' +
+                '</div>';
             }
             var title = (currentLang === 'id' ? (item.title || item.title_en) : (item.title_en || item.title));
             var activeClass = idx === 0 ? 'bg-blue-50 dark:bg-blue-950/60 text-primary dark:text-blue-400' : 'text-heading dark:text-slate-200';
 
             html += '<div class="cmd-item px-3 py-2.5 rounded-xl cursor-pointer transition-colors flex items-center justify-between text-xs hover:bg-gray-100 dark:hover:bg-slate-800 ' + activeClass + '" data-idx="' + idx + '">' +
                 '<div class="flex items-center gap-3 min-w-0">' +
-                    '<div class="w-7 h-7 rounded-lg bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-xs text-primary dark:text-blue-400 flex-shrink-0">' +
+                    '<div class="w-8 h-8 rounded-xl bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-xs text-primary dark:text-blue-400 flex-shrink-0 shadow-xs">' +
                         '<i class="' + item.icon + '"></i>' +
                     '</div>' +
-                    '<span class="font-medium truncate">' + title + '</span>' +
+                    '<div class="truncate text-left">' +
+                        '<span class="font-medium block truncate">' + title + '</span>' +
+                    '</div>' +
                 '</div>' +
-                '<i class="fas fa-chevron-right text-[10px] text-gray-300 dark:text-slate-600"></i>' +
+                '<div class="flex items-center gap-2 flex-shrink-0 ml-2">' +
+                    '<span class="text-[10px] px-2 py-0.5 rounded-md bg-gray-100 dark:bg-slate-800 text-gray-400 dark:text-gray-500 font-mono hidden sm:inline-block">' + catLabel + '</span>' +
+                    '<i class="fas fa-arrow-right text-[10px] text-gray-300 dark:text-slate-600"></i>' +
+                '</div>' +
             '</div>';
         });
 
@@ -488,6 +579,13 @@ window.closeSpotifyPlayer = function() {
                     executeItem(currentFilteredItems[idx]);
                 }
             });
+            el.addEventListener('mouseenter', function() {
+                var idx = parseInt(el.getAttribute('data-idx'));
+                if (!isNaN(idx)) {
+                    selectedIndex = idx;
+                    updateSelection();
+                }
+            });
         });
     }
 
@@ -495,13 +593,29 @@ window.closeSpotifyPlayer = function() {
         renderCommandPalette();
         var modal = document.getElementById('global-command-palette');
         var input = document.getElementById('cmd-palette-input');
+        var clearBtn = document.getElementById('cmd-palette-clear');
         if (modal) {
             modal.classList.remove('hidden');
             document.body.classList.add('overflow-hidden');
             if (input) {
+                var currentLang = localStorage.getItem('heyyouth_lang') || 'en';
+                input.placeholder = currentLang === 'id' 
+                    ? "Cari halaman, divisi relawan, cerita, kegiatan, atau aksi cepat..." 
+                    : "Search pages, volunteer divisions, field stories, activities, or quick actions...";
                 input.value = '';
+                if (clearBtn) clearBtn.classList.add('hidden');
+                activeCategoryFilter = 'all';
+                modal.querySelectorAll('.cmd-filter-chip').forEach(function(c, i) {
+                    if (i === 0) {
+                        c.classList.add('active', 'bg-primary', 'text-white', 'shadow-xs');
+                        c.classList.remove('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200', 'dark:bg-slate-800', 'dark:text-slate-300');
+                    } else {
+                        c.classList.remove('active', 'bg-primary', 'text-white', 'shadow-xs');
+                        c.classList.add('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200', 'dark:bg-slate-800', 'dark:text-slate-300');
+                    }
+                });
                 filterAndRenderResults('');
-                setTimeout(function() { input.focus(); }, 50);
+                setTimeout(function() { input.focus(); }, 60);
             }
         }
     };
