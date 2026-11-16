@@ -121,6 +121,11 @@ app.get('/', (req, res) => {
   res.send('HeyYouth API is running...');
 });
 
+const shareHandler = require('../api/share');
+app.get('/api/share', (req, res) => {
+  return shareHandler(req, res);
+});
+
 /* =============================================
    START SERVER
    ============================================= */

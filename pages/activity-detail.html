@@ -195,22 +195,63 @@
                 </div>
 
                 <div
-                    class="mt-16 pt-8 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    class="mt-16 pt-8 border-t border-gray-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
                     <a href="activities.html"
                         class="inline-flex items-center text-primary font-bold hover:text-accent transition-colors">
                         <i class="fas fa-arrow-left mr-2"></i> <span class="lang-id">Kembali ke Kegiatan</span><span class="lang-en">Back to Activities</span>
                     </a>
-                    <div class="flex gap-4">
-                        <span class="text-sm text-gray-500 font-medium self-center"><span class="lang-id">Bagikan:</span><span class="lang-en">Share:</span></span>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-100 hover:bg-primary hover:text-white flex items-center justify-center transition-all text-gray-600"><i
-                                class="fab fa-facebook-f"></i></a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-100 hover:bg-primary hover:text-white flex items-center justify-center transition-all text-gray-600"><i
-                                class="fab fa-twitter"></i></a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-100 hover:bg-primary hover:text-white flex items-center justify-center transition-all text-gray-600"><i
-                                class="fab fa-whatsapp"></i></a>
+                    
+                    <!-- Dynamic Social Media Share Toolbar -->
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-semibold mr-1">
+                            <span class="lang-id"><i class="fas fa-share-nodes mr-1 text-primary"></i> Bagikan:</span>
+                            <span class="lang-en"><i class="fas fa-share-nodes mr-1 text-primary"></i> Share:</span>
+                        </span>
+                        
+                        <!-- WhatsApp -->
+                        <a id="share-whatsapp" href="#" target="_blank" rel="noopener noreferrer"
+                            class="w-9 h-9 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-all shadow-sm hover:scale-105"
+                            title="Bagikan ke WhatsApp">
+                            <i class="fab fa-whatsapp text-base"></i>
+                        </a>
+
+                        <!-- LinkedIn -->
+                        <a id="share-linkedin" href="#" target="_blank" rel="noopener noreferrer"
+                            class="w-9 h-9 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white flex items-center justify-center transition-all shadow-sm hover:scale-105"
+                            title="Bagikan ke LinkedIn">
+                            <i class="fab fa-linkedin-in text-sm"></i>
+                        </a>
+
+                        <!-- Twitter / X -->
+                        <a id="share-twitter" href="#" target="_blank" rel="noopener noreferrer"
+                            class="w-9 h-9 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 hover:bg-black hover:text-white flex items-center justify-center transition-all shadow-sm hover:scale-105"
+                            title="Bagikan ke Twitter / X">
+                            <i class="fab fa-x-twitter text-sm"></i>
+                        </a>
+
+                        <!-- Facebook -->
+                        <a id="share-facebook" href="#" target="_blank" rel="noopener noreferrer"
+                            class="w-9 h-9 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 hover:bg-blue-700 hover:text-white flex items-center justify-center transition-all shadow-sm hover:scale-105"
+                            title="Bagikan ke Facebook">
+                            <i class="fab fa-facebook-f text-sm"></i>
+                        </a>
+
+                        <!-- Copy Link -->
+                        <button type="button" id="share-copy"
+                            class="px-3 h-9 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 hover:bg-primary hover:text-white flex items-center gap-1.5 transition-all text-xs font-semibold shadow-sm hover:scale-105 cursor-pointer"
+                            title="Salin Tautan">
+                            <i class="fas fa-link text-xs"></i>
+                            <span class="lang-id">Salin</span>
+                            <span class="lang-en">Copy</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Toast Copy Alert -->
+                <div id="share-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+                    <div class="flex items-center gap-2.5 px-4 py-3 bg-slate-900 text-white text-xs font-semibold rounded-2xl shadow-2xl border border-slate-700">
+                        <i class="fas fa-circle-check text-emerald-400 text-sm"></i>
+                        <span>Tautan preview sosial media berhasil disalin!</span>
                     </div>
                 </div>
             </article>

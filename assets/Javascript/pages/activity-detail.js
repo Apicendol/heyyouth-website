@@ -174,6 +174,7 @@ var DEFAULT_ACTIVITIES = [
 
                     loadingState.classList.add('hidden');
                     articleContainer.classList.remove('hidden');
+                    initSocialShare(activity);
                     initAudioNarration(activity);
                 } else {
                     loadingState.classList.add('hidden');
@@ -461,6 +462,79 @@ var DEFAULT_ACTIVITIES = [
                     errorMsg.classList.remove('hidden');
                 }
             });
+        }
+
+        function initSocialShare(activity) {
+            if (!activity) return;
+
+            const getShareUrl = () => {
+                const currentLang = localStorage.getItem('heyyouth_lang') || 'id';
+                const origin = window.location.origin;
+                // Generate Dynamic OG endpoint URL
+                return `${origin}/api/share?id=${encodeURIComponent(activity.id)}&lang=${currentLang}`;
+            };
+
+            const getShareTitle = () => {
+                const currentLang = localStorage.getItem('heyyouth_lang') || 'id';
+                return (currentLang === 'id' ? (activity.title_id || activity.title) : (activity.title_en || activity.title)) || 'Kegiatan Hey Youth!';
+            };
+
+            const waBtn = document.getElementById('share-whatsapp');
+            const liBtn = document.getElementById('share-linkedin');
+            const twBtn = document.getElementById('share-twitter');
+            const fbBtn = document.getElementById('share-facebook');
+            const copyBtn = document.getElementById('share-copy');
+            const toast = document.getElementById('share-toast');
+
+            const updateShareLinks = () => {
+                const url = getShareUrl();
+                const title = getShareTitle();
+
+                if (waBtn) waBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(title + '\n\n' + url)}`;
+                if (liBtn) liBtn.href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+                if (twBtn) twBtn.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
+                if (fbBtn) fbBtn.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            };
+
+            updateShareLinks();
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setTimeout(updateShareLinks, 100);
+                });
+            });
+
+            if (copyBtn) {
+                copyBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const url = getShareUrl();
+                    
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(url).then(showToast).catch(showToast);
+                    } else {
+                        // Fallback textarea copy
+                        const ta = document.createElement('textarea');
+                        ta.value = url;
+                        ta.style.position = 'fixed';
+                        ta.style.opacity = '0';
+                        document.body.appendChild(ta);
+                        ta.select();
+                        try { document.execCommand('copy'); } catch (err) {}
+                        document.body.removeChild(ta);
+                        showToast();
+                    }
+                });
+            }
+
+            function showToast() {
+                if (!toast) return;
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                toast.classList.add('translate-y-0', 'opacity-100');
+                setTimeout(() => {
+                    toast.classList.remove('translate-y-0', 'opacity-100');
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                }, 3000);
+            }
         }
 
         if (document.readyState === 'loading') {
