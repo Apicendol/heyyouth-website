@@ -8,6 +8,7 @@ const SUPABASE_ANON_KEY = "sb_publishable_5Zot98NYLIpDWo9G-8VcQg_-xYXas87";
 // Initialize Supabase client globally
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 window.supabase = supabaseClient;
+window.supabaseClient = supabaseClient;
 
 // Helpers to sanitize and clean bilingual span tags if present
 function cleanLangText(str, preferredLang) {
@@ -723,13 +724,15 @@ window.syncFromSupabase = async function() {
             resCerts,
             resEventRegs,
             resTeacherRegs,
-            resCats
+            resCats,
+            resVolunteers
         ] = await Promise.all([
             supabaseClient.from('teacher_classes').select('*'),
             supabaseClient.from('certificates').select('*'),
             supabaseClient.from('event_registrations').select('*'),
             supabaseClient.from('teacher_registrations').select('*'),
-            supabaseClient.from('sd_categories').select('*')
+            supabaseClient.from('sd_categories').select('*'),
+            supabaseClient.from('volunteers').select('*').order('created_at', { ascending: false })
         ]);
 
         if (resClasses.data) {
@@ -797,6 +800,26 @@ window.syncFromSupabase = async function() {
 
         if (resCats.data) {
             originalSetItem.call(localStorage, 'sd_categories', JSON.stringify(resCats.data));
+        }
+
+        if (resVolunteers && resVolunteers.data && resVolunteers.data.length > 0) {
+            const vols = resVolunteers.data.map(v => ({
+                id: v.id,
+                name: v.full_name || v.name || '-',
+                email: v.email || '-',
+                whatsapp: v.whatsapp_number || v.whatsapp || '-',
+                institution: v.city || v.institution || '-',
+                division_1: v.chapter_choice || v.division_1 || '-',
+                division_2: v.division_choice || v.division_2 || '-',
+                reason_1: v.reason || '-',
+                reason_2: '',
+                status: v.status || 'pending',
+                submittedAt: v.created_at
+            }));
+            originalSetItem.call(localStorage, 'heyyouth_volunteer_registrations', JSON.stringify(vols));
+            if (typeof window.loadAndRenderVolunteerRegistrations === 'function') {
+                window.loadAndRenderVolunteerRegistrations();
+            }
         }
 
         // Trigger rendering event in Dashboard if it's active

@@ -4,12 +4,67 @@
 <head>
     <meta charset="UTF-8">
     <script>
-        (function () {
-            var savedTheme = localStorage.getItem('heyyouth_theme') || 'light';
-            if (savedTheme === 'dark') {
+        var lastThemeToggleTime = 0;
+
+        function updateThemeElements(theme) {
+            var isDark = theme === 'dark';
+            if (isDark) {
                 document.documentElement.classList.add('dark');
             } else {
                 document.documentElement.classList.remove('dark');
+            }
+            try {
+                localStorage.setItem('heyyouth_theme', theme);
+            } catch (e) {}
+
+            var statusLabels = document.querySelectorAll('#theme-status-label');
+            statusLabels.forEach(function (lbl) {
+                lbl.textContent = isDark ? 'Dark Mode' : 'Light Mode';
+            });
+
+            var toggles = document.querySelectorAll('.theme-toggle-btn');
+            toggles.forEach(function (btn) {
+                var iconSun = btn.querySelector('.theme-icon-sun');
+                var iconMoon = btn.querySelector('.theme-icon-moon');
+                if (iconSun && iconMoon) {
+                    if (isDark) {
+                        iconSun.classList.remove('hidden');
+                        iconMoon.classList.add('hidden');
+                    } else {
+                        iconSun.classList.add('hidden');
+                        iconMoon.classList.remove('hidden');
+                    }
+                }
+            });
+        }
+
+        window.toggleThemeMode = function () {
+            var now = Date.now();
+            if (now - lastThemeToggleTime < 250) return; // Mencegah double-trigger
+            lastThemeToggleTime = now;
+
+            var current = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            var newTheme = current === 'dark' ? 'light' : 'dark';
+            updateThemeElements(newTheme);
+            if (typeof showToast === 'function') {
+                showToast(newTheme === 'dark' ? 'Beralih ke Dark Mode Tech 🌙' : 'Beralih ke Light Mode ☀️', 'info');
+            }
+        };
+
+        // Initialize immediately
+        (function () {
+            var saved = localStorage.getItem('heyyouth_theme') || 'light';
+            if (saved === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function () {
+                    updateThemeElements(saved);
+                });
+            } else {
+                updateThemeElements(saved);
             }
         })();
     </script>
@@ -33,30 +88,173 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
     <style>
+        :root {
+            --bg-canvas: #F8FAFC;
+            --bg-surface: #FFFFFF;
+            --bg-surface-hover: #F1F5F9;
+            --border-subtle: #E2E8F0;
+            --text-heading: #1A1A1E;
+            --text-body: #475569;
+            --text-muted: #64748B;
+            --brand-primary: #00A3FF;
+            --brand-secondary: #00D2FC;
+            --brand-accent: #FF007A;
+            --sidebar-bg: #FFFFFF;
+            --sidebar-border: #E2E8F0;
+            --sidebar-link: #475569;
+            --sidebar-link-hover: #0F172A;
+            --sidebar-link-hover-bg: #F8FAFC;
+            --sidebar-active-bg: linear-gradient(90deg, rgba(0, 163, 255, 0.12) 0%, rgba(0, 210, 252, 0.04) 100%);
+            --sidebar-active-text: #008fe6;
+            --sidebar-active-border: #00A3FF;
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --header-border: #E2E8F0;
+            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+            --glow-primary: 0 0 18px -4px rgba(0, 163, 255, 0.4);
+            --glow-accent: 0 0 18px -4px rgba(255, 0, 122, 0.4);
+        }
+
+        html.dark {
+            --bg-canvas: #1A1A1E;
+            --bg-surface: #2D2D34;
+            --bg-surface-hover: #373740;
+            --border-subtle: #3A3A44;
+            --text-heading: #F8F9FA;
+            --text-body: #CBD5E1;
+            --text-muted: #9E9EA8;
+            --brand-primary: #00A3FF;
+            --brand-secondary: #00D2FC;
+            --brand-accent: #FF007A;
+            --sidebar-bg: #1A1A1E;
+            --sidebar-border: #3A3A44;
+            --sidebar-link: #9E9EA8;
+            --sidebar-link-hover: #F8F9FA;
+            --sidebar-link-hover-bg: rgba(255, 255, 255, 0.04);
+            --sidebar-active-bg: linear-gradient(90deg, rgba(0, 163, 255, 0.18) 0%, rgba(0, 210, 252, 0.06) 100%);
+            --sidebar-active-text: #00D2FC;
+            --sidebar-active-border: #00A3FF;
+            --header-bg: rgba(26, 26, 30, 0.9);
+            --header-border: #3A3A44;
+            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45);
+            --glow-primary: 0 0 24px -2px rgba(0, 163, 255, 0.55);
+            --glow-accent: 0 0 24px -2px rgba(255, 0, 122, 0.55);
+        }
+
         * {
             box-sizing: border-box;
         }
 
         body {
             font-family: 'Inter', sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-body);
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        #sidebar {
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            transition: background-color 0.25s ease, border-color 0.25s ease;
+        }
+
+        .sidebar-link {
+            color: var(--sidebar-link);
+            border-left: 3px solid transparent;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-link:hover {
+            color: var(--sidebar-link-hover);
+            background-color: var(--sidebar-link-hover-bg);
         }
 
         .sidebar-link.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-left: 3px solid #F59E0B;
-            color: #ffffff;
+            background: var(--sidebar-active-bg);
+            border-left: 3px solid var(--sidebar-active-border);
+            color: var(--sidebar-active-text) !important;
+            font-weight: 700;
         }
 
-        .sidebar-link:not(.active):hover {
-            background-color: rgba(255, 255, 255, 0.05);
+        header.sticky {
+            background-color: var(--header-bg);
+            border-color: var(--header-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
 
         .cms-card {
-            transition: all 0.2s ease;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 1rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
         .cms-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: rgba(0, 163, 255, 0.35);
+            box-shadow: 0 6px 20px rgba(0, 163, 255, 0.08);
+        }
+
+        html.dark .cms-card:hover {
+            border-color: rgba(0, 163, 255, 0.45);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* High-specificity Dark Mode Tech Theme Overrides */
+        html.dark body {
+            background-color: #1A1A1E !important;
+            color: #F8F9FA !important;
+        }
+
+        html.dark main {
+            background-color: #1A1A1E !important;
+        }
+
+        html.dark header.sticky {
+            background-color: rgba(26, 26, 30, 0.95) !important;
+            border-color: #3A3A44 !important;
+        }
+
+        html.dark aside#sidebar {
+            background-color: #1A1A1E !important;
+            border-color: #3A3A44 !important;
+        }
+
+        html.dark .cms-card,
+        html.dark .bg-white {
+            background-color: #2D2D34 !important;
+            border-color: #3A3A44 !important;
+            color: #F8F9FA !important;
+        }
+
+        html.dark .border-gray-200,
+        html.dark .border-gray-150,
+        html.dark .border-gray-100 {
+            border-color: #3A3A44 !important;
+        }
+
+        html.dark .bg-gray-50,
+        html.dark .bg-gray-100 {
+            background-color: #222228 !important;
+        }
+
+        html.dark .text-heading,
+        html.dark h1,
+        html.dark h2,
+        html.dark h3,
+        html.dark h4 {
+            color: #F8F9FA !important;
+        }
+
+        html.dark .text-body,
+        html.dark .text-gray-600,
+        html.dark .text-gray-700 {
+            color: #CBD5E1 !important;
+        }
+
+        html.dark .text-gray-500,
+        html.dark .text-gray-400 {
+            color: #9E9EA8 !important;
         }
 
         .modal-overlay {
@@ -304,97 +502,124 @@
     <link rel="stylesheet" href="../assets/Style/tailwind.css">
 </head>
 
-<body class="bg-bg text-body min-h-screen">
+<body class="min-h-screen transition-colors duration-200">
 
     <!-- ===== MOBILE TOP BAR ===== -->
     <div
-        class="lg:hidden fixed top-0 left-0 right-0 z-50 bg-heading text-white h-14 flex items-center justify-between px-4 shadow-lg">
-        <button id="sidebar-toggle" onclick="openSidebar()" class="p-2 hover:bg-white/10 rounded-lg transition-colors">
-            <i class="fas fa-bars text-lg"></i>
+        class="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#1A1A1E]/95 border-b border-gray-200 dark:border-[#3A3A44] h-14 flex items-center justify-between px-4 text-gray-900 dark:text-white backdrop-blur-md shadow-xs">
+        <button id="sidebar-toggle" onclick="openSidebar()" class="p-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded-xl transition-colors cursor-pointer"
+            aria-label="Toggle Sidebar">
+            <i class="fas fa-bars text-lg text-gray-700 dark:text-gray-200"></i>
         </button>
-        <span class="font-bold text-sm">CMS Dashboard</span>
-        <a href="../" class="p-2 hover:bg-white/10 rounded-lg transition-colors" title="Lihat Beranda">
-            <i class="fas fa-external-link-alt text-sm"></i>
-        </a>
+        <div class="flex items-center gap-2">
+            <img src="../assets/img/NEW HEY YOUTH Sep 2025.webp" alt="Logo" class="h-6 w-auto dark:brightness-0 dark:invert">
+            <span class="font-extrabold text-sm tracking-tight text-gray-900 dark:text-white">CMS Hey Youth!</span>
+            <span class="px-1.5 py-0.2 rounded text-[9px] font-black uppercase tracking-wider bg-gradient-to-r from-[#00A3FF] to-[#00D2FC] text-white">v3.0</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+            <button type="button" onclick="toggleThemeMode()" class="theme-toggle-btn p-2 rounded-xl text-gray-700 dark:text-yellow-400 hover:bg-gray-100 dark:hover:bg-white/10 transition-all cursor-pointer" title="Ganti Mode Tema">
+                <i class="fas fa-sun theme-icon-sun text-sm hidden"></i>
+                <i class="fas fa-moon theme-icon-moon text-sm"></i>
+            </button>
+            <a href="../" class="p-2 hover:bg-gray-100 dark:hover:bg-white/10 rounded-xl text-gray-600 dark:text-gray-300 transition-colors" title="Lihat Beranda">
+                <i class="fas fa-external-link-alt text-sm"></i>
+            </a>
+        </div>
     </div>
 
     <!-- ===== SIDEBAR BACKDROP ===== -->
-    <div id="sidebar-backdrop" class="fixed inset-0 bg-black/40 z-50 hidden lg:hidden" onclick="closeSidebar()"></div>
+    <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 hidden lg:hidden" onclick="closeSidebar()"></div>
 
     <!-- ===== SIDEBAR ===== -->
     <aside id="sidebar"
-        class="fixed top-0 left-0 h-full w-64 bg-heading text-gray-300 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col">
-        <div class="p-5 border-b border-white/10">
-            <a href="Login.html" class="flex items-center gap-2">
-                <img src="../assets/img/NEW HEY YOUTH Sep 2025.webp" alt="Logo" class="h-8 w-auto brightness-0 invert">
+        class="fixed top-0 left-0 h-full w-64 z-50 transform -translate-x-full lg:translate-x-0 transition-all duration-300 flex flex-col shadow-sm">
+        <div class="p-5 border-b border-gray-100 dark:border-[#3A3A44] flex items-center justify-between">
+            <a href="Login.html" class="flex items-center gap-2.5">
+                <img src="../assets/img/NEW HEY YOUTH Sep 2025.webp" alt="Logo" class="h-8 w-auto dark:brightness-0 dark:invert transition-all">
+                <div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="font-black text-sm tracking-tight text-gray-900 dark:text-white">Hey Youth!</span>
+                        <span class="px-1.5 py-0.2 rounded text-[9px] font-black uppercase tracking-wider bg-gradient-to-r from-[#00A3FF] to-[#00D2FC] text-white shadow-xs">v3.0</span>
+                    </div>
+                    <p class="text-[11px] text-gray-400 dark:text-gray-400 font-medium">CMS Workspace</p>
+                </div>
             </a>
-            <p class="text-xs text-gray-500 mt-2 ml-1">Admin Panel</p>
         </div>
-        <nav class="flex-1 py-4 space-y-1 px-3 overflow-y-auto">
+        <nav class="flex-1 py-4 space-y-1.5 px-3 overflow-y-auto">
+            <!-- 1. Dashboard -->
             <button onclick="switchTab('homepage')" data-tab="homepage"
-                class="sidebar-link active w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
+                class="sidebar-link active w-full text-left px-3.5 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-3 transition-all font-medium cursor-pointer">
                 <i class="fas fa-home w-5 text-center text-xs"></i>
-                <span>Homepage</span>
-                <span id="count-homepage" class="ml-auto bg-white/10 text-xs px-2 py-0.5 rounded-full">0</span>
+                <span>Dashboard</span>
+                <span id="count-homepage" class="ml-auto bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
             </button>
-            <button onclick="switchTab('about')" data-tab="about"
-                class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
-                <i class="fas fa-users w-5 text-center text-xs"></i>
-                <span>About Us</span>
-                <span id="count-about" class="ml-auto bg-white/10 text-xs px-2 py-0.5 rounded-full">0</span>
-            </button>
+
+            <!-- 2. Kegiatan -->
             <button onclick="switchTab('activities')" data-tab="activities"
-                class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
-                <i class="fas fa-bolt w-5 text-center text-xs"></i>
-                <span>Activities</span>
-                <span id="count-activities" class="ml-auto bg-white/10 text-xs px-2 py-0.5 rounded-full">0</span>
+                class="sidebar-link w-full text-left px-3.5 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-3 transition-all font-medium cursor-pointer">
+                <i class="fas fa-bolt w-5 text-center text-xs text-[#00A3FF]"></i>
+                <span>Kegiatan</span>
+                <span id="count-activities" class="ml-auto bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
             </button>
-            <button onclick="switchTab('mentoring')" data-tab="mentoring"
-                class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
-                <i class="fas fa-graduation-cap w-5 text-center text-xs"></i>
-                <span>Teacher Class</span>
-                <span id="count-mentoring-cat" class="ml-auto bg-white/10 text-xs px-2 py-0.5 rounded-full">0</span>
+
+            <!-- 3. Relawan (Teacher Class & Registrasi) -->
+            <button onclick="switchTab('mentoring')" data-tab="relawan"
+                class="sidebar-link w-full text-left px-3.5 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-3 transition-all font-medium cursor-pointer">
+                <i class="fas fa-users w-5 text-center text-xs text-[#00D2FC]"></i>
+                <span>Relawan</span>
+                <span id="count-relawan" class="ml-auto bg-blue-500/10 text-[#00A3FF] dark:text-[#00D2FC] text-xs px-2 py-0.5 rounded-full font-bold">0</span>
             </button>
-            <button onclick="switchTab('partners')" data-tab="partners"
-                class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
-                <i class="fas fa-handshake w-5 text-center text-xs"></i>
-                <span>Partners</span>
-                <span id="count-partners" class="ml-auto bg-white/10 text-xs px-2 py-0.5 rounded-full">0</span>
-            </button>
-            <button onclick="switchTab('donation')" data-tab="donation"
-                class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
-                <i class="fas fa-donate w-5 text-center text-xs"></i>
-                <span>Donation</span>
-            </button>
+
+            <!-- 4. Sertifikat -->
             <button onclick="switchTab('certificates')" data-tab="certificates"
-                class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
+                class="sidebar-link w-full text-left px-3.5 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-3 transition-all font-medium cursor-pointer">
                 <i class="fas fa-certificate w-5 text-center text-xs text-amber-500"></i>
                 <span>Sertifikat</span>
             </button>
-            <button onclick="switchTab('registrasi')" data-tab="registrasi"
-                class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
-                <i class="fas fa-id-card w-5 text-center text-xs text-blue-400"></i>
-                <span>Registrasi</span>
-                <span id="count-registrations" class="ml-auto bg-blue-500/20 text-blue-400 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
-            </button>
-            <button onclick="switchTab('activity-log')" data-tab="activity-log"
-                class="sidebar-link w-full text-left px-3 py-2.5 rounded-lg text-sm flex items-center gap-3 transition-all">
-                <i class="fas fa-history w-5 text-center text-xs text-emerald-400"></i>
-                <span>Log Aktivitas</span>
-                <span id="count-activity-log" class="ml-auto bg-white/10 text-xs px-2 py-0.5 rounded-full">0</span>
+
+            <!-- 5. Donasi -->
+            <button onclick="switchTab('donation')" data-tab="donation"
+                class="sidebar-link w-full text-left px-3.5 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-3 transition-all font-medium cursor-pointer">
+                <i class="fas fa-donate w-5 text-center text-xs text-[#FF007A]"></i>
+                <span>Donasi</span>
             </button>
 
+            <!-- Pengaturan & Konten Tambahan (Minimalist) -->
+            <div class="pt-4 pb-1">
+                <p class="px-3.5 text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">Lainnya</p>
+            </div>
+
+            <button onclick="switchTab('about')" data-tab="about"
+                class="sidebar-link w-full text-left px-3.5 py-2 rounded-xl text-xs flex items-center gap-3 transition-all text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white cursor-pointer">
+                <i class="fas fa-info-circle w-5 text-center text-xs"></i>
+                <span>About Us & Tim</span>
+                <span id="count-about" class="ml-auto bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
+            </button>
+
+            <button onclick="switchTab('partners')" data-tab="partners"
+                class="sidebar-link w-full text-left px-3.5 py-2 rounded-xl text-xs flex items-center gap-3 transition-all text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white cursor-pointer">
+                <i class="fas fa-handshake w-5 text-center text-xs"></i>
+                <span>Partners</span>
+                <span id="count-partners" class="ml-auto bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
+            </button>
+
+            <button onclick="switchTab('activity-log')" data-tab="activity-log"
+                class="sidebar-link w-full text-left px-3.5 py-2 rounded-xl text-xs flex items-center gap-3 transition-all text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white cursor-pointer">
+                <i class="fas fa-history w-5 text-center text-xs"></i>
+                <span>Log Aktivitas</span>
+                <span id="count-activity-log" class="ml-auto bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 text-xs px-2 py-0.5 rounded-full font-semibold">0</span>
+            </button>
         </nav>
-        <div class="p-4 border-t border-white/10 space-y-2">
+        <div class="p-4 border-t border-gray-100 dark:border-[#3A3A44] space-y-1.5">
             <a href="../"
-                class="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-all">
+                class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-all">
                 <i class="fas fa-external-link-alt w-5 text-center text-xs"></i>
-                <span>Lihat Beranda</span>
+                <span>Lihat Beranda Publik</span>
             </a>
             <button onclick="logout()"
-                class="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-red-400 rounded-lg hover:bg-white/5 transition-all w-full text-left">
+                class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/20 transition-all w-full text-left cursor-pointer">
                 <i class="fas fa-sign-out-alt w-5 text-center text-xs"></i>
-                <span>Logout</span>
+                <span>Logout Keluar</span>
             </button>
         </div>
     </aside>
@@ -402,25 +627,133 @@
     <!-- ===== MAIN CONTENT ===== -->
     <main class="lg:ml-64 pt-14 lg:pt-0 min-h-screen">
         <header
-            class="bg-white border-b border-gray-200 px-6 lg:px-8 py-5 flex items-center justify-between sticky top-0 z-30">
+            class="sticky top-0 z-30 px-6 lg:px-8 py-4 flex items-center justify-between border-b transition-colors duration-200">
             <div>
-                <h1 id="page-title" class="text-xl font-bold text-heading">Homepage</h1>
-                <p id="page-desc" class="text-sm text-gray-500 mt-0.5">Kelola seluruh konten yang tampil di beranda</p>
+                <div class="flex items-center gap-2.5">
+                    <h1 id="page-title" class="text-xl lg:text-2xl font-black text-gray-900 dark:text-white tracking-tight">Homepage</h1>
+                    <span id="page-badge" class="hidden sm:inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#00A3FF]/10 text-[#00A3FF] dark:text-[#00D2FC] border border-[#00A3FF]/20">Active Workspace</span>
+                </div>
+                <p id="page-desc" class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 font-medium">Kelola seluruh konten yang tampil di beranda</p>
             </div>
-            <div class="flex items-center gap-3">
-                <button type="button"
-                    class="theme-toggle-btn p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 transition-all focus:outline-none dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-yellow-400 w-9 h-9 flex items-center justify-center"
-                    aria-label="Toggle Theme">
-                    <i class="fas fa-sun theme-icon-sun text-sm hidden"></i>
-                    <i class="fas fa-moon theme-icon-moon text-sm"></i>
+            
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <!-- Live Spotlight Quick Search / Command Palette trigger -->
+                <button type="button" onclick="window.openCommandPalette && window.openCommandPalette()"
+                    class="hidden md:flex items-center gap-2 px-3.5 py-2 rounded-xl border border-gray-200 dark:border-[#3A3A44] bg-white dark:bg-[#2D2D34] hover:border-[#00A3FF] dark:hover:border-[#00A3FF] text-gray-400 text-xs transition-all shadow-xs cursor-pointer"
+                    title="Pencarian Cepat / Shortcut (Ctrl+K)">
+                    <i class="fas fa-search text-[11px] text-[#00A3FF]"></i>
+                    <span class="text-gray-600 dark:text-gray-300 font-medium">Cari fitur atau data...</span>
+                    <kbd class="px-1.5 py-0.5 rounded bg-gray-100 dark:bg-[#1A1A1E] border border-gray-200 dark:border-[#3A3A44] text-[10px] font-mono text-gray-500">Ctrl K</kbd>
                 </button>
+
+                <!-- Interactive Theme Toggle Button -->
+                <button type="button" onclick="toggleThemeMode()" id="cms-theme-toggle-btn"
+                    class="theme-toggle-btn group relative flex items-center gap-2 px-3 py-1.5 rounded-xl border border-gray-200 dark:border-[#3A3A44] bg-white dark:bg-[#2D2D34] hover:bg-gray-50 dark:hover:bg-[#373740] text-gray-700 dark:text-gray-200 shadow-xs hover:shadow-sm transition-all cursor-pointer"
+                    aria-label="Toggle Theme Mode" title="Ganti Mode Tema (Terang / Gelap)">
+                    <div class="w-6 h-6 rounded-lg bg-amber-500/10 dark:bg-[#00A3FF]/15 flex items-center justify-center text-amber-500 dark:text-[#00D2FC] transition-transform duration-300 group-hover:rotate-45">
+                        <i class="fas fa-sun theme-icon-sun text-xs hidden"></i>
+                        <i class="fas fa-moon theme-icon-moon text-xs"></i>
+                    </div>
+                    <div class="text-left hidden sm:block">
+                        <span class="block text-[9px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-400">Tema</span>
+                        <span id="theme-status-label" class="block text-xs font-bold text-gray-900 dark:text-white -mt-0.5">Light Mode</span>
+                    </div>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse ml-0.5"></span>
+                </button>
+
+                <!-- Admin Status Chip -->
+                <div class="hidden lg:flex items-center gap-2 pl-2 border-l border-gray-200 dark:border-[#3A3A44]">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#00A3FF] to-[#00D2FC] text-white flex items-center justify-center text-xs font-bold shadow-xs">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="text-left text-xs leading-tight">
+                        <span class="font-bold text-gray-800 dark:text-gray-200 block truncate max-w-[110px]" id="admin-user-display">Admin</span>
+                        <span class="text-[10px] text-emerald-500 font-semibold flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Online
+                        </span>
+                    </div>
+                </div>
             </div>
         </header>
 
         <div id="content-area" class="p-6 lg:p-8 space-y-10">
 
-            <!-- VIEW: HOMEPAGE -->
+                        <!-- VIEW: HOMEPAGE -->
             <div id="view-homepage" class="space-y-10">
+                <!-- Hero Quick Metrics (Mini KPI Cards) -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Stat 1: Pendaftar Relawan -->
+                    <div onclick="switchTab('registrasi')" class="bg-white dark:bg-[#1A1A1E] border border-gray-200/80 dark:border-[#3A3A44] rounded-2xl p-4 shadow-2xs hover:border-[#00A3FF] transition-all cursor-pointer group">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-semibold text-gray-500 dark:text-gray-400">Pendaftar Relawan</span>
+                            <div class="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#00A3FF] flex items-center justify-center text-sm group-hover:scale-110 transition-transform">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span id="hero-stat-relawan" class="text-2xl font-black text-heading">3</span>
+                            <span class="text-[11px] font-semibold text-emerald-500 flex items-center gap-0.5"><i class="fas fa-arrow-up text-[9px]"></i> Aktif</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 mt-1 flex items-center justify-between">
+                            <span>Pendaftaran relawan website</span>
+                            <i class="fas fa-arrow-right text-[10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-[#00A3FF]"></i>
+                        </p>
+                    </div>
+
+                    <!-- Stat 2: Kegiatan Aktif -->
+                    <div onclick="switchTab('activities')" class="bg-white dark:bg-[#1A1A1E] border border-gray-200/80 dark:border-[#3A3A44] rounded-2xl p-4 shadow-2xs hover:border-[#00A3FF] transition-all cursor-pointer group">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-semibold text-gray-500 dark:text-gray-400">Total Kegiatan</span>
+                            <div class="w-8 h-8 rounded-xl bg-cyan-50 dark:bg-cyan-950/40 text-[#00D2FC] flex items-center justify-center text-sm group-hover:scale-110 transition-transform">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span id="hero-stat-activities" class="text-2xl font-black text-heading">18</span>
+                            <span class="text-[11px] font-semibold text-cyan-600 dark:text-cyan-400">Program</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 mt-1 flex items-center justify-between">
+                            <span>Berita & Podcast</span>
+                            <i class="fas fa-arrow-right text-[10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-[#00D2FC]"></i>
+                        </p>
+                    </div>
+
+                    <!-- Stat 3: Sertifikat Terbit -->
+                    <div onclick="switchTab('certificates')" class="bg-white dark:bg-[#1A1A1E] border border-gray-200/80 dark:border-[#3A3A44] rounded-2xl p-4 shadow-2xs hover:border-[#00A3FF] transition-all cursor-pointer group">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-semibold text-gray-500 dark:text-gray-400">Sertifikat Terbit</span>
+                            <div class="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center text-sm group-hover:scale-110 transition-transform">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span id="hero-stat-certificates" class="text-2xl font-black text-heading">3</span>
+                            <span class="text-[11px] font-semibold text-amber-500">Terbit</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 mt-1 flex items-center justify-between">
+                            <span>Terverifikasi publik</span>
+                            <i class="fas fa-arrow-right text-[10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-amber-500"></i>
+                        </p>
+                    </div>
+
+                    <!-- Stat 4: Pendaftar Event -->
+                    <div onclick="switchTab('activities'); setTimeout(function() { var el = document.getElementById('list-registrations'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 150);" class="bg-white dark:bg-[#1A1A1E] border border-gray-200/80 dark:border-[#3A3A44] rounded-2xl p-4 shadow-2xs hover:border-[#00A3FF] transition-all cursor-pointer group">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-semibold text-gray-500 dark:text-gray-400">Pendaftar Event</span>
+                            <div class="w-8 h-8 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-500 flex items-center justify-center text-sm group-hover:scale-110 transition-transform">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline gap-2">
+                            <span id="hero-stat-event-regs" class="text-2xl font-black text-heading">87</span>
+                            <span class="text-[11px] font-semibold text-purple-500">Peserta</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 mt-1 flex items-center justify-between">
+                            <span>Daftar registrasi event</span>
+                            <i class="fas fa-arrow-right text-[10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-purple-500"></i>
+                        </p>
+                    </div>
+                </div>
                 
 
 
@@ -611,7 +944,7 @@
                             <i class="fas fa-plus text-[10px]"></i> Tambah
                         </button>
                     </div>
-                    <div id="list-activity-cards" class="grid md:grid-cols-2 gap-4"></div>
+                    <div id="list-activity-cards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4"></div>
                 </div>
 
                 <hr class="border-gray-200">
@@ -724,6 +1057,9 @@
                                 <table class="w-full text-sm text-left">
                                     <thead class="bg-gray-100 dark:bg-slate-800 border-b border-gray-200 text-heading">
                                         <tr>
+                                            <th class="w-10 px-3 py-2.5 text-center">
+                                                <input type="checkbox" id="check-all-registrations" onchange="toggleSelectAllRegistrations(this)" class="w-4 h-4 rounded text-[#00A3FF] focus:ring-[#00A3FF] cursor-pointer" title="Pilih Semua">
+                                            </th>
                                             <th class="px-4 py-2.5 text-xs font-bold uppercase">Nama</th>
                                             <th class="px-4 py-2.5 text-xs font-bold uppercase">Instansi</th>
                                             <th class="px-4 py-2.5 text-xs font-bold uppercase">Email / No HP</th>
@@ -734,7 +1070,7 @@
                                     </thead>
                                     <tbody id="list-registrations" class="divide-y divide-gray-150">
                                         <tr>
-                                            <td colspan="6" class="text-center py-6 text-gray-400">Belum ada pendaftaran event.</td>
+                                            <td colspan="7" class="text-center py-6 text-gray-400">Belum ada pendaftaran event.</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -768,7 +1104,17 @@
             </div>
 
             <!-- VIEW: MENTORING / TEACHER CLASS SD -->
-            <div id="view-mentoring" class="hidden space-y-10">
+            <div id="view-mentoring" class="hidden space-y-8">
+                <!-- Relawan Sub-tab Pill Switcher -->
+                <div class="flex items-center gap-1.5 p-1 bg-gray-100 dark:bg-[#2D2D34] rounded-2xl w-fit border border-gray-200/60 dark:border-[#3A3A44]">
+                    <button type="button" onclick="switchTab('mentoring')" class="px-4 py-2 rounded-xl text-xs font-bold bg-[#00A3FF] text-white shadow-xs transition-all flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-graduation-cap text-xs"></i> Teacher Class & Chapters
+                    </button>
+                    <button type="button" onclick="switchTab('registrasi')" class="px-4 py-2 rounded-xl text-xs font-semibold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-all flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-id-card text-xs"></i> Pendaftaran Relawan
+                    </button>
+                </div>
+
                 <!-- 1. Kategori Pelajaran -->
                 <div>
                     <div class="flex items-center justify-between mb-4">
@@ -865,7 +1211,11 @@
 
                 <hr class="border-gray-200">
 
-                <!-- 2.5 Profil Mentor -->
+                </div>
+
+                <!-- Section 2: Profil Mentor -->
+                <div id="tc-sec-mentors" class="hidden space-y-8">
+                    <!-- 2.5 Profil Mentor -->
                 <div>
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-3">
@@ -903,7 +1253,11 @@
 
                 <hr class="border-gray-200">
 
-                <!-- 3. Rekap Data Pendaftaran Peserta -->
+                </div>
+
+                <!-- Section 3: Pendaftaran Siswa -->
+                <div id="tc-sec-registrations" class="hidden space-y-8">
+                    <!-- 3. Rekap Data Pendaftaran Peserta -->
                 <div>
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-3">
@@ -959,6 +1313,9 @@
                 </div>
             </div>
 
+</div>
+            </div>
+
             <!-- VIEW: PARTNERS -->
             <div id="view-partners" class="hidden space-y-10">
                 <div>
@@ -1006,71 +1363,38 @@
             </div>
 
             <!-- ===== TAB: CERTIFICATES ===== -->
-            <div id="view-certificates" class="hidden space-y-6">
-                <!-- Certificate Layout Designer (Redirect Card) -->
+            <div id="view-certificates" class="hidden space-y-8">
+                <!-- 1. Desain Sertifikat per Event -->
                 <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-8 h-8 bg-amber-100 dark:bg-amber-950/50 rounded-lg flex items-center justify-center text-amber-600 dark:text-amber-400 text-sm">
-                            <i class="fas fa-magic"></i>
-                        </div>
-                        <h2 class="text-lg font-bold text-heading">Desainer Layout Sertifikat</h2>
-                    </div>
-                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6" style="background:var(--bg2, #ffffff); border:1px solid var(--bdr, #e2e8f0); border-radius:12px; display:flex; flex-direction:row; gap:20px; align-items:center; flex-wrap:wrap;">
-                        <div class="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-500 text-3xl" style="background:rgba(200,139,30,0.1); width:64px; height:64px; border-radius:12px; display:flex; align-items:center; justify-content:center; color:var(--ac); font-size:28px; flex-shrink:0; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;">
-                            <i class="fas fa-edit"></i>
-                        </div>
-                        <div style="flex:1; min-width: 250px;">
-                            <h4 class="font-bold text-heading text-sm mb-1" style="font-weight:700; color:var(--fg); font-size:15px; margin-bottom:4px;">Buka Editor Desain Layar Penuh (Pop-up)</h4>
-                            <p class="text-xs text-gray-500 leading-relaxed" style="font-size:12.5px; color:var(--mt); line-height:1.6; margin:0;">
-                                Kelola template gambar latar sertifikat, posisikan teks dinamis (nama peserta, judul acara, tanggal), atur tanda tangan komite, serta ukuran canvas secara penuh dan leluasa tanpa batasan resolusi layar.
-                            </p>
-                        </div>
-                        <div style="flex-shrink:0;">
-                            <a href="CertificateEditor.html" target="_blank"
-                                class="transition-all shadow-md hover:shadow-lg flex items-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0"
-                                style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; min-height:44px; white-space:nowrap; padding: 12px 20px; border-radius: 8px; background-color: #d97706 !important; color: #ffffff !important; font-weight: 600; font-size: 12px; border: none;">
-                                <i class="fas fa-external-link-alt" style="color: #ffffff !important;"></i> Buka Desainer (Upload Template)
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Daftar Desain Sertifikat Per Event -->
-                <div class="mt-8">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-amber-100 dark:bg-amber-950/50 rounded-lg flex items-center justify-center text-amber-600 dark:text-amber-400 text-sm">
-                                <i class="fas fa-magic"></i>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                        <div>
+                            <div class="flex items-center gap-2.5">
+                                <h2 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white">Desain Sertifikat per Event</h2>
+                                <span id="count-certificate-designs" class="text-xs bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-full font-semibold">0</span>
                             </div>
-                            <h3 class="font-bold text-heading text-base">Daftar Desain Sertifikat per Event</h3>
-                            <span id="count-certificate-designs" class="text-xs bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-full font-medium">0</span>
+                            <p class="text-xs text-gray-400 dark:text-gray-400 mt-1">Atur template gambar latar dan posisi variabel teks dinamis untuk setiap acara.</p>
                         </div>
+                        <a href="CertificateEditor.html" target="_blank"
+                            class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#d97706] hover:bg-[#b45309] text-white text-xs font-semibold rounded-lg shadow-xs transition-all w-fit cursor-pointer">
+                            <i class="fas fa-plus text-[10px]"></i> Buka Desainer Layout
+                        </a>
                     </div>
-                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm overflow-hidden">
-                        
-    <!-- SEARCH & FILTER UNTUK list-certificate-designs -->
-    <div class="px-4 py-3 border-b border-gray-200 bg-gray-50/50 flex flex-col sm:flex-row items-center gap-3">
-        <div class="relative w-full sm:w-72">
-            <i class="fas fa-search absolute left-3.5 top-1/2 transform -translate-y-1/2 text-gray-400 text-[11px] pointer-events-none"></i>
-            <input type="text" id="search-list-certificate-designs" placeholder="Cari data..." class="w-full pl-9 pr-3 py-1.5 border border-gray-200 rounded-lg text-xs text-gray-700 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all shadow-sm">
-        </div>
-        
-    </div>
-    <!-- END SEARCH & FILTER -->
-    <div class="overflow-x-auto">
+
+                    <div class="bg-white dark:bg-[#1A1A1E] rounded-xl border border-gray-200 dark:border-[#3A3A44] shadow-xs overflow-hidden">
+                        <div class="overflow-x-auto">
                             <table class="w-full text-sm text-left">
-                                <thead class="bg-gray-100 dark:bg-slate-800 border-b border-gray-200 dark:border-slate-800 text-heading">
+                                <thead class="bg-gray-50/70 dark:bg-[#25252b] border-b border-gray-100 dark:border-[#3A3A44] text-gray-400 dark:text-gray-400 text-[11px] font-bold uppercase tracking-wider">
                                     <tr>
-                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Background</th>
-                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Nama Event / Kegiatan</th>
-                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Jumlah Elemen Layout</th>
-                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Terakhir Diperbarui</th>
-                                        <th class="px-4 py-2.5 text-xs font-bold uppercase text-right">Aksi</th>
+                                        <th class="px-5 py-3.5 w-28">Preview</th>
+                                        <th class="px-5 py-3.5">Nama Event / Kegiatan</th>
+                                        <th class="px-5 py-3.5">Elemen</th>
+                                        <th class="px-5 py-3.5">Terakhir Diperbarui</th>
+                                        <th class="px-5 py-3.5 text-right">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="list-certificate-designs" class="divide-y divide-gray-150 dark:divide-slate-800">
+                                <tbody id="list-certificate-designs" class="divide-y divide-gray-100 dark:divide-[#3A3A44] text-xs">
                                     <tr>
-                                        <td colspan="5" class="text-center py-6 text-gray-400 text-xs">Memuat data desain sertifikat...</td>
+                                        <td colspan="5" class="text-center py-8 text-gray-400 text-xs">Memuat data desain sertifikat...</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1078,60 +1402,60 @@
                     </div>
                 </div>
 
-                <!-- Daftar Sertifikat Terbit -->
-                <div class="mt-8">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-purple-100 dark:bg-purple-950/50 rounded-lg flex items-center justify-center text-purple-600 dark:text-purple-400 text-sm">
-                                <i class="fas fa-certificate"></i>
+                <!-- 2. Daftar Sertifikat Terbit -->
+                <div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                        <div>
+                            <div class="flex items-center gap-2.5">
+                                <h2 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white">Daftar Sertifikat Terbit</h2>
+                                <span id="count-certificates" class="text-xs bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-full font-semibold">0</span>
                             </div>
-                            <h3 class="font-bold text-heading text-base">Daftar Sertifikat Terbit</h3>
-                            <span id="count-certificates" class="text-xs bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 px-2 py-0.5 rounded-full font-medium">0</span>
+                            <p class="text-xs text-gray-400 dark:text-gray-400 mt-1">Riwayat peserta yang telah menerima e-sertifikat resmi.</p>
                         </div>
                         <div class="flex flex-wrap items-center gap-2">
-                            <button onclick="openBatchCertificateModal()" class="bg-amber-600 hover:bg-amber-700 text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5 cursor-pointer">
-                                <i class="fas fa-layer-group"></i> Batch Generator (Excel/CSV ke ZIP)
+                            <button onclick="openBatchCertificateModal()" class="px-3.5 py-2 border border-gray-200 dark:border-[#3A3A44] bg-white dark:bg-[#2D2D34] hover:bg-gray-50 dark:hover:bg-[#3A3A44] text-[#d97706] font-semibold text-xs rounded-lg shadow-2xs flex items-center gap-1.5 transition-all cursor-pointer">
+                                <i class="fas fa-layer-group text-xs text-[#d97706]"></i> Batch Generator
                             </button>
-                            <button onclick="exportCertificatesToCSV()" class="bg-green-600 hover:bg-green-700 text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
-                                <i class="fas fa-file-excel"></i> Ekspor CSV
+                            <button onclick="exportCertificatesToCSV()" class="px-3.5 py-2 border border-gray-200 dark:border-[#3A3A44] bg-white dark:bg-[#2D2D34] hover:bg-gray-50 dark:hover:bg-[#3A3A44] text-emerald-600 dark:text-emerald-400 font-semibold text-xs rounded-lg shadow-2xs flex items-center gap-1.5 transition-all cursor-pointer">
+                                <i class="fas fa-download text-xs text-emerald-600 dark:text-emerald-400"></i> Ekspor CSV
                             </button>
-                            <button onclick="openAddCertificateModal()" class="bg-primary hover:bg-primaryDark text-white px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors shadow-sm flex items-center gap-1.5">
-                                <i class="fas fa-plus text-[10px]"></i> Terbitkan Sertifikat Baru
+                            <button onclick="openAddCertificateModal()" class="px-3.5 py-2 bg-slate-900 hover:bg-black dark:bg-white dark:text-slate-900 dark:hover:bg-gray-100 text-white font-semibold text-xs rounded-lg shadow-xs flex items-center gap-1.5 transition-all cursor-pointer">
+                                <i class="fas fa-plus text-[10px]"></i> Terbitkan Sertifikat
                             </button>
                         </div>
                     </div>
-                    <div class="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm overflow-hidden">
-                        
-    <!-- SEARCH & FILTER UNTUK list-certificates -->
-    <div class="px-4 py-3 border-b border-gray-200 bg-gray-50/50 flex flex-col sm:flex-row items-center gap-3">
-        <div class="relative w-full sm:w-72">
-            <i class="fas fa-search absolute left-3.5 top-1/2 transform -translate-y-1/2 text-gray-400 text-[11px] pointer-events-none"></i>
-            <input type="text" id="search-list-certificates" placeholder="Cari data..." class="w-full pl-9 pr-3 py-1.5 border border-gray-200 rounded-lg text-xs text-gray-700 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all shadow-sm">
-        </div>
-        
-            <div class="flex items-center gap-2 w-full sm:w-auto">
-                <i class="fas fa-filter text-gray-400 text-[11px]"></i>
-                <select id="filter-list-certificates" class="w-full sm:w-auto px-3 py-1.5 border border-gray-200 rounded-lg text-xs bg-white text-gray-600 focus:outline-none focus:border-primary transition-colors cursor-pointer shadow-sm">
-                    <option value="all">Semua Event</option>
-                </select>
-            </div>
-    </div>
-    <!-- END SEARCH & FILTER -->
-    <div class="overflow-x-auto">
+
+                    <div class="bg-white dark:bg-[#1A1A1E] rounded-xl border border-gray-200 dark:border-[#3A3A44] shadow-xs overflow-hidden">
+                        <!-- Search & Filter Bar -->
+                        <div class="p-3 sm:p-4 border-b border-gray-100 dark:border-[#3A3A44] flex flex-col sm:flex-row items-center gap-3 bg-white dark:bg-[#1A1A1E]">
+                            <div class="relative w-full sm:w-80">
+                                <i class="fas fa-search absolute left-3.5 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs pointer-events-none"></i>
+                                <input type="text" id="search-list-certificates" placeholder="Cari nama, email, atau no. sertifikat..."
+                                    class="w-full pl-9 pr-3 py-2 border border-gray-200 dark:border-[#3A3A44] rounded-lg text-xs text-gray-700 dark:text-gray-200 bg-white dark:bg-[#2D2D34] focus:outline-none focus:border-[#00A3FF] transition-all shadow-2xs">
+                            </div>
+                            <div class="w-full sm:w-auto">
+                                <select id="filter-list-certificates"
+                                    class="w-full sm:w-auto px-3.5 py-2 border border-gray-200 dark:border-[#3A3A44] rounded-lg text-xs bg-white dark:bg-[#2D2D34] text-gray-600 dark:text-gray-300 focus:outline-none focus:border-[#00A3FF] transition-colors cursor-pointer shadow-2xs">
+                                    <option value="all">Semua Event</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
                             <table class="w-full text-sm text-left">
-                                <thead class="bg-gray-100 dark:bg-slate-800 border-b border-gray-200 dark:border-slate-800 text-heading">
+                                <thead class="bg-gray-50/70 dark:bg-[#25252b] border-b border-gray-100 dark:border-[#3A3A44] text-gray-400 dark:text-gray-400 text-[11px] font-bold uppercase tracking-wider">
                                     <tr>
-                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">No. Sertifikat</th>
-                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Nama</th>
-                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Email</th>
-                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Event</th>
-                                        <th class="px-4 py-2.5 text-xs font-bold uppercase">Tanggal Rilis</th>
-                                        <th class="px-4 py-2.5 text-xs font-bold uppercase text-right">Aksi</th>
+                                        <th class="px-5 py-3.5">No. Sertifikat</th>
+                                        <th class="px-5 py-3.5">Nama Peserta</th>
+                                        <th class="px-5 py-3.5">Email</th>
+                                        <th class="px-5 py-3.5">Event</th>
+                                        <th class="px-5 py-3.5">Tanggal Rilis</th>
+                                        <th class="px-5 py-3.5 text-right">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody id="list-certificates" class="divide-y divide-gray-150 dark:divide-slate-800">
+                                <tbody id="list-certificates" class="divide-y divide-gray-100 dark:divide-[#3A3A44] text-xs">
                                     <tr>
-                                        <td colspan="6" class="text-center py-6 text-gray-400">Belum ada sertifikat yang diterbitkan.</td>
+                                        <td colspan="6" class="text-center py-8 text-gray-400">Belum ada sertifikat yang diterbitkan.</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1142,6 +1466,16 @@
 
             <!-- ===== VIEW: REGISTRASI RELAWAN ===== -->
             <div id="view-registrasi" class="hidden space-y-6">
+                <!-- Relawan Sub-tab Pill Switcher -->
+                <div class="flex items-center gap-1.5 p-1 bg-gray-100 dark:bg-[#2D2D34] rounded-2xl w-fit border border-gray-200/60 dark:border-[#3A3A44]">
+                    <button type="button" onclick="switchTab('mentoring')" class="px-4 py-2 rounded-xl text-xs font-semibold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-all flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-graduation-cap text-xs"></i> Teacher Class & Chapters
+                    </button>
+                    <button type="button" onclick="switchTab('registrasi')" class="px-4 py-2 rounded-xl text-xs font-bold bg-[#00A3FF] text-white shadow-xs transition-all flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-id-card text-xs"></i> Pendaftaran Relawan
+                    </button>
+                </div>
+
                 <div>
                     <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
                         <div class="flex items-center gap-3">

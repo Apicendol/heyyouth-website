@@ -161,6 +161,22 @@ CREATE TABLE IF NOT EXISTS public.teacher_registrations (
     registered_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
 
+-- Volunteer Registrations (Pendaftaran Relawan Website)
+CREATE TABLE IF NOT EXISTS public.volunteers (
+    id VARCHAR(100) PRIMARY KEY DEFAULT ('HY-REL-' || to_char(NOW(), 'YYYY') || '-' || LPAD(floor(random() * 9000 + 1000)::text, 4, '0')),
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    whatsapp_number VARCHAR(50) NOT NULL,
+    city VARCHAR(255),
+    chapter_choice VARCHAR(255),
+    division_choice VARCHAR(255),
+    reason TEXT,
+    cv_file_url TEXT,
+    status VARCHAR(50) DEFAULT 'pending' NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
+);
+
 
 -- 3. Event & Certificate Tables
 

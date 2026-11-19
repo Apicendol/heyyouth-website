@@ -389,9 +389,11 @@
     // SINKRONISASI KE SUPABASE DATABASE (TABEL volunteers)
     // =========================================================================
     function syncToSupabase(payload) {
-        if (!window.supabaseClient) return;
+        var sb = window.supabaseClient || window.supabase;
+        if (!sb) return;
 
         var row = {
+            id: payload.id,
             full_name: payload.name,
             email: payload.email,
             whatsapp_number: payload.whatsapp,
@@ -403,7 +405,7 @@
             status: 'pending'
         };
 
-        window.supabaseClient
+        sb
             .from('volunteers')
             .insert([row])
             .then(function (res) {

@@ -18,6 +18,27 @@ module.exports = {
         heading: '#0F172A',
         body: '#475569',
         surface: '#EFF6FF',
+        brand: {
+          primary: '#00A3FF',
+          secondary: '#00D2FC',
+          accent: '#FF007A',
+        },
+        dark: {
+          bg: '#1A1A1E',
+          surface: '#2D2D34',
+          surfaceHover: '#373740',
+          border: '#3A3A44',
+          text: '#F8F9FA',
+          muted: '#9E9EA8',
+        },
+        light: {
+          bg: '#F8FAFC',
+          surface: '#FFFFFF',
+          surfaceHover: '#F1F5F9',
+          border: '#E2E8F0',
+          text: '#1A1A1E',
+          muted: '#64748B',
+        }
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
