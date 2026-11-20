@@ -29,6 +29,7 @@
 
   <link rel="stylesheet" href="../assets/Style/tailwind.css">
   <link rel="stylesheet" href="../assets/Style/Style.css">
+  <link rel="stylesheet" href="../assets/Style/field-stories-interactions.css">
 </head>
 
 <body class="lang-en bg-bg text-body font-sans antialiased selection:bg-primary selection:text-white">
@@ -470,6 +471,72 @@
           </blockquote>
           <!-- Full Article Narrative -->
           <div id="modal-story-body" class="text-body dark:text-slate-300 text-sm sm:text-base leading-relaxed space-y-4"></div>
+
+          <!-- Reactions and moderated comments -->
+          <section class="border-t border-gray-100 dark:border-slate-800 pt-6 space-y-5" aria-labelledby="story-interactions-heading">
+            <h4 id="story-interactions-heading" class="text-lg font-bold text-heading dark:text-white">
+              <span class="lang-id">Dukung cerita ini</span><span class="lang-en">Support this story</span>
+            </h4>
+            <div class="flex flex-wrap items-center gap-2.5">
+              <button id="story-claps-button" type="button" disabled
+                class="story-interaction-button story-claps-button inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-blue-900 dark:bg-blue-950/50 dark:text-blue-300">
+                <i class="fas fa-hands-clapping" aria-hidden="true"></i>
+                <span class="lang-id">Tepuk tangan</span><span class="lang-en">Clap</span>
+                <span id="story-claps-count" class="story-interaction-count" aria-live="polite">—</span>
+              </button>
+              <button id="story-loves-button" type="button" aria-pressed="false" disabled
+                class="story-interaction-button story-interaction-love inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50">
+                <i class="fas fa-heart" aria-hidden="true"></i>
+                <span class="lang-id">Cinta</span><span class="lang-en">Love</span>
+                <span id="story-loves-count" class="story-interaction-count" aria-live="polite">—</span>
+              </button>
+            </div>
+            <p id="story-reaction-status" class="story-interaction-status text-sm text-gray-500 dark:text-slate-400" role="status" aria-live="polite"></p>
+
+            <div class="space-y-3">
+              <h5 class="font-bold text-heading dark:text-white">
+                <span class="lang-id">Komentar dukungan</span><span class="lang-en">Supportive comments</span>
+              </h5>
+              <div id="story-comments-list" class="space-y-3" aria-live="polite"></div>
+              <p id="story-comments-status" class="story-interaction-status text-sm text-gray-500 dark:text-slate-400" role="status" aria-live="polite"></p>
+            </div>
+
+            <form id="story-comment-form" class="space-y-3" novalidate>
+              <div>
+                <label for="story-comment-name" class="mb-1 block text-sm font-semibold text-heading dark:text-white">
+                  <span class="lang-id">Nama</span><span class="lang-en">Name</span>
+                </label>
+                <input id="story-comment-name" name="author_name" type="text" maxlength="80" required autocomplete="nickname"
+                  aria-describedby="story-comment-name-help story-comment-status"
+                  class="story-comment-input w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-heading outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white">
+                <p id="story-comment-name-help" class="mt-1 text-xs text-gray-500 dark:text-slate-400">
+                  <span class="lang-id">Maksimal 80 karakter.</span><span class="lang-en">Up to 80 characters.</span>
+                </p>
+              </div>
+              <div>
+                <label for="story-comment-text" class="mb-1 block text-sm font-semibold text-heading dark:text-white">
+                  <span class="lang-id">Pesan dukungan</span><span class="lang-en">Support message</span>
+                </label>
+                <textarea id="story-comment-text" name="comment_text" rows="3" maxlength="1000" required
+                  placeholder="Tulis komentar dukungan Anda..."
+                  aria-describedby="story-comment-text-help story-comment-status"
+                  class="story-comment-input w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-heading outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white"></textarea>
+                <p id="story-comment-text-help" class="mt-1 text-xs text-gray-500 dark:text-slate-400">
+                  <span class="lang-id">Maksimal 1.000 karakter.</span><span class="lang-en">Up to 1,000 characters.</span>
+                </p>
+              </div>
+              <button id="story-comment-submit" type="submit"
+                class="story-interaction-button w-full inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-primaryDark disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto">
+                <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                <span class="lang-id">Kirim dukungan</span><span class="lang-en">Send support</span>
+              </button>
+              <p id="story-comment-status" class="story-interaction-status text-sm text-gray-500 dark:text-slate-400" role="status" aria-live="polite"></p>
+              <p class="text-xs text-gray-500 dark:text-slate-400" role="note">
+                <span class="lang-id">Komentar menunggu persetujuan sebelum ditampilkan. Alur moderasi belum diaktifkan.</span>
+                <span class="lang-en">Comments stay pending until approved. The moderation workflow is not enabled yet.</span>
+              </p>
+            </form>
+          </section>
         </div>
         <!-- Modal Footer Actions -->
         <div class="p-4 bg-gray-50 dark:bg-slate-950 border-t border-gray-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
@@ -860,7 +927,10 @@
 
         // WhatsApp Share pre-filled text
         if (shareWaEl) {
-          var shareText = 'Baca cerita inspiratif relawan Hey Youth: "' + story.title_id + '"\n' + window.location.href.split('#')[0] + '#field-stories';
+          var isIndonesian = document.body.classList.contains('lang-id');
+          var storyTitle = isIndonesian ? (story.title_id || story.title_en) : (story.title_en || story.title_id);
+          var shareText = (isIndonesian ? 'Baca cerita inspiratif relawan Hey Youth: "' : 'Read this inspiring Hey Youth volunteer story: "') +
+            storyTitle + '"\n' + getStoryShareUrl(story.id);
           shareWaEl.href = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(shareText);
         }
 
@@ -868,6 +938,7 @@
           modal.classList.remove('hidden');
           document.body.classList.add('overflow-hidden');
         }
+        if (window.FieldStoryInteractions) window.FieldStoryInteractions.load(story);
       };
 
       window.closeStoryModal = function() {
@@ -876,21 +947,58 @@
           modal.classList.add('hidden');
         }
         document.body.classList.remove('overflow-hidden');
+        if (window.FieldStoryInteractions) window.FieldStoryInteractions.close();
       };
 
+      function getStoryShareUrl(storyId) {
+        var url = new URL('/api/share', 'https://heyyouth.org');
+        url.searchParams.set('type', 'story');
+        url.searchParams.set('id', String(storyId));
+        url.searchParams.set('lang', document.body.classList.contains('lang-id') ? 'id' : 'en');
+        return url.toString();
+      }
+
       window.copyStoryLink = function() {
-        var link = window.location.href.split('#')[0] + '#field-stories';
+        if (!currentStoryInModal) return;
+        var link = getStoryShareUrl(currentStoryInModal.id);
+        var btnText = document.getElementById('copy-btn-text');
+        var originalText = document.body.classList.contains('lang-id') ? 'Salin Tautan' : 'Copy Link';
+        function showCopyResult(copied) {
+          if (!btnText) return;
+          btnText.textContent = copied
+            ? (document.body.classList.contains('lang-id') ? 'Tersalin!' : 'Copied!')
+            : (document.body.classList.contains('lang-id') ? 'Gagal menyalin' : 'Copy failed');
+          setTimeout(function() {
+            btnText.textContent = originalText;
+          }, 2000);
+        }
+        function copyFallback() {
+          var temporaryInput = document.createElement('textarea');
+          temporaryInput.value = link;
+          temporaryInput.setAttribute('readonly', '');
+          temporaryInput.style.position = 'fixed';
+          temporaryInput.style.opacity = '0';
+          document.body.appendChild(temporaryInput);
+          temporaryInput.select();
+          var copied = false;
+          try {
+            copied = document.execCommand('copy');
+          } catch (error) {
+            copied = false;
+          }
+          temporaryInput.remove();
+          return copied;
+        }
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(link).then(function() {
-            var btnText = document.getElementById('copy-btn-text');
-            if (btnText) {
-              btnText.textContent = 'Tersalin!';
-              setTimeout(function() {
-                btnText.textContent = 'Salin Tautan';
-              }, 2000);
-            }
+            showCopyResult(true);
+          }).catch(function() {
+            showCopyResult(copyFallback());
           });
+          return;
         }
+
+        showCopyResult(copyFallback());
       };
 
       // Close modal on escape key and outside click
@@ -966,6 +1074,8 @@
           activeStoriesList = data.fieldStories.map(function(s) {
             return {
               id: String(s.id),
+              claps_count: s.claps_count,
+              loves_count: s.loves_count,
               category: s.category || 'kolong',
               category_label_id: s.category_label_id || 'Cerita',
               category_label_en: s.category_label_en || 'Story',
@@ -991,6 +1101,8 @@
         }
         renderStories(activeStoriesList);
         setupStoryFilters();
+        var sharedStoryId = new URLSearchParams(window.location.search).get('story');
+        if (sharedStoryId) window.openStoryModal(sharedStoryId);
       }
 
       if (document.readyState === 'loading') {
@@ -1001,6 +1113,7 @@
 
     })();
   </script>
+  <script src="../assets/Javascript/pages/field-stories-interactions.js"></script>
 </body>
 
 </html>

@@ -351,6 +351,8 @@ window.getFirebaseData = async function(defaultData) {
             fieldStories: (resFieldStories && resFieldStories.data && resFieldStories.data.length > 0)
                 ? resFieldStories.data.map(s => ({
                     id: s.id,
+                    claps_count: s.claps_count,
+                    loves_count: s.loves_count,
                     category: s.category || 'kolong',
                     category_label_id: cleanLangText(s.category_label_id) || 'Sekolah Kolong',
                     category_label_en: cleanLangText(s.category_label_en) || 'Street Schools',
@@ -563,9 +565,28 @@ window.saveFirebaseData = async function(data) {
                     return item;
                 });
 
-                await supabaseClient.from('field_stories').delete().neq('id', 0);
+                var savedStoryIds = [];
                 if (storyList.length > 0) {
-                    await supabaseClient.from('field_stories').insert(storyList);
+                    const { data: savedStories, error: upsertError } = await supabaseClient
+                        .from('field_stories')
+                        .upsert(storyList, { onConflict: 'id', defaultToNull: false })
+                        .select('id');
+                    if (upsertError) throw upsertError;
+                    savedStoryIds = (savedStories || []).map(function(story) {
+                        return String(story.id);
+                    }).filter(function(id) {
+                        return /^[1-9]\d*$/.test(id);
+                    });
+                }
+
+                var deleteQuery = supabaseClient.from('field_stories').delete();
+                if (savedStoryIds.length > 0) {
+                    var idList = savedStoryIds.map(function(id) { return Number(id); });
+                    var { error: deleteError } = await deleteQuery.not('id', 'in', '(' + idList.join(',') + ')');
+                    if (deleteError) throw deleteError;
+                } else {
+                    var { error: deleteError } = await deleteQuery.neq('id', 0);
+                    if (deleteError) throw deleteError;
                 }
             } catch (storyErr) {
                 console.warn("Could not write to field_stories table on Supabase (saved locally):", storyErr);

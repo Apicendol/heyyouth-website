@@ -10,7 +10,7 @@
  *    - Fetches the dynamic activity/story from Supabase REST API (or fallback).
  *    - Returns server-rendered HTML with full Open Graph & Twitter Card tags.
  * 3. If it's a normal human visitor:
- *    - Immediately redirects 302 to the actual client page (/pages/activity-detail.html?id=...).
+ *    - Redirects to the matching activity detail page or Field Story modal.
  */
 
 const https = require('https');
@@ -94,6 +94,17 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
+function buildTargetRedirectUrl(baseUrl, type, id) {
+  if (type === 'story') {
+    const target = new URL('/pages/about-us.html', baseUrl);
+    target.searchParams.set('story', String(id));
+    target.hash = 'field-stories';
+    return target.toString();
+  }
+
+  return `${baseUrl}/pages/activity-detail.html?id=${encodeURIComponent(id)}`;
+}
+
 module.exports = async (req, res) => {
   // CORS & Methods
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -117,7 +128,7 @@ module.exports = async (req, res) => {
   const isCrawler = BOT_REGEX.test(userAgent);
 
   // Target Destination URL for Human Visitor
-  const targetRedirectUrl = `${baseUrl}/pages/activity-detail.html?id=${encodeURIComponent(id)}`;
+  const targetRedirectUrl = buildTargetRedirectUrl(baseUrl, type, id);
 
   // IF HUMAN VISITOR: Redirect immediately!
   if (!isCrawler && !urlObj.searchParams.get('preview')) {
@@ -157,7 +168,9 @@ module.exports = async (req, res) => {
   if (img.startsWith('/')) img = img.slice(1);
   const fullImageUrl = img.startsWith('http') ? img : `${baseUrl}/${img}`;
 
-  const canonicalUrl = `${baseUrl}/api/share?id=${encodeURIComponent(id)}`;
+  const canonicalUrl = type === 'story'
+    ? targetRedirectUrl
+    : `${baseUrl}/api/share?id=${encodeURIComponent(id)}`;
 
   // 4. Server-render complete Open Graph & Twitter Cards HTML
   const html = `<!DOCTYPE html>
@@ -222,3 +235,4 @@ module.exports = async (req, res) => {
   res.end(html);
 };
 
+module.exports.buildTargetRedirectUrl = buildTargetRedirectUrl;
