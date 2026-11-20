@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "build:css": "tailwindcss -i ./src/input.css -o ./assets/Style/tailwind.css --minify && node scripts/clean-css.js",
-    "watch:css": "tailwindcss -i ./src/input.css -o ./assets/Style/tailwind.css --watch"
+    "watch:css": "tailwindcss -i ./src/input.css -o ./assets/Style/tailwind.css --watch",
+    "test": "node --test",
+    "check:security": "node scripts/check-dependency-audit.js"
   },
   "repository": {
     "type": "git",

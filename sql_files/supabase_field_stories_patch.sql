@@ -31,22 +31,25 @@ CREATE TABLE IF NOT EXISTS public.field_stories (
 -- Enable RLS
 ALTER TABLE public.field_stories ENABLE ROW LEVEL SECURITY;
 
--- Policies for public select and full CMS access
+-- Public visitors can read stories; only signed-in CMS users can change them.
 DROP POLICY IF EXISTS "Allow public select on field_stories" ON public.field_stories;
 CREATE POLICY "Allow public select on field_stories" ON public.field_stories
-    FOR SELECT TO public USING (true);
+    FOR SELECT TO anon, authenticated USING (true);
 
 DROP POLICY IF EXISTS "Allow public insert on field_stories" ON public.field_stories;
-CREATE POLICY "Allow public insert on field_stories" ON public.field_stories
-    FOR INSERT TO public WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow authenticated insert on field_stories" ON public.field_stories;
+CREATE POLICY "Allow authenticated insert on field_stories" ON public.field_stories
+    FOR INSERT TO authenticated WITH CHECK (true);
 
 DROP POLICY IF EXISTS "Allow public update on field_stories" ON public.field_stories;
-CREATE POLICY "Allow public update on field_stories" ON public.field_stories
-    FOR UPDATE TO public USING (true);
+DROP POLICY IF EXISTS "Allow authenticated update on field_stories" ON public.field_stories;
+CREATE POLICY "Allow authenticated update on field_stories" ON public.field_stories
+    FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
 
 DROP POLICY IF EXISTS "Allow public delete on field_stories" ON public.field_stories;
-CREATE POLICY "Allow public delete on field_stories" ON public.field_stories
-    FOR DELETE TO public USING (true);
+DROP POLICY IF EXISTS "Allow authenticated delete on field_stories" ON public.field_stories;
+CREATE POLICY "Allow authenticated delete on field_stories" ON public.field_stories
+    FOR DELETE TO authenticated USING (true);
 
 -- Seed initial 5 stories (including Testimonial category)
 INSERT INTO public.field_stories (

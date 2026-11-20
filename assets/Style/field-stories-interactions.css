@@ -1,0 +1,92 @@
+#story-detail-modal .story-interaction-button {
+  min-height: 44px;
+}
+
+#story-detail-modal .story-interaction-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+#story-detail-modal .story-interaction-button:focus-visible,
+#story-detail-modal .story-comment-input:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 2px;
+}
+
+#story-detail-modal .story-claps-button:hover:not(:disabled) {
+  background-color: #dbeafe;
+}
+
+#story-detail-modal .story-interaction-love {
+  border-color: #fecdd3;
+  background-color: #fff1f2;
+  color: #be123c;
+}
+
+#story-detail-modal .story-interaction-love:hover:not(:disabled) {
+  background-color: #ffe4e6;
+}
+
+#story-detail-modal .story-interaction-love[aria-pressed="true"] {
+  box-shadow: 0 0 0 2px #e11d48;
+}
+
+#story-detail-modal .story-interaction-count {
+  font-variant-numeric: tabular-nums;
+}
+
+#story-detail-modal .story-interaction-status {
+  min-height: 1.25rem;
+}
+
+#story-detail-modal .story-comment-input {
+  resize: vertical;
+}
+
+#story-detail-modal textarea.story-comment-input::placeholder {
+  color: #9ca3af;
+}
+
+#story-detail-modal #story-comments-list article {
+  border-radius: 1rem;
+  border: 1px solid #f1f5f9;
+  background-color: #f8fafc;
+  padding: 1rem;
+}
+
+#story-detail-modal #story-comments-list article > div {
+  column-gap: 0.75rem;
+  row-gap: 0.25rem;
+}
+
+#story-detail-modal #story-comments-list article > p {
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+html.dark #story-detail-modal .story-claps-button:hover:not(:disabled) {
+  background-color: #1e3a8a;
+}
+
+html.dark #story-detail-modal .story-interaction-love {
+  border-color: #881337;
+  background-color: rgba(76, 5, 25, 0.45);
+  color: #fda4af;
+}
+
+html.dark #story-detail-modal .story-interaction-love:hover:not(:disabled) {
+  background-color: #4c0519;
+}
+
+html.dark #story-detail-modal .story-interaction-love[aria-pressed="true"] {
+  box-shadow: 0 0 0 2px #fb7185;
+}
+
+html.dark #story-detail-modal #story-comments-list article {
+  border-color: #1e293b;
+  background-color: #0f172a;
+}
+
+html.dark #story-detail-modal textarea.story-comment-input::placeholder {
+  color: #64748b;
+}
